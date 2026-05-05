@@ -5,11 +5,12 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { modules } from "./modules-config";
 
 // assume this comes from context / hook
-import { can } from "../permissions/user-can"; 
+import { useCan } from "../permissions/user-can"; 
 
 export const LeftMenu = () => {
     const [activeModule] = useStore<string>("activeModule", "Admin");
     const [openSections, setOpenSections] = useStore<string[]>("openSections", []);
+    const can = useCan();
 
     const module = modules[activeModule];
 
@@ -31,7 +32,7 @@ export const LeftMenu = () => {
 
                 // 🔐 FILTER ITEMS BASED ON PERMISSION
                 const visibleItems = section.items.filter(item =>
-                    can(item.resource, "view")
+                    can(item.resource, "view") 
                 );
 
                 // 🚫 skip empty sections

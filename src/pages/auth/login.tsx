@@ -10,7 +10,7 @@ export const LoginPage = () => {
     const login = useLogin();
     const notify = useNotify();
 
-    const [username, setUsername] = useState("");
+    const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
 
@@ -19,9 +19,9 @@ export const LoginPage = () => {
         setLoading(true);
 
         try {
-            await login({ username, password });
+            await login({ email, password });
         } catch (error) {
-            notify("Invalid username or password", { type: "error" });
+            notify("Invalid email or password", { type: "error" });
         } finally {
             setLoading(false);
         }
@@ -35,7 +35,7 @@ export const LoginPage = () => {
                 justifyContent: "center",
                 alignItems: "center",
                 position: "relative",
-                
+
             }}
         >
             {/* DARK OVERLAY */}
@@ -43,7 +43,7 @@ export const LoginPage = () => {
                 sx={{
                     position: "absolute",
                     inset: 0,
-                    
+
                 }}
             />
 
@@ -69,7 +69,7 @@ export const LoginPage = () => {
                         mb: 1,
                         fontWeight: 700,
                         textAlign: "center",
-                       
+
                     }}
                 >
                     <Box sx={{ display: "flex", justifyContent: "center", mb: 2 }}>
@@ -83,7 +83,7 @@ export const LoginPage = () => {
                             }}
                         />
                     </Box>
-                   {appName}
+                    {appName}
                 </Typography>
 
                 <Typography
@@ -101,12 +101,12 @@ export const LoginPage = () => {
                 <form onSubmit={submit}>
                     <TextField
                         fullWidth
-                        label="Username"
+                        label="email"
                         margin="normal"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
                         InputLabelProps={{ style: { color: "#aaa" } }}
-                        InputProps={{ }}
+                        InputProps={{}}
                     />
 
                     <TextField
@@ -117,7 +117,7 @@ export const LoginPage = () => {
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         InputLabelProps={{ style: { color: "#aaa" } }}
-                        InputProps={{ }}
+                        InputProps={{}}
                     />
 
                     <Button

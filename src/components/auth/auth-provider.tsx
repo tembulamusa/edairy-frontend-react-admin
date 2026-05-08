@@ -8,45 +8,27 @@ let token: string | null = null;
 
 export const authProvider: AuthProvider = {
     // 🔐 LOGIN
-    login: async ({ username, password }) => {
+    login: async ({ email, password }) => {
         const request = await fetch(`${API_URL}/login`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({ username, password }),
+            body: JSON.stringify({ email, password }),
         });
 
         if (!request.ok) {
             throw new Error("Invalid credentials");
         }
-
         const response = await request.json();
-
-        token = response.token;
-        cachedUser = {
-            id: response.id,
-            name: response.name,
-        };
-        cachedPermissions = response.permissions;
-
-        localStorage.setItem("token", token);
-        localStorage.setItem("user", JSON.stringify(cachedUser));
-        localStorage.setItem("permissions", JSON.stringify(cachedPermissions));
+        localStorage.setItem("user", JSON.stringify(response));
 
         return Promise.resolve();
     },
 
     // 🚪 LOGOUT
     logout: async () => {
-        token = null;
-        cachedUser = null;
-        cachedPermissions = {};
-
-        localStorage.removeItem("token");
         localStorage.removeItem("user");
-        localStorage.removeItem("permissions");
-
         return Promise.resolve();
     },
 
@@ -60,16 +42,11 @@ export const authProvider: AuthProvider = {
 
     // 🔐 AUTH CHECK (route protection)
     checkAuth: async () => {
-        const storedToken = localStorage.getItem("token");
+        const user = localStorage.getItem("user");
 
-        if (!storedToken) {
+        if (!user) {
             return Promise.reject();
         }
-
-        token = storedToken;
-        cachedUser = JSON.parse(localStorage.getItem("user") || "null");
-        cachedPermissions = JSON.parse(localStorage.getItem("permissions") || "{}");
-
         return Promise.resolve();
     },
 
@@ -86,10 +63,7 @@ export const authProvider: AuthProvider = {
 
     // 🔐 GET USER PERMISSIONS (IMPORTANT FOR RBAC)
     getPermissions: async () => {
-        const permissions =
-            cachedPermissions ||
-            JSON.parse(localStorage.getItem("permissions") || "{}");
-
+        const permissions = JSON.parse(localStorage.getItem("user") || "{}")?.permissions;
         return Promise.resolve(permissions);
     },
 };

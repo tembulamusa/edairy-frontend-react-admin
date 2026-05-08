@@ -1,0 +1,23 @@
+
+import { List, DataTable, DateField, EditButton, DeleteButton } from 'react-admin';
+
+export const SharePaymentList = () => (
+    <List title="Share Payments">
+        <DataTable>
+            <DataTable.Col source="CreatedAt" label="Created At">
+                <DateField source="CreatedAt" />
+            </DataTable.Col>
+            <DataTable.Col source="MemberID" label="Member ID" />
+            <DataTable.Col source="ShareTypeID" label="Share Type ID" />
+            <DataTable.Col source="Amount" label="Amount" />
+            <DataTable.Col source="PaymentDate" label="Payment Date">
+                <DateField source="PaymentDate" />
+            </DataTable.Col>
+            <DataTable.Col source="PaymentModeID" label="Payment Mode ID" />
+            <DataTable.Col label="Actions">
+                <EditButton />
+                <DeleteButton />
+            </DataTable.Col>
+        </DataTable>
+    </List>
+);

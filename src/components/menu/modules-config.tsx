@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { type  ModulesConfig } from "./menu-types";
+import { type ModulesConfig } from "./menu-types";
 
 /* ============ ICONS ============ */
 import DashboardIcon from "@mui/icons-material/Dashboard";
@@ -63,8 +63,8 @@ export const modules: ModulesConfig = {
             {
                 label: "Members",
                 items: [
-                    r("Member Registrations", <PeopleIcon />),
-                    r("Bank Accounts", <AccountBalanceIcon />),
+                    r("Members", <PeopleIcon />),
+                    r("Member Bank Accounts", <AccountBalanceIcon />),
                     r("Transport Rates", <LocalShippingIcon />),
                 ],
             },
@@ -97,7 +97,7 @@ export const modules: ModulesConfig = {
                 items: [
                     r("Member Types", <SettingsIcon />),
                     r("Routes", <LocalShippingIcon />),
-                    r("Centers", <StoreIcon />),
+                    r("Route Centers", <StoreIcon />),
                     r("Payment Modes", <AccountBalanceIcon />),
                 ],
             },
@@ -114,7 +114,7 @@ export const modules: ModulesConfig = {
                 label: "Transporters",
                 items: [
                     r("Transporters", <LocalShippingIcon />),
-                    r("Bank Accounts", <AccountBalanceIcon />),
+                    r("Member Bank Accounts", <AccountBalanceIcon />),
                     r("Transport Rates", <LocalShippingIcon />),
                     r("Transporter Benefits", <AttachMoneyIcon />),
                 ],
@@ -357,7 +357,7 @@ export const modules: ModulesConfig = {
                 items: [
                     r("Employees", <PeopleIcon />),
                     r("Employee Qualifications", <WorkIcon />),
-                    r("Bank Accounts", <AccountBalanceIcon />),
+                    r("Member Bank Accounts", <AccountBalanceIcon />),
                 ],
             },
             {

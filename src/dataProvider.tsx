@@ -1,41 +1,117 @@
-import type { CreateParams, CreateResult, DataProvider, DeleteManyParams, DeleteManyResult, DeleteParams, DeleteResult, GetListParams, GetListResult, GetManyParams, GetManyReferenceParams, GetManyReferenceResult, GetManyResult, GetOneParams, GetOneResult, UpdateManyParams, UpdateManyResult, UpdateParams, UpdateResult } from "react-admin";
+import type {
+  CreateParams,
+  CreateResult,
+  DataProvider,
+  DeleteManyParams,
+  DeleteManyResult,
+  DeleteParams,
+  DeleteResult,
+  GetListParams,
+  GetListResult,
+  GetManyParams,
+  GetManyReferenceParams,
+  GetManyReferenceResult,
+  GetManyResult,
+  GetOneParams,
+  GetOneResult,
+  UpdateManyParams,
+  UpdateManyResult,
+  UpdateParams,
+  UpdateResult,
+} from "react-admin";
 
-
-const apiUrl = import.meta.env.VITE_EDAIRY_API_URL;
+const apiUrl =
+  import.meta.env.VITE_EDAIRY_API_URL ??
+  "http://192.168.1.10:8080/api";
 
 console.log("Reading API URL for .ENV", apiUrl);
 
+/* ================= AUTH HEADER ================= */
 
+const getAuthHeaders = () => {
+  let user = null;
+
+  try {
+    const stored = localStorage.getItem("user");
+
+    // prevent parsing "undefined" or null
+    if (stored && stored !== "undefined") {
+      user = JSON.parse(stored);
+    }
+  } catch (e) {
+    console.error("Invalid user in localStorage", e);
+  }
+
+  return {
+    "Content-Type": "application/json",
+    ...(user?.token && {
+      Authorization: `Bearer ${user.token}`,
+    }),
+  };
+};
+
+/* ================= FETCH HELPER ================= */
+
+const fetchJson = async (url: string, options: RequestInit = {}) => {
+  const res = await fetch(url, {
+    ...options,
+    headers: {
+      ...(await getAuthHeaders()),
+      ...(options.headers || {}),
+    },
+  });
+
+  if (!res.ok) {
+    const errorText = await res.text();
+    throw new Error(errorText || res.statusText);
+  }
+
+  return res.json();
+};
+
+/* ================= DATA PROVIDER ================= */
 
 export const dataProvider: DataProvider = {
-  // GET LIST
+  /* ================= GET LIST ================= */
   getList: async (
     resource: string,
     params: GetListParams
   ): Promise<GetListResult> => {
     const { page = 1, perPage = 50 } = params.pagination ?? {};
 
-    const res = await fetch(
+    const json = await fetchJson(
       `${apiUrl}/${resource}?page=${page}&size=${perPage}`
     );
-    const json = await res.json();
 
     return {
-      data: json.data.map((item: any) => ({
+      data: (json.data || []).map((item: any) => ({
         ...item,
         id: item.id,
       })),
-      total: json.total,
+      total: json.total ?? json.data?.length ?? 0,
     };
   },
 
-  // GET ONE
+  get: async (
+    resource: string,
+    params: GetListParams
+  ): Promise<GetListResult> => {
+
+    const json = await fetchJson(
+      `${apiUrl}/${resource}`
+    );
+
+    return json || json.data;
+  },
+
+  /* ================= GET ONE ================= */
   getOne: async (
     resource: string,
     params: GetOneParams
   ): Promise<GetOneResult> => {
-    const res = await fetch(`${apiUrl}/${resource}/${params.id}`);
-    const json = await res.json();
+    const json = await fetchJson(
+      `${apiUrl}/${resource}/${params.id}`
+    );
 
     return {
       data: {
@@ -45,56 +121,54 @@ export const dataProvider: DataProvider = {
     };
   },
 
-  // GET MANY
+  /* ================= GET MANY ================= */
   getMany: async (
     resource: string,
     params: GetManyParams
   ): Promise<GetManyResult> => {
     const query = params.ids.map(id => `id=${id}`).join("&");
 
-    const res = await fetch(`${apiUrl}/${resource}?${query}`);
-    const json = await res.json();
+    const json = await fetchJson(
+      `${apiUrl}/${resource}?${query}`
+    );
 
     return {
-      data: json.map((item: any) => ({
+      data: (json || []).map((item: any) => ({
         ...item,
         id: item.id,
       })),
     };
   },
 
-  // GET MANY REFERENCE
+  /* ================= GET MANY REFERENCE ================= */
   getManyReference: async (
     resource: string,
     params: GetManyReferenceParams
   ): Promise<GetManyReferenceResult> => {
     const { page, perPage } = params.pagination;
 
-    const res = await fetch(
+    const json = await fetchJson(
       `${apiUrl}/${resource}?${params.target}=${params.id}&page=${page}&size=${perPage}`
     );
-    const json = await res.json();
 
     return {
-      data: json.data.map((item: any) => ({
+      data: (json.data || []).map((item: any) => ({
         ...item,
         id: item.id,
       })),
-      total: json.total,
+      total: json.total ?? json.data?.length ?? 0,
     };
   },
 
-  // CREATE
+  /* ================= CREATE ================= */
   create: async (
     resource: string,
     params: CreateParams
   ): Promise<CreateResult> => {
-    const res = await fetch(`${apiUrl}/${resource}`, {
+    const json = await fetchJson(`${apiUrl}/${resource}`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(params.data),
     });
-    const json = await res.json();
 
     return {
       data: {
@@ -104,17 +178,18 @@ export const dataProvider: DataProvider = {
     };
   },
 
-  // UPDATE
+  /* ================= UPDATE ================= */
   update: async (
     resource: string,
     params: UpdateParams
   ): Promise<UpdateResult> => {
-    const res = await fetch(`${apiUrl}/${resource}/${params.id}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(params.data),
-    });
-    const json = await res.json();
+    const json = await fetchJson(
+      `${apiUrl}/${resource}/${params.id}`,
+      {
+        method: "PUT",
+        body: JSON.stringify(params.data),
+      }
+    );
 
     return {
       data: {
@@ -124,32 +199,31 @@ export const dataProvider: DataProvider = {
     };
   },
 
-  // UPDATE MANY
+  /* ================= UPDATE MANY ================= */
   updateMany: async (
     resource: string,
     params: UpdateManyParams
   ): Promise<UpdateManyResult> => {
-    const results = await Promise.all(
+    await Promise.all(
       params.ids.map(id =>
-        fetch(`${apiUrl}/${resource}/${id}`, {
+        fetchJson(`${apiUrl}/${resource}/${id}`, {
           method: "PUT",
-          headers: { "Content-Type": "application/json" },
           body: JSON.stringify(params.data),
         })
       )
     );
 
     return {
-      data: results.map((_, index) => params.ids[index]),
+      data: params.ids,
     };
   },
 
-  // DELETE
+  /* ================= DELETE ================= */
   delete: async (
     resource: string,
     params: DeleteParams
   ): Promise<DeleteResult> => {
-    await fetch(`${apiUrl}/${resource}/${params.id}`, {
+    await fetchJson(`${apiUrl}/${resource}/${params.id}`, {
       method: "DELETE",
     });
 
@@ -158,14 +232,14 @@ export const dataProvider: DataProvider = {
     };
   },
 
-  // DELETE MANY
+  /* ================= DELETE MANY ================= */
   deleteMany: async (
     resource: string,
     params: DeleteManyParams
   ): Promise<DeleteManyResult> => {
     await Promise.all(
       params.ids.map(id =>
-        fetch(`${apiUrl}/${resource}/${id}`, {
+        fetchJson(`${apiUrl}/${resource}/${id}`, {
           method: "DELETE",
         })
       )

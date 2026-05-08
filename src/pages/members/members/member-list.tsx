@@ -1,5 +1,5 @@
 
-import { List, DataTable, DateField, BooleanField} from 'react-admin';
+import { List, DataTable, DateField, BooleanField } from 'react-admin';
 
 export const MemberList = () => (
     <List>

@@ -3,9 +3,9 @@ type Action = "view" | "create" | "edit" | "delete";
 import { usePermissions } from "react-admin";
 
 export const useCan = () => {
-    const { permissions } = usePermissions<Record<string, Action[]>>();
-
+    const { permissions } = usePermissions<Record<string>>();
     return (resource: string, action: Action) => {
-        return permissions?.[resource]?.includes(action) ?? false;
+        var required_permisison = resource + "." + action;
+        return permissions?.includes(required_permisison) ?? false;
     };
 };

@@ -45,11 +45,50 @@ export const modules: ModulesConfig = {
                     r("Permissions", <AdminPanelSettingsIcon />),
                     r("Roles", <AdminPanelSettingsIcon />),
                     r("Users", <PeopleIcon />),
+                    r("User Contact Details", <PeopleIcon />),
+                ],
+            },
+            {
+                label: "Assets",
+                items: [
+                    r("Asset Registers", <AdminPanelSettingsIcon />),
+                    r("Asset Softwares", <AdminPanelSettingsIcon />),
+                ],
+            },
+            {
+                label: "Shares",
+                items: [
+                    r("Share Dividends", <AdminPanelSettingsIcon />),
+                    r("Share Registrations", <AdminPanelSettingsIcon />),
+                ],
+            },
+            {
+                label: "SMS",
+                items: [
+                    r("Sms", <AdminPanelSettingsIcon />),
+                    r("Sms Error codes", <AdminPanelSettingsIcon />),
+                ],
+            },
+            {
+                label: "Organization",
+                items: [
+                    r("Organization Details", <SettingsIcon />),
+                    r("Document Types", <SettingsIcon />),
+                    r("Directors and Management", <PeopleIcon />),
+                    r("Documents", <Inventory2Icon />),
+                    r("Departments", <WorkIcon />),
+                    r("Banks", <AccountBalanceIcon />),
+                    r("Sites", <StoreIcon />),
                 ],
             },
             {
                 label: "Setup",
-                items: [r("Assets Register", <SettingsIcon />)],
+                items: [
+                    r("Payment Types", <SettingsIcon />),
+                    r("Relationships", <SettingsIcon />),
+                    r("Locations", <SettingsIcon />),
+
+                ],
             },
         ],
     },

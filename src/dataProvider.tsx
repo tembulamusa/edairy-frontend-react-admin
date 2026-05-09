@@ -84,11 +84,11 @@ export const dataProvider: DataProvider = {
     );
 
     return {
-      data: (json.data || []).map((item: any) => ({
+      data: (json.data || json.Data || []).map((item: any) => ({
         ...item,
         id: item.id,
       })),
-      total: json.total ?? json.data?.length ?? 0,
+      total: json.total ?? (json.data || json.Data)?.length ?? 0,
     };
   },
 
@@ -101,7 +101,14 @@ export const dataProvider: DataProvider = {
       `${apiUrl}/${resource}`
     );
 
-    return json || json.data;
+    const data = json.data || json.Data || json;
+    return {
+        data: (Array.isArray(data) ? data : [data]).map((item: any) => ({
+            ...item,
+            id: item.id,
+        })),
+        total: json.total ?? (Array.isArray(data) ? data.length : 1),
+    };
   },
 
   /* ================= GET ONE ================= */
@@ -113,10 +120,12 @@ export const dataProvider: DataProvider = {
       `${apiUrl}/${resource}/${params.id}`
     );
 
+    const data = json.data || json.Data || json;
+
     return {
       data: {
-        ...json,
-        id: json.id,
+        ...data,
+        id: data.id,
       },
     };
   },
@@ -133,7 +142,7 @@ export const dataProvider: DataProvider = {
     );
 
     return {
-      data: (json || []).map((item: any) => ({
+      data: (json.data || json.Data || []).map((item: any) => ({
         ...item,
         id: item.id,
       })),
@@ -152,11 +161,11 @@ export const dataProvider: DataProvider = {
     );
 
     return {
-      data: (json.data || []).map((item: any) => ({
+      data: (json.data || json.Data || []).map((item: any) => ({
         ...item,
         id: item.id,
       })),
-      total: json.total ?? json.data?.length ?? 0,
+      total: json.total ?? (json.data || json.Data)?.length ?? 0,
     };
   },
 
@@ -170,10 +179,12 @@ export const dataProvider: DataProvider = {
       body: JSON.stringify(params.data),
     });
 
+    const data = json.data || json.Data || json;
+
     return {
       data: {
-        ...json,
-        id: json.id,
+        ...data,
+        id: data.id,
       },
     };
   },
@@ -191,10 +202,12 @@ export const dataProvider: DataProvider = {
       }
     );
 
+    const data = json.data || json.Data || json;
+
     return {
       data: {
-        ...json,
-        id: json.id,
+        ...data,
+        id: data.id,
       },
     };
   },

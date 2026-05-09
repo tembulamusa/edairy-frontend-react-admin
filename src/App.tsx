@@ -25,9 +25,11 @@ import { ExchangeVisitList } from './pages/members/exchange visits/exchange-visi
 import { ExchangeVisitAttendeesList } from './pages/members/exchange visit attendees/exchange-visit-attendees-list';
 import { ShareTypeList } from './pages/members/share types/share-types-list';
 import { MemberShareList } from './pages/members/member shares/member-shares-list';
+import { ShareTransactionList } from './pages/members/share transactions/share-transactions-list';
 import { SharePaymentList } from './pages/members/share payments/share-payments-list';
 import { ShareTransferList } from './pages/members/share transfers/share-transfers-list';
-import { DividendList } from './pages/members/dividends/dividends-list';
+import { DividendDeclarationList } from './pages/members/dividend declarations/dividend-declarations-list';
+import { ShareDividendList as MemberShareDividendList } from './pages/members/dividends/dividends-list';
 import { MemberWithMissingDetailsList } from './pages/members/reports/member-with-missing-details-list';
 
 /* ============ ADMIN MODULE ============ */
@@ -39,7 +41,11 @@ import { UserList } from './pages/admin/users/users-list';
 import { UserContactDetailList } from './pages/admin/user contact details/user-contact-details-list';
 import { AssetRegisterList } from './pages/admin/asset registers/asset-registers-list';
 import { AssetSoftwareList } from './pages/admin/asset softwares/asset-softwares-list';
-import { ShareDividendList } from './pages/admin/share dividends/share-dividends-list';
+import { FixedAssetList } from './pages/admin/fixed assets/fixed-assets-list';
+import { AssetCategoryList } from './pages/admin/asset categories/asset-categories-list';
+import { AssetAssignmentList } from './pages/admin/asset assignments/asset-assignments-list';
+import { AssetDepreciationEntryList } from './pages/admin/asset depreciation entries/asset-depreciation-entries-list';
+import { ShareDividendList as AdminShareDividendList } from './pages/admin/share dividends/share-dividends-list';
 import { ShareRegistrationList } from './pages/admin/share registrations/share-registrations-list';
 import { SmsList } from './pages/admin/sms/sms-list';
 import { SmsErrorCodeList } from './pages/admin/sms error codes/sms-error-codes-list';
@@ -78,10 +84,11 @@ const App = () => {
       <Resource name="exchange-visits" list={ExchangeVisitList} />
       <Resource name="exchange-visit-attendees" list={ExchangeVisitAttendeesList} />
       <Resource name="share-types" list={ShareTypeList} />
-      <Resource name="member-shares" list={MemberShareList} />
+      <Resource name="share-accounts" list={MemberShareList} />
       <Resource name="share-payments" list={SharePaymentList} />
       <Resource name="share-transfers" list={ShareTransferList} />
-      <Resource name="dividends" list={DividendList} />
+      <Resource name="dividend-declarations" list={DividendDeclarationList} />
+      <Resource name="dividends" list={MemberShareDividendList} />
       <Resource name="member-with-missing-details" list={MemberWithMissingDetailsList} />
 
       {/* Admin Module */}
@@ -93,8 +100,13 @@ const App = () => {
       <Resource name="user-contact-details" list={UserContactDetailList} />
       <Resource name="asset-registers" list={AssetRegisterList} />
       <Resource name="asset-softwares" list={AssetSoftwareList} />
-      <Resource name="share-dividends" list={ShareDividendList} />
+      <Resource name="fixed-assets" list={FixedAssetList} />
+      <Resource name="asset-categories" list={AssetCategoryList} />
+      <Resource name="asset-assignments" list={AssetAssignmentList} />
+      <Resource name="asset-depreciation-entries" list={AssetDepreciationEntryList} />
+      <Resource name="share-dividends" list={AdminShareDividendList} />
       <Resource name="share-registrations" list={ShareRegistrationList} />
+      <Resource name="share-transactions" list={ShareTransactionList} />
       <Resource name="sms" list={SmsList} />
       <Resource name="sms-error-codes" list={SmsErrorCodeList} />
       <Resource name="organization-details" list={OrganizationDetailsList} />

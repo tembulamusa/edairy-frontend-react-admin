@@ -1,12 +1,10 @@
-import { List, DataTable, TextField, DateField, EditButton, DeleteButton } from 'react-admin';
+import { List, DataTable, EditButton, DeleteButton } from 'react-admin';
 
 export const PermissionList = () => (
     <List title="Permissions">
         <DataTable>
-            <DataTable.Col source="CreatedAt" label="Created At">
-                <DateField source="CreatedAt" />
-            </DataTable.Col>
             <DataTable.Col source="Name" label="Name" />
+            <DataTable.Col source="GuardName" label="Guard Name" />
             <DataTable.Col label="Actions">
                 <EditButton />
                 <DeleteButton />

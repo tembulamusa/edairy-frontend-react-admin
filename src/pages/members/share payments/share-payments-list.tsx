@@ -7,13 +7,14 @@ export const SharePaymentList = () => (
             <DataTable.Col source="CreatedAt" label="Created At">
                 <DateField source="CreatedAt" />
             </DataTable.Col>
-            <DataTable.Col source="MemberID" label="Member ID" />
-            <DataTable.Col source="ShareTypeID" label="Share Type ID" />
-            <DataTable.Col source="Amount" label="Amount" />
-            <DataTable.Col source="PaymentDate" label="Payment Date">
-                <DateField source="PaymentDate" />
+            <DataTable.Col source="MemberNo" label="Member Number" />
+            <DataTable.Col source="PaymentModeName" label="Payment Mode" />
+            <DataTable.Col source="ShareUnits" label="Share Units" />
+            <DataTable.Col source="AmountPaid" label="Amount Paid" />
+            <DataTable.Col source="ReferenceNo" label="Reference Number" />
+            <DataTable.Col source="TransactionDate" label="Payment Date">
+                <DateField source="TransactionDate" />
             </DataTable.Col>
-            <DataTable.Col source="PaymentModeID" label="Payment Mode ID" />
             <DataTable.Col label="Actions">
                 <EditButton />
                 <DeleteButton />

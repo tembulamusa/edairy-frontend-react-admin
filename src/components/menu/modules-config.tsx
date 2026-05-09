@@ -51,6 +51,10 @@ export const modules: ModulesConfig = {
             {
                 label: "Assets",
                 items: [
+                    r("Fixed Assets", <AdminPanelSettingsIcon />),
+                    r("Asset Categories", <AdminPanelSettingsIcon />),
+                    r("Asset Assignments", <AdminPanelSettingsIcon />),
+                    r("Asset Depreciation Entries", <AdminPanelSettingsIcon />),
                     r("Asset Registers", <AdminPanelSettingsIcon />),
                     r("Asset Softwares", <AdminPanelSettingsIcon />),
                 ],
@@ -60,6 +64,7 @@ export const modules: ModulesConfig = {
                 items: [
                     r("Share Dividends", <AdminPanelSettingsIcon />),
                     r("Share Registrations", <AdminPanelSettingsIcon />),
+                    r("Share Transactions", <AdminPanelSettingsIcon />),
                 ],
             },
             {
@@ -121,10 +126,12 @@ export const modules: ModulesConfig = {
                 label: "Shares",
                 items: [
                     r("Share Types", <AttachMoneyIcon />),
-                    r("Member Shares", <AttachMoneyIcon />),
+                    r("Share Accounts", <AttachMoneyIcon />),
+                    r("Share Transactions", <AttachMoneyIcon />),
                     r("Share Payments", <AttachMoneyIcon />),
                     r("Share Transfers", <AttachMoneyIcon />),
-                    r("Dividends", <AttachMoneyIcon />),
+                    r("Dividend Declarations", <AttachMoneyIcon />),
+                    r("Share Dividends", <AttachMoneyIcon />),
                 ],
             },
             {

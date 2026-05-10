@@ -32,6 +32,9 @@ import { DividendDeclarationList } from './pages/members/dividend declarations/d
 import { ShareDividendList as MemberShareDividendList } from './pages/members/dividends/dividends-list';
 import { MemberWithMissingDetailsList } from './pages/members/reports/member-with-missing-details-list';
 
+/* ============ TRANSPORTERS MODULE ============ */
+import { TransporterList, IndividualTransporterList, CompanyTransporterList, TransporterVehicleList, TransporterRouteAssignmentList, TransporterDriverList, TransporterDriverAssignmentList, TransporterBenefitList, BulkCollectionAtMccList, MilkDeliveryList, LocalSalesList, VarianceList, StrayCollectionList, MonthlyCollectionList, CanMovementList, MonthlyPayDateRangeList, PayRateList, TransporterPaymentList, DeductionsRecoveryList, TransporterPayrollList, TransporterDeductionList, TransportVehicleList, MilkDeliveryReportList, TransporterPayrollSummaryList, TransporterPayrollBankSummaryList, TransporterStatementList } from './pages/transporters/transporters-lists';
+
 /* ============ ADMIN MODULE ============ */
 import { LicenceList } from './pages/admin/licence/licence-list';
 import { AuditLogList } from './pages/admin/audit logs/audit-logs-list';
@@ -90,6 +93,34 @@ const App = () => {
       <Resource name="dividend-declarations" list={DividendDeclarationList} />
       <Resource name="dividends" list={MemberShareDividendList} />
       <Resource name="member-with-missing-details" list={MemberWithMissingDetailsList} />
+
+      {/* Transporters Module */}
+      <Resource name="transporters" list={TransporterList} />
+      <Resource name="individual-transporters" list={IndividualTransporterList} />
+      <Resource name="company-transporters" list={CompanyTransporterList} />
+      <Resource name="transporter-vehicles" list={TransporterVehicleList} />
+      <Resource name="transporter-route-assignments" list={TransporterRouteAssignmentList} />
+      <Resource name="transporter-drivers" list={TransporterDriverList} />
+      <Resource name="transporter-driver-assignments" list={TransporterDriverAssignmentList} />
+      <Resource name="transporter-benefits" list={TransporterBenefitList} />
+      <Resource name="bulk-collection-at-mcc" list={BulkCollectionAtMccList} />
+      <Resource name="milk-deliveries" list={MilkDeliveryList} />
+      <Resource name="local-sales" list={LocalSalesList} />
+      <Resource name="variances" list={VarianceList} />
+      <Resource name="stray-collections" list={StrayCollectionList} />
+      <Resource name="monthly-collections" list={MonthlyCollectionList} />
+      <Resource name="can-movement" list={CanMovementList} />
+      <Resource name="monthly-pay-date-ranges" list={MonthlyPayDateRangeList} />
+      <Resource name="pay-rates" list={PayRateList} />
+      <Resource name="transporter-payments" list={TransporterPaymentList} />
+      <Resource name="deductions-recovery" list={DeductionsRecoveryList} />
+      <Resource name="transporter-payroll" list={TransporterPayrollList} />
+      <Resource name="transporter-deductions" list={TransporterDeductionList} />
+      <Resource name="transport-vehicles" list={TransportVehicleList} />
+      <Resource name="milk-delivery-reports" list={MilkDeliveryReportList} />
+      <Resource name="transporter-payroll-summary" list={TransporterPayrollSummaryList} />
+      <Resource name="transporter-payroll-bank-summary" list={TransporterPayrollBankSummaryList} />
+      <Resource name="transporter-statement" list={TransporterStatementList} />
 
       {/* Admin Module */}
       <Resource name="licence" list={LicenceList} />

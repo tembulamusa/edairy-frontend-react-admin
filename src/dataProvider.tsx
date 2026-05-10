@@ -69,6 +69,18 @@ const fetchJson = async (url: string, options: RequestInit = {}) => {
   return res.json();
 };
 
+type ApiRecord = Record<string, unknown>;
+
+const toRecords = (value: unknown): ApiRecord[] => {
+  if (Array.isArray(value)) return value as ApiRecord[];
+  if (value && typeof value === "object") return [value as ApiRecord];
+  return [];
+};
+
+const normalizeResourceData = (resource: string, items: ApiRecord[]) => {
+  return items;
+};
+
 /* ================= DATA PROVIDER ================= */
 
 export const dataProvider: DataProvider = {
@@ -84,11 +96,11 @@ export const dataProvider: DataProvider = {
     );
 
     return {
-      data: (json.data || json.Data || []).map((item: any) => ({
+      data: normalizeResourceData(resource, toRecords(json.data || json.Data)).map((item) => ({
         ...item,
         id: item.id,
       })),
-      total: json.total ?? (json.data || json.Data)?.length ?? 0,
+      total: json.total ?? toRecords(json.data || json.Data).length ?? 0,
     };
   },
 
@@ -96,18 +108,19 @@ export const dataProvider: DataProvider = {
     resource: string,
     params: GetListParams
   ): Promise<GetListResult> => {
+    void params;
 
     const json = await fetchJson(
       `${apiUrl}/${resource}`
     );
 
-    const data = json.data || json.Data || json;
+    const normalized = normalizeResourceData(resource, toRecords(json.data || json.Data || json));
     return {
-        data: (Array.isArray(data) ? data : [data]).map((item: any) => ({
-            ...item,
-            id: item.id,
-        })),
-        total: json.total ?? (Array.isArray(data) ? data.length : 1),
+      data: normalized.map((item) => ({
+        ...item,
+        id: item.id,
+      })),
+      total: json.total ?? normalized.length,
     };
   },
 
@@ -120,12 +133,12 @@ export const dataProvider: DataProvider = {
       `${apiUrl}/${resource}/${params.id}`
     );
 
-    const data = json.data || json.Data || json;
+    const normalized = normalizeResourceData(resource, toRecords(json.data || json.Data || json));
 
     return {
       data: {
-        ...data,
-        id: data.id,
+        ...normalized[0],
+        id: normalized[0].id,
       },
     };
   },
@@ -141,8 +154,10 @@ export const dataProvider: DataProvider = {
       `${apiUrl}/${resource}?${query}`
     );
 
+    const normalized = normalizeResourceData(resource, toRecords(json.data || json.Data));
+
     return {
-      data: (json.data || json.Data || []).map((item: any) => ({
+      data: normalized.map((item) => ({
         ...item,
         id: item.id,
       })),
@@ -160,12 +175,14 @@ export const dataProvider: DataProvider = {
       `${apiUrl}/${resource}?${params.target}=${params.id}&page=${page}&size=${perPage}`
     );
 
+    const normalized = normalizeResourceData(resource, toRecords(json.data || json.Data));
+
     return {
-      data: (json.data || json.Data || []).map((item: any) => ({
+      data: normalized.map((item) => ({
         ...item,
         id: item.id,
       })),
-      total: json.total ?? (json.data || json.Data)?.length ?? 0,
+      total: json.total ?? normalized.length ?? 0,
     };
   },
 

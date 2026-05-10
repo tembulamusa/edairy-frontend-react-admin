@@ -160,7 +160,12 @@ export const modules: ModulesConfig = {
                 label: "Transporters",
                 items: [
                     r("Transporters", <LocalShippingIcon />),
-                    r("Member Bank Accounts", <AccountBalanceIcon />),
+                    r("Individual Transporters", <LocalShippingIcon />),
+                    r("Company Transporters", <LocalShippingIcon />),
+                    r("Transporter Vehicles", <LocalShippingIcon />),
+                    r("Transporter Route Assignments", <LocalShippingIcon />),
+                    r("Transporter Drivers", <LocalShippingIcon />),
+                    r("Transporter Driver Assignments", <LocalShippingIcon />),
                     r("Transport Rates", <LocalShippingIcon />),
                     r("Transporter Benefits", <AttachMoneyIcon />),
                 ],

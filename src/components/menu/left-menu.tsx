@@ -89,7 +89,7 @@ export const LeftMenu = () => {
                                     {visibleItems.map((item) => (
                                         <MenuItemLink
                                             key={item.resource}
-                                            to={`/${item.resource}`}
+                                            to={item.resource === "dashboard" ? "/" : `/${item.resource}`}
                                             primaryText={item.label}
                                             leftIcon={item.icon}
                                             sx={{ pl: 2 }}
@@ -101,7 +101,7 @@ export const LeftMenu = () => {
                             visibleItems.map((item) => (
                                 <MenuItemLink
                                     key={item.resource}
-                                    to={`/${item.resource}`}
+                                    to={item.resource === "dashboard" ? "/" : `/${item.resource}`}
                                     primaryText={item.label}
                                     leftIcon={item.icon}
                                 />

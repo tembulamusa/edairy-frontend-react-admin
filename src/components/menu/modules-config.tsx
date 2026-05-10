@@ -171,33 +171,6 @@ export const modules: ModulesConfig = {
                 ],
             },
             {
-                label: "Produce",
-                items: [
-                    r("Bulk Collection at MCC", <AgricultureIcon />),
-                    r("Milk Deliveries", <AgricultureIcon />),
-                    r("Local Sales", <StoreIcon />),
-                    r("Variances", <FactCheckIcon />),
-                    r("Stray Collections", <AgricultureIcon />),
-                    r("Monthly Collections", <AgricultureIcon />),
-                    r("Can Movement", <Inventory2Icon />),
-                ],
-            },
-            {
-                label: "Payroll",
-                items: [
-                    r("Monthly Pay Date Ranges", <AttachMoneyIcon />),
-                    r("Pay Rates", <AttachMoneyIcon />),
-                    r("Transporter Payments", <AttachMoneyIcon />),
-                    r("Deductions Recovery", <AttachMoneyIcon />),
-                    r("Transporter Payroll", <AttachMoneyIcon />),
-                    r("Transporter Deductions", <AttachMoneyIcon />),
-                ],
-            },
-            {
-                label: "Setup",
-                items: [r("Transport Vehicles", <LocalShippingIcon />)],
-            },
-            {
                 label: "Reports",
                 items: [
                     r("Milk Delivery Reports", <ReceiptLongIcon />),
@@ -208,7 +181,6 @@ export const modules: ModulesConfig = {
             },
         ],
     },
-
     Produce: {
         name: "Produce",
         sections: [
@@ -216,35 +188,45 @@ export const modules: ModulesConfig = {
                 items: [r("Dashboard", <DashboardIcon />)],
             },
             {
-                label: "Data Entry",
+                label: "Setup",
+                items: [
+                    r("Milk Cans", <Inventory2Icon />),
+                    r("Product Grades", <FactCheckIcon />),
+                    r("Milk Delivery Shifts", <WorkIcon />),
+                ],
+            },
+            {
+                label: "Milk Collection",
                 items: [
                     r("Milk Journals", <AgricultureIcon />),
                     r("Milk Journal Entries", <AgricultureIcon />),
                     r("Milk Rejects", <FactCheckIcon />),
+                    r("Stray Milk Collections", <AgricultureIcon />),
                 ],
             },
             {
-                label: "Member Payroll",
+                label: "Transporters",
                 items: [
-                    r("Member Payroll", <AttachMoneyIcon />),
-                    r("Member Payments", <AttachMoneyIcon />),
-                    r("Member Deductions", <AttachMoneyIcon />),
+                    {
+                        label: "Cooler Milk Collection",
+                        resource: "cooler-milk-collections",
+                        icon: <AgricultureIcon />,
+                    },
+                    r("Milk Deliveries", <AgricultureIcon />),
+                    r("Milk Local Sales", <StoreIcon />),
+                    r("Daily Milk Variances", <FactCheckIcon />),
+                    r("Can Movements", <Inventory2Icon />),
                 ],
             },
-            {
-                label: "Setup",
-                items: [
-                    r("Milk Cans", <Inventory2Icon />),
-                    r("Milk Grades", <FactCheckIcon />),
-                    r("Milk Delivery Shifts", <WorkIcon />),
-                ],
-            },
+
+
             {
                 label: "Reports",
                 items: [
                     r("Milk Delivery Reports", <ReceiptLongIcon />),
                     r("Member Payroll Summary", <ReceiptLongIcon />),
                     r("Member Statement", <ReceiptLongIcon />),
+                    r("Monthly Collections", <AgricultureIcon />),
                 ],
             },
         ],
@@ -260,18 +242,23 @@ export const modules: ModulesConfig = {
                 label: "Data Entry",
                 items: [
                     r("POS", <StoreIcon />),
-                    r("Stock", <Inventory2Icon />),
                     r("Store Sales", <AttachMoneyIcon />),
+                    r("Supplies", <Inventory2Icon />),
+                    r("Supply Rejects", <FactCheckIcon />),
                     r("Inter Store Transfers", <Inventory2Icon />),
-                    r("Stock Taking", <FactCheckIcon />),
+                    r("Store Stocks", <Inventory2Icon />),
+                    r("Store Stock Takings", <FactCheckIcon />),
+                    r("Store Stock Movements", <Inventory2Icon />),
                 ],
             },
             {
                 label: "Setup",
                 items: [
-                    r("Item Categories", <SettingsIcon />),
-                    r("Items Register", <Inventory2Icon />),
                     r("Stores", <StoreIcon />),
+                    r("Item Categories", <SettingsIcon />),
+                    r("Store Items", <Inventory2Icon />),
+                    r("Store Inventories", <Inventory2Icon />),
+                    r("Store Stock Movement Types", <Inventory2Icon />),
                 ],
             },
             {
@@ -435,7 +422,29 @@ export const modules: ModulesConfig = {
             },
         ],
     },
-
+    Payroll: {
+        name: "Payroll",
+        sections: [
+            {
+                items: [r("Dashboard", <DashboardIcon />)],
+            },
+            {
+                label: "Members",
+                items: [r("Member Payroll", <AttachMoneyIcon />)],
+            },
+            {
+                label: "Transporters",
+                items: [
+                    r("Monthly Pay Date Ranges", <AttachMoneyIcon />),
+                    r("Pay Rates", <AttachMoneyIcon />),
+                    r("Transporter Payments", <AttachMoneyIcon />),
+                    r("Deductions Recovery", <AttachMoneyIcon />),
+                    r("Transporter Payroll", <AttachMoneyIcon />),
+                    r("Transporter Deductions", <AttachMoneyIcon />),
+                ],
+            },
+        ],
+    },
     SMS: {
         name: "SMS",
         sections: [

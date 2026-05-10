@@ -33,7 +33,28 @@ import { ShareDividendList as MemberShareDividendList } from './pages/members/di
 import { MemberWithMissingDetailsList } from './pages/members/reports/member-with-missing-details-list';
 
 /* ============ TRANSPORTERS MODULE ============ */
-import { TransporterList, IndividualTransporterList, CompanyTransporterList, TransporterVehicleList, TransporterRouteAssignmentList, TransporterDriverList, TransporterDriverAssignmentList, TransporterBenefitList, BulkCollectionAtMccList, MilkDeliveryList, LocalSalesList, VarianceList, StrayCollectionList, MonthlyCollectionList, CanMovementList, MonthlyPayDateRangeList, PayRateList, TransporterPaymentList, DeductionsRecoveryList, TransporterPayrollList, TransporterDeductionList, TransportVehicleList, MilkDeliveryReportList, TransporterPayrollSummaryList, TransporterPayrollBankSummaryList, TransporterStatementList } from './pages/transporters/transporters-lists';
+import { TransporterList, IndividualTransporterList, CompanyTransporterList, TransporterVehicleList, TransporterRouteAssignmentList, TransporterDriverList, TransporterDriverAssignmentList, TransporterBenefitList, MonthlyPayDateRangeList, PayRateList, TransporterPaymentList, DeductionsRecoveryList, TransporterPayrollList, TransporterDeductionList, TransportVehicleList, TransporterPayrollSummaryList, TransporterPayrollBankSummaryList, TransporterStatementList } from './pages/transporters/transporters-lists';
+
+/* ============ PRODUCE MODULE ============ */
+import { MilkJournalsList } from './pages/produce/milk journals/milk-journals-list';
+import { MilkJournalEntriesList } from './pages/produce/milk journal entries/milk-journal-entries-list';
+import { MilkRejectsList } from './pages/produce/milk rejects/milk-rejects-list';
+import { MemberPayrollList } from './pages/payroll/member payroll/member-payroll-list';
+import { MemberPaymentsList } from './pages/produce/member payments/member-payments-list';
+import { MemberDeductionsList } from './pages/produce/member deductions/member-deductions-list';
+import { MilkCansList } from './pages/produce/milk cans/milk-cans-list';
+import { ProductGradesList } from './pages/produce/product grades/product-grades-list';
+import { MilkDeliveryShiftsList } from './pages/produce/milk delivery shifts/milk-delivery-shifts-list';
+import { MilkDeliveryReportList as ProduceMilkDeliveryReportList } from './pages/produce/milk delivery reports/milk-delivery-reports-list';
+import { MemberPayrollSummaryList } from './pages/produce/member payroll summary/member-payroll-summary-list';
+import { MemberStatementList } from './pages/produce/member statement/member-statement-list';
+import { CoolerMilkCollectionList } from './pages/produce/cooler milk collection/cooler-milk-collection-list';
+import { MilkDeliveryList } from './pages/produce/milk deliveries/milk-deliveries-list';
+import { MilkLocalSalesList } from './pages/produce/milk local sales/milk-local-sales-list';
+import { DailyMilkVariancesList } from './pages/produce/daily milk variances/daily-milk-variances-list';
+import { StrayMilkCollectionsList } from './pages/produce/stray milk collections/stray-milk-collections-list';
+import { MonthlyCollectionList } from './pages/produce/monthly collections/monthly-collections-list';
+import { CanMovementsList } from './pages/produce/can movements/can-movements-list';
 
 /* ============ ADMIN MODULE ============ */
 import { LicenceList } from './pages/admin/licence/licence-list';
@@ -62,6 +83,18 @@ import { SiteList } from './pages/admin/organization/sites/sites-list';
 import { PaymentTypeList } from './pages/admin/payment types/payment-types-list';
 import { RelationshipList } from './pages/admin/relationships/relationships-list';
 import { LocationList } from './pages/admin/locations/locations-list';
+import { StoreSalesList } from './pages/stores/store sales/store-sales-list';
+import { SuppliesList } from './pages/stores/supplies/supplies-list';
+import { SupplyRejectsList } from './pages/stores/supply rejects/supply-rejects-list';
+import { InterstoreTransferList } from './pages/stores/interstore transfer/interstore-transfer-list';
+import { StoreStocksList } from './pages/stores/store stocks/store-stocks-list';
+import { StoreItemsList } from './pages/stores/store items/store-items-list';
+import { ItemCategoriesList } from './pages/stores/item categories/item-categories-list';
+import { StoresList } from './pages/stores/stores/stores-list';
+import { StoreInventoriesList } from './pages/stores/store inventories/store-inventories-list';
+import { StoreStockTakingsList } from './pages/stores/store stock takings/store-stock-takings-list';
+import { StoreStockMovementsList } from './pages/stores/store stock movements/store-stock-movements-list';
+import { StoreStockMovementTypesList } from './pages/stores/store stock movement types/store-stock-movement-types-list';
 
 const App = () => {
   return (
@@ -103,13 +136,13 @@ const App = () => {
       <Resource name="transporter-drivers" list={TransporterDriverList} />
       <Resource name="transporter-driver-assignments" list={TransporterDriverAssignmentList} />
       <Resource name="transporter-benefits" list={TransporterBenefitList} />
-      <Resource name="bulk-collection-at-mcc" list={BulkCollectionAtMccList} />
+      <Resource name="cooler-milk-collections" list={CoolerMilkCollectionList} />
       <Resource name="milk-deliveries" list={MilkDeliveryList} />
-      <Resource name="local-sales" list={LocalSalesList} />
-      <Resource name="variances" list={VarianceList} />
-      <Resource name="stray-collections" list={StrayCollectionList} />
+      <Resource name="milk-local-sales" list={MilkLocalSalesList} />
+      <Resource name="daily-milk-variances" list={DailyMilkVariancesList} />
+      <Resource name="stray-milk-collections" list={StrayMilkCollectionsList} />
       <Resource name="monthly-collections" list={MonthlyCollectionList} />
-      <Resource name="can-movement" list={CanMovementList} />
+      <Resource name="can-movements" list={CanMovementsList} />
       <Resource name="monthly-pay-date-ranges" list={MonthlyPayDateRangeList} />
       <Resource name="pay-rates" list={PayRateList} />
       <Resource name="transporter-payments" list={TransporterPaymentList} />
@@ -117,10 +150,41 @@ const App = () => {
       <Resource name="transporter-payroll" list={TransporterPayrollList} />
       <Resource name="transporter-deductions" list={TransporterDeductionList} />
       <Resource name="transport-vehicles" list={TransportVehicleList} />
-      <Resource name="milk-delivery-reports" list={MilkDeliveryReportList} />
       <Resource name="transporter-payroll-summary" list={TransporterPayrollSummaryList} />
       <Resource name="transporter-payroll-bank-summary" list={TransporterPayrollBankSummaryList} />
       <Resource name="transporter-statement" list={TransporterStatementList} />
+
+      {/* Produce Module */}
+      <Resource name="milk-deliveries" list={MilkDeliveryList} />
+      <Resource name="milk-local-sales" list={MilkLocalSalesList} />
+      <Resource name="daily-milk-variances" list={DailyMilkVariancesList} />
+      <Resource name="stray-milk-collections" list={StrayMilkCollectionsList} />
+      <Resource name="monthly-collections" list={MonthlyCollectionList} />
+      <Resource name="can-movements" list={CanMovementsList} />
+      <Resource name="milk-journals" list={MilkJournalsList} />
+      <Resource name="milk-journal-entries" list={MilkJournalEntriesList} />
+      <Resource name="milk-rejects" list={MilkRejectsList} />
+      <Resource name="member-payroll" list={MemberPayrollList} />
+      <Resource name="member-payments" list={MemberPaymentsList} />
+      <Resource name="member-deductions" list={MemberDeductionsList} />
+      <Resource name="milk-cans" list={MilkCansList} />
+      <Resource name="product-grades" list={ProductGradesList} />
+      <Resource name="milk-delivery-shifts" list={MilkDeliveryShiftsList} />
+      <Resource name="milk-delivery-reports" list={ProduceMilkDeliveryReportList} />
+      <Resource name="member-payroll-summary" list={MemberPayrollSummaryList} />
+      <Resource name="member-statement" list={MemberStatementList} />
+      <Resource name="store-sales" list={StoreSalesList} />
+      <Resource name="supplies" list={SuppliesList} />
+      <Resource name="supply-rejects" list={SupplyRejectsList} />
+      <Resource name="inter-store-transfers" list={InterstoreTransferList} />
+      <Resource name="store-stocks" list={StoreStocksList} />
+      <Resource name="store-items" list={StoreItemsList} />
+      <Resource name="item-categories" list={ItemCategoriesList} />
+      <Resource name="stores" list={StoresList} />
+      <Resource name="store-inventories" list={StoreInventoriesList} />
+      <Resource name="store-stock-takings" list={StoreStockTakingsList} />
+      <Resource name="store-stock-movements" list={StoreStockMovementsList} />
+      <Resource name="store-stock-movement-types" list={StoreStockMovementTypesList} />
 
       {/* Admin Module */}
       <Resource name="licence" list={LicenceList} />

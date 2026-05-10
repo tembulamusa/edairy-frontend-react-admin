@@ -2,6 +2,8 @@
 import { List, DataTable, FunctionField, DateField, EditButton, DeleteButton } from "react-admin";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
 
 const createSimpleList = (title: string) => () => (
     <List title={title}>
@@ -193,14 +195,55 @@ export const TransporterDriverAssignmentList = () => (
         </DataTable>
     </List>
 );
-export const TransporterBenefitList = createSimpleList("Transporter Benefits");
-export const BulkCollectionAtMccList = createSimpleList("Bulk Collection at MCC");
-export const MilkDeliveryList = createSimpleList("Milk Deliveries");
-export const LocalSalesList = createSimpleList("Local Sales");
-export const VarianceList = createSimpleList("Variances");
-export const StrayCollectionList = createSimpleList("Stray Collections");
-export const MonthlyCollectionList = createSimpleList("Monthly Collections");
-export const CanMovementList = createSimpleList("Can Movement");
+type TransporterBenefitRecord = {
+    Name?: string;
+    Rate?: string | number;
+    MinQuantity?: string | number;
+    RouteName?: string;
+    StartDate?: string;
+    EndDate?: string;
+    Status?: string | number;
+};
+
+export const TransporterBenefitList = () => (
+    <List title="Transporter Benefits">
+        <DataTable>
+            <DataTable.Col source="Name" label="Name" />
+            <DataTable.Col source="Rate" label="Rate" />
+            <DataTable.Col source="MinQuantity" label="Minimum Quantity" />
+            <DataTable.Col source="RouteName" label="Route Name" />
+            <DataTable.Col source="StartDate" label="Start Date">
+                <DateField source="StartDate" />
+            </DataTable.Col>
+            <DataTable.Col source="EndDate" label="End Date">
+                <DateField source="EndDate" />
+            </DataTable.Col>
+            <DataTable.Col label="Status">
+                <FunctionField
+                    render={(record: TransporterBenefitRecord) =>
+                        String(record?.Status) === "1" ? (
+                            <CheckCircleOutlineIcon sx={{ color: "success.main" }} fontSize="small" />
+                        ) : (
+                            <CancelOutlinedIcon sx={{ color: "error.main" }} fontSize="small" />
+                        )
+                    }
+                />
+            </DataTable.Col>
+            <DataTable.Col label="Actions">
+                <EditButton
+                    label=""
+                    icon={<EditOutlinedIcon fontSize="small" />}
+                    sx={{ minWidth: 0, p: 0.5 }}
+                />
+                <DeleteButton
+                    label=""
+                    icon={<DeleteOutlineIcon fontSize="small" />}
+                    sx={{ minWidth: 0, p: 0.5 }}
+                />
+            </DataTable.Col>
+        </DataTable>
+    </List>
+);
 export const MonthlyPayDateRangeList = createSimpleList("Monthly Pay Date Ranges");
 export const PayRateList = createSimpleList("Pay Rates");
 export const TransporterPaymentList = createSimpleList("Transporter Payments");
@@ -208,7 +251,6 @@ export const DeductionsRecoveryList = createSimpleList("Deductions Recovery");
 export const TransporterPayrollList = createSimpleList("Transporter Payroll");
 export const TransporterDeductionList = createSimpleList("Transporter Deductions");
 export const TransportVehicleList = createSimpleList("Transport Vehicles");
-export const MilkDeliveryReportList = createSimpleList("Milk Delivery Reports");
 export const TransporterPayrollSummaryList = createSimpleList("Transporter Payroll Summary");
 export const TransporterPayrollBankSummaryList = createSimpleList("Transporter Payroll Bank Summary");
 export const TransporterStatementList = createSimpleList("Transporter Statement");

@@ -4,6 +4,7 @@ import {
     EditButton,
     DeleteButton,
     FunctionField,
+    DateField,
 } from "react-admin";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
@@ -30,11 +31,7 @@ export const PurchaseRequisitionList = () => (
         <DataTable>
             <DataTable.Col source="RequisitionNo" label="Requisition No" />
             <DataTable.Col source="RequisitionDate" label="Requisition Date">
-                <FunctionField
-                    render={(record: PurchaseRequisitionRecord) =>
-                        formatRequisitionDate(record?.RequisitionDate)
-                    }
-                />
+                <DateField source="RequisitionDate" />
             </DataTable.Col>
             <DataTable.Col source="Description" label="Description" />
             <DataTable.Col source="Status" label="Status" />

@@ -16,6 +16,7 @@ import Inventory2Icon from "@mui/icons-material/Inventory2";
 import SettingsIcon from "@mui/icons-material/Settings";
 import ReceiptLongIcon from "@mui/icons-material/ReceiptLong";
 import FactCheckIcon from "@mui/icons-material/FactCheck";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
 
 /* ============ HELPER ============ */
 const r = (label: string, icon?: ReactNode) => ({
@@ -48,6 +49,7 @@ export const modules: ModulesConfig = {
                     r("User Contact Details", <PeopleIcon />),
                 ],
             },
+
             {
                 label: "Assets",
                 items: [
@@ -68,33 +70,20 @@ export const modules: ModulesConfig = {
                 ],
             },
             {
-                label: "SMS",
-                items: [
-                    r("Sms", <AdminPanelSettingsIcon />),
-                    r("Sms Error codes", <AdminPanelSettingsIcon />),
-                ],
-            },
-            {
                 label: "Organization",
                 items: [
                     r("Organization Details", <SettingsIcon />),
+                    r("Organization Addresses", <LocationOnIcon />),
+                    r("Organization Banks", <AccountBalanceIcon />),
+                    r("Organization Documents", <Inventory2Icon />),
+                    r("Organization Kyb Comments", <ReceiptLongIcon />),
+                    r("Organization Leaderships", <PeopleIcon />),
+                    r("Organization Wallets", <AttachMoneyIcon />),
                     r("Document Types", <SettingsIcon />),
-                    r("Directors and Management", <PeopleIcon />),
-                    r("Documents", <Inventory2Icon />),
                     r("Departments", <WorkIcon />),
-                    r("Banks", <AccountBalanceIcon />),
-                    r("Sites", <StoreIcon />),
                 ],
             },
-            {
-                label: "Setup",
-                items: [
-                    r("Payment Types", <SettingsIcon />),
-                    r("Relationships", <SettingsIcon />),
-                    r("Locations", <SettingsIcon />),
 
-                ],
-            },
         ],
     },
 
@@ -348,11 +337,18 @@ export const modules: ModulesConfig = {
                 items: [r("Dashboard", <DashboardIcon />)],
             },
             {
-                label: "Loans",
+                label: "Members & Loans",
                 items: [
                     r("Loan Members", <PeopleIcon />),
                     r("Loan Applications", <FactCheckIcon />),
                     r("Loans", <AttachMoneyIcon />),
+                ],
+            },
+            ,
+            {
+                label: "Organization info",
+                items: [
+                    r("Organization Details", <ReceiptLongIcon />),
                 ],
             },
             {
@@ -362,6 +358,7 @@ export const modules: ModulesConfig = {
                     r("Loan Report", <ReceiptLongIcon />),
                 ],
             },
+
         ],
     },
 

@@ -80,6 +80,12 @@ import { DocumentList } from './pages/admin/organization/documents/documents-lis
 import { DepartmentList } from './pages/admin/organization/departments/departments-list';
 import { BankList } from './pages/admin/organization/banks/banks-list';
 import { SiteList } from './pages/admin/organization/sites/sites-list';
+import { OrganizationAddressesList } from './pages/admin/organization/organization addresses/organization-addresses-list';
+import { OrganizationBanksList } from './pages/admin/organization/organization banks/organization-banks-list';
+import { OrganizationDocumentsList } from './pages/admin/organization/organization documents/organization-documents-list';
+import { OrganizationKybCommentsList } from './pages/admin/organization/organization-kyb-comments-list';
+import { OrganizationLeadershipsList } from './pages/admin/organization/organization leaderships/organization-leaderships-list';
+import { OrganizationWalletsList } from './pages/admin/organization/organization wallets/organization-wallets-list';
 import { PaymentTypeList } from './pages/admin/payment types/payment-types-list';
 import { RelationshipList } from './pages/admin/relationships/relationships-list';
 import { LocationList } from './pages/admin/locations/locations-list';
@@ -242,6 +248,12 @@ const App = () => {
       <Resource name="sms" list={SmsList} />
       <Resource name="sms-error-codes" list={SmsErrorCodeList} />
       <Resource name="organization-details" list={OrganizationDetailsList} />
+      <Resource name="organization-addresses" list={OrganizationAddressesList} />
+      <Resource name="organization-banks" list={OrganizationBanksList} />
+      <Resource name="organization-documents" list={OrganizationDocumentsList} />
+      <Resource name="organization-kyb-comments" list={OrganizationKybCommentsList} />
+      <Resource name="organization-leaderships" list={OrganizationLeadershipsList} />
+      <Resource name="organization-wallets" list={OrganizationWalletsList} />
       <Resource name="document-types" list={DocumentTypeList} />
       <Resource name="directors-and-management" list={DirectorManagementList} />
       <Resource name="documents" list={DocumentList} />

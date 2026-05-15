@@ -232,45 +232,53 @@ export const modules: ModulesConfig = {
         ],
     },
 
-    Stores: {
-        name: "Stores",
-        sections: [
-            {
-                items: [r("Dashboard", <DashboardIcon />)],
-            },
-            {
-                label: "Data Entry",
-                items: [
-                    r("POS", <StoreIcon />),
-                    r("Store Sales", <AttachMoneyIcon />),
-                    r("Supplies", <Inventory2Icon />),
-                    r("Supply Rejects", <FactCheckIcon />),
-                    r("Inter Store Transfers", <Inventory2Icon />),
-                    r("Store Stocks", <Inventory2Icon />),
-                    r("Store Stock Takings", <FactCheckIcon />),
-                    r("Store Stock Movements", <Inventory2Icon />),
-                ],
-            },
-            {
-                label: "Setup",
-                items: [
-                    r("Stores", <StoreIcon />),
-                    r("Item Categories", <SettingsIcon />),
-                    r("Store Items", <Inventory2Icon />),
-                    r("Store Inventories", <Inventory2Icon />),
-                    r("Store Stock Movement Types", <Inventory2Icon />),
-                ],
-            },
-            {
-                label: "Reports",
-                items: [
-                    r("Stock", <ReceiptLongIcon />),
-                    r("Sales", <ReceiptLongIcon />),
-                    r("Rejects", <FactCheckIcon />),
-                ],
-            },
-        ],
-    },
+    // Supplies: {
+    //     name: "Supplies",
+    //     sections: [
+    //         {
+    //             items: [r("Dashboard", <DashboardIcon />)],
+    //         },
+    //         {
+    //             label: "Supply",
+    //             items: [
+    //                 r("Supplier Quotes", <FactCheckIcon />),
+    //                 r("Supplies", <Inventory2Icon />),
+    //                 r("Supply Rejects", <FactCheckIcon />),
+    //                 r("Purchase Orders", <FactCheckIcon />),
+    //                 r("Purchase Requisitions", <FactCheckIcon />),
+    //             ],
+    //         },
+    //         {
+    //             label: "Data Entry",
+    //             items: [
+    //                 r("POS", <StoreIcon />),
+    //                 r("Store Sales", <AttachMoneyIcon />),
+    //                 r("Inter Store Transfers", <Inventory2Icon />),
+    //                 r("Store Stocks", <Inventory2Icon />),
+    //                 r("Store Stock Takings", <FactCheckIcon />),
+    //                 r("Store Stock Movements", <Inventory2Icon />),
+    //             ],
+    //         },
+    //         {
+    //             label: "Setup",
+    //             items: [
+    //                 r("Stores", <StoreIcon />),
+    //                 r("Item Categories", <SettingsIcon />),
+    //                 r("Store Items", <Inventory2Icon />),
+    //                 r("Store Inventories", <Inventory2Icon />),
+    //                 r("Store Stock Movement Types", <Inventory2Icon />),
+    //             ],
+    //         },
+    //         {
+    //             label: "Reports",
+    //             items: [
+    //                 r("Stock", <ReceiptLongIcon />),
+    //                 r("Sales", <ReceiptLongIcon />),
+    //                 r("Rejects", <FactCheckIcon />),
+    //             ],
+    //         },
+    //     ],
+    // },
 
     Customers: {
         name: "Customers",
@@ -281,8 +289,9 @@ export const modules: ModulesConfig = {
             {
                 label: "Collections",
                 items: [
-                    r("Customer Collections", <AttachMoneyIcon />),
+                    r("Customer Billings", <AttachMoneyIcon />),
                     r("Customer Payments", <AttachMoneyIcon />),
+                    r("Customer Invoices", <ReceiptLongIcon />),
                 ],
             },
             {
@@ -302,20 +311,24 @@ export const modules: ModulesConfig = {
             {
                 items: [r("Dashboard", <DashboardIcon />)],
             },
+
             {
-                label: "Suppliers",
+                label: "Supplies",
                 items: [
-                    r("Suppliers", <PeopleIcon />),
-                    r("Supplier Bank Accounts", <AccountBalanceIcon />),
-                    r("Farm Visits", <WorkIcon />),
-                ],
+                    r("Supplier Quotes", <FactCheckIcon />),
+                    r("Supplies", <Inventory2Icon />),
+                    r("Supply Rejects", <FactCheckIcon />),
+                    r("Purchase Orders", <FactCheckIcon />),
+                    r("Purchase Requisitions", <FactCheckIcon />),],
             },
             {
-                label: "Procurement",
+                label: "Setup",
                 items: [
-                    r("Purchase Requisitions", <FactCheckIcon />),
-                    r("Supplier Quotes", <FactCheckIcon />),
-                    r("Purchase Orders", <FactCheckIcon />),
+                    r("Supplier Categories", <SettingsIcon />),
+                    r("Suppliers", <PeopleIcon />),
+                    r("Supplier Bank Accounts", <AccountBalanceIcon />),
+                    r("Supplier Contacts", <PeopleIcon />),
+                    r("Supplier Documents", <Inventory2Icon />),
                 ],
             },
             {

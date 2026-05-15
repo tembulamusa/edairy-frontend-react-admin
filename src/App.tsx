@@ -85,7 +85,7 @@ import { RelationshipList } from './pages/admin/relationships/relationships-list
 import { LocationList } from './pages/admin/locations/locations-list';
 import { StoreSalesList } from './pages/stores/store sales/store-sales-list';
 import { SuppliesList } from './pages/stores/supplies/supplies-list';
-import { SupplyRejectsList } from './pages/stores/supply rejects/supply-rejects-list';
+import { SupplyRejectsList } from './pages/suppliers/supply rejects/supply-rejects-list';
 import { InterstoreTransferList } from './pages/stores/interstore transfer/interstore-transfer-list';
 import { StoreStocksList } from './pages/stores/store stocks/store-stocks-list';
 import { StoreItemsList } from './pages/stores/store items/store-items-list';
@@ -96,7 +96,26 @@ import { StoreStockTakingsList } from './pages/stores/store stock takings/store-
 import { StoreStockMovementsList } from './pages/stores/store stock movements/store-stock-movements-list';
 import { StoreStockMovementTypesList } from './pages/stores/store stock movement types/store-stock-movement-types-list';
 
+/* ============ CUSTOMERS MODULE ============ */
+import { CustomerBillingList } from './pages/customers/customer billings/customer-billings-list';
+import { CustomerInvoiceList } from './pages/customers/customer invoices/customer-invoices-list';
+import { CustomerPaymentList } from './pages/customers/customer payments/customer-payments-list';
+import { CustomerTypeList } from './pages/customers/customer types/customer-types-list';
+import { CustomerList } from './pages/customers/customers/customers-list';
+import { CustomerMilkRateList } from './pages/customers/customer milk rates/customer-milk-rates-list';
+
+/* ============ SUPPLIERS MODULE ============ */
+import { SupplierCategoryList } from './pages/suppliers/supplier categories/supplier-categories-list';
+import { SuppliersList } from './pages/suppliers/suppliers/suppliers-list';
+import { SupplierBankAccountList } from './pages/suppliers/supplier bank accounts/supplier-bank-accounts-list';
+import { SupplierContactList } from './pages/suppliers/supplier contacts/supplier-contacts-list';
+import { SupplierDocumentList } from './pages/suppliers/supplier documents/supplier-documents-list';
+import { SupplierQuoteList } from './pages/suppliers/supplier quotes/supplier-quotes-list';
+import { PurchaseOrdersList } from './pages/suppliers/purchase orders/purchase-orders-list';
+import { PurchaseRequisitionList } from './pages/suppliers/purchase requisitions/purchase-requisitions-list';
+
 const App = () => {
+
   return (
     <Admin
       layout={Layout}
@@ -185,6 +204,24 @@ const App = () => {
       <Resource name="store-stock-takings" list={StoreStockTakingsList} />
       <Resource name="store-stock-movements" list={StoreStockMovementsList} />
       <Resource name="store-stock-movement-types" list={StoreStockMovementTypesList} />
+
+      {/* Customers Module */}
+      <Resource name="customer-billings" list={CustomerBillingList} />
+      <Resource name="customer-invoices" list={CustomerInvoiceList} />
+      <Resource name="customer-payments" list={CustomerPaymentList} />
+      <Resource name="customer-types" list={CustomerTypeList} />
+      <Resource name="customers" list={CustomerList} />
+      <Resource name="customer-milk-rates" list={CustomerMilkRateList} />
+
+      {/* Suppliers Module */}
+      <Resource name="supplier-categories" list={SupplierCategoryList} />
+      <Resource name="suppliers" list={SuppliersList} />
+      <Resource name="supplier-bank-accounts" list={SupplierBankAccountList} />
+      <Resource name="supplier-contacts" list={SupplierContactList} />
+      <Resource name="supplier-documents" list={SupplierDocumentList} />
+      <Resource name="supplier-quotes" list={SupplierQuoteList} />
+      <Resource name="purchase-orders" list={PurchaseOrdersList} />
+      <Resource name="purchase-requisitions" list={PurchaseRequisitionList} />
 
       {/* Admin Module */}
       <Resource name="licence" list={LicenceList} />

@@ -1,24 +1,16 @@
-import { List, DataTable, DateField, NumberField, BooleanField, EditButton, DeleteButton } from "react-admin";
+import { List, DataTable, NumberField, EditButton, DeleteButton } from "react-admin";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 
-export const SuppliesList = () => (
-    <List title="Supplies">
+export const CustomerBillingList = () => (
+    <List title="Customer Billings">
         <DataTable>
-            <DataTable.Col source="Reference" label="Reference" />
-            <DataTable.Col source="SuppliedDate" label="Supplied Date">
-                <DateField source="SuppliedDate" />
-            </DataTable.Col>
-            <DataTable.Col source="VendorName" label="Vendor Name" />
-            <DataTable.Col source="StoreName" label="Store" />
-            <DataTable.Col source="ItemCount" label="Items">
-                <NumberField source="ItemCount" />
+            <DataTable.Col source="PayDateRangeName" label="Billing Period" />
+            <DataTable.Col source="TotalDeliveries" label="Total Deliveries">
+                <NumberField source="TotalDeliveries" />
             </DataTable.Col>
             <DataTable.Col source="TotalAmount" label="Total Amount">
                 <NumberField source="TotalAmount" />
-            </DataTable.Col>
-            <DataTable.Col source="Settled" label="Settled">
-                <BooleanField source="Settled" />
             </DataTable.Col>
             <DataTable.Col label="Actions">
                 <EditButton

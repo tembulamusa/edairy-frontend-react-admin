@@ -110,6 +110,10 @@ import { CustomerTypeList } from './pages/customers/customer types/customer-type
 import { CustomerList } from './pages/customers/customers/customers-list';
 import { CustomerMilkRateList } from './pages/customers/customer milk rates/customer-milk-rates-list';
 
+/* ============ Loans MODULE ============ */
+import { LoanMembersList } from './pages/loans/loan members/loan-members-list';
+import { LoanApplicationsList } from './pages/loans/loan applications/loan-applications-list';
+import { LoansList } from './pages/loans/loans/loans-list';
 /* ============ SUPPLIERS MODULE ============ */
 import { SupplierCategoryList } from './pages/suppliers/supplier categories/supplier-categories-list';
 import { SuppliersList } from './pages/suppliers/suppliers/suppliers-list';
@@ -218,6 +222,12 @@ const App = () => {
       <Resource name="customer-types" list={CustomerTypeList} />
       <Resource name="customers" list={CustomerList} />
       <Resource name="customer-milk-rates" list={CustomerMilkRateList} />
+
+      {/* Loans Module */}
+      <Resource name="loan-members" list={LoanMembersList} />
+      <Resource name="loan-applications" list={LoanApplicationsList} />
+      <Resource name="loans" list={LoansList} />
+      {/* <Resource name="organization-details" list={OrganizationDetailsList} /> */}
 
       {/* Suppliers Module */}
       <Resource name="supplier-categories" list={SupplierCategoryList} />

@@ -22,17 +22,17 @@ export const ShareDividendList = () => (
         <DataTable>
             <DataTable.Col label="Member">
                 <FunctionField
-                    render={(record: ShareDividendRecord) => formatMember(record?.FirstName, record?.LastName, record?.MemberNo)}
+                    render={(record: ShareDividendRecord) => formatMember(record?.first_name, record?.last_name, record?.member_no)}
                 />
             </DataTable.Col>
-            <DataTable.Col source="FiscalYear" label="Fiscal Year" />
-            <DataTable.Col source="Period" label="Period" />
-            <DataTable.Col source="CalculationType" label="Calculation Type" />
-            <DataTable.Col source="ShareUnits" label="Share Units" />
-            <DataTable.Col source="CalculationAmount" label="Calculation Amount" />
-            <DataTable.Col source="DividendAmount" label="Dividend Amount" />
-            <DataTable.Col source="IncludeInMilk" label="Include In Milk" />
-            <DataTable.Col source="Status" label="Status" />
+            <DataTable.Col source="fiscal_year" label="Fiscal Year" />
+            <DataTable.Col source="period" label="Period" />
+            <DataTable.Col source="calculation_type" label="Calculation Type" />
+            <DataTable.Col source="share_units" label="Share Units" />
+            <DataTable.Col source="calculation_amount" label="Calculation Amount" />
+            <DataTable.Col source="dividend_amount" label="Dividend Amount" />
+            <DataTable.Col source="include_in_milk" label="Include In Milk" />
+            <DataTable.Col source="status" label="Status" />
             <DataTable.Col label="Actions">
                 <EditButton />
                 <DeleteButton />

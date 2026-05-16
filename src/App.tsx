@@ -112,8 +112,30 @@ import { CustomerMilkRateList } from './pages/customers/customer milk rates/cust
 
 /* ============ Loans MODULE ============ */
 import { LoanMembersList } from './pages/loans/loan members/loan-members-list';
-import { LoanApplicationsList } from './pages/loans/loan applications/loan-applications-list';
-import { LoansList } from './pages/loans/loans/loans-list';
+import { LoansList } from './pages/loans/member loans/member-loans-list';
+/* ============ HUMAN RESOURCE MODULE ============ */
+import { EmployeesList } from './pages/human resource/employees/employees/employees-list';
+import { EmployeesDetailsList } from './pages/human resource/employees/employees-details/employees-details-list';
+import { EmployeeBankAccountsList } from './pages/human resource/employees/employee-bank-accounts/employee-bank-accounts-list';
+import { EmployeeContractDetailsList } from './pages/human resource/employees/employee-contract-details/employee-contract-details-list';
+import { EmployeeDependantsList } from './pages/human resource/employees/employee-dependants/employee-dependants-list';
+import { EmployeeDocumentsList } from './pages/human resource/employees/employee-documents/employee-documents-list';
+import { EmployeeExitDetailsList } from './pages/human resource/employees/employee-exit-details/employee-exit-details-list';
+import { EmployeeQualificationsList } from './pages/human resource/employees/employee-qualifications/employee-qualifications-list';
+import { EmployeeDeductionTypesList } from './pages/human resource/setup/employee-deduction-types-list';
+import { EmployeeLeaveTypesList } from './pages/human resource/setup/employee-leave-types-list';
+import { EmployeeTerminationCategoryList } from './pages/human resource/setup/employee-termination-category-list';
+import { EmployeeLeaveApplicationsList } from './pages/human resource/leave management/employee-leave-applications-list';
+import { EmployeeLeaveAssignmentsList } from './pages/human resource/leave management/employee-leave-assignments-list';
+import { EmployeeLeaveDetailsList } from './pages/human resource/leave management/employee-leave-details-list';
+import { EmployeeBenefitsList } from './pages/human resource/payroll/employee-benefits-list';
+import { EmployeePayrollBenefitsList } from './pages/human resource/payroll/employee-payroll-benefits-list';
+import { EmployeePayrollDeductionsList } from './pages/human resource/payroll/employee-payroll-deductions-list';
+import { EmployeePayrollReliefsList } from './pages/human resource/payroll/employee-payroll-reliefs-list';
+import { EmployeePayrollsList } from './pages/human resource/payroll/employee-payrolls-list';
+import { EmployeePayslipsList } from './pages/human resource/payroll/employee-payslips-list';
+import { EmployeeReliefsList } from './pages/human resource/payroll/employee-reliefs-list';
+import { EmployeeSalariesList } from './pages/human resource/payroll/employee-salaries-list';
 /* ============ SUPPLIERS MODULE ============ */
 import { SupplierCategoryList } from './pages/suppliers/supplier categories/supplier-categories-list';
 import { SuppliersList } from './pages/suppliers/suppliers/suppliers-list';
@@ -224,10 +246,34 @@ const App = () => {
       <Resource name="customer-milk-rates" list={CustomerMilkRateList} />
 
       {/* Loans Module */}
-      <Resource name="loan-members" list={LoanMembersList} />
-      <Resource name="loan-applications" list={LoanApplicationsList} />
+      <Resource name="loan-accounts" list={LoanMembersList} />
       <Resource name="loans" list={LoansList} />
-      {/* <Resource name="organization-details" list={OrganizationDetailsList} /> */}
+      <Resource name="loan-report" list={OrganizationDetailsList} />
+      <Resource name="loan-portfolio-report" list={OrganizationDetailsList} />
+
+      {/* Human Resource Module */}
+      <Resource name="employees" list={EmployeesList} />
+      <Resource name="employees-details" list={EmployeesDetailsList} />
+      <Resource name="employee-bank-accounts" list={EmployeeBankAccountsList} />
+      <Resource name="employee-contract-details" list={EmployeeContractDetailsList} />
+      <Resource name="employee-dependants" list={EmployeeDependantsList} />
+      <Resource name="employee-documents" list={EmployeeDocumentsList} />
+      <Resource name="employee-exit-details" list={EmployeeExitDetailsList} />
+      <Resource name="employee-qualifications" list={EmployeeQualificationsList} />
+      <Resource name="employee-deduction-types" list={EmployeeDeductionTypesList} />
+      <Resource name="employee-leave-types" list={EmployeeLeaveTypesList} />
+      <Resource name="employee-termination-categories" list={EmployeeTerminationCategoryList} />
+      <Resource name="employee-leave-applications" list={EmployeeLeaveApplicationsList} />
+      <Resource name="employee-leave-assignments" list={EmployeeLeaveAssignmentsList} />
+      <Resource name="employee-leave-details" list={EmployeeLeaveDetailsList} />
+      <Resource name="employee-benefits" list={EmployeeBenefitsList} />
+      <Resource name="employee-payroll-benefits" list={EmployeePayrollBenefitsList} />
+      <Resource name="employee-payroll-deductions" list={EmployeePayrollDeductionsList} />
+      <Resource name="employee-payroll-reliefs" list={EmployeePayrollReliefsList} />
+      <Resource name="employee-payrolls" list={EmployeePayrollsList} />
+      <Resource name="employee-payslips" list={EmployeePayslipsList} />
+      <Resource name="employee-reliefs" list={EmployeeReliefsList} />
+      <Resource name="employee-salaries" list={EmployeeSalariesList} />
 
       {/* Suppliers Module */}
       <Resource name="supplier-categories" list={SupplierCategoryList} />

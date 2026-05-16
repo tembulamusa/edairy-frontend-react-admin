@@ -4,15 +4,15 @@ import { List, DataTable, TextField, DateField, EditButton, DeleteButton } from 
 export const DocumentList = () => (
     <List title="Documents">
         <DataTable>
-            <DataTable.Col source="CreatedAt" label="Created At">
-                <DateField source="CreatedAt" />
+            <DataTable.Col source="created_at" label="Created At">
+                <DateField source="created_at" />
             </DataTable.Col>
-            <DataTable.Col source="Title" label="Title" />
-            <DataTable.Col source="DocumentType" label="Type" />
-            <DataTable.Col source="ExpiryDate" label="Expiry Date">
-                <DateField source="ExpiryDate" />
+            <DataTable.Col source="title" label="Title" />
+            <DataTable.Col source="document_type" label="Type" />
+            <DataTable.Col source="expiry_date" label="Expiry Date">
+                <DateField source="expiry_date" />
             </DataTable.Col>
-            <DataTable.Col source="File" label="File" />
+            <DataTable.Col source="file" label="File" />
             <DataTable.Col label="Actions">
                 <EditButton />
                 <DeleteButton />

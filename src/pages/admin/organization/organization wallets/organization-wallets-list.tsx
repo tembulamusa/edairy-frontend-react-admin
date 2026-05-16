@@ -9,9 +9,9 @@ export const OrganizationWalletsList = () => (
     <List title={"Organization Wallets"}>
         <DataTable>
 
-            <DataTable.Col source="WalletTypeName" label="Wallet Type" />
-            <DataTable.Col source="WalletID" label="Wallet ID" />
-            <DataTable.Col source="WalletName" label="Wallet Name" />
+            <DataTable.Col source="wallet_type_name" label="Wallet Type" />
+            <DataTable.Col source="wallet_id" label="Wallet ID" />
+            <DataTable.Col source="wallet_name" label="Wallet Name" />
 
             <DataTable.Col label="Actions">
                 <EditButton />

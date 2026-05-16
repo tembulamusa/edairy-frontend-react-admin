@@ -19,30 +19,30 @@ const getImageUrl = (thumbnail?: string) => {
 export const StoreItemsList = () => (
     <List title="Store Items">
         <DataTable>
-            <DataTable.Col source="InventoryName" label="Name" />
+            <DataTable.Col source="inventory_name" label="Name" />
             <DataTable.Col label="Item">
                 <FunctionField
                     render={(record: StoreItemRecord) => (
                         <Box display="flex" alignItems="center" gap={1}>
                             <img
-                                src={getImageUrl(record?.Thumbnail)}
-                                alt={record?.ItemName || record?.InventoryName || 'Item'}
+                                src={getImageUrl(record?.thumbnail)}
+                                alt={record?.item_name || record?.inventory_name || 'Item'}
                                 style={{ maxWidth: 40, maxHeight: 40, objectFit: 'cover' }}
                                 onError={(e) => {
                                     (e.target as HTMLImageElement).src = defaultThumbnail;
                                 }}
                             />
-                            <span>{record?.ItemName || record?.InventoryName}</span>
+                            <span>{record?.item_name || record?.inventory_name}</span>
                         </Box>
                     )}
                 />
             </DataTable.Col>
-            <DataTable.Col source="SKU" label="SKU" />
-            <DataTable.Col source="DefaultBuyingPrice" label="Buying Price" />
-            <DataTable.Col source="DefaultSellingPrice" label="Selling Price" />
-            <DataTable.Col source="DefaultSellingPriceCredit" label="Credit Price" />
-            <DataTable.Col source="ReorderPoint" label="Reorder Point" />
-            <DataTable.Col source="Status" label="Status" />
+            <DataTable.Col source="sku" label="SKU" />
+            <DataTable.Col source="default_buying_price" label="Buying Price" />
+            <DataTable.Col source="default_selling_price" label="Selling Price" />
+            <DataTable.Col source="default_selling_price_credit" label="Credit Price" />
+            <DataTable.Col source="reorder_point" label="Reorder Point" />
+            <DataTable.Col source="status" label="Status" />
             <DataTable.Col label="Actions">
                 <EditButton
                     label=""

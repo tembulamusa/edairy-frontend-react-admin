@@ -7,15 +7,15 @@ import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
 export const MilkJournalEntriesList = () => (
     <List title="Milk Journal Entries">
         <DataTable>
-            <DataTable.Col source="MemberNo" label="Member No" />
-            <DataTable.Col source="MemberName" label="Member Name" />
-            <DataTable.Col source="MilkJournalBatchID" label="Milk Journal Batch" />
-            <DataTable.Col source="RouteName" label="Route Name" />
-            <DataTable.Col source="MilkDeliveryShift" label="Milk Delivery Shift" />
+            <DataTable.Col source="member_no" label="Member No" />
+            <DataTable.Col source="member_name" label="Member Name" />
+            <DataTable.Col source="milk_journal_batch_id" label="Milk Journal Batch" />
+            <DataTable.Col source="route_name" label="Route Name" />
+            <DataTable.Col source="milk_delivery_shift" label="Milk Delivery Shift" />
             <DataTable.Col label="Status">
                 <FunctionField
                     render={(record) =>
-                        record?.Status === "CONFIRMED" ? (
+                        record?.status === "CONFIRMED" ? (
                             <CheckCircleOutlineIcon sx={{ color: "success.main" }} fontSize="small" />
                         ) : (
                             <CancelOutlinedIcon sx={{ color: "error.main" }} fontSize="small" />

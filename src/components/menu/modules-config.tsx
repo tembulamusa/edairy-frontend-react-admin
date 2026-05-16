@@ -25,6 +25,12 @@ const r = (label: string, icon?: ReactNode) => ({
     icon,
 });
 
+const s = (label: string, resource: string, icon?: ReactNode) => ({
+    label,
+    resource,
+    icon,
+});
+
 /* ============ MODULES ============ */
 export const modules: ModulesConfig = {
     Admin: {
@@ -121,6 +127,13 @@ export const modules: ModulesConfig = {
                     r("Share Transfers", <AttachMoneyIcon />),
                     r("Dividend Declarations", <AttachMoneyIcon />),
                     r("Share Dividends", <AttachMoneyIcon />),
+                ],
+            },
+            {
+                label: "Livestock",
+                items: [
+                    r("Share Types", <AttachMoneyIcon />),
+                    r("Share Accounts", <AttachMoneyIcon />),
                 ],
             },
             {
@@ -339,12 +352,10 @@ export const modules: ModulesConfig = {
             {
                 label: "Members & Loans",
                 items: [
-                    r("Loan Members", <PeopleIcon />),
-                    r("Loan Applications", <FactCheckIcon />),
+                    r("Loan Accounts", <PeopleIcon />),
                     r("Loans", <AttachMoneyIcon />),
                 ],
             },
-            ,
             {
                 label: "Organization info",
                 items: [
@@ -401,33 +412,42 @@ export const modules: ModulesConfig = {
                 items: [r("Dashboard", <DashboardIcon />)],
             },
             {
+                label: "Setup",
+                items: [
+                    r("Employee Deduction Types", <SettingsIcon />),
+                    r("Employee Leave Types", <SettingsIcon />),
+                    r("Employee Termination Categories", <FactCheckIcon />),
+                ],
+            },
+            {
                 label: "Employees",
                 items: [
                     r("Employees", <PeopleIcon />),
+                    r("Employee Bank Accounts", <AccountBalanceIcon />),
+                    r("Employee Dependants", <PeopleIcon />),
+                    r("Employee Exit Details", <ReceiptLongIcon />),
                     r("Employee Qualifications", <WorkIcon />),
-                    r("Member Bank Accounts", <AccountBalanceIcon />),
                 ],
             },
             {
                 label: "Leave Management",
                 items: [
-                    r("Leave Applications", <FactCheckIcon />),
-                    r("Leave Types", <SettingsIcon />),
+                    s("Employee Leave Applications", "employee-leave-applications", <FactCheckIcon />),
+                    s("Employee Leave Assignments", "employee-leave-assignments", <FactCheckIcon />),
+                    s("Employee Leave Details", "employee-leave-details", <FactCheckIcon />),
                 ],
             },
             {
-                label: "Jobs",
+                label: "Payroll",
                 items: [
-                    r("Job Requisitions", <WorkIcon />),
-                    r("Job Categories", <SettingsIcon />),
-                    r("Job Positions", <WorkIcon />),
-                ],
-            },
-            {
-                label: "Reports",
-                items: [
-                    r("Employee Payslip Report", <ReceiptLongIcon />),
-                    r("Employee Payrolls", <ReceiptLongIcon />),
+                    s("Employee Benefits", "employee-benefits", <AttachMoneyIcon />),
+                    s("Employee Payroll Benefits", "employee-payroll-benefits", <AttachMoneyIcon />),
+                    s("Employee Payroll Deductions", "employee-payroll-deductions", <AttachMoneyIcon />),
+                    s("Employee Payroll Reliefs", "employee-payroll-reliefs", <AttachMoneyIcon />),
+                    s("Employee Payrolls", "employee-payrolls", <AttachMoneyIcon />),
+                    s("Employee Payslips", "employee-payslips", <ReceiptLongIcon />),
+                    s("Employee Salaries", "employee-salaries", <AttachMoneyIcon />),
+                    s("Employee Reliefs", "employee-reliefs", <AttachMoneyIcon />),
                 ],
             },
         ],

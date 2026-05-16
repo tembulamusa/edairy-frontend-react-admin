@@ -14,21 +14,21 @@ const formatCurrency = (value: number | string | undefined | null) => {
 export const StoreSalesList = () => (
     <List title="Store Sales">
         <DataTable>
-            <DataTable.Col source="CreatedAt" label="Date & Time">
-                <DateField source="CreatedAt" showTime={true} options={{ hour12: false }} />
+            <DataTable.Col source="created_at" label="Date & Time">
+                <DateField source="created_at" showTime={true} options={{ hour12: false }} />
             </DataTable.Col>
-            <DataTable.Col source="Reference" label="Reference" />
-            <DataTable.Col source="StoreName" label="Store" />
-            <DataTable.Col source="SaleType" label="Sale Type" />
-            <DataTable.Col source="CustomerType" label="Customer Type" />
-            <DataTable.Col source="TotalAmount" label="Total Amount">
-                <NumberField source="TotalAmount" options={{ style: 'currency', currency: 'KES' }} />
+            <DataTable.Col source="reference" label="Reference" />
+            <DataTable.Col source="store_name" label="Store" />
+            <DataTable.Col source="sale_type" label="Sale Type" />
+            <DataTable.Col source="customer_type" label="Customer Type" />
+            <DataTable.Col source="total_amount" label="Total Amount">
+                <NumberField source="total_amount" options={{ style: 'currency', currency: 'KES' }} />
             </DataTable.Col>
-            <DataTable.Col source="AmountPaid" label="Amount Paid">
-                <NumberField source="AmountPaid" options={{ style: 'currency', currency: 'KES' }} />
+            <DataTable.Col source="amount_paid" label="Amount Paid">
+                <NumberField source="amount_paid" options={{ style: 'currency', currency: 'KES' }} />
             </DataTable.Col>
-            <DataTable.Col source="AmountDue" label="Amount Due">
-                <NumberField source="AmountDue" options={{ style: 'currency', currency: 'KES' }} />
+            <DataTable.Col source="amount_due" label="Amount Due">
+                <NumberField source="amount_due" options={{ style: 'currency', currency: 'KES' }} />
             </DataTable.Col>
         </DataTable>
     </List>

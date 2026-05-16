@@ -12,20 +12,20 @@ const formatReturnedAt = (returnedAt?: string) => {
 export const AssetAssignmentList = () => (
     <List title="Asset Assignments">
         <DataTable>
-            <DataTable.Col source="AssetName" label="Asset Name" />
-            <DataTable.Col source="AssetCode" label="Asset Code" />
-            <DataTable.Col source="AssignedToName" label="Assigned To" />
-            <DataTable.Col source="AssignedAt" label="Assigned At">
-                <DateField source="AssignedAt" />
+            <DataTable.Col source="asset_name" label="Asset Name" />
+            <DataTable.Col source="asset_code" label="Asset Code" />
+            <DataTable.Col source="assigned_to_name" label="Assigned To" />
+            <DataTable.Col source="assigned_at" label="Assigned At">
+                <DateField source="assigned_at" />
             </DataTable.Col>
             <DataTable.Col label="Returned At">
                 <FunctionField
                     render={(record: AssetAssignmentRecord) =>
-                        formatReturnedAt(record?.ReturnedAt)
+                        formatReturnedAt(record?.returned_at)
                     }
                 />
             </DataTable.Col>
-            <DataTable.Col source="Status" label="Status" />
+            <DataTable.Col source="status" label="Status" />
             <DataTable.Col label="Actions">
                 <EditButton />
                 <DeleteButton />

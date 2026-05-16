@@ -104,12 +104,12 @@ export const UserList = () => {
         <>
             <List title="Users">
                 <DataTable>
-                    <DataTable.Col source="Name" label="Name" />
+                    <DataTable.Col source="name" label="Name" />
                     <DataTable.Col label="Roles">
-                        <PreviewCell source="Roles" onOpen={handleOpen} emptyLabel="No roles" />
+                        <PreviewCell source="roles" onOpen={handleOpen} emptyLabel="No roles" />
                     </DataTable.Col>
                     <DataTable.Col label="Permissions">
-                        <PreviewCell source="Permissions" onOpen={handleOpen} emptyLabel="No permissions" />
+                        <PreviewCell source="permissions" onOpen={handleOpen} emptyLabel="No permissions" />
                     </DataTable.Col>
                 </DataTable>
             </List>

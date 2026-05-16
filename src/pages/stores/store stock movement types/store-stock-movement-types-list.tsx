@@ -5,8 +5,8 @@ import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 export const StoreStockMovementTypesList = () => (
     <List title="Store Stock Movement Types">
         <DataTable>
-            <DataTable.Col source="MovementName" label="Movement Type" />
-            <DataTable.Col source="Description" label="Description" />
+            <DataTable.Col source="movement_name" label="Movement Type" />
+            <DataTable.Col source="description" label="Description" />
             <DataTable.Col label="Actions">
                 <EditButton
                     label=""

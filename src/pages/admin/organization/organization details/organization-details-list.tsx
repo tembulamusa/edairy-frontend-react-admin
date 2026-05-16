@@ -4,15 +4,15 @@ import { List, DataTable, TextField, DateField, EditButton, DeleteButton } from 
 export const OrganizationDetailsList = () => (
     <List title="Organization Details">
         <DataTable>
-            <DataTable.Col source="CreatedAt" label="Created At">
-                <DateField source="CreatedAt" />
+            <DataTable.Col source="created_at" label="Created At">
+                <DateField source="created_at" />
             </DataTable.Col>
-            <DataTable.Col source="Name" label="Name" />
-            <DataTable.Col source="RegistrationNumber" label="Registration Number" />
-            <DataTable.Col source="TaxID" label="Tax ID" />
-            <DataTable.Col source="Address" label="Address" />
-            <DataTable.Col source="Phone" label="Phone" />
-            <DataTable.Col source="Email" label="Email" />
+            <DataTable.Col source="name" label="Name" />
+            <DataTable.Col source="registration_number" label="Registration Number" />
+            <DataTable.Col source="tax_id" label="Tax ID" />
+            <DataTable.Col source="address" label="Address" />
+            <DataTable.Col source="phone" label="Phone" />
+            <DataTable.Col source="email" label="Email" />
             <DataTable.Col label="Actions">
                 <EditButton />
                 <DeleteButton />

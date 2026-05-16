@@ -6,15 +6,15 @@ import CloseIcon from '@mui/icons-material/Close';
 export const ShareTypeList = () => (
     <List title="Share Types">
         <DataTable>
-            <DataTable.Col source="CreatedAt" label="Created At">
-                <DateField source="CreatedAt" />
+            <DataTable.Col source="created_at" label="Created At">
+                <DateField source="created_at" />
             </DataTable.Col>
-            <DataTable.Col source="Rate" label="Rate" />
-            <DataTable.Col source="ShareCode" label="Code" />
-            <DataTable.Col source="Description" label="Description" />
-            <DataTable.Col source="Mandatory" label="Mandatory">
+            <DataTable.Col source="rate" label="Rate" />
+            <DataTable.Col source="share_code" label="Code" />
+            <DataTable.Col source="description" label="Description" />
+            <DataTable.Col source="mandatory" label="Mandatory">
                 <BooleanField 
-                    source="Mandatory" 
+                    source="mandatory" 
                     TrueIcon={CheckIcon} 
                     FalseIcon={CloseIcon}
                     sx={{
@@ -23,7 +23,7 @@ export const ShareTypeList = () => (
                     }}
                 />
             </DataTable.Col>
-            <DataTable.Col source="ShareValue" label="Share Value" />
+            <DataTable.Col source="share_value" label="Share Value" />
             <DataTable.Col label="Actions">
                 <EditButton />
                 <DeleteButton />

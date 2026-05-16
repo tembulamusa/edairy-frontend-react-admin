@@ -23,29 +23,29 @@ const formatMember = (firstName?: string, lastName?: string, memberNo?: string) 
 export const ShareTransferList = () => (
     <List title="Share Transfers">
         <DataTable>
-            <DataTable.Col source="CreatedAt" label="Created At">
-                <DateField source="CreatedAt" />
+            <DataTable.Col source="created_at" label="Created At">
+                <DateField source="created_at" />
             </DataTable.Col>
-            <DataTable.Col source="TransactionDate" label="Transaction Date">
-                <DateField source="TransactionDate" />
+            <DataTable.Col source="transaction_date" label="Transaction Date">
+                <DateField source="transaction_date" />
             </DataTable.Col>
             <DataTable.Col label="From">
                 <FunctionField
-                    render={(record: ShareTransferRecord) => formatMember(record?.FromMemberFirstName, record?.FromMemberLastName, record?.FromMemberNo)}
+                    render={(record: ShareTransferRecord) => formatMember(record?.from_member_first_name, record?.from_member_last_name, record?.from_member_no)}
                 />
             </DataTable.Col>
             <DataTable.Col label="To">
                 <FunctionField
-                    render={(record: ShareTransferRecord) => formatMember(record?.ToMemberFirstName, record?.ToMemberLastName, record?.ToMemberNo)}
+                    render={(record: ShareTransferRecord) => formatMember(record?.to_member_first_name, record?.to_member_last_name, record?.to_member_no)}
                 />
             </DataTable.Col>
-            <DataTable.Col source="ShareUnits" label="Share Units" />
-            <DataTable.Col source="TransferAmount" label="Transfer Amount" />
-            <DataTable.Col source="ReferenceNo" label="Reference No" />
-            <DataTable.Col source="Status" label="Status" />
-            <DataTable.Col source="ApprovedByUserName" label="Approved By User" />
-            <DataTable.Col source="DateApproved" label="Date Approved">
-                <DateField source="DateApproved" />
+            <DataTable.Col source="share_units" label="Share Units" />
+            <DataTable.Col source="transfer_amount" label="Transfer Amount" />
+            <DataTable.Col source="reference_no" label="Reference No" />
+            <DataTable.Col source="status" label="Status" />
+            <DataTable.Col source="approved_by_user_name" label="Approved By User" />
+            <DataTable.Col source="date_approved" label="Date Approved">
+                <DateField source="date_approved" />
             </DataTable.Col>
             <DataTable.Col label="Actions">
                 <EditButton />

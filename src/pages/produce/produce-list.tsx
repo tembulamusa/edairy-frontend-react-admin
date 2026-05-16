@@ -5,9 +5,9 @@ import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 export const createProduceList = (title: string) => () => (
     <List title={title}>
         <DataTable>
-            <DataTable.Col source="ID" label="ID" />
-            <DataTable.Col source="Name" label="Name" />
-            <DataTable.Col source="CreatedAt" label="Created At" />
+            <DataTable.Col source="id" label="ID" />
+            <DataTable.Col source="name" label="Name" />
+            <DataTable.Col source="created_at" label="Created At" />
             <DataTable.Col label="Actions">
                 <EditButton
                     label=""

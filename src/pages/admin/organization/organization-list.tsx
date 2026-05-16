@@ -3,12 +3,12 @@ import { List, DataTable, DateField, EditButton, DeleteButton } from "react-admi
 export const createOrganizationList = (title: string) => () => (
     <List title={title}>
         <DataTable>
-            <DataTable.Col source="CreatedAt" label="Created At">
-                <DateField source="CreatedAt" />
+            <DataTable.Col source="created_at" label="Created At">
+                <DateField source="created_at" />
             </DataTable.Col>
-            <DataTable.Col source="Name" label="Name" />
-            <DataTable.Col source="Description" label="Description" />
-            <DataTable.Col source="Status" label="Status" />
+            <DataTable.Col source="name" label="Name" />
+            <DataTable.Col source="description" label="Description" />
+            <DataTable.Col source="status" label="Status" />
             <DataTable.Col label="Actions">
                 <EditButton />
                 <DeleteButton />

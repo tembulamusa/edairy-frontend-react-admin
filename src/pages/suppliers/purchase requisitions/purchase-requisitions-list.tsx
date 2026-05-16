@@ -29,12 +29,12 @@ const formatRequisitionDate = (value?: string) => {
 export const PurchaseRequisitionList = () => (
     <List title="Purchase Requisitions">
         <DataTable>
-            <DataTable.Col source="RequisitionNo" label="Requisition No" />
-            <DataTable.Col source="RequisitionDate" label="Requisition Date">
-                <DateField source="RequisitionDate" />
+            <DataTable.Col source="requisition_no" label="Requisition No" />
+            <DataTable.Col source="requisition_date" label="Requisition Date">
+                <DateField source="requisition_date" />
             </DataTable.Col>
-            <DataTable.Col source="Description" label="Description" />
-            <DataTable.Col source="Status" label="Status" />
+            <DataTable.Col source="description" label="Description" />
+            <DataTable.Col source="status" label="Status" />
             <DataTable.Col label="Actions">
                 <EditButton
                     label=""

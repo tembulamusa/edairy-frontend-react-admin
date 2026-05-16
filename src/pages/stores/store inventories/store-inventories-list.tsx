@@ -11,13 +11,13 @@ type StoreInventoryRecord = {
 export const StoreInventoriesList = () => (
     <List title="Store Inventories">
         <DataTable>
-            <DataTable.Col source="InventoryName" label="Inventory Name" />
-            <DataTable.Col source="CategoryName" label="Category" />
-            <DataTable.Col source="Description" label="Description" />
+            <DataTable.Col source="inventory_name" label="Inventory Name" />
+            <DataTable.Col source="category_name" label="Category" />
+            <DataTable.Col source="description" label="Description" />
             <DataTable.Col label="Active">
                 <FunctionField
                     render={(record: StoreInventoryRecord) =>
-                        record?.IsActive === 1 || record?.IsActive === true ? (
+                        record?.is_active === 1 || record?.is_active === true ? (
                             <CheckCircleOutlineIcon sx={{ color: "success.main" }} fontSize="small" />
                         ) : (
                             <CancelOutlinedIcon sx={{ color: "error.main" }} fontSize="small" />

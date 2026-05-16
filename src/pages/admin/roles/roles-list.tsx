@@ -32,7 +32,7 @@ const PermissionPreview = ({
     onOpen: (record: RoleRecord) => void;
 }) => {
     const record = useRecordContext<RoleRecord>();
-    const permissions = (record?.Permissions || []).map(getPermissionName).filter(Boolean);
+    const permissions = (record?.permissions || []).map(getPermissionName).filter(Boolean);
 
     if (!record) return null;
 
@@ -92,7 +92,7 @@ export const RoleList = () => {
         <>
             <List title="Roles">
                 <DataTable>
-                    <DataTable.Col source="Name" label="Name" />
+                    <DataTable.Col source="name" label="Name" />
                     <DataTable.Col label="Permissions">
                         <PermissionPreview onOpen={handleOpen} />
                     </DataTable.Col>

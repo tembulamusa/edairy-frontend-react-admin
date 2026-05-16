@@ -11,16 +11,16 @@ type CoolerMilkCollectionRecord = {
 export const CoolerMilkCollectionList = () => (
     <List title="Cooler Milk Collection">
         <DataTable>
-            <DataTable.Col source="TransactionDate" label="Transaction Date">
-                <DateField source="TransactionDate" />
+            <DataTable.Col source="transaction_date" label="Transaction Date">
+                <DateField source="transaction_date" />
             </DataTable.Col>
-            <DataTable.Col source="Quantity" label="Quantity" />
-            <DataTable.Col source="VehicleRegNo" label="Vehicle Reg No" />
-            <DataTable.Col source="MilkDeliveryShift" label="Milk Delivery Shift" />
+            <DataTable.Col source="quantity" label="Quantity" />
+            <DataTable.Col source="vehicle_reg_no" label="Vehicle Reg No" />
+            <DataTable.Col source="milk_delivery_shift" label="Milk Delivery Shift" />
             <DataTable.Col label="Confirmed">
                 <FunctionField
                     render={(record: CoolerMilkCollectionRecord) =>
-                        record?.Confirmed === 1 || record?.Confirmed === true ? (
+                        record?.confirmed === 1 || record?.confirmed === true ? (
                             <CheckCircleOutlineIcon sx={{ color: "success.main" }} fontSize="small" />
                         ) : (
                             <CancelOutlinedIcon sx={{ color: "error.main" }} fontSize="small" />
@@ -28,8 +28,8 @@ export const CoolerMilkCollectionList = () => (
                     }
                 />
             </DataTable.Col>
-            <DataTable.Col source="TransporterNo" label="Transporter No" />
-            <DataTable.Col source="RouteName" label="Route Name" />
+            <DataTable.Col source="transporter_no" label="Transporter No" />
+            <DataTable.Col source="route_name" label="Route Name" />
             <DataTable.Col label="Actions">
                 <EditButton
                     label=""

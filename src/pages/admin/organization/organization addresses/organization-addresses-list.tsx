@@ -4,12 +4,12 @@ export const OrganizationAddressesList = () => (
     <List title={"Organization Addresses"}>
         <DataTable>
 
-            <DataTable.Col source="AddressType" label="Type" />
-            <DataTable.Col source="City" label="City" />
-            <DataTable.Col source="Country" label="Country" />
-            <DataTable.Col source="Line1" label="Line 1" />
-            <DataTable.Col source="Line2" label="Line 2" />
-            <DataTable.Col source="State" label="State" />
+            <DataTable.Col source="address_type" label="Type" />
+            <DataTable.Col source="city" label="City" />
+            <DataTable.Col source="country" label="Country" />
+            <DataTable.Col source="line1" label="Line 1" />
+            <DataTable.Col source="line2" label="Line 2" />
+            <DataTable.Col source="state" label="State" />
             <DataTable.Col label="Actions">
                 <EditButton />
                 <DeleteButton />

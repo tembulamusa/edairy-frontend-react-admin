@@ -1,23 +1,13 @@
-import {
-    List,
-    DataTable,
-    NumberField,
-    EditButton,
-    DeleteButton
-} from "react-admin";
+import { List, DataTable, DateField, EditButton, DeleteButton } from "react-admin";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 
-export const LoansList = () => (
-    <List title="Loans">
+export const createHumanResourceList = (title: string) => () => (
+    <List title={title}>
         <DataTable>
-
-            <DataTable.Col source="Name" label="Name" />
-
-            <DataTable.Col source="CreditLimit" label="Credit Limit">
-                <NumberField source="CreditLimit" />
-            </DataTable.Col>
-
+            <DataTable.Col source="name" label="Name" />
+            <DataTable.Col source="description" label="Description" />
+            <DataTable.Col source="status" label="Status" />
             <DataTable.Col label="Actions">
                 <EditButton
                     label=""
@@ -30,7 +20,6 @@ export const LoansList = () => (
                     sx={{ minWidth: 0, p: 0.5 }}
                 />
             </DataTable.Col>
-
         </DataTable>
     </List>
 );

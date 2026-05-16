@@ -6,9 +6,9 @@ import {
 } from "react-admin";
 
 const DocumentField = ({ record }) => {
-    if (!record?.Document) return null;
+    if (!record?.document) return null;
 
-    const url = record.Document;
+    const url = record.document;
     const isImage = /\.(jpg|jpeg|png|gif|webp)$/i.test(url);
 
     return (
@@ -43,7 +43,7 @@ export const OrganizationBanksList = () => (
     <List title={"Organization Banks"}>
         <DataTable>
 
-            <DataTable.Col source="Name" label="Name" />
+            <DataTable.Col source="name" label="Name" />
             <DataTable.Col label="Actions">
                 <EditButton />
                 <DeleteButton />

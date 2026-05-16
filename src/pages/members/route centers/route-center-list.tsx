@@ -4,11 +4,11 @@ import { List, DataTable, DateField, ReferenceField, TextField, EditButton, Show
 export const RouteCenterList = () => (
     <List title="Route Centers">
         <DataTable>
-            <DataTable.Col source="CreatedAt" label="Created At">
-                <DateField source="CreatedAt" />
+            <DataTable.Col source="created_at" label="Created At">
+                <DateField source="created_at" />
             </DataTable.Col>
-            <DataTable.Col source="RouteName" label="Route" />
-            <DataTable.Col source="Center" label="Center" />
+            <DataTable.Col source="route_name" label="Route" />
+            <DataTable.Col source="center" label="Center" />
             <DataTable.Col label="Actions">
                 <EditButton />
                 <ShowButton />

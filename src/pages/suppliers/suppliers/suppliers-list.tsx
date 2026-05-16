@@ -11,24 +11,24 @@ type SupplierRecord = {
 export const SuppliersList = () => (
     <List title="Suppliers">
         <DataTable>
-            <DataTable.Col source="SupplierCode" label="Supplier Code" />
-            <DataTable.Col source="SupplierType" label="Type" />
+            <DataTable.Col source="supplier_code" label="Supplier Code" />
+            <DataTable.Col source="supplier_type" label="Type" />
             <DataTable.Col label="Name">
                 <FunctionField
                     render={(record: SupplierRecord) =>
-                        record?.SupplierType === "company"
-                            ? record.CompanyName
-                            : record.FullName
+                        record?.supplier_type === "company"
+                            ? record.company_name
+                            : record.full_name
                     }
                 />
             </DataTable.Col>
-            <DataTable.Col source="CategoryName" label="Category" />
-            <DataTable.Col source="EmailAddress" label="Email" />
-            <DataTable.Col source="PhoneNo" label="Phone" />
-            <DataTable.Col source="CurrentBalance" label="Balance">
-                <NumberField source="CurrentBalance" />
+            <DataTable.Col source="category_name" label="Category" />
+            <DataTable.Col source="email_address" label="Email" />
+            <DataTable.Col source="phone_no" label="Phone" />
+            <DataTable.Col source="current_balance" label="Balance">
+                <NumberField source="current_balance" />
             </DataTable.Col>
-            <DataTable.Col source="Status" label="Status" />
+            <DataTable.Col source="status" label="Status" />
             <DataTable.Col label="Actions">
                 <EditButton
                     label=""

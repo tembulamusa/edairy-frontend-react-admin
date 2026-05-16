@@ -12,10 +12,10 @@ export const LoanApplicationsList = () => (
     <List title="Loan Applications">
         <DataTable>
 
-            <DataTable.Col source="Name" label="Name" />
+            <DataTable.Col source="name" label="Name" />
 
-            <DataTable.Col source="CreditLimit" label="Credit Limit">
-                <NumberField source="CreditLimit" />
+            <DataTable.Col source="credit_limit" label="Credit Limit">
+                <NumberField source="credit_limit" />
             </DataTable.Col>
 
             <DataTable.Col label="Actions">

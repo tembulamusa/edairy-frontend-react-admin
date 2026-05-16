@@ -5,20 +5,20 @@ import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 export const SuppliesList = () => (
     <List title="Supplies">
         <DataTable>
-            <DataTable.Col source="Reference" label="Reference" />
-            <DataTable.Col source="SuppliedDate" label="Supplied Date">
-                <DateField source="SuppliedDate" />
+            <DataTable.Col source="reference" label="Reference" />
+            <DataTable.Col source="supplied_date" label="Supplied Date">
+                <DateField source="supplied_date" />
             </DataTable.Col>
-            <DataTable.Col source="VendorName" label="Vendor Name" />
-            <DataTable.Col source="StoreName" label="Store" />
-            <DataTable.Col source="ItemCount" label="Items">
-                <NumberField source="ItemCount" />
+            <DataTable.Col source="vendor_name" label="Vendor Name" />
+            <DataTable.Col source="store_name" label="Store" />
+            <DataTable.Col source="item_count" label="Items">
+                <NumberField source="item_count" />
             </DataTable.Col>
-            <DataTable.Col source="TotalAmount" label="Total Amount">
-                <NumberField source="TotalAmount" />
+            <DataTable.Col source="total_amount" label="Total Amount">
+                <NumberField source="total_amount" />
             </DataTable.Col>
-            <DataTable.Col source="Settled" label="Settled">
-                <BooleanField source="Settled" />
+            <DataTable.Col source="settled" label="Settled">
+                <BooleanField source="settled" />
             </DataTable.Col>
             <DataTable.Col label="Actions">
                 <EditButton

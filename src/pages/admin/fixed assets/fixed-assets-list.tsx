@@ -3,15 +3,15 @@ import { BooleanField, DataTable, DateField, List } from 'react-admin';
 export const FixedAssetList = () => (
     <List>
         <DataTable>
-            <DataTable.Col source="AssetCode" />
-            <DataTable.Col source="AssetName" />
-            <DataTable.Col source="SerialNo" />
+            <DataTable.Col source="asset_code" />
+            <DataTable.Col source="asset_name" />
+            <DataTable.Col source="serial_no" />
 
-            <DataTable.Col source="CategoryName" />
+            <DataTable.Col source="category_name" />
 
-            <DataTable.NumberCol source="BookValue" />
-            <DataTable.Col source="CurrentLocation" />
-            <DataTable.Col source="Status" />
+            <DataTable.NumberCol source="book_value" />
+            <DataTable.Col source="current_location" />
+            <DataTable.Col source="status" />
         </DataTable>
     </List>
 );

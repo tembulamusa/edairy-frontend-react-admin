@@ -4,9 +4,9 @@ export const AssetCategoryList = () => (
     <List title="Asset Categories">
         <DataTable>
 
-            <DataTable.Col source="Name" label="Name" />
-            <DataTable.Col source="Description" label="Description" />
-            <DataTable.Col source="AssetCount" label="Asset Count" />
+            <DataTable.Col source="name" label="Name" />
+            <DataTable.Col source="description" label="Description" />
+            <DataTable.Col source="asset_count" label="Asset Count" />
             <DataTable.Col label="Actions">
                 <EditButton />
                 <DeleteButton />

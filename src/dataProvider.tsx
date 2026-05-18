@@ -201,7 +201,7 @@ export const dataProvider: DataProvider = {
     return {
       data: {
         ...data,
-        id: data.id,
+        id: data?.ID || data?.Id || data?.id,
       },
     };
   },

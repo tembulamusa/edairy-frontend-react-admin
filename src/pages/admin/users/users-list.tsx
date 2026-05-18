@@ -8,7 +8,9 @@ import {
     EditButton,
     DeleteButton,
     PasswordInput,
+    useResourceContext,
 } from "react-admin";
+import Tooltip from '@mui/material/Tooltip';
 import {
     Dialog,
     DialogTitle,
@@ -21,6 +23,7 @@ import {
     Divider,
 } from "@mui/material";
 import { CreateButton } from "../../../components/forms/FormUtils";
+import { useCan } from "../../../components/permissions/user-can";
 
 type NamedItem = {
     Name?: string;
@@ -88,6 +91,11 @@ const PreviewCell = ({
 };
 
 export const UserList = () => {
+    const can = useCan();
+    const resource = useResourceContext() ?? "none";
+    const canEdit = can(resource, "update");
+    const canDelete = can(resource, "delete");
+    const canCreate = can(resource, "create");
     const [open, setOpen] = useState(false);
     const [selectedUser, setSelectedUser] = useState<UserRecord | null>(null);
 
@@ -112,7 +120,7 @@ export const UserList = () => {
 
     return (
         <>
-            <List 
+            <List
                 title="Users"
                 actions={
                     <CreateButton resource="users" title="User">
@@ -131,8 +139,26 @@ export const UserList = () => {
                         <PreviewCell source="permissions" onOpen={handleOpen} emptyLabel="No permissions" />
                     </DataTable.Col>
                     <DataTable.Col label="Actions">
-                        <EditButton />
-                        <DeleteButton />
+                        {canEdit && (
+                            <Tooltip title="Edit Record">
+                                <span>
+                                    <EditButton label={false} />
+                                </span>
+                            </Tooltip>
+                        )}
+
+                        {canDelete && (
+                            <Tooltip title="Delete Record">
+                                <span>
+                                    <DeleteButton
+                                        label={false}
+                                        mutationMode="pessimistic"
+                                        confirmTitle="⚠️ Confirm deletion"
+                                        confirmContent="This will permanently remove the record."
+                                    />
+                                </span>
+                            </Tooltip>
+                        )}
                     </DataTable.Col>
                 </DataTable>
             </List>

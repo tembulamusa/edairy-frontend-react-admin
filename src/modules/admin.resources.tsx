@@ -33,15 +33,15 @@ import { OrganizationWalletsList } from '../pages/admin/organization/organizatio
 import { PaymentTypeList } from '../pages/admin/payment types/payment-types-list';
 import { RelationshipList } from '../pages/admin/relationships/relationships-list';
 import { LocationList } from '../pages/admin/locations/locations-list';
+import { RoleEdit } from '../pages/admin/roles/edit';
 
 export const adminResources = [
     <Resource key="licence" name="licence" list={LicenceList} />,
     <Resource key="activity-logs" name="activity-logs" list={ListGuesser} />,
     <Resource key="permissions" name="permissions" list={PermissionList} />,
-    <Resource key="roles" name="roles" list={RoleList} />,
+    <Resource key="roles" name="roles" list={RoleList} edit={RoleEdit} />,
     <Resource key="users" name="users" list={UserList} />,
     <Resource key="user-contact-details" name="user-contact-details" list={UserContactDetailList} />,
-
     <Resource key="asset-registers" name="asset-registers" list={AssetRegisterList} />,
     <Resource key="asset-softwares" name="asset-softwares" list={AssetSoftwareList} />,
     <Resource key="fixed-assets" name="fixed-assets" list={FixedAssetList} />,

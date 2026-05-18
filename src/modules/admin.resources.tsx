@@ -1,4 +1,4 @@
-import { Resource } from 'react-admin';
+import { ListGuesser, Resource } from 'react-admin';
 
 /* ============ ADMIN MODULE ============ */
 import { LicenceList } from '../pages/admin/licence/licence-list';
@@ -36,7 +36,7 @@ import { LocationList } from '../pages/admin/locations/locations-list';
 
 export const adminResources = [
     <Resource key="licence" name="licence" list={LicenceList} />,
-    <Resource key="activity-logs" name="activity-logs" list={AuditLogList} />,
+    <Resource key="activity-logs" name="activity-logs" list={ListGuesser} />,
     <Resource key="permissions" name="permissions" list={PermissionList} />,
     <Resource key="roles" name="roles" list={RoleList} />,
     <Resource key="users" name="users" list={UserList} />,

@@ -2,12 +2,16 @@ import { List, DataTable, EditButton, DeleteButton, TextInput, required } from '
 import { CreateButton } from '../../../components/forms/FormUtils';
 
 export const PermissionList = () => (
-    <List 
+    <List
         title="Permissions"
         actions={
             <CreateButton resource="permissions" title="Permission">
                 <TextInput source="name" validate={required()} fullWidth />
-                <TextInput source="guard_name" fullWidth />
+                <TextInput
+                    source="guard_name"
+                    defaultValue="web"
+                    sx={{ display: 'none' }}
+                />
             </CreateButton>
         }
     >

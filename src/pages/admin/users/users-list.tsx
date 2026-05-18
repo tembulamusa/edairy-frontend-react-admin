@@ -1,5 +1,14 @@
 import { useMemo, useState } from "react";
-import { List, DataTable, useRecordContext } from "react-admin";
+import {
+    List,
+    DataTable,
+    useRecordContext,
+    TextInput,
+    required,
+    EditButton,
+    DeleteButton,
+    PasswordInput,
+} from "react-admin";
 import {
     Dialog,
     DialogTitle,
@@ -11,6 +20,7 @@ import {
     Chip,
     Divider,
 } from "@mui/material";
+import { CreateButton } from "../../../components/forms/FormUtils";
 
 type NamedItem = {
     Name?: string;
@@ -102,7 +112,16 @@ export const UserList = () => {
 
     return (
         <>
-            <List title="Users">
+            <List 
+                title="Users"
+                actions={
+                    <CreateButton resource="users" title="User">
+                        <TextInput source="name" validate={required()} fullWidth />
+                        <TextInput source="email" validate={required()} fullWidth />
+                        <PasswordInput source="password" validate={required()} fullWidth />
+                    </CreateButton>
+                }
+            >
                 <DataTable>
                     <DataTable.Col source="name" label="Name" />
                     <DataTable.Col label="Roles">
@@ -110,6 +129,10 @@ export const UserList = () => {
                     </DataTable.Col>
                     <DataTable.Col label="Permissions">
                         <PreviewCell source="permissions" onOpen={handleOpen} emptyLabel="No permissions" />
+                    </DataTable.Col>
+                    <DataTable.Col label="Actions">
+                        <EditButton />
+                        <DeleteButton />
                     </DataTable.Col>
                 </DataTable>
             </List>

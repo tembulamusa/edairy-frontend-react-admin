@@ -1,7 +1,9 @@
-import { List, DataTable, DateField, EditButton, DeleteButton, FunctionField } from 'react-admin';
+import { List, DataTable, DateField, EditButton, DeleteButton, FunctionField, TextInput, required } from 'react-admin';
+import { CreateButton } from '../../../components/forms/FormUtils';
 
 type AssetAssignmentRecord = {
     ReturnedAt?: string;
+    returned_at?: string;
 };
 
 const formatReturnedAt = (returnedAt?: string) => {
@@ -10,7 +12,16 @@ const formatReturnedAt = (returnedAt?: string) => {
 };
 
 export const AssetAssignmentList = () => (
-    <List title="Asset Assignments">
+    <List 
+        title="Asset Assignments"
+        actions={
+            <CreateButton resource="asset-assignments" title="Asset Assignment">
+                <TextInput source="asset_id" validate={required()} fullWidth />
+                <TextInput source="assigned_to_id" validate={required()} fullWidth />
+                <TextInput source="status" fullWidth />
+            </CreateButton>
+        }
+    >
         <DataTable>
             <DataTable.Col source="asset_name" label="Asset Name" />
             <DataTable.Col source="asset_code" label="Asset Code" />

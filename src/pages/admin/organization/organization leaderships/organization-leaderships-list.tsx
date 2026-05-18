@@ -3,10 +3,24 @@ import {
     DataTable,
     EditButton,
     DeleteButton,
+    TextInput,
+    required,
 } from "react-admin";
+import { CreateButton } from "../../../../components/forms/FormUtils";
 
 export const OrganizationLeadershipsList = () => (
-    <List title={"Organization Leaderships"}>
+    <List 
+        title={"Organization Leaderships"}
+        actions={
+            <CreateButton resource="organization-leaderships" title="Organization Leadership">
+                <TextInput source="first_name" validate={required()} fullWidth />
+                <TextInput source="last_name" validate={required()} fullWidth />
+                <TextInput source="position" validate={required()} fullWidth />
+                <TextInput source="status" fullWidth />
+                <TextInput source="phone" fullWidth />
+            </CreateButton>
+        }
+    >
         <DataTable>
 
             <DataTable.Col source="first_name" label="First Name" />

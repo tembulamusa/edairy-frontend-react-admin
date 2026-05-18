@@ -1,7 +1,17 @@
-import { BooleanField, DataTable, DateField, List } from 'react-admin';
+import { BooleanField, DataTable, DateField, List, TextInput, required } from 'react-admin';
+import { CreateButton } from '../../../components/forms/FormUtils';
 
 export const FixedAssetList = () => (
-    <List>
+    <List 
+        title="Fixed Assets"
+        actions={
+            <CreateButton resource="fixed-assets" title="Fixed Asset">
+                <TextInput source="asset_code" validate={required()} fullWidth />
+                <TextInput source="asset_name" validate={required()} fullWidth />
+                <TextInput source="serial_no" fullWidth />
+            </CreateButton>
+        }
+    >
         <DataTable>
             <DataTable.Col source="asset_code" />
             <DataTable.Col source="asset_name" />

@@ -1,7 +1,15 @@
-import { List, DataTable, DateField, EditButton, DeleteButton } from "react-admin";
+import { List, DataTable, DateField, EditButton, DeleteButton, TextInput } from "react-admin";
+import { CreateButton } from "../../../components/forms/FormUtils";
 
-export const createOrganizationList = (title: string) => () => (
-    <List title={title}>
+export const createOrganizationList = (title: string, resource: string) => () => (
+    <List 
+        title={title}
+        actions={<CreateButton resource={resource} title={title}>
+            <TextInput source="name" fullWidth />
+            <TextInput source="description" fullWidth multiline />
+            <TextInput source="status" fullWidth />
+        </CreateButton>}
+    >
         <DataTable>
             <DataTable.Col source="created_at" label="Created At">
                 <DateField source="created_at" />

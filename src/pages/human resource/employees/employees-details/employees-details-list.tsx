@@ -1,3 +1,3 @@
 import { createHumanResourceList } from "../../human-resource-list";
 
-export const EmployeesDetailsList = createHumanResourceList("Employees Details");
+export const EmployeesDetailsList = createHumanResourceList("Employees Details", "employees-details");

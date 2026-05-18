@@ -1,7 +1,15 @@
-import { List, DataTable, TextField, DateField, EditButton, DeleteButton } from 'react-admin';
+import { List, DataTable, TextField, DateField, EditButton, DeleteButton, TextInput, required } from 'react-admin';
+import { CreateButton } from '../../../components/forms/FormUtils';
 
 export const RelationshipList = () => (
-    <List title="Relationships">
+    <List 
+        title="Relationships"
+        actions={
+            <CreateButton resource="relationships" title="Relationship">
+                <TextInput source="name" validate={required()} fullWidth />
+            </CreateButton>
+        }
+    >
         <DataTable>
             <DataTable.Col source="id" label="ID" />
             <DataTable.Col source="created_at" label="Created At">

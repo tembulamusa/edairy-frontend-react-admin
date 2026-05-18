@@ -1,11 +1,21 @@
-import { List, DataTable, EditButton, DeleteButton, FunctionField } from "react-admin";
+import { List, DataTable, EditButton, DeleteButton, FunctionField, TextInput, required } from "react-admin";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
+import { CreateButton } from "../../../components/forms/FormUtils";
 
 export const EmployeeDeductionTypesList = () => (
-    <List title="Employee Deduction Types">
+    <List
+        title="Employee Deduction Types"
+        actions={
+            <CreateButton resource="employee-deduction-types" title="Employee Deduction Type">
+                <TextInput source="name" label="Name" validate={[required()]} fullWidth />
+                <TextInput source="description" label="Description" fullWidth />
+                <TextInput source="is_statutory" label="Statutory" fullWidth />
+            </CreateButton>
+        }
+    >
         <DataTable>
             <DataTable.Col source="name" label="Name" />
             <DataTable.Col source="description" label="Description" />

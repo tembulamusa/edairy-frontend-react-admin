@@ -234,53 +234,53 @@ export const modules: ModulesConfig = {
         ],
     },
 
-    // Supplies: {
-    //     name: "Supplies",
-    //     sections: [
-    //         {
-    //             items: [r("Dashboard", <DashboardIcon />)],
-    //         },
-    //         {
-    //             label: "Supply",
-    //             items: [
-    //                 r("Supplier Quotes", <FactCheckIcon />),
-    //                 r("Supplies", <Inventory2Icon />),
-    //                 r("Supply Rejects", <FactCheckIcon />),
-    //                 r("Purchase Orders", <FactCheckIcon />),
-    //                 r("Purchase Requisitions", <FactCheckIcon />),
-    //             ],
-    //         },
-    //         {
-    //             label: "Data Entry",
-    //             items: [
-    //                 r("POS", <StoreIcon />),
-    //                 r("Store Sales", <AttachMoneyIcon />),
-    //                 r("Inter Store Transfers", <Inventory2Icon />),
-    //                 r("Store Stocks", <Inventory2Icon />),
-    //                 r("Store Stock Takings", <FactCheckIcon />),
-    //                 r("Store Stock Movements", <Inventory2Icon />),
-    //             ],
-    //         },
-    //         {
-    //             label: "Setup",
-    //             items: [
-    //                 r("Stores", <StoreIcon />),
-    //                 r("Item Categories", <SettingsIcon />),
-    //                 r("Store Items", <Inventory2Icon />),
-    //                 r("Store Inventories", <Inventory2Icon />),
-    //                 r("Store Stock Movement Types", <Inventory2Icon />),
-    //             ],
-    //         },
-    //         {
-    //             label: "Reports",
-    //             items: [
-    //                 r("Stock", <ReceiptLongIcon />),
-    //                 r("Sales", <ReceiptLongIcon />),
-    //                 r("Rejects", <FactCheckIcon />),
-    //             ],
-    //         },
-    //     ],
-    // },
+    Stores: {
+        name: "Stores",
+        sections: [
+            {
+                items: [r("Dashboard", <DashboardIcon />)],
+            },
+            {
+                label: "Supply",
+                items: [
+                    r("Supplier Quotes", <FactCheckIcon />),
+                    r("Supplies", <Inventory2Icon />),
+                    r("Supply Rejects", <FactCheckIcon />),
+                    r("Purchase Orders", <FactCheckIcon />),
+                    r("Purchase Requisitions", <FactCheckIcon />),
+                ],
+            },
+            {
+                label: "Data Entry",
+                items: [
+                    r("POS", <StoreIcon />),
+                    r("Store Sales", <AttachMoneyIcon />),
+                    r("Inter Store Transfers", <Inventory2Icon />),
+                    r("Store Stocks", <Inventory2Icon />),
+                    r("Store Stock Takings", <FactCheckIcon />),
+                    r("Store Stock Movements", <Inventory2Icon />),
+                ],
+            },
+            {
+                label: "Setup",
+                items: [
+                    r("Stores", <StoreIcon />),
+                    r("Item Categories", <SettingsIcon />),
+                    r("Store Items", <Inventory2Icon />),
+                    r("Store Inventories", <Inventory2Icon />),
+                    r("Store Stock Movement Types", <Inventory2Icon />),
+                ],
+            },
+            {
+                label: "Reports",
+                items: [
+                    r("Stock", <ReceiptLongIcon />),
+                    r("Sales", <ReceiptLongIcon />),
+                    r("Rejects", <FactCheckIcon />),
+                ],
+            },
+        ],
+    },
 
     Customers: {
         name: "Customers",

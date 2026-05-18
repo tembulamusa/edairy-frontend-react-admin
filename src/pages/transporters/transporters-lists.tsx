@@ -1,12 +1,19 @@
 /* eslint-disable react-refresh/only-export-components */
-import { List, DataTable, FunctionField, DateField, EditButton, DeleteButton } from "react-admin";
+import { List, DataTable, FunctionField, DateField, EditButton, DeleteButton, TextInput } from "react-admin";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
+import { CreateButton } from "../../components/forms/FormUtils";
 
-const createSimpleList = (title: string) => () => (
-    <List title={title}>
+const createSimpleList = (title: string, resource: string) => () => (
+    <List 
+        title={title}
+        actions={<CreateButton resource={resource} title={title}>
+            <TextInput source="name" fullWidth />
+            <TextInput source="description" fullWidth multiline />
+        </CreateButton>}
+    >
         <DataTable>
             <DataTable.Col source="name" label="Name" />
         </DataTable>
@@ -26,7 +33,13 @@ type TransporterRecord = {
 };
 
 export const TransporterList = () => (
-    <List title="Transporters">
+    <List 
+        title="Transporters"
+        actions={<CreateButton resource="transporters" title="Transporter">
+            <TextInput source="transporter_no" fullWidth />
+            <TextInput source="status" fullWidth />
+        </CreateButton>}
+    >
         <DataTable>
             <DataTable.Col source="transporter_no" label="Transporter No">
                 <FunctionField
@@ -59,7 +72,14 @@ export const TransporterList = () => (
 );
 
 export const IndividualTransporterList = () => (
-    <List title="Individual Transporters">
+    <List 
+        title="Individual Transporters"
+        actions={<CreateButton resource="individual-transporters" title="Individual Transporter">
+            <TextInput source="first_name" fullWidth />
+            <TextInput source="last_name" fullWidth />
+            <TextInput source="primary_phone" fullWidth />
+        </CreateButton>}
+    >
         <DataTable>
             <DataTable.Col source="first_name" label="First Name" />
             <DataTable.Col source="last_name" label="Last Name" />
@@ -72,7 +92,15 @@ export const IndividualTransporterList = () => (
     </List>
 );
 export const CompanyTransporterList = () => (
-    <List title="Company Transporters">
+    <List 
+        title="Company Transporters"
+        actions={<CreateButton resource="company-transporters" title="Company Transporter">
+            <TextInput source="company_name" fullWidth />
+            <TextInput source="registration_no" fullWidth />
+            <TextInput source="contact_person_name" fullWidth />
+            <TextInput source="contact_person_phone" fullWidth />
+        </CreateButton>}
+    >
         <DataTable>
             <DataTable.Col source="company_name" label="Name" />
             <DataTable.Col source="registration_no" label="Registration Number" />
@@ -86,7 +114,14 @@ export const CompanyTransporterList = () => (
     </List>
 );
 export const TransporterVehicleList = () => (
-    <List title="Transporter Vehicles">
+    <List 
+        title="Transporter Vehicles"
+        actions={<CreateButton resource="transporter-vehicles" title="Transporter Vehicle">
+            <TextInput source="registration_no" fullWidth />
+            <TextInput source="vehicle_type" fullWidth />
+            <TextInput source="capacity_litres" fullWidth />
+        </CreateButton>}
+    >
         <DataTable>
             <DataTable.Col source="registration_no" label="Registration Number" />
             <DataTable.Col source="vehicle_type" label="Type" />
@@ -108,7 +143,15 @@ type TransporterRouteAssignmentRecord = {
 };
 
 export const TransporterRouteAssignmentList = () => (
-    <List title="Transporter Route Assignments">
+    <List 
+        title="Transporter Route Assignments"
+        actions={<CreateButton resource="transporter-route-assignments" title="Route Assignment">
+            <TextInput source="transporter_no" fullWidth />
+            <TextInput source="route_name" fullWidth />
+            <TextInput source="start_date" fullWidth />
+            <TextInput source="end_date" fullWidth />
+        </CreateButton>}
+    >
         <DataTable>
             <DataTable.Col source="transporter_no" label="Transporter No" />
             <DataTable.Col source="route_name" label="Route Name">
@@ -140,7 +183,16 @@ type TransporterDriverRecord = {
 };
 
 export const TransporterDriverList = () => (
-    <List title="Transporter Drivers">
+    <List 
+        title="Transporter Drivers"
+        actions={<CreateButton resource="transporter-drivers" title="Driver">
+            <TextInput source="first_name" fullWidth />
+            <TextInput source="last_name" fullWidth />
+            <TextInput source="driver_no" fullWidth />
+            <TextInput source="primary_phone" fullWidth />
+            <TextInput source="driving_license_no" fullWidth />
+        </CreateButton>}
+    >
         <DataTable>
             <DataTable.Col label="Name">
                 <FunctionField
@@ -170,7 +222,14 @@ type TransporterDriverAssignmentRecord = {
 };
 
 export const TransporterDriverAssignmentList = () => (
-    <List title="Transporter Driver Assignments">
+    <List 
+        title="Transporter Driver Assignments"
+        actions={<CreateButton resource="transporter-driver-assignments" title="Driver Assignment">
+            <TextInput source="driver_name" fullWidth />
+            <TextInput source="vehicle_reg_no" fullWidth />
+            <TextInput source="assignment_type" fullWidth />
+        </CreateButton>}
+    >
         <DataTable>
             <DataTable.Col source="driver_name" label="Driver Name" />
             <DataTable.Col source="vehicle_reg_no" label="Vehicle Number" />
@@ -206,7 +265,14 @@ type TransporterBenefitRecord = {
 };
 
 export const TransporterBenefitList = () => (
-    <List title="Transporter Benefits">
+    <List 
+        title="Transporter Benefits"
+        actions={<CreateButton resource="transporter-benefits" title="Benefit">
+            <TextInput source="name" fullWidth />
+            <TextInput source="rate" fullWidth />
+            <TextInput source="route_name" fullWidth />
+        </CreateButton>}
+    >
         <DataTable>
             <DataTable.Col source="name" label="Name" />
             <DataTable.Col source="rate" label="Rate" />
@@ -244,13 +310,14 @@ export const TransporterBenefitList = () => (
         </DataTable>
     </List>
 );
-export const MonthlyPayDateRangeList = createSimpleList("Monthly Pay Date Ranges");
-export const PayRateList = createSimpleList("Pay Rates");
-export const TransporterPaymentList = createSimpleList("Transporter Payments");
-export const DeductionsRecoveryList = createSimpleList("Deductions Recovery");
-export const TransporterPayrollList = createSimpleList("Transporter Payroll");
-export const TransporterDeductionList = createSimpleList("Transporter Deductions");
-export const TransportVehicleList = createSimpleList("Transport Vehicles");
-export const TransporterPayrollSummaryList = createSimpleList("Transporter Payroll Summary");
-export const TransporterPayrollBankSummaryList = createSimpleList("Transporter Payroll Bank Summary");
-export const TransporterStatementList = createSimpleList("Transporter Statement");
+export const MonthlyPayDateRangeList = createSimpleList("Monthly Pay Date Ranges", "monthly-pay-date-ranges");
+export const PayRateList = createSimpleList("Pay Rates", "pay-rates");
+export const TransporterPaymentList = createSimpleList("Transporter Payments", "transporter-payments");
+export const DeductionsRecoveryList = createSimpleList("Deductions Recovery", "deductions-recovery");
+export const TransporterPayrollList = createSimpleList("Transporter Payroll", "transporter-payroll");
+export const TransporterDeductionList = createSimpleList("Transporter Deductions", "transporter-deductions");
+export const TransportVehicleList = createSimpleList("Transport Vehicles", "transport-vehicles");
+export const TransporterPayrollSummaryList = createSimpleList("Transporter Payroll Summary", "transporter-payroll-summary");
+export const TransporterPayrollBankSummaryList = createSimpleList("Transporter Payroll Bank Summary", "transporter-payroll-bank-summary");
+export const TransporterStatementList = createSimpleList("Transporter Statement", "transporter-statement");
+

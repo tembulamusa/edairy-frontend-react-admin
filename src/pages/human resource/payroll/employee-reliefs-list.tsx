@@ -1,3 +1,3 @@
 import { createHumanResourceList } from "../human-resource-list";
 
-export const EmployeeReliefsList = createHumanResourceList("Employee Reliefs");
+export const EmployeeReliefsList = createHumanResourceList("Employee Reliefs", "employee-reliefs");

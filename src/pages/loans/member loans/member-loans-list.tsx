@@ -3,13 +3,21 @@ import {
     DataTable,
     NumberField,
     EditButton,
-    DeleteButton
+    DeleteButton,
+    TextInput,
+    required
 } from "react-admin";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import { CreateButton } from "../../../components/forms/FormUtils";
 
 export const LoansList = () => (
-    <List title="Loans">
+    <List title="Loans" actions={
+        <CreateButton resource="member-loans" title="Loan">
+            <TextInput source="name" validate={[required()]} fullWidth />
+            <TextInput source="credit_limit" validate={[required()]} fullWidth />
+        </CreateButton>
+    }>
         <DataTable>
 
             <DataTable.Col source="name" label="Name" />

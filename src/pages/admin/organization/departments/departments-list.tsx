@@ -1,8 +1,18 @@
 
-import { List, DataTable, TextField, DateField, EditButton, DeleteButton } from 'react-admin';
+import { List, DataTable, TextField, DateField, EditButton, DeleteButton, TextInput, required } from 'react-admin';
+import { CreateButton } from '../../../../components/forms/FormUtils';
 
 export const DepartmentList = () => (
-    <List title="Departments">
+    <List 
+        title="Departments"
+        actions={
+            <CreateButton resource="departments" title="Department">
+                <TextInput source="name" validate={required()} fullWidth />
+                <TextInput source="code" validate={required()} fullWidth />
+                <TextInput source="head_of_department" fullWidth />
+            </CreateButton>
+        }
+    >
         <DataTable>
             <DataTable.Col source="created_at" label="Created At">
                 <DateField source="created_at" />

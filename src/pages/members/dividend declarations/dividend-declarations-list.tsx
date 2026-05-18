@@ -1,4 +1,5 @@
-import { List, DataTable, FunctionField } from 'react-admin';
+import { List, DataTable, FunctionField, TextInput, required, EditButton, DeleteButton } from 'react-admin';
+import { CreateButton } from '../../../components/forms/FormUtils';
 
 type DividendDeclarationRecord = {
     ApprovedBy?: number;
@@ -10,7 +11,18 @@ const formatApprovedBy = (approvedBy?: number) => {
 };
 
 export const DividendDeclarationList = () => (
-    <List title="Dividend Declarations">
+    <List title="Dividend Declarations" actions={
+        <CreateButton resource="dividend-declarations" title="Dividend Declaration">
+            <TextInput source="fiscal_year" validate={[required()]} fullWidth />
+            <TextInput source="period" validate={[required()]} fullWidth />
+            <TextInput source="total_pool" validate={[required()]} fullWidth />
+            <TextInput source="rate_per_share" validate={[required()]} fullWidth />
+            <TextInput source="calculation_type" validate={[required()]} fullWidth />
+            <TextInput source="status" validate={[required()]} fullWidth />
+            <TextInput source="moses" validate={[]} fullWidth />
+
+        </CreateButton>
+    }>
         <DataTable>
             <DataTable.Col source="fiscal_year" label="Fiscal Year" />
             <DataTable.Col source="period" label="Period" />
@@ -24,6 +36,10 @@ export const DividendDeclarationList = () => (
                         formatApprovedBy(record?.approved_by)
                     }
                 />
+            </DataTable.Col>
+            <DataTable.Col label="Actions">
+                <EditButton />
+                <DeleteButton />
             </DataTable.Col>
         </DataTable>
     </List>

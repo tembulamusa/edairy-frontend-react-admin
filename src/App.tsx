@@ -1,6 +1,7 @@
 import {
   Admin,
-  Resource
+  Resource,
+  ListGuesser
 } from 'react-admin'
 
 import { dataProvider } from "./dataProvider"
@@ -287,7 +288,7 @@ const App = () => {
 
       {/* Admin Module */}
       <Resource name="licence" list={LicenceList} />
-      <Resource name="audit-logs" list={AuditLogList} />
+      <Resource name="activity-logs" list={ListGuesser} />
       <Resource name="permissions" list={PermissionList} />
       <Resource name="roles" list={RoleList} />
       <Resource name="users" list={UserList} />

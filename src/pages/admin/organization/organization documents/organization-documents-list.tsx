@@ -3,9 +3,13 @@ import {
     DataTable,
     EditButton,
     DeleteButton,
+    TextInput,
+    required,
 } from "react-admin";
+import { CreateButton } from "../../../../components/forms/FormUtils";
 
 const DocumentField = ({ record }) => {
+// ... (rest of the component)
     if (!record?.document) return null;
 
     const url = record.document;
@@ -40,7 +44,17 @@ const DocumentField = ({ record }) => {
 };
 
 export const OrganizationDocumentsList = () => (
-    <List title={"Organization Documents"}>
+    <List 
+        title={"Organization Documents"}
+        actions={
+            <CreateButton resource="organization-documents" title="Organization Document">
+                <TextInput source="document_type" validate={required()} fullWidth />
+                <TextInput source="document" validate={required()} fullWidth />
+                <TextInput source="submitted" fullWidth />
+                <TextInput source="astra_id" fullWidth />
+            </CreateButton>
+        }
+    >
         <DataTable>
 
             <DataTable.Col source="document_type" label="Type" />

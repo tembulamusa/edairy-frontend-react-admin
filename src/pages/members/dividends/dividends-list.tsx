@@ -1,5 +1,6 @@
 
-import { List, DataTable, EditButton, DeleteButton, FunctionField } from 'react-admin';
+import { List, DataTable, EditButton, DeleteButton, FunctionField, TextInput, required } from 'react-admin';
+import { CreateButton } from '../../../components/forms/FormUtils';
 
 type ShareDividendRecord = {
     MemberNo?: string;
@@ -18,7 +19,18 @@ const formatMember = (firstName?: string, lastName?: string, memberNo?: string) 
 };
 
 export const ShareDividendList = () => (
-    <List title="Share Dividends">
+    <List title="Share Dividends" actions={
+        <CreateButton resource="dividends" title="Share Dividend">
+            <TextInput source="fiscal_year" validate={[required()]} fullWidth />
+            <TextInput source="period" validate={[required()]} fullWidth />
+            <TextInput source="calculation_type" validate={[required()]} fullWidth />
+            <TextInput source="share_units" validate={[required()]} fullWidth />
+            <TextInput source="calculation_amount" validate={[required()]} fullWidth />
+            <TextInput source="dividend_amount" validate={[required()]} fullWidth />
+            <TextInput source="include_in_milk" validate={[required()]} fullWidth />
+            <TextInput source="status" validate={[required()]} fullWidth />
+        </CreateButton>
+    }>
         <DataTable>
             <DataTable.Col label="Member">
                 <FunctionField

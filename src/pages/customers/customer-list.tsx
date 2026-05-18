@@ -1,9 +1,16 @@
-import { List, DataTable, EditButton, DeleteButton } from "react-admin";
+import { List, DataTable, EditButton, DeleteButton, TextInput } from "react-admin";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import { CreateButton } from "../../components/forms/FormUtils";
 
-export const createCustomerList = (title: string) => () => (
-    <List title={title}>
+export const createCustomerList = (title: string, resource: string) => () => (
+    <List 
+        title={title}
+        actions={<CreateButton resource={resource} title={title}>
+            <TextInput source="name" fullWidth />
+            <TextInput source="description" fullWidth multiline />
+        </CreateButton>}
+    >
         <DataTable>
             <DataTable.Col source="name" label="Name" />
             <DataTable.Col source="description" label="Description" />

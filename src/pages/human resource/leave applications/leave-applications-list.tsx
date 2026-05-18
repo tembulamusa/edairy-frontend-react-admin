@@ -1,3 +1,3 @@
 import { createHumanResourceList } from "../human-resource-list";
 
-export const LeaveApplicationsList = createHumanResourceList("Leave Applications");
+export const LeaveApplicationsList = createHumanResourceList("Leave Applications", "leave-applications");

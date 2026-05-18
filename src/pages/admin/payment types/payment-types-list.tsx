@@ -1,7 +1,15 @@
-import { List, DataTable, TextField, DateField, EditButton, DeleteButton } from 'react-admin';
+import { List, DataTable, TextField, DateField, EditButton, DeleteButton, TextInput, required } from 'react-admin';
+import { CreateButton } from '../../../components/forms/FormUtils';
 
 export const PaymentTypeList = () => (
-    <List title="Payment Types">
+    <List 
+        title="Payment Types"
+        actions={
+            <CreateButton resource="payment-types" title="Payment Type">
+                <TextInput source="name" validate={required()} fullWidth />
+            </CreateButton>
+        }
+    >
         <DataTable>
             <DataTable.Col source="id" label="ID" />
             <DataTable.Col source="created_at" label="Created At">

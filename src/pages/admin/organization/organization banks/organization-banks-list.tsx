@@ -3,7 +3,10 @@ import {
     DataTable,
     EditButton,
     DeleteButton,
+    TextInput,
+    required,
 } from "react-admin";
+import { CreateButton } from "../../../../components/forms/FormUtils";
 
 const DocumentField = ({ record }) => {
     if (!record?.document) return null;
@@ -40,7 +43,14 @@ const DocumentField = ({ record }) => {
 };
 
 export const OrganizationBanksList = () => (
-    <List title={"Organization Banks"}>
+    <List 
+        title={"Organization Banks"}
+        actions={
+            <CreateButton resource="organization-banks" title="Organization Bank">
+                <TextInput source="name" validate={required()} fullWidth />
+            </CreateButton>
+        }
+    >
         <DataTable>
 
             <DataTable.Col source="name" label="Name" />

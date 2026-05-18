@@ -1,3 +1,3 @@
 import { createProduceList } from "../produce-list";
 
-export const MemberStatementList = createProduceList("Member Statement");
+export const MemberStatementList = createProduceList("Member Statement", "member-statement");

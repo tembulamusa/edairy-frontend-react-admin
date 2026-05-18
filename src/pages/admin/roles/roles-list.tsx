@@ -3,6 +3,10 @@ import {
     List,
     DataTable,
     useRecordContext,
+    TextInput,
+    required,
+    EditButton,
+    DeleteButton,
 } from "react-admin";
 import {
     Dialog,
@@ -15,6 +19,7 @@ import {
     Chip,
     Divider,
 } from "@mui/material";
+import { CreateButton } from "../../../components/forms/FormUtils";
 
 type RoleRecord = {
     Name?: string;
@@ -90,11 +95,22 @@ export const RoleList = () => {
 
     return (
         <>
-            <List title="Roles">
+            <List 
+                title="Roles"
+                actions={
+                    <CreateButton resource="roles" title="Role">
+                        <TextInput source="name" validate={required()} fullWidth />
+                    </CreateButton>
+                }
+            >
                 <DataTable>
                     <DataTable.Col source="name" label="Name" />
                     <DataTable.Col label="Permissions">
                         <PermissionPreview onOpen={handleOpen} />
+                    </DataTable.Col>
+                    <DataTable.Col label="Actions">
+                        <EditButton />
+                        <DeleteButton />
                     </DataTable.Col>
                 </DataTable>
             </List>

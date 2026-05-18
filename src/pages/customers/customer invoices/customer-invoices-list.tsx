@@ -1,9 +1,25 @@
-import { List, DataTable, DateField, NumberField, EditButton, DeleteButton } from "react-admin";
+import { List, DataTable, DateField, NumberField, EditButton, DeleteButton, TextInput, required } from "react-admin";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import { CreateButton } from "../../../components/forms/FormUtils";
 
 export const CustomerInvoiceList = () => (
-    <List title="Customer Invoices">
+    <List 
+        title="Customer Invoices"
+        actions={
+            <CreateButton resource="customer-invoices" title="Customer Invoice">
+                <TextInput source="invoice_no" label="Invoice No" validate={[required()]} fullWidth />
+                <TextInput source="customer_name" label="Customer Name" validate={[required()]} fullWidth />
+                <TextInput source="invoice_date" label="Invoice Date" validate={[required()]} fullWidth />
+                <TextInput source="due_date" label="Due Date" validate={[required()]} fullWidth />
+                <TextInput source="gross_amount" label="Gross Amount" validate={[required()]} fullWidth />
+                <TextInput source="tax_amount" label="Tax Amount" validate={[required()]} fullWidth />
+                <TextInput source="total_amount" label="Total Amount" validate={[required()]} fullWidth />
+                <TextInput source="balance" label="Balance" validate={[required()]} fullWidth />
+                <TextInput source="status" label="Status" validate={[required()]} fullWidth />
+            </CreateButton>
+        }
+    >
         <DataTable>
             <DataTable.Col source="invoice_no" label="Invoice No" />
             <DataTable.Col source="customer_name" label="Customer Name" />

@@ -1,14 +1,11 @@
 import {
-  Admin,
-  ListGuesser,
-  Resource
+  Admin
 } from 'react-admin'
 
 import { dataProvider } from "./dataProvider"
 import Layout from './Layout';
 import { authProvider } from './components/auth/auth-provider';
 import { LoginPage } from './pages/auth/login';
-import { Logo } from './components/logo';
 import { Dashboard } from './pages/dashboard';
 import { suppliersResources } from './modules/suppliers.resources';
 import { customersResources } from './modules/customers.resources';
@@ -32,7 +29,7 @@ const App = () => {
       dashboard={Dashboard}
       authProvider={authProvider}
       loginPage={LoginPage}
-      logo={Logo}
+      title="EDAIRY ERP System"
     >
       {membersResources}
       {transportersResources}

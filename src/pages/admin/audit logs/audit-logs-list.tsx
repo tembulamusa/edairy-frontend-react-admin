@@ -2,13 +2,8 @@ import { List, DataTable, DateField, EditButton, DeleteButton, TextInput, requir
 import { CreateButton } from '../../../components/forms/FormUtils';
 
 export const AuditLogList = () => (
-    <List 
+    <List
         title="Audit Logs"
-        actions={
-            <CreateButton resource="audit-logs" title="Audit Log">
-                <TextInput source="name" validate={required()} fullWidth />
-            </CreateButton>
-        }
     >
         <DataTable>
             <DataTable.Col source="id" label="ID" />

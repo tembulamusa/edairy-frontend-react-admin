@@ -44,9 +44,13 @@ export const modules: ModulesConfig = {
             },
             {
                 label: "Audit",
+<<<<<<< HEAD
                 items: [
                     r("Activity Logs", <ReceiptLongIcon />)
                 ],
+=======
+                items: [r("Activity Logs", <ReceiptLongIcon />)],
+>>>>>>> 4c9faf1b34914141e96a2cbb45f691066a390679
             },
             {
                 label: "Auth",

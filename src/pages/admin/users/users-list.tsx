@@ -106,11 +106,6 @@ export const UserList = () => {
         [selectedUser]
     );
 
-    const permissionNames = useMemo(
-        () => (selectedUser?.Permissions || selectedUser?.permissions || []).map(getItemName).filter(Boolean),
-        [selectedUser]
-    );
-
     const handleOpen = (record: UserRecord) => {
         setSelectedUser(record);
         setOpen(true);
@@ -186,9 +181,6 @@ export const UserList = () => {
                             <DataTable.Col label="Roles">
                                 <PreviewCell source="roles" onOpen={handleOpen} emptyLabel="No roles" />
                             </DataTable.Col>
-                            <DataTable.Col label="Permissions">
-                                <PreviewCell source="permissions" onOpen={handleOpen} emptyLabel="No permissions" />
-                            </DataTable.Col>
                             <DataTable.Col label="Actions">
                                 <Stack direction="row" spacing={1} alignItems="center">
                                     {canEdit && (
@@ -256,24 +248,6 @@ export const UserList = () => {
                             </Stack>
                         </div>
 
-                        <Divider />
-
-                        <div>
-                            <Typography variant="overline" color="text.secondary">
-                                Permissions
-                            </Typography>
-                            <Stack direction="row" flexWrap="wrap" gap={1} mt={1}>
-                                {permissionNames.length > 0 ? (
-                                    permissionNames.map((permission: string) => (
-                                        <Chip key={permission} label={permission} />
-                                    ))
-                                ) : (
-                                    <Typography variant="body2" color="text.secondary">
-                                        No permissions assigned.
-                                    </Typography>
-                                )}
-                            </Stack>
-                        </div>
                     </Stack>
                 </DialogContent>
                 <DialogActions>

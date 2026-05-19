@@ -81,14 +81,13 @@ export const FixedAssetForm = () => {
                 justifyContent: "center",
                 px: 2,
                 py: 3,
-                background: "#f5f7fb",
+                // background: "#f5f7fb",
                 minHeight: "100vh",
             }}
         >
             <Box
                 sx={{
                     width: "100%",
-                    maxWidth: 1100,
                 }}
             >
                 <Card

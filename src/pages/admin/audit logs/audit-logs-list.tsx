@@ -1,38 +1,15 @@
-import {
-    DataTable,
-    List,
-    useResourceContext,
-    EditButton,
-    DeleteButton,
-    CreateButton,
-    TextField,
-    NumberField,
-    ReferenceField,
-    DateField
-} from 'react-admin';
-
-import {
-    Stack,
-    Tooltip,
-    Card,
-    CardContent,
-    Typography,
-    Chip,
-    Box,
-} from '@mui/material';
+import { List, DataTable, DateField, EditButton, DeleteButton, useResourceContext, CreateButton } from 'react-admin';
+import { Box, Card, CardContent, Typography, Stack, Tooltip } from '@mui/material';
 import Grid from '@mui/material/Grid';
-
 import { useCan } from '../../../components/permissions/user-can';
 import { ListBreadcrumbs } from '../../../../ListBreadcrumbs';
 
-export const ActivityLogList = () => {
-
+export const AuditLogList = () => {
     const can = useCan();
-    const resource = useResourceContext() ?? "fixed-assets";
-
-    const canCreate = can(resource, "create");
+    const resource = useResourceContext() ?? "audit_logs";
     const canEdit = can(resource, "update");
     const canDelete = can(resource, "delete");
+    const canCreate = can(resource, "create");
 
     return (
         <Box sx={{ p: 2 }}>
@@ -57,14 +34,14 @@ export const ActivityLogList = () => {
                                 variant="h5"
                                 fontWeight="bold"
                             >
-                                Activity Logs
+                                Audit Logs
                             </Typography>
 
                             <Typography
                                 variant="body2"
                                 color="text.secondary"
                             >
-                                Activity Log Records
+                                Manage all audit logs records
                             </Typography>
                         </Grid>
 
@@ -86,7 +63,8 @@ export const ActivityLogList = () => {
 
                     <List
                         title={false}
-                        actions={false}  >
+                        actions={false}
+                    >
                         <DataTable
                             rowClick="show"
                             sx={{
@@ -96,20 +74,43 @@ export const ActivityLogList = () => {
                                 },
                             }}
                         >
-                            <DataTable.Col source="id" />
-                            <DataTable.Col source="created_at">
+                            <DataTable.Col source="id" label="ID" />
+                            <DataTable.Col source="created_at" label="Created At">
                                 <DateField source="created_at" />
                             </DataTable.Col>
+                            <DataTable.Col source="name" label="Name" />
+                            <DataTable.Col label="Actions">
+                                <Stack direction="row" spacing={1} alignItems="center">
+                                    {canEdit && (
+                                        <Tooltip title="Edit Record">
+                                            <span>
+                                                <EditButton
+                                                    label={false}
+                                                    sx={{
+                                                        minWidth: 36,
+                                                    }}
+                                                />
+                                            </span>
+                                        </Tooltip>
+                                    )}
 
-                            <DataTable.Col source="log_name" />
-                            <DataTable.Col source="description" />
-                            <DataTable.Col source="subject_type" />
-                            <DataTable.Col source="batch_uuid" />
-                            <DataTable.Col source="causer_type" />
-                            <DataTable.Col source="causer_name" />
-                            <DataTable.Col source="properties.index" />
-                            <DataTable.Col source="event" />
-
+                                    {canDelete && (
+                                        <Tooltip title="Delete Record">
+                                            <span>
+                                                <DeleteButton
+                                                    label={false}
+                                                    mutationMode="pessimistic"
+                                                    confirmTitle="⚠️ Confirm deletion"
+                                                    confirmContent="This will permanently remove the record."
+                                                    sx={{
+                                                        minWidth: 36,
+                                                    }}
+                                                />
+                                            </span>
+                                        </Tooltip>
+                                    )}
+                                </Stack>
+                            </DataTable.Col>
                         </DataTable>
                     </List>
                 </CardContent>

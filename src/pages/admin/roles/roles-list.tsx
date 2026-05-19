@@ -24,6 +24,7 @@ import {
 } from "@mui/material";
 import Grid from '@mui/material/Grid';
 import { useCan } from "../../../components/permissions/user-can";
+import { ListBreadcrumbs } from "../../../../ListBreadcrumbs";
 
 type RoleRecord = {
     Name?: string;
@@ -105,6 +106,7 @@ export const RoleList = () => {
 
     return (
         <Box sx={{ p: 2 }}>
+            <ListBreadcrumbs />
             <Card
                 sx={{
                     borderRadius: 3,
@@ -239,4 +241,3 @@ export const RoleList = () => {
         </Box>
     );
 };
-

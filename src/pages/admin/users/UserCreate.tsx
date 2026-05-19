@@ -1,14 +1,13 @@
+import * as React from 'react';
 import {
-    Edit,
+    Create,
     SimpleForm,
     TextInput,
+    PasswordInput,
     required,
     ReferenceArrayInput,
     CheckboxGroupInput,
-    Toolbar,
-    SaveButton,
-    useRedirect,
-} from "react-admin";
+} from 'react-admin';
 
 import {
     Card,
@@ -16,39 +15,16 @@ import {
     Typography,
     Divider,
     Stack,
-    Box,
-    Button,
 } from '@mui/material';
 
 import Grid from '@mui/material/Grid';
 
-const RoleEditToolbar = () => {
-    const redirect = useRedirect();
-
+export const UserCreate = () => {
     return (
-        <Toolbar sx={{ display: 'flex', justifyContent: 'space-between', backgroundColor: 'transparent', px: 0 }}>
-            <SaveButton label="Save" variant="contained" redirect="list" />
-            <Button 
-                variant="contained" 
-                sx={{ 
-                    backgroundColor: 'grey.500', 
-                    color: 'white',
-                    '&:hover': { backgroundColor: 'grey.700' } 
-                }}
-                onClick={() => redirect('/roles')}
-            >
-                Cancel
-            </Button>
-        </Toolbar>
-    );
-};
-
-export const RoleEdit = () => {
-    return (
-        <Edit
+        <Create
             title={false}
             sx={{
-                "& .RaEdit-main": {
+                "& .RaCreate-main": {
                     display: "flex",
                     justifyContent: "center",
                     padding: 2,
@@ -76,14 +52,14 @@ export const RoleEdit = () => {
                                 variant="h5"
                                 fontWeight="bold"
                             >
-                                Edit Role
+                                Create User
                             </Typography>
 
                             <Typography
                                 variant="body2"
                                 color="text.secondary"
                             >
-                                Update the role details and permissions below.
+                                Register a new user with their credentials.
                             </Typography>
                         </Grid>
                     </Grid>
@@ -91,7 +67,6 @@ export const RoleEdit = () => {
                     <Divider sx={{ mb: 4 }} />
 
                     <SimpleForm
-                        toolbar={<RoleEditToolbar />}
                         sx={{
                             "& .RaSimpleForm-toolbar": {
                                 mt: 3,
@@ -106,16 +81,30 @@ export const RoleEdit = () => {
                         <Stack spacing={3} sx={{ width: '100%' }}>
                             <TextInput
                                 source="name"
-                                label="Role Name"
+                                label="Full Name"
                                 validate={required()}
                                 variant="outlined"
                                 fullWidth
                             />
-                            
-                            <ReferenceArrayInput source="permission_ids" reference="permissions">
-                                <CheckboxGroupInput 
-                                    label="Permissions" 
-                                    optionText="name" 
+                            <TextInput
+                                source="email"
+                                label="Email Address"
+                                validate={required()}
+                                variant="outlined"
+                                fullWidth
+                            />
+                            <PasswordInput
+                                source="password"
+                                label="Password"
+                                validate={required()}
+                                variant="outlined"
+                                fullWidth
+                            />
+
+                            <ReferenceArrayInput source="role_ids" reference="roles">
+                                <CheckboxGroupInput
+                                    label="Select Roles"
+                                    optionText="name"
                                     fullWidth
                                     sx={{
                                         '& .MuiFormGroup-root': {
@@ -124,23 +113,16 @@ export const RoleEdit = () => {
                                                 xs: '1fr',
                                                 sm: '1fr 1fr',
                                                 md: '1fr 1fr 1fr',
-                                                lg: '1fr 1fr 1fr 1fr',
                                             },
                                             gap: 1,
                                         }
                                     }}
                                 />
                             </ReferenceArrayInput>
-
-                            <TextInput
-                                source="guard_name"
-                                defaultValue="web"
-                                sx={{ display: 'none' }}
-                            />
                         </Stack>
                     </SimpleForm>
                 </CardContent>
             </Card>
-        </Edit>
+        </Create>
     );
 };

@@ -1,14 +1,16 @@
+import * as React from 'react';
 import {
-    Edit,
+    Create,
     SimpleForm,
     TextInput,
     required,
-    ReferenceArrayInput,
-    CheckboxGroupInput,
     Toolbar,
     SaveButton,
+    useNotify,
     useRedirect,
-} from "react-admin";
+    ReferenceArrayInput,
+    CheckboxGroupInput,
+} from 'react-admin';
 
 import {
     Card,
@@ -22,18 +24,31 @@ import {
 
 import Grid from '@mui/material/Grid';
 
-const RoleEditToolbar = () => {
+const RoleCreateToolbar = () => {
+    const notify = useNotify();
     const redirect = useRedirect();
 
     return (
         <Toolbar sx={{ display: 'flex', justifyContent: 'space-between', backgroundColor: 'transparent', px: 0 }}>
-            <SaveButton label="Save" variant="contained" redirect="list" />
-            <Button 
-                variant="contained" 
-                sx={{ 
-                    backgroundColor: 'grey.500', 
+            <Box sx={{ display: 'flex', gap: 1 }}>
+                <SaveButton label="Save" variant="contained" redirect="list" />
+                <SaveButton
+                    label="Save and Add New"
+                    variant="contained"
+                    mutationOptions={{
+                        onSuccess: () => {
+                            notify('Role created successfully', { type: 'success' });
+                            redirect('create', 'roles');
+                        },
+                    }}
+                />
+            </Box>
+            <Button
+                variant="contained"
+                sx={{
+                    backgroundColor: 'grey.500',
                     color: 'white',
-                    '&:hover': { backgroundColor: 'grey.700' } 
+                    '&:hover': { backgroundColor: 'grey.700' }
                 }}
                 onClick={() => redirect('/roles')}
             >
@@ -43,12 +58,12 @@ const RoleEditToolbar = () => {
     );
 };
 
-export const RoleEdit = () => {
+export const RoleCreate = () => {
     return (
-        <Edit
+        <Create
             title={false}
             sx={{
-                "& .RaEdit-main": {
+                "& .RaCreate-main": {
                     display: "flex",
                     justifyContent: "center",
                     padding: 2,
@@ -76,14 +91,14 @@ export const RoleEdit = () => {
                                 variant="h5"
                                 fontWeight="bold"
                             >
-                                Edit Role
+                                Create Role
                             </Typography>
 
                             <Typography
                                 variant="body2"
                                 color="text.secondary"
                             >
-                                Update the role details and permissions below.
+                                Define a new system role and assign permissions.
                             </Typography>
                         </Grid>
                     </Grid>
@@ -91,7 +106,7 @@ export const RoleEdit = () => {
                     <Divider sx={{ mb: 4 }} />
 
                     <SimpleForm
-                        toolbar={<RoleEditToolbar />}
+                        toolbar={<RoleCreateToolbar />}
                         sx={{
                             "& .RaSimpleForm-toolbar": {
                                 mt: 3,
@@ -111,11 +126,11 @@ export const RoleEdit = () => {
                                 variant="outlined"
                                 fullWidth
                             />
-                            
+
                             <ReferenceArrayInput source="permission_ids" reference="permissions">
-                                <CheckboxGroupInput 
-                                    label="Permissions" 
-                                    optionText="name" 
+                                <CheckboxGroupInput
+                                    label="Permissions"
+                                    optionText="name"
                                     fullWidth
                                     sx={{
                                         '& .MuiFormGroup-root': {
@@ -141,6 +156,6 @@ export const RoleEdit = () => {
                     </SimpleForm>
                 </CardContent>
             </Card>
-        </Edit>
+        </Create>
     );
 };

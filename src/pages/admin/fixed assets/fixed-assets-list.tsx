@@ -22,6 +22,7 @@ import {
 import Grid from '@mui/material/Grid';
 
 import { useCan } from '../../../components/permissions/user-can';
+import { ListBreadcrumbs } from '../../../../ListBreadcrumbs';
 
 export const FixedAssetList = () => {
     const can = useCan();
@@ -33,6 +34,7 @@ export const FixedAssetList = () => {
 
     return (
         <Box sx={{ p: 2 }}>
+            <ListBreadcrumbs />
             <Card
                 sx={{
                     borderRadius: 3,
@@ -65,7 +67,18 @@ export const FixedAssetList = () => {
                         </Grid>
 
                         <Grid size={{ xs: 12, md: "auto" }}>
-                            {canCreate && <CreateButton />}
+                            {canCreate && (
+                                <CreateButton
+                                    variant="contained"
+                                    sx={{
+                                        backgroundColor: 'primary.main',
+                                        color: 'white',
+                                        '&:hover': {
+                                            backgroundColor: 'primary.dark',
+                                        },
+                                    }}
+                                />
+                            )}
                         </Grid>
                     </Grid>
 

@@ -4,6 +4,8 @@ import {
     TextInput,
     PasswordInput,
     required,
+    ReferenceArrayInput,
+    CheckboxGroupInput,
 } from 'react-admin';
 
 import {
@@ -32,7 +34,6 @@ export const UserEdit = () => {
                 elevation={3}
                 sx={{
                     borderRadius: 3,
-                    maxWidth: 600,
                     width: '100%',
                     overflow: "hidden",
                 }}
@@ -97,6 +98,25 @@ export const UserEdit = () => {
                                 variant="outlined"
                                 fullWidth
                             />
+
+                            <ReferenceArrayInput source="role_ids" reference="roles">
+                                <CheckboxGroupInput
+                                    label="Select Roles"
+                                    optionText="name"
+                                    fullWidth
+                                    sx={{
+                                        '& .MuiFormGroup-root': {
+                                            display: 'grid',
+                                            gridTemplateColumns: {
+                                                xs: '1fr',
+                                                sm: '1fr 1fr',
+                                                md: '1fr 1fr 1fr',
+                                            },
+                                            gap: 1,
+                                        }
+                                    }}
+                                />
+                            </ReferenceArrayInput>
                         </Stack>
                     </SimpleForm>
                 </CardContent>

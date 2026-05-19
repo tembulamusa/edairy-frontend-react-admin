@@ -6,9 +6,9 @@ import { PermissionList } from '../pages/admin/permissions/permissions-list';
 import { PermissionCreate } from './permission-create';
 import { PermissionEdit } from './permission-edit';
 import { RoleList } from '../pages/admin/roles/roles-list';
-import { RoleCreate } from './role-create';
+import { RoleCreate } from '../pages/admin/roles/RoleCreate';
 import { UserList } from '../pages/admin/users/users-list';
-import { UserCreate } from './user-create';
+import { UserCreate } from '../pages/admin/users/UserCreate';
 import { UserEdit } from './user-edit';
 import { UserContactDetailList } from '../pages/admin/user contact details/user-contact-details-list';
 import { AssetRegisterList } from '../pages/admin/asset registers/asset-registers-list';
@@ -51,7 +51,7 @@ export const adminResources = [
     <Resource key="user-contact-details" name="user-contact-details" list={UserContactDetailList} />,
     <Resource key="asset-registers" name="asset-registers" list={AssetRegisterList} />,
     <Resource key="asset-softwares" name="asset-softwares" list={AssetSoftwareList} />,
-    <Resource key="fixed-assets" name="fixed-assets" list={FixedAssetList}  create={FixedAssetCreate} edit={FixedAssetEdit}/>,
+    <Resource key="fixed-assets" name="fixed-assets" list={FixedAssetList} create={FixedAssetCreate} edit={FixedAssetEdit} />,
     <Resource key="asset-categories" name="asset-categories" list={AssetCategoryList} />,
     <Resource key="asset-assignments" name="asset-assignments" list={AssetAssignmentList} />,
     <Resource key="asset-depreciation-entries" name="asset-depreciation-entries" list={AssetDepreciationEntryList} />,

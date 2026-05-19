@@ -1,12 +1,16 @@
 import { useMemo, useState } from "react";
 import {
-    List,
+    ListBase,
     DataTable,
     useRecordContext,
     EditButton,
     DeleteButton,
     useResourceContext,
     CreateButton,
+    FilterButton,
+    ExportButton,
+    TextInput,
+    Pagination,
 } from "react-admin";
 import {
     Dialog,
@@ -25,6 +29,12 @@ import {
 } from "@mui/material";
 import Grid from '@mui/material/Grid';
 import { useCan } from "../../../components/permissions/user-can";
+import { ListBreadcrumbs } from "../../../../ListBreadcrumbs";
+
+const userFilters = [
+    <TextInput label="Search" source="q" alwaysOn />,
+    <TextInput label="Email" source="email" />,
+];
 
 type NamedItem = {
     Name?: string;
@@ -117,57 +127,59 @@ export const UserList = () => {
 
     return (
         <Box sx={{ p: 2 }}>
-            <Card
-                sx={{
-                    borderRadius: 3,
-                    boxShadow: 3,
-                    overflow: "hidden",
-                }}
-            >
-                <CardContent>
-                    <Grid
-                        container
-                        spacing={2}
-                        alignItems="center"
-                        justifyContent="space-between"
-                        mb={2}
-                    >
-                        <Grid size={{ xs: 12, md: 6 }}>
-                            <Typography
-                                variant="h5"
-                                fontWeight="bold"
-                            >
-                                Users
-                            </Typography>
+            <ListBase perPage={25} filters={userFilters}>
+                <ListBreadcrumbs />
+                <Card
+                    sx={{
+                        borderRadius: 3,
+                        boxShadow: 3,
+                        overflow: "hidden",
+                    }}
+                >
+                    <CardContent>
+                        <Grid
+                            container
+                            spacing={2}
+                            alignItems="center"
+                            justifyContent="space-between"
+                            mb={2}
+                        >
+                            <Grid size={{ xs: 12, md: 6 }}>
+                                <Typography
+                                    variant="h5"
+                                    fontWeight="bold"
+                                >
+                                    Users
+                                </Typography>
 
-                            <Typography
-                                variant="body2"
-                                color="text.secondary"
-                            >
-                                Manage all users records
-                            </Typography>
+                                <Typography
+                                    variant="body2"
+                                    color="text.secondary"
+                                >
+                                    Manage all users records
+                                </Typography>
+                            </Grid>
+
+                            <Grid size={{ xs: 12, md: "auto" }}>
+                                <Stack direction="row" spacing={1} alignItems="center">
+                                    <FilterButton />
+                                    {canCreate && (
+                                        <CreateButton
+                                            variant="contained"
+                                            sx={{
+                                                backgroundColor: 'primary.main',
+                                                color: 'white',
+                                                '&:hover': {
+                                                    backgroundColor: 'primary.dark',
+                                                },
+                                            }}
+                                        />
+                                    )}
+                                    <ExportButton />
+                                </Stack>
+                            </Grid>
                         </Grid>
 
-                        <Grid size={{ xs: 12, md: "auto" }}>
-                            {canCreate && (
-                                <CreateButton
-                                    variant="contained"
-                                    sx={{
-                                        backgroundColor: 'primary.main',
-                                        color: 'white',
-                                        '&:hover': {
-                                            backgroundColor: 'primary.dark',
-                                        },
-                                    }}
-                                />
-                            )}
-                        </Grid>
-                    </Grid>
-
-                    <List
-                        title={false}
-                        actions={false}
-                    >
                         <DataTable
                             rowClick="show"
                             sx={{
@@ -201,11 +213,30 @@ export const UserList = () => {
                                             <span>
                                                 <DeleteButton
                                                     label={false}
+                                                    confirmColor="error"
+                                                    variant="text"
                                                     mutationMode="pessimistic"
                                                     confirmTitle="⚠️ Confirm deletion"
                                                     confirmContent="This will permanently remove the record."
+                                                    confirmProps={{
+                                                        sx: {
+                                                            '& .RaConfirm-confirm-button': {
+                                                                color: 'error.main !important',
+                                                            },
+                                                            '& .RaConfirm-title': {
+                                                                color: 'error.main !important',
+                                                            },
+                                                            '& .RaConfirm-content': {
+                                                                color: 'error.main !important',
+                                                            },
+                                                        },
+                                                    }}
                                                     sx={{
                                                         minWidth: 36,
+                                                        color: 'error.main',
+                                                        '&:hover': {
+                                                            color: 'error.dark',
+                                                        },
                                                     }}
                                                 />
                                             </span>
@@ -214,9 +245,10 @@ export const UserList = () => {
                                 </Stack>
                             </DataTable.Col>
                         </DataTable>
-                    </List>
-                </CardContent>
-            </Card>
+                        <Pagination sx={{ mt: 2 }} />
+                    </CardContent>
+                </Card>
+            </ListBase>
 
             <Dialog open={open} onClose={handleClose} fullWidth maxWidth="md">
                 <DialogTitle>{`${selectedUser?.Name || selectedUser?.name || "User"} details`}</DialogTitle>

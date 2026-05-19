@@ -1,8 +1,21 @@
-import { List, DataTable, DateField, EditButton, DeleteButton, FunctionField, TextInput, required, useResourceContext } from 'react-admin';
-import { Box, Card, CardContent, Typography, Stack, Tooltip } from '@mui/material';
+import {
+    ListBase,
+    DataTable,
+    DateField,
+    EditButton,
+    DeleteButton,
+    FunctionField,
+    TextInput,
+    useResourceContext,
+    FilterButton,
+    ExportButton,
+    CreateButton,
+    Pagination
+} from 'react-admin';
+import { Box, Card, CardContent, Typography, Stack, Tooltip, Chip } from '@mui/material';
 import Grid from '@mui/material/Grid';
-import { CreateButton } from '../../../components/forms/FormUtils';
 import { useCan } from '../../../components/permissions/user-can';
+import { ListBreadcrumbs } from '../../../../ListBreadcrumbs';
 
 type AssetAssignmentRecord = {
     ReturnedAt?: string;
@@ -14,6 +27,10 @@ const formatReturnedAt = (returnedAt?: string) => {
     return returnedAt;
 };
 
+const assignmentFilters = [
+    <TextInput label="Search Asset" source="asset_name" alwaysOn />,
+];
+
 export const AssetAssignmentList = () => {
     const can = useCan();
     const resource = useResourceContext() ?? "asset-assignments";
@@ -23,63 +40,46 @@ export const AssetAssignmentList = () => {
 
     return (
         <Box sx={{ p: 2 }}>
-            <Card
-                sx={{
-                    borderRadius: 3,
-                    boxShadow: 3,
-                    overflow: "hidden",
-                }}
-            >
-                <CardContent>
-                    <Grid
-                        container
-                        spacing={2}
-                        alignItems="center"
-                        justifyContent="space-between"
-                        mb={2}
-                    >
-                        <Grid size={{ xs: 12, md: 6 }}>
-                            <Typography
-                                variant="h5"
-                                fontWeight="bold"
-                            >
-                                Asset Assignments
-                            </Typography>
+            <ListBase perPage={25} filters={assignmentFilters}>
+                <ListBreadcrumbs />
+                <Card
+                    sx={{
+                        borderRadius: 3,
+                        boxShadow: 3,
+                        overflow: "hidden",
+                    }}
+                >
+                    <CardContent>
+                        <Grid
+                            container
+                            spacing={2}
+                            alignItems="center"
+                            justifyContent="space-between"
+                            mb={2}
+                        >
+                            <Grid size={{ xs: 12, md: 6 }}>
+                                <Typography variant="h5" fontWeight="bold">Asset Assignments</Typography>
+                                <Typography variant="body2" color="text.secondary">Manage all asset assignments records</Typography>
+                            </Grid>
 
-                            <Typography
-                                variant="body2"
-                                color="text.secondary"
-                            >
-                                Manage all asset assignments records
-                            </Typography>
+                            <Grid size={{ xs: 12, md: "auto" }}>
+                                <Stack direction="row" spacing={1} alignItems="center">
+                                    <FilterButton />
+                                    {canCreate && (
+                                        <CreateButton
+                                            variant="contained"
+                                            sx={{
+                                                backgroundColor: 'primary.main',
+                                                color: 'white',
+                                                '&:hover': { backgroundColor: 'primary.dark' },
+                                            }}
+                                        />
+                                    )}
+                                    <ExportButton />
+                                </Stack>
+                            </Grid>
                         </Grid>
 
-                        <Grid size={{ xs: 12, md: "auto" }}>
-                            {canCreate && (
-                                <CreateButton
-                                    resource="asset-assignments"
-                                    title="Asset Assignment"
-                                    variant="contained"
-                                    sx={{
-                                        backgroundColor: 'primary.main',
-                                        color: 'white',
-                                        '&:hover': {
-                                            backgroundColor: 'primary.dark',
-                                        },
-                                    }}
-                                >
-                                    <TextInput source="asset_id" validate={required()} fullWidth />
-                                    <TextInput source="assigned_to_id" validate={required()} fullWidth />
-                                    <TextInput source="status" fullWidth />
-                                </CreateButton>
-                            )}
-                        </Grid>
-                    </Grid>
-
-                    <List
-                        title={false}
-                        actions={false}
-                    >
                         <DataTable
                             rowClick="show"
                             sx={{
@@ -123,9 +123,17 @@ export const AssetAssignmentList = () => {
                                             <span>
                                                 <DeleteButton
                                                     label={false}
+                                                    confirmColor="error"
                                                     mutationMode="pessimistic"
                                                     confirmTitle="⚠️ Confirm deletion"
                                                     confirmContent="This will permanently remove the record."
+                                                    confirmProps={{
+                                                        sx: {
+                                                            '& .RaConfirm-confirm-button': { color: 'error.main !important' },
+                                                            '& .RaConfirm-title': { color: 'error.main !important' },
+                                                            '& .RaConfirm-content': { color: 'error.main !important' },
+                                                        },
+                                                    }}
                                                     sx={{
                                                         minWidth: 36,
                                                     }}
@@ -136,9 +144,10 @@ export const AssetAssignmentList = () => {
                                 </Stack>
                             </DataTable.Col>
                         </DataTable>
-                    </List>
-                </CardContent>
-            </Card>
+                        <Pagination sx={{ mt: 2 }} />
+                    </CardContent>
+                </Card>
+            </ListBase>
         </Box>
     );
 };

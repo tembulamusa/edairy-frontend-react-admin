@@ -3,6 +3,9 @@ import {
     SimpleForm,
     TextInput,
     PasswordInput,
+    Toolbar,
+    SaveButton,
+    useRedirect,
     required,
     ReferenceArrayInput,
     CheckboxGroupInput,
@@ -14,9 +17,32 @@ import {
     Typography,
     Divider,
     Stack,
+    Box,
 } from '@mui/material';
+import Button from '@mui/material/Button';
 
 import Grid from '@mui/material/Grid';
+
+const UserEditToolbar = () => {
+    const redirect = useRedirect();
+
+    return (
+        <Toolbar sx={{ display: 'flex', justifyContent: 'space-between', backgroundColor: 'transparent', px: 0 }}>
+            <SaveButton label="Save" variant="contained" redirect="list" />
+            <Button
+                variant="contained"
+                sx={{
+                    backgroundColor: 'grey.500',
+                    color: 'white',
+                    '&:hover': { backgroundColor: 'grey.700' }
+                }}
+                onClick={() => redirect('/users')}
+            >
+                Cancel
+            </Button>
+        </Toolbar>
+    );
+};
 
 export const UserEdit = () => {
     return (
@@ -31,7 +57,7 @@ export const UserEdit = () => {
             }}
         >
             <Card
-                elevation={3}
+                elevation={0}
                 sx={{
                     borderRadius: 3,
                     width: '100%',
@@ -66,6 +92,7 @@ export const UserEdit = () => {
                     <Divider sx={{ mb: 4 }} />
 
                     <SimpleForm
+                        toolbar={<UserEditToolbar />}
                         sx={{
                             "& .RaSimpleForm-toolbar": {
                                 mt: 3,

@@ -2,6 +2,9 @@ import {
     Edit,
     SimpleForm,
     TextInput,
+    Toolbar,
+    SaveButton,
+    useRedirect,
     required,
 } from 'react-admin';
 
@@ -11,9 +14,32 @@ import {
     Typography,
     Divider,
     Stack,
+    Box,
 } from '@mui/material';
+import Button from '@mui/material/Button';
 
 import Grid from '@mui/material/Grid';
+
+const PermissionEditToolbar = () => {
+    const redirect = useRedirect();
+
+    return (
+        <Toolbar sx={{ display: 'flex', justifyContent: 'space-between', backgroundColor: 'transparent', px: 0 }}>
+            <SaveButton label="Save" variant="contained" redirect="list" />
+            <Button
+                variant="contained"
+                sx={{
+                    backgroundColor: 'grey.500',
+                    color: 'white',
+                    '&:hover': { backgroundColor: 'grey.700' }
+                }}
+                onClick={() => redirect('/permissions')}
+            >
+                Cancel
+            </Button>
+        </Toolbar>
+    );
+};
 
 export const PermissionEdit = () => {
     return (
@@ -28,7 +54,7 @@ export const PermissionEdit = () => {
             }}
         >
             <Card
-                elevation={3}
+                elevation={0}
                 sx={{
                     borderRadius: 3,
                     width: '100%',
@@ -63,6 +89,7 @@ export const PermissionEdit = () => {
                     <Divider sx={{ mb: 4 }} />
 
                     <SimpleForm
+                        toolbar={<PermissionEditToolbar />}
                         sx={{
                             "& .RaSimpleForm-toolbar": {
                                 mt: 3,

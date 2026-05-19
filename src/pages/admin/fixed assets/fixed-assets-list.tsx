@@ -1,12 +1,16 @@
 import {
     DataTable,
-    List,
+    ListBase,
     useResourceContext,
     EditButton,
     DeleteButton,
     CreateButton,
     TextField,
     NumberField,
+    FilterButton,
+    ExportButton,
+    TextInput,
+    Pagination,
 } from 'react-admin';
 
 import {
@@ -24,6 +28,11 @@ import Grid from '@mui/material/Grid';
 import { useCan } from '../../../components/permissions/user-can';
 import { ListBreadcrumbs } from '../../../../ListBreadcrumbs';
 
+const fixedAssetFilters = [
+    <TextInput label="Search Code" source="asset_code" alwaysOn />,
+    <TextInput label="Asset Name" source="asset_name" />,
+];
+
 export const FixedAssetList = () => {
     const can = useCan();
     const resource = useResourceContext() ?? "fixed-assets";
@@ -34,58 +43,59 @@ export const FixedAssetList = () => {
 
     return (
         <Box sx={{ p: 2 }}>
-            <ListBreadcrumbs />
-            <Card
-                sx={{
-                    borderRadius: 3,
-                    boxShadow: 3,
-                    overflow: "hidden",
-                }}
-            >
-                <CardContent>
-                    <Grid
-                        container
-                        spacing={2}
-                        alignItems="center"
-                        justifyContent="space-between"
-                        mb={2}
-                    >
-                        <Grid size={{ xs: 12, md: 6 }}>
-                            <Typography
-                                variant="h5"
-                                fontWeight="bold"
-                            >
-                                Fixed Assets
-                            </Typography>
+            <ListBase perPage={25} filters={fixedAssetFilters}>
+                <ListBreadcrumbs />
+                <Card
+                    sx={{
+                        borderRadius: 3,
+                        boxShadow: 3,
+                        overflow: "hidden",
+                    }}
+                >
+                    <CardContent>
+                        <Grid
+                            container
+                            spacing={2}
+                            alignItems="center"
+                            justifyContent="space-between"
+                            mb={2}
+                        >
+                            <Grid size={{ xs: 12, md: 6 }}>
+                                <Typography
+                                    variant="h5"
+                                    fontWeight="bold"
+                                >
+                                    Fixed Assets
+                                </Typography>
 
-                            <Typography
-                                variant="body2"
-                                color="text.secondary"
-                            >
-                                Manage all fixed assets records
-                            </Typography>
+                                <Typography
+                                    variant="body2"
+                                    color="text.secondary"
+                                >
+                                    Manage all fixed assets records
+                                </Typography>
+                            </Grid>
+
+                            <Grid size={{ xs: 12, md: "auto" }}>
+                                <Stack direction="row" spacing={1} alignItems="center">
+                                    <FilterButton />
+                                    {canCreate && (
+                                        <CreateButton
+                                            variant="contained"
+                                            sx={{
+                                                backgroundColor: 'primary.main',
+                                                color: 'white',
+                                                '&:hover': {
+                                                    backgroundColor: 'primary.dark',
+                                                },
+                                            }}
+                                        />
+                                    )}
+                                    <ExportButton />
+                                </Stack>
+                            </Grid>
                         </Grid>
 
-                        <Grid size={{ xs: 12, md: "auto" }}>
-                            {canCreate && (
-                                <CreateButton
-                                    variant="contained"
-                                    sx={{
-                                        backgroundColor: 'primary.main',
-                                        color: 'white',
-                                        '&:hover': {
-                                            backgroundColor: 'primary.dark',
-                                        },
-                                    }}
-                                />
-                            )}
-                        </Grid>
-                    </Grid>
-
-                    <List
-                        title={false}
-                        actions={false}
-                    >
                         <DataTable
                             rowClick="show"
                             sx={{
@@ -156,9 +166,23 @@ export const FixedAssetList = () => {
                                             <span>
                                                 <DeleteButton
                                                     label={false}
+                                                    confirmColor="error"
                                                     mutationMode="pessimistic"
                                                     confirmTitle="⚠️ Confirm deletion"
                                                     confirmContent="This will permanently remove the record."
+                                                    confirmProps={{
+                                                        sx: {
+                                                            '& .RaConfirm-confirm-button': {
+                                                                color: 'error.main !important',
+                                                            },
+                                                            '& .RaConfirm-title': {
+                                                                color: 'error.main !important',
+                                                            },
+                                                            '& .RaConfirm-content': {
+                                                                color: 'error.main !important',
+                                                            },
+                                                        },
+                                                    }}
                                                     sx={{
                                                         minWidth: 36,
                                                     }}
@@ -169,9 +193,10 @@ export const FixedAssetList = () => {
                                 </Stack>
                             </DataTable.Col>
                         </DataTable>
-                    </List>
-                </CardContent>
-            </Card>
+                        <Pagination sx={{ mt: 2 }} />
+                    </CardContent>
+                </Card>
+            </ListBase>
         </Box>
     );
 };

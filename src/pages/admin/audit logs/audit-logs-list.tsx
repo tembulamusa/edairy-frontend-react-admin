@@ -1,8 +1,24 @@
-import { List, DataTable, DateField, EditButton, DeleteButton, useResourceContext, CreateButton } from 'react-admin';
+import {
+    ListBase,
+    DataTable,
+    DateField,
+    EditButton,
+    DeleteButton,
+    useResourceContext,
+    CreateButton,
+    FilterButton,
+    ExportButton,
+    TextInput,
+    Pagination,
+} from 'react-admin';
 import { Box, Card, CardContent, Typography, Stack, Tooltip } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import { useCan } from '../../../components/permissions/user-can';
 import { ListBreadcrumbs } from '../../../../ListBreadcrumbs';
+
+const auditLogFilters = [
+    <TextInput label="Search" source="q" alwaysOn />,
+];
 
 export const AuditLogList = () => {
     const can = useCan();
@@ -13,58 +29,59 @@ export const AuditLogList = () => {
 
     return (
         <Box sx={{ p: 2 }}>
-            <ListBreadcrumbs />
-            <Card
-                sx={{
-                    borderRadius: 3,
-                    boxShadow: 3,
-                    overflow: "hidden",
-                }}
-            >
-                <CardContent>
-                    <Grid
-                        container
-                        spacing={2}
-                        alignItems="center"
-                        justifyContent="space-between"
-                        mb={2}
-                    >
-                        <Grid size={{ xs: 12, md: 6 }}>
-                            <Typography
-                                variant="h5"
-                                fontWeight="bold"
-                            >
-                                Audit Logs
-                            </Typography>
+            <ListBase perPage={25} filters={auditLogFilters}>
+                <ListBreadcrumbs />
+                <Card
+                    sx={{
+                        borderRadius: 3,
+                        boxShadow: 3,
+                        overflow: "hidden",
+                    }}
+                >
+                    <CardContent>
+                        <Grid
+                            container
+                            spacing={2}
+                            alignItems="center"
+                            justifyContent="space-between"
+                            mb={2}
+                        >
+                            <Grid size={{ xs: 12, md: 6 }}>
+                                <Typography
+                                    variant="h5"
+                                    fontWeight="bold"
+                                >
+                                    Audit Logs
+                                </Typography>
 
-                            <Typography
-                                variant="body2"
-                                color="text.secondary"
-                            >
-                                Manage all audit logs records
-                            </Typography>
+                                <Typography
+                                    variant="body2"
+                                    color="text.secondary"
+                                >
+                                    Manage all audit logs records
+                                </Typography>
+                            </Grid>
+
+                            <Grid size={{ xs: 12, md: "auto" }}>
+                                <Stack direction="row" spacing={1} alignItems="center">
+                                    <FilterButton />
+                                    {canCreate && (
+                                        <CreateButton
+                                            variant="contained"
+                                            sx={{
+                                                backgroundColor: 'primary.main',
+                                                color: 'white',
+                                                '&:hover': {
+                                                    backgroundColor: 'primary.dark',
+                                                },
+                                            }}
+                                        />
+                                    )}
+                                    <ExportButton />
+                                </Stack>
+                            </Grid>
                         </Grid>
 
-                        <Grid size={{ xs: 12, md: "auto" }}>
-                            {canCreate && (
-                                <CreateButton
-                                    variant="contained"
-                                    sx={{
-                                        backgroundColor: 'primary.main',
-                                        color: 'white',
-                                        '&:hover': {
-                                            backgroundColor: 'primary.dark',
-                                        },
-                                    }}
-                                />
-                            )}
-                        </Grid>
-                    </Grid>
-
-                    <List
-                        title={false}
-                        actions={false}
-                    >
                         <DataTable
                             rowClick="show"
                             sx={{
@@ -99,9 +116,23 @@ export const AuditLogList = () => {
                                             <span>
                                                 <DeleteButton
                                                     label={false}
+                                                    confirmColor="error"
                                                     mutationMode="pessimistic"
                                                     confirmTitle="⚠️ Confirm deletion"
                                                     confirmContent="This will permanently remove the record."
+                                                    confirmProps={{
+                                                        sx: {
+                                                            '& .RaConfirm-confirm-button': {
+                                                                color: 'error.main !important',
+                                                            },
+                                                            '& .RaConfirm-title': {
+                                                                color: 'error.main !important',
+                                                            },
+                                                            '& .RaConfirm-content': {
+                                                                color: 'error.main !important',
+                                                            },
+                                                        },
+                                                    }}
                                                     sx={{
                                                         minWidth: 36,
                                                     }}
@@ -112,9 +143,10 @@ export const AuditLogList = () => {
                                 </Stack>
                             </DataTable.Col>
                         </DataTable>
-                    </List>
-                </CardContent>
-            </Card>
+                        <Pagination sx={{ mt: 2 }} />
+                    </CardContent>
+                </Card>
+            </ListBase>
         </Box>
     );
 };

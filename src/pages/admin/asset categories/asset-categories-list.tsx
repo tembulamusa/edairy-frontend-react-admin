@@ -1,8 +1,17 @@
-import { List, DataTable, EditButton, DeleteButton, TextInput, required, useResourceContext } from 'react-admin';
+import {
+    ListBase,
+    DataTable,
+    EditButton,
+    DeleteButton,
+    useResourceContext,
+    CreateButton,
+    ExportButton,
+    Pagination,
+} from 'react-admin';
 import { Box, Card, CardContent, Typography, Stack, Tooltip } from '@mui/material';
 import Grid from '@mui/material/Grid';
-import { CreateButton } from '../../../components/forms/FormUtils';
 import { useCan } from '../../../components/permissions/user-can';
+import { ListBreadcrumbs } from '../../../../ListBreadcrumbs';
 
 export const AssetCategoryList = () => {
     const can = useCan();
@@ -13,62 +22,45 @@ export const AssetCategoryList = () => {
 
     return (
         <Box sx={{ p: 2 }}>
-            <Card
-                sx={{
-                    borderRadius: 3,
-                    boxShadow: 3,
-                    overflow: "hidden",
-                }}
-            >
-                <CardContent>
-                    <Grid
-                        container
-                        spacing={2}
-                        alignItems="center"
-                        justifyContent="space-between"
-                        mb={2}
-                    >
-                        <Grid size={{ xs: 12, md: 6 }}>
-                            <Typography
-                                variant="h5"
-                                fontWeight="bold"
-                            >
-                                Asset Categories
-                            </Typography>
+            <ListBase perPage={25}>
+                <ListBreadcrumbs />
+                <Card
+                    sx={{
+                        borderRadius: 3,
+                        boxShadow: 3,
+                        overflow: "hidden",
+                    }}
+                >
+                    <CardContent>
+                        <Grid
+                            container
+                            spacing={2}
+                            alignItems="center"
+                            justifyContent="space-between"
+                            mb={2}
+                        >
+                            <Grid size={{ xs: 12, md: 6 }}>
+                                <Typography variant="h5" fontWeight="bold">Asset Categories</Typography>
+                                <Typography variant="body2" color="text.secondary">Manage all asset categories records</Typography>
+                            </Grid>
 
-                            <Typography
-                                variant="body2"
-                                color="text.secondary"
-                            >
-                                Manage all asset categories records
-                            </Typography>
+                            <Grid size={{ xs: 12, md: "auto" }}>
+                                <Stack direction="row" spacing={1} alignItems="center">
+                                    {canCreate && (
+                                        <CreateButton
+                                            variant="contained"
+                                            sx={{
+                                                backgroundColor: 'primary.main',
+                                                color: 'white',
+                                                '&:hover': { backgroundColor: 'primary.dark' },
+                                            }}
+                                        />
+                                    )}
+                                    <ExportButton />
+                                </Stack>
+                            </Grid>
                         </Grid>
 
-                        <Grid size={{ xs: 12, md: "auto" }}>
-                            {canCreate && (
-                                <CreateButton
-                                    resource="asset-categories"
-                                    title="Asset Category"
-                                    variant="contained"
-                                    sx={{
-                                        backgroundColor: 'primary.main',
-                                        color: 'white',
-                                        '&:hover': {
-                                            backgroundColor: 'primary.dark',
-                                        },
-                                    }}
-                                >
-                                    <TextInput source="name" validate={required()} fullWidth />
-                                    <TextInput source="description" multiline fullWidth />
-                                </CreateButton>
-                            )}
-                        </Grid>
-                    </Grid>
-
-                    <List
-                        title={false}
-                        actions={false}
-                    >
                         <DataTable
                             rowClick="show"
                             sx={{
@@ -85,14 +77,7 @@ export const AssetCategoryList = () => {
                                 <Stack direction="row" spacing={1} alignItems="center">
                                     {canEdit && (
                                         <Tooltip title="Edit Record">
-                                            <span>
-                                                <EditButton
-                                                    label={false}
-                                                    sx={{
-                                                        minWidth: 36,
-                                                    }}
-                                                />
-                                            </span>
+                                            <span><EditButton label={false} sx={{ minWidth: 36 }} /></span>
                                         </Tooltip>
                                     )}
 
@@ -101,12 +86,18 @@ export const AssetCategoryList = () => {
                                             <span>
                                                 <DeleteButton
                                                     label={false}
+                                                    confirmColor="error"
                                                     mutationMode="pessimistic"
                                                     confirmTitle="⚠️ Confirm deletion"
                                                     confirmContent="This will permanently remove the record."
-                                                    sx={{
-                                                        minWidth: 36,
+                                                    confirmProps={{
+                                                        sx: {
+                                                            '& .RaConfirm-confirm-button': { color: 'error.main !important' },
+                                                            '& .RaConfirm-title': { color: 'error.main !important' },
+                                                            '& .RaConfirm-content': { color: 'error.main !important' },
+                                                        },
                                                     }}
+                                                    sx={{ minWidth: 36 }}
                                                 />
                                             </span>
                                         </Tooltip>
@@ -114,9 +105,10 @@ export const AssetCategoryList = () => {
                                 </Stack>
                             </DataTable.Col>
                         </DataTable>
-                    </List>
-                </CardContent>
-            </Card>
+                        <Pagination sx={{ mt: 2 }} />
+                    </CardContent>
+                </Card>
+            </ListBase>
         </Box>
     );
 };

@@ -91,19 +91,39 @@ export const dataProvider: DataProvider = {
   ): Promise<GetListResult> => {
     const { page = 1, perPage = 50 } = params.pagination ?? {};
 
+    const query = new URLSearchParams();
+
+    /* ================= PAGINATION ================= */
+    query.append("page", String(page));
+    query.append("size", String(perPage));
+
+    /* ================= FILTERS (NEW) ================= */
+    if (params.filter) {
+      Object.entries(params.filter).forEach(([key, value]) => {
+        if (
+          value !== undefined &&
+          value !== null &&
+          value !== ""
+        ) {
+          query.append(key, String(value));
+        }
+      });
+    }
+
     const json = await fetchJson(
-      `${apiUrl}/${resource}?page=${page}&size=${perPage}`
+      `${apiUrl}/${resource}?${query.toString()}`
     );
 
+    const items = toRecords(json.data || json.Data);
+
     return {
-      data: normalizeResourceData(resource, toRecords(json.data || json.Data)).map((item) => ({
+      data: normalizeResourceData(resource, items).map((item) => ({
         ...item,
         id: item.id,
       })),
-      total: json.total ?? toRecords(json.data || json.Data).length ?? 0,
+      total: json.total ?? items.length ?? 0,
     };
   },
-
   get: async (
     resource: string,
     params: GetListParams

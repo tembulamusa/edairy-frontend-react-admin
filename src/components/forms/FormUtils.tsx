@@ -79,14 +79,16 @@ interface CreateButtonProps {
     title: string;
     children: ReactNode;
     transform?: (data: any) => any;
+    sx?: any;
+    variant?: "contained" | "outlined" | "text";
 }
 
-export const CreateButton = ({ resource, title, children, transform }: CreateButtonProps) => {
+export const CreateButton = ({ resource, title, children, transform, sx, variant = "contained" }: CreateButtonProps) => {
     const [open, setOpen] = useState(false);
 
     return (
         <>
-            <Button variant="contained" onClick={() => setOpen(true)} sx={{ mb: 2 }}>
+            <Button variant={variant} onClick={() => setOpen(true)} sx={sx}>
                 Create {title}
             </Button>
             <CreateModal open={open} onClose={() => setOpen(false)} title={`Create ${title}`}>

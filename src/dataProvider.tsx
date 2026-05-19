@@ -81,6 +81,11 @@ const normalizeResourceData = (resource: string, items: ApiRecord[]) => {
   return items;
 };
 
+const getApiEndpoint = (resource: string) => {
+  
+  return resource;
+};
+
 /* ================= DATA PROVIDER ================= */
 
 export const dataProvider: DataProvider = {
@@ -92,7 +97,7 @@ export const dataProvider: DataProvider = {
     const { page = 1, perPage = 50 } = params.pagination ?? {};
 
     const json = await fetchJson(
-      `${apiUrl}/${resource}?page=${page}&size=${perPage}`
+      `${apiUrl}/${getApiEndpoint(resource)}?page=${page}&size=${perPage}`
     );
 
     return {
@@ -111,7 +116,7 @@ export const dataProvider: DataProvider = {
     void params;
 
     const json = await fetchJson(
-      `${apiUrl}/${resource}`
+      `${apiUrl}/${getApiEndpoint(resource)}`
     );
 
     const normalized = normalizeResourceData(resource, toRecords(json.data || json.Data || json));
@@ -130,7 +135,7 @@ export const dataProvider: DataProvider = {
     params: GetOneParams
   ): Promise<GetOneResult> => {
     const json = await fetchJson(
-      `${apiUrl}/${resource}/${params.id}`
+      `${apiUrl}/${getApiEndpoint(resource)}/${params.id}`
     );
 
     const normalized = normalizeResourceData(resource, toRecords(json.data || json.Data || json));
@@ -151,7 +156,7 @@ export const dataProvider: DataProvider = {
     const query = params.ids.map(id => `id=${id}`).join("&");
 
     const json = await fetchJson(
-      `${apiUrl}/${resource}?${query}`
+      `${apiUrl}/${getApiEndpoint(resource)}?${query}`
     );
 
     const normalized = normalizeResourceData(resource, toRecords(json.data || json.Data));
@@ -172,7 +177,7 @@ export const dataProvider: DataProvider = {
     const { page, perPage } = params.pagination;
 
     const json = await fetchJson(
-      `${apiUrl}/${resource}?${params.target}=${params.id}&page=${page}&size=${perPage}`
+      `${apiUrl}/${getApiEndpoint(resource)}?${params.target}=${params.id}&page=${page}&size=${perPage}`
     );
 
     const normalized = normalizeResourceData(resource, toRecords(json.data || json.Data));
@@ -191,7 +196,7 @@ export const dataProvider: DataProvider = {
     resource: string,
     params: CreateParams
   ): Promise<CreateResult> => {
-    const json = await fetchJson(`${apiUrl}/${resource}`, {
+    const json = await fetchJson(`${apiUrl}/${getApiEndpoint(resource)}`, {
       method: "POST",
       body: JSON.stringify(params.data),
     });
@@ -212,7 +217,7 @@ export const dataProvider: DataProvider = {
     params: UpdateParams
   ): Promise<UpdateResult> => {
     const json = await fetchJson(
-      `${apiUrl}/${resource}/${params.id}`,
+      `${apiUrl}/${getApiEndpoint(resource)}/${params.id}`,
       {
         method: "PUT",
         body: JSON.stringify(params.data),
@@ -236,7 +241,7 @@ export const dataProvider: DataProvider = {
   ): Promise<UpdateManyResult> => {
     await Promise.all(
       params.ids.map(id =>
-        fetchJson(`${apiUrl}/${resource}/${id}`, {
+        fetchJson(`${apiUrl}/${getApiEndpoint(resource)}/${id}`, {
           method: "PUT",
           body: JSON.stringify(params.data),
         })
@@ -253,7 +258,7 @@ export const dataProvider: DataProvider = {
     resource: string,
     params: DeleteParams
   ): Promise<DeleteResult> => {
-    await fetchJson(`${apiUrl}/${resource}/${params.id}`, {
+    await fetchJson(`${apiUrl}/${getApiEndpoint(resource)}/${params.id}`, {
       method: "DELETE",
     });
 
@@ -269,7 +274,7 @@ export const dataProvider: DataProvider = {
   ): Promise<DeleteManyResult> => {
     await Promise.all(
       params.ids.map(id =>
-        fetchJson(`${apiUrl}/${resource}/${id}`, {
+        fetchJson(`${apiUrl}/${getApiEndpoint(resource)}/${id}`, {
           method: "DELETE",
         })
       )

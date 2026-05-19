@@ -482,18 +482,31 @@ export const modules: ModulesConfig = {
                 items: [r("Dashboard", <DashboardIcon />)],
             },
             {
-                label: "SMS",
+                    label: "Messages",
                 items: [
-                    r("Quick SMS", <SmsIcon />),
-                    r("Inbox", <SmsIcon />),
-                    r("Outbox", <SmsIcon />),
+                        r("SMS Messages", <SmsIcon />),
+                        r("SMS Queue", <SmsIcon />),
                 ],
             },
             {
-                label: "Broadcasts",
+                label: "Campaigns",
                 items: [
-                    r("Alerts", <SmsIcon />),
-                    r("Contacts", <PeopleIcon />),
+                    r("SMS Campaigns", <SmsIcon />),
+                    r("SMS Campaign Recipients", <PeopleIcon />),
+                    r("SMS Templates", <FactCheckIcon />),
+                ],
+            },
+            {
+                label: "Contacts & Groups",
+                items: [
+                        r("SMS Contacts", <PeopleIcon />),
+                        r("SMS Groups", <PeopleIcon />),
+                    ],
+                },
+                {
+                    label: "Setup",
+                    items: [
+                        r("SMS Providers", <SettingsIcon />),
                 ],
             },
         ],

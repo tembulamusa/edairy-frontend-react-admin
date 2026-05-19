@@ -147,6 +147,17 @@ import { SupplierQuoteList } from './pages/suppliers/supplier quotes/supplier-qu
 import { PurchaseOrdersList } from './pages/suppliers/purchase orders/purchase-orders-list';
 import { PurchaseRequisitionList } from './pages/suppliers/purchase requisitions/purchase-requisitions-list';
 
+/* ============ SMS MODULE ============ */
+import { SmsCampaignRecipientsList } from './pages/sms/sms-campaign-recipients/sms-campaign-recipients-list';
+import { SmsCampaignsList } from './pages/sms/sms-campaigns/sms-campaigns-list';
+import { SmsContactsList } from './pages/sms/sms-contacts/sms-contacts-list';
+import { SmsGroupsList } from './pages/sms/sms-groups/sms-groups-list';
+import { SmsMessagesList } from './pages/sms/sms-messages/sms-messages-list';
+import { SmsProvidersList } from './pages/sms/sms-providers/sms-providers-list';
+import { SmsQueueList } from './pages/sms/sms-queue/sms-queue-list';
+import { SmsTemplatesList } from './pages/sms/sms-templates/sms-templates-list';
+
+
 const App = () => {
 
   return (
@@ -320,6 +331,16 @@ const App = () => {
       <Resource name="payment-types" list={PaymentTypeList} />
       <Resource name="relationships" list={RelationshipList} />
       <Resource name="locations" list={LocationList} />
+
+      {/* SMS Module */}
+      <Resource name="sms-campaign-recipients" list={SmsCampaignRecipientsList} />
+      <Resource name="sms-campaigns" list={SmsCampaignsList} />
+      <Resource name="sms-contacts" list={SmsContactsList} />
+      <Resource name="sms-groups" list={SmsGroupsList} />
+      <Resource name="sms-messages" list={SmsMessagesList} />
+      <Resource name="sms-providers" list={SmsProvidersList} />
+      <Resource name="sms-queue" list={SmsQueueList} />
+      <Resource name="sms-templates" list={SmsTemplatesList} />
     </Admin>
   );
 

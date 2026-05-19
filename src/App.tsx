@@ -16,6 +16,7 @@ import { produceResources } from './modules/produce.resources';
 import { storesResources } from './modules/stores.resources';
 import { loansResources } from './modules/loans.resources';
 import { adminResources } from './modules/admin.resources';
+import { smsResources } from './modules/sms.resources';
 
 
 
@@ -40,7 +41,7 @@ const App = () => {
       {loansResources}
       {adminResources}
       {humanResourceResources}
-
+      {smsResources}
 
 
     </Admin >

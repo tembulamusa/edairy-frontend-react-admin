@@ -3,10 +3,12 @@ import {
     List,
     DataTable,
     useRecordContext,
-    TextInput,
-    required,
+    CreateButton, // Import the standard CreateButton
+    TopToolbar,   // Import TopToolbar for actions layout
     EditButton,
     DeleteButton,
+    useCreatePath, // Import useCreatePath
+    useResourceContext,
 } from "react-admin";
 import {
     Dialog,
@@ -16,10 +18,11 @@ import {
     Button,
     Stack,
     Typography,
+    Tooltip,
     Chip,
     Divider,
 } from "@mui/material";
-import { CreateButton } from "../../../components/forms/FormUtils";
+import { useCan } from "../../../components/permissions/user-can";
 
 type RoleRecord = {
     Name?: string;
@@ -75,7 +78,12 @@ const PermissionPreview = ({
 export const RoleList = () => {
     const [open, setOpen] = useState(false);
     const [selectedRole, setSelectedRole] = useState<RoleRecord | null>(null);
-
+    const can = useCan();
+    const resource = useResourceContext() ?? "none";
+    const canEdit = can(resource, "update");
+    const canDelete = can(resource, "delete");
+    const canCreate = can(resource, "create");
+    const createPath = useCreatePath();
     const permissions = useMemo(() => {
         const names = (selectedRole?.Permissions || [])
             .map(getPermissionName)
@@ -95,13 +103,14 @@ export const RoleList = () => {
 
     return (
         <>
-            <List 
+            <List
                 title="Roles"
                 actions={
-                    <CreateButton resource="roles" title="Role">
-                        <TextInput source="name" validate={required()} fullWidth />
-                    </CreateButton>
+                    <TopToolbar>
+                        {canCreate && <CreateButton label="Add New" variant="primary" color="primary" sx={{ backgroundColor: 'blue', color: 'white' }} to={createPath({ resource, type: 'create' })} />}
+                    </TopToolbar>
                 }
+
             >
                 <DataTable>
                     <DataTable.Col source="name" label="Name" />
@@ -109,8 +118,26 @@ export const RoleList = () => {
                         <PermissionPreview onOpen={handleOpen} />
                     </DataTable.Col>
                     <DataTable.Col label="Actions">
-                        <EditButton />
-                        <DeleteButton />
+                        {canEdit && (
+                            <Tooltip title="Edit Record">
+                                <span>
+                                    <EditButton label={false} />
+                                </span>
+                            </Tooltip>
+                        )}
+
+                        {canDelete && (
+                            <Tooltip title="Delete Record">
+                                <span>
+                                    <DeleteButton
+                                        label={false}
+                                        mutationMode="pessimistic"
+                                        confirmTitle="⚠️ Confirm deletion"
+                                        confirmContent="This will permanently remove the record."
+                                    />
+                                </span>
+                            </Tooltip>
+                        )}
                     </DataTable.Col>
                 </DataTable>
             </List>
@@ -119,7 +146,6 @@ export const RoleList = () => {
                 <DialogTitle>{`${selectedRole?.Name || "Role"} permissions`}</DialogTitle>
                 <DialogContent dividers>
                     <Stack spacing={2}>
-
                         <div>
                             <Typography variant="overline" color="text.secondary">
                                 Permissions

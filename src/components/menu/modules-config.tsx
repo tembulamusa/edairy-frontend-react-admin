@@ -484,7 +484,7 @@ export const modules: ModulesConfig = {
             {
                 label: "SMS",
                 items: [
-                    r("Quick SMS", <SmsIcon />),
+                    r("SMS Messages", <SmsIcon />),
                     r("Inbox", <SmsIcon />),
                     r("Outbox", <SmsIcon />),
                 ],

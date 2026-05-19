@@ -1,12 +1,18 @@
 import { useState } from "react";
-import { List, DataTable, DateField, BooleanField, EditButton, DeleteButton } from "react-admin";
+import { List, DataTable, DateField, BooleanField, EditButton, DeleteButton, useResourceContext } from "react-admin";
 import { Button } from "@mui/material";
 
 import { MemberCreateWizard } from "./create wizard/member-create-wizard";
+import { useCan } from "../../../components/permissions/user-can";
+import Tooltip from '@mui/material/Tooltip';
 
 export const MemberList = () => {
     const [open, setOpen] = useState(false);
-
+    const can = useCan();
+    const resource = useResourceContext() ?? "none";
+    const canEdit = can(resource, "update");
+    const canDelete = can(resource, "delete");
+    const canCreate = can(resource, "create");
     return (
         <>
             <List
@@ -35,8 +41,26 @@ export const MemberList = () => {
                         <BooleanField source="cashout_enrolled" />
                     </DataTable.Col>
                     <DataTable.Col label="Actions">
-                        <EditButton />
-                        <DeleteButton />
+                        {canEdit && (
+                            <Tooltip title="Edit Record">
+                                <span>
+                                    <EditButton label={false} />
+                                </span>
+                            </Tooltip>
+                        )}
+
+                        {canDelete && (
+                            <Tooltip title="Delete Record">
+                                <span>
+                                    <DeleteButton
+                                        label={false}
+                                        mutationMode="pessimistic"
+                                        confirmTitle="⚠️ Confirm deletion"
+                                        confirmContent="This will permanently remove the record."
+                                    />
+                                </span>
+                            </Tooltip>
+                        )}
                     </DataTable.Col>
                 </DataTable>
             </List>

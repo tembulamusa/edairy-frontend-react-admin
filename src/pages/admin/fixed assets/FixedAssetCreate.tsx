@@ -8,38 +8,84 @@ import {
     CardContent,
     Typography,
     Box,
+    Divider,
 } from '@mui/material';
+
+import Grid from '@mui/material/Grid';
+
 import { FixedAssetForm } from './FixedAssetForm';
 
 export const FixedAssetCreate = () => {
     return (
         <Create
-            title="Create Fixed Asset"
+            title={false}
             sx={{
                 "& .RaCreate-main": {
                     display: "flex",
                     justifyContent: "center",
-                    paddingTop: 2,
+                    padding: 2,
                 },
             }}
         >
-            <Box width="100%" >
-                <Card elevation={3}>
-                    <CardContent>
-                        <Typography
-                            variant="h5"
-                            fontWeight={600}
-                            mb={3}
+ 
+                <Card
+                    elevation={3}
+                    sx={{
+                        borderRadius: 3,
+                        overflow: "hidden",
+                    }}
+                >
+                    <CardContent sx={{ p: 4 }}>
+                        <Grid
+                            container
+                            spacing={2}
+                            alignItems="center"
+                            justifyContent="space-between"
+                            mb={2}
                         >
-                            Create Fixed Asset
-                        </Typography>
+                            <Grid size={{ xs: 12, md: 6 }}>
+                                <Typography
+                                    variant="h5"
+                                    fontWeight="bold"
+                                >
+                                    Create Fixed Asset
+                                </Typography>
 
-                        <SimpleForm>
-                            <FixedAssetForm />
+                                <Typography
+                                    variant="body2"
+                                    color="text.secondary"
+                                >
+                                    Fill in the information below to register a new fixed asset.
+                                </Typography>
+                            </Grid>
+                        </Grid>
+
+                        <Divider sx={{ mb: 4 }} />
+
+                        <SimpleForm
+                            sx={{
+                                "& .RaSimpleForm-toolbar": {
+                                    mt: 3,
+                                    px: 0,
+                                },
+
+                                "& .MuiInputBase-root": {
+                                    borderRadius: 2,
+                                },
+                            }}
+                        >
+                            <Grid
+                                container
+                                spacing={3}
+                            >
+                                <Grid size={12}>
+                                    <FixedAssetForm />
+                                </Grid>
+                            </Grid>
                         </SimpleForm>
                     </CardContent>
                 </Card>
-            </Box>
+            
         </Create>
     );
 };

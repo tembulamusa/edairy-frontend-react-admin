@@ -21,6 +21,7 @@ import { AssetAssignmentList } from '../pages/admin/asset assignments/asset-assi
 import { AssetAssignmentShow } from '../pages/admin/asset assignments/AssetAssignmentShow';
 import { AssetAssignmentCreate } from '../pages/admin/asset assignments/AssetAssignmentCreate';
 import { AssetDepreciationEntryList } from '../pages/admin/asset depreciation entries/asset-depreciation-entries-list';
+import { AssetDepreciationEntryCreate } from '../pages/admin/asset depreciation entries/AssetDepreciationEntryCreate';
 import { ShareDividendList as AdminShareDividendList } from '../pages/admin/share dividends/share-dividends-list';
 import { ShareRegistrationList } from '../pages/admin/share registrations/share-registrations-list';
 import { SmsList } from '../pages/admin/sms/sms-list';
@@ -58,7 +59,7 @@ export const adminResources = [
     <Resource key="fixed-assets" name="fixed-assets" list={FixedAssetList} create={FixedAssetCreate} edit={FixedAssetEdit} />,
     <Resource key="asset-categories" name="asset-categories" list={AssetCategoryList} create={AssetCategoryCreate} edit={AssetCategoryEdit} />,
     <Resource key="asset-assignments" name="asset-assignments" list={AssetAssignmentList} create={AssetAssignmentCreate} show={AssetAssignmentShow} />,
-    <Resource key="asset-depreciation-entries" name="asset-depreciation-entries" list={AssetDepreciationEntryList} />,
+    <Resource key="asset-depreciation-entries" name="asset-depreciation-entries" list={AssetDepreciationEntryList} create={AssetDepreciationEntryCreate} />,
 
     <Resource key="share-dividends" name="share-dividends" list={AdminShareDividendList} />,
     <Resource key="share-registrations" name="share-registrations" list={ShareRegistrationList} />,

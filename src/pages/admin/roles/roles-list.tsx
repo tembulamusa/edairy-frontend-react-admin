@@ -1,16 +1,15 @@
 import { useMemo, useState } from "react";
 import {
-    ListBase,
+    List,
     DataTable,
     useRecordContext,
     CreateButton,
     EditButton,
     DeleteButton,
     useResourceContext,
+    TopToolbar,
     FilterButton,
     ExportButton,
-    TextInput,
-    Pagination,
 } from "react-admin";
 import {
     Dialog,
@@ -29,10 +28,6 @@ import {
 import Grid from '@mui/material/Grid';
 import { useCan } from "../../../components/permissions/user-can";
 import { ListBreadcrumbs } from "../../../../ListBreadcrumbs";
-
-const roleFilters = [
-    <TextInput label="Search" source="q" alwaysOn />,
-];
 
 type RoleRecord = {
     Name?: string;
@@ -86,6 +81,17 @@ const PermissionPreview = ({
     );
 };
 
+const RoleActions = () => (
+    <TopToolbar>
+        <FilterButton />
+        <CreateButton
+            variant="contained"
+            sx={{ backgroundColor: 'primary.main', color: 'white', ml: 1, '&:hover': { backgroundColor: 'primary.dark' } }}
+        />
+        <ExportButton />
+    </TopToolbar>
+);
+
 export const RoleList = () => {
     const [open, setOpen] = useState(false);
     const [selectedRole, setSelectedRole] = useState<RoleRecord | null>(null);
@@ -114,154 +120,103 @@ export const RoleList = () => {
 
     return (
         <Box sx={{ p: 2 }}>
-            <ListBase perPage={25} filters={roleFilters}>
-                <ListBreadcrumbs />
-                <Card
+            <ListBreadcrumbs />
+            <List
+                title="Roles"
+                actions={<RoleActions />}
+            >
+                <DataTable
+                    rowClick="show"
                     sx={{
-                        borderRadius: 3,
-                        boxShadow: 3,
-                        overflow: "hidden",
+                        '& .RaDataTable-headerCell': {
+                            fontWeight: "bold",
+                            backgroundColor: "#f5f5f5",
+                        },
                     }}
                 >
-                    <CardContent>
-                        <Grid
-                            container
-                            spacing={2}
+                    <DataTable.Col source="name" label="Name" />
+                    <DataTable.Col label="Permissions">
+                        <PermissionPreview onOpen={handleOpen} />
+                    </DataTable.Col>
+                    <DataTable.Col label="Actions">
+                        <Stack
+                            direction="row"
+                            spacing={1}
                             alignItems="center"
-                            justifyContent="space-between"
-                            mb={2}
                         >
-                            <Grid size={{ xs: 12, md: 6 }}>
-                                <Typography
-                                    variant="h5"
-                                    fontWeight="bold"
-                                >
-                                    Roles
-                                </Typography>
-
-                                <Typography
-                                    variant="body2"
-                                    color="text.secondary"
-                                >
-                                    Manage all user roles and permissions
-                                </Typography>
-                            </Grid>
-
-                            <Grid size={{ xs: 12, md: "auto" }}>
-                                <Stack direction="row" spacing={1} alignItems="center">
-                                    <FilterButton />
-                                    {canCreate && (
-                                        <CreateButton
-                                            variant="contained"
+                            {canEdit && (
+                                <Tooltip title="Edit Record">
+                                    <span>
+                                        <EditButton
+                                            label={false}
                                             sx={{
-                                                backgroundColor: 'primary.main',
-                                                color: 'white',
-                                                '&:hover': {
-                                                    backgroundColor: 'primary.dark',
-                                                },
+                                                minWidth: 36,
                                             }}
                                         />
-                                    )}
-                                    <ExportButton />
-                                </Stack>
-                            </Grid>
-                        </Grid>
+                                    </span>
+                                </Tooltip>
+                            )}
 
-                        <DataTable
-                            rowClick="show"
-                            sx={{
-                                '& .RaDataTable-headerCell': {
-                                    fontWeight: "bold",
-                                    backgroundColor: "#f5f5f5",
-                                },
-                            }}
-                        >
-                            <DataTable.Col source="name" label="Name" />
-                            <DataTable.Col label="Permissions">
-                                <PermissionPreview onOpen={handleOpen} />
-                            </DataTable.Col>
-                            <DataTable.Col label="Actions">
-                                <Stack
-                                    direction="row"
-                                    spacing={1}
-                                    alignItems="center"
-                                >
-                                    {canEdit && (
-                                        <Tooltip title="Edit Record">
-                                            <span>
-                                                <EditButton
-                                                    label={false}
-                                                    sx={{
-                                                        minWidth: 36,
-                                                    }}
-                                                />
-                                            </span>
-                                        </Tooltip>
-                                    )}
-
-                                    {canDelete && (
-                                        <Tooltip title="Delete Record">
-                                            <span>
-                                                <DeleteButton
-                                                    label={false}
-                                                    confirmColor="error"
-                                                    mutationMode="pessimistic"
-                                                    confirmTitle="⚠️ Confirm deletion"
-                                                    confirmContent="This will permanently remove the record."
-                                                    confirmProps={{
-                                                        sx: {
-                                                            '& .RaConfirm-confirm-button': {
-                                                                color: 'error.main !important',
-                                                            },
-                                                            '& .RaConfirm-title': {
-                                                                color: 'error.main !important',
-                                                            },
-                                                            '& .RaConfirm-content': {
-                                                                color: 'error.main !important',
-                                                            },
-                                                        },
-                                                    }}
-                                                    sx={{
-                                                        minWidth: 36,
-                                                    }}
-                                                />
-                                            </span>
-                                        </Tooltip>
-                                    )}
-                                </Stack>
-                            </DataTable.Col>
-                        </DataTable>
-                        <Pagination sx={{ mt: 2 }} />
-                    </CardContent>
-                </Card>
-
-                <Dialog open={open} onClose={handleClose} fullWidth maxWidth="sm">
-                    <DialogTitle>{`${selectedRole?.Name || selectedRole?.name || "Role"} permissions`}</DialogTitle>
-                    <DialogContent dividers>
-                        <Stack spacing={2}>
-                            <div>
-                                <Typography variant="overline" color="text.secondary">
-                                    Permissions
-                                </Typography>
-                                <Stack direction="row" flexWrap="wrap" gap={1} mt={1}>
-                                    {permissions.length > 0 ? (
-                                        permissions.map((permission) => (
-                                            <Chip key={permission} label={permission} />
-                                        ))
-                                    ) : (
-                                        <Typography variant="body2" color="text.secondary">
-                                            No permissions assigned.
-                                        </Typography>
-                                    )}
-                                </Stack>
-                            </div>
+                            {canDelete && (
+                                <Tooltip title="Delete Record">
+                                    <span>
+                                        <DeleteButton
+                                            label={false}
+                                            confirmColor="error"
+                                            mutationMode="pessimistic"
+                                            confirmTitle="⚠️ Confirm deletion"
+                                            confirmContent="This will permanently remove the record."
+                                            confirmProps={{
+                                                sx: {
+                                                    '& .RaConfirm-confirm-button': {
+                                                        color: 'error.main !important',
+                                                    },
+                                                    '& .RaConfirm-title': {
+                                                        color: 'error.main !important',
+                                                    },
+                                                    '& .RaConfirm-content': {
+                                                        color: 'error.main !important',
+                                                    },
+                                                },
+                                            }}
+                                            sx={{
+                                                minWidth: 36,
+                                            }}
+                                        />
+                                    </span>
+                                </Tooltip>
+                            )}
                         </Stack>
-                    </DialogContent>
-                    <DialogActions>
-                        <Button onClick={handleClose}>Close</Button>
-                    </DialogActions>
-                </Dialog>
-            </ListBase>
-        </Box>
+                    </DataTable.Col>
+                </DataTable>
+            </List>
+
+            <Dialog open={open} onClose={handleClose} fullWidth maxWidth="sm">
+                <DialogTitle>{`${selectedRole?.Name || selectedRole?.name || "Role"} permissions`}</DialogTitle>
+                <DialogContent dividers>
+                    <Stack spacing={2}>
+                        <div>
+                            <Typography variant="overline" color="text.secondary">
+                                Permissions
+                            </Typography>
+                            <Stack direction="row" flexWrap="wrap" gap={1} mt={1}>
+                                {permissions.length > 0 ? (
+                                    permissions.map((permission) => (
+                                        <Chip key={permission} label={permission} />
+                                    ))
+                                ) : (
+                                    <Typography variant="body2" color="text.secondary">
+                                        No permissions assigned.
+                                    </Typography>
+                                )}
+                            </Stack>
+                        </div>
+                    </Stack>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleClose}>Close</Button>
+                </DialogActions>
+            </Dialog>
+        </Box >
     );
 };

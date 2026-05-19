@@ -3,6 +3,7 @@ import {
     Show,
     SimpleShowLayout,
     TextField,
+    FunctionField,
     DateField,
     ReferenceField,
 } from 'react-admin';
@@ -62,7 +63,7 @@ export const AssetAssignmentShow = () => (
                             </Grid>
 
                             <Grid item xs={12} md={6}>
-                                <ReferenceField source="assigned_to" reference="users" link="show">
+                                <ReferenceField source="assigned_to_id" reference="users" link="show">
                                     <TextField source="name" label="Recipient" />
                                 </ReferenceField>
                             </Grid>
@@ -76,7 +77,14 @@ export const AssetAssignmentShow = () => (
                             </Grid>
 
                             <Grid item xs={12} md={4}>
-                                <TextField source="status" label="Assignment Status" />
+                                <FunctionField
+                                    label="Assignment Status"
+                                    render={(record: any) => (
+                                        <Typography variant="body2" sx={{ fontWeight: 600 }}>
+                                            {record.status?.toUpperCase()}
+                                        </Typography>
+                                    )}
+                                />
                             </Grid>
 
                             <Grid item xs={12}>
@@ -87,6 +95,7 @@ export const AssetAssignmentShow = () => (
                                 <TextField
                                     source="notes"
                                     label="Administrative Remarks"
+                                    multiline
                                     sx={{
                                         '& .RaTextField-value': { whiteSpace: 'pre-wrap' }
                                     }}

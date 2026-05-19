@@ -3,6 +3,7 @@ import {
     Create,
     SimpleForm,
     TextInput,
+    NumberInput,
     DateInput,
     ReferenceInput,
     SelectInput,
@@ -25,19 +26,19 @@ import {
 import Grid from '@mui/material/Grid';
 import { ListBreadcrumbs } from '../../../../ListBreadcrumbs';
 
-export const AssetAssignmentCreate = () => {
+export const AssetDepreciationEntryCreate = () => {
     const [create] = useCreate();
     const notify = useNotify();
     const redirect = useRedirect();
 
     const handleSubmit = (data: any) => {
         create(
-            "asset-assignments",
+            "asset-depreciation-entries",
             { data },
             {
                 onSuccess: () => {
-                    notify("Asset assigned successfully", { type: "success" });
-                    redirect("list", "asset-assignments");
+                    notify("Depreciation entry recorded successfully", { type: "success" });
+                    redirect("list", "asset-depreciation-entries");
                 },
             }
         );
@@ -73,8 +74,8 @@ export const AssetAssignmentCreate = () => {
                             mb={2}
                         >
                             <Grid item xs={12} md={6}>
-                                <Typography variant="h5" fontWeight="bold">New Asset Assignment</Typography>
-                                <Typography variant="body2" color="text.secondary">Assign an existing fixed asset to a user or department.</Typography>
+                                <Typography variant="h5" fontWeight="bold">New Depreciation Entry</Typography>
+                                <Typography variant="body2" color="text.secondary">Record a new depreciation value for a specific fixed asset.</Typography>
                             </Grid>
                         </Grid>
 
@@ -96,42 +97,26 @@ export const AssetAssignmentCreate = () => {
                                         </ReferenceInput>
                                     </Grid>
                                     <Grid item xs={12} md={6}>
-                                        <ReferenceInput source="assigned_to_id" reference="users">
-                                            <SelectInput label="Assign To User" optionText="name" fullWidth variant="outlined" validate={required()} />
-                                        </ReferenceInput>
+                                        <DateInput source="entry_date" label="Entry Date" fullWidth variant="outlined" validate={required()} />
                                     </Grid>
-                                    <Grid item xs={12} md={4}>
-                                        <DateInput source="assigned_at" label="Assignment Date" fullWidth variant="outlined" validate={required()} />
+                                    <Grid item xs={12} md={6}>
+                                        <NumberInput source="depreciation_amount" label="Depreciation Amount" fullWidth variant="outlined" validate={required()} />
                                     </Grid>
-                                    <Grid item xs={12} md={4}>
-                                        <DateInput source="due_date" label="Due Date" fullWidth variant="outlined" />
-                                    </Grid>
-                                    <Grid item xs={12} md={4}>
-                                        <SelectInput
-                                            source="status"
-                                            label="Status"
-                                            choices={[
-                                                { id: 'ASSIGNED', name: 'ASSIGNED' },
-                                                { id: 'RETURNED', name: 'RETURNED' },
-                                            ]}
-                                            defaultValue="ASSIGNED"
-                                            fullWidth
-                                            variant="outlined"
-                                            validate={required()}
-                                        />
+                                    <Grid item xs={12} md={6}>
+                                        <NumberInput source="book_value_after" label="Book Value After" fullWidth variant="outlined" />
                                     </Grid>
                                     <Grid item xs={12}>
-                                        <TextInput source="notes" label="Assignment Notes" multiline rows={3} fullWidth variant="outlined" />
+                                        <TextInput source="notes" label="Administrative Notes" multiline rows={3} fullWidth variant="outlined" />
                                     </Grid>
                                 </Grid>
                             </Stack>
 
                             <Box sx={{ display: "flex", justifyContent: "space-between", mt: 5 }}>
-                                <Button type="button" variant="outlined" onClick={() => redirect('/asset-assignments')}>
+                                <Button type="button" variant="outlined" onClick={() => redirect('/asset-depreciation-entries')}>
                                     Cancel
                                 </Button>
                                 <Button variant="contained" size="large" type="submit" sx={{ px: 4, borderRadius: 2 }}>
-                                    Assign Asset
+                                    Save Entry
                                 </Button>
                             </Box>
                         </SimpleForm>

@@ -1,16 +1,15 @@
 import { useMemo, useState } from "react";
 import {
-    ListBase,
+    List,
     DataTable,
     useRecordContext,
     EditButton,
     DeleteButton,
     useResourceContext,
     CreateButton,
+    TopToolbar,
     FilterButton,
     ExportButton,
-    TextInput,
-    Pagination,
 } from "react-admin";
 import {
     Dialog,
@@ -30,11 +29,6 @@ import {
 import Grid from '@mui/material/Grid';
 import { useCan } from "../../../components/permissions/user-can";
 import { ListBreadcrumbs } from "../../../../ListBreadcrumbs";
-
-const userFilters = [
-    <TextInput label="Search" source="q" alwaysOn />,
-    <TextInput label="Email" source="email" />,
-];
 
 type NamedItem = {
     Name?: string;
@@ -102,6 +96,17 @@ const PreviewCell = ({
     );
 };
 
+const UserActions = () => (
+    <TopToolbar>
+        <FilterButton />
+        <CreateButton
+            variant="contained"
+            sx={{ backgroundColor: 'primary.main', color: 'white', ml: 1, '&:hover': { backgroundColor: 'primary.dark' } }}
+        />
+        <ExportButton />
+    </TopToolbar>
+);
+
 export const UserList = () => {
     const can = useCan();
     const resource = useResourceContext() ?? "users";
@@ -127,128 +132,77 @@ export const UserList = () => {
 
     return (
         <Box sx={{ p: 2 }}>
-            <ListBase perPage={25} filters={userFilters}>
-                <ListBreadcrumbs />
-                <Card
+            <ListBreadcrumbs />
+            <List
+                title="Users"
+                actions={<UserActions />}
+            >
+                <DataTable
+                    rowClick="show"
                     sx={{
-                        borderRadius: 3,
-                        boxShadow: 3,
-                        overflow: "hidden",
+                        '& .RaDataTable-headerCell': {
+                            fontWeight: "bold",
+                            backgroundColor: "#f5f5f5",
+                        },
                     }}
                 >
-                    <CardContent>
-                        <Grid
-                            container
-                            spacing={2}
-                            alignItems="center"
-                            justifyContent="space-between"
-                            mb={2}
-                        >
-                            <Grid size={{ xs: 12, md: 6 }}>
-                                <Typography
-                                    variant="h5"
-                                    fontWeight="bold"
-                                >
-                                    Users
-                                </Typography>
-
-                                <Typography
-                                    variant="body2"
-                                    color="text.secondary"
-                                >
-                                    Manage all users records
-                                </Typography>
-                            </Grid>
-
-                            <Grid size={{ xs: 12, md: "auto" }}>
-                                <Stack direction="row" spacing={1} alignItems="center">
-                                    <FilterButton />
-                                    {canCreate && (
-                                        <CreateButton
-                                            variant="contained"
+                    <DataTable.Col source="name" label="Name" />
+                    <DataTable.Col label="Roles">
+                        <PreviewCell source="roles" onOpen={handleOpen} emptyLabel="No roles" />
+                    </DataTable.Col>
+                    <DataTable.Col label="Actions">
+                        <Stack direction="row" spacing={1} alignItems="center">
+                            {canEdit && (
+                                <Tooltip title="Edit Record">
+                                    <span>
+                                        <EditButton
+                                            label={false}
                                             sx={{
-                                                backgroundColor: 'primary.main',
-                                                color: 'white',
+                                                minWidth: 36,
+                                            }}
+                                        />
+                                    </span>
+                                </Tooltip>
+                            )}
+
+                            {canDelete && (
+                                <Tooltip title="Delete Record">
+                                    <span>
+                                        <DeleteButton
+                                            label={false}
+                                            confirmColor="error"
+                                            variant="text"
+                                            mutationMode="pessimistic"
+                                            confirmTitle="⚠️ Confirm deletion"
+                                            confirmContent="This will permanently remove the record."
+                                            confirmProps={{
+                                                sx: {
+                                                    '& .RaConfirm-confirm-button': {
+                                                        color: 'error.main !important',
+                                                    },
+                                                    '& .RaConfirm-title': {
+                                                        color: 'error.main !important',
+                                                    },
+                                                    '& .RaConfirm-content': {
+                                                        color: 'error.main !important',
+                                                    },
+                                                },
+                                            }}
+                                            sx={{
+                                                minWidth: 36,
+                                                color: 'error.main',
                                                 '&:hover': {
-                                                    backgroundColor: 'primary.dark',
+                                                    color: 'error.dark',
                                                 },
                                             }}
                                         />
-                                    )}
-                                    <ExportButton />
-                                </Stack>
-                            </Grid>
-                        </Grid>
-
-                        <DataTable
-                            rowClick="show"
-                            sx={{
-                                '& .RaDataTable-headerCell': {
-                                    fontWeight: "bold",
-                                    backgroundColor: "#f5f5f5",
-                                },
-                            }}
-                        >
-                            <DataTable.Col source="name" label="Name" />
-                            <DataTable.Col label="Roles">
-                                <PreviewCell source="roles" onOpen={handleOpen} emptyLabel="No roles" />
-                            </DataTable.Col>
-                            <DataTable.Col label="Actions">
-                                <Stack direction="row" spacing={1} alignItems="center">
-                                    {canEdit && (
-                                        <Tooltip title="Edit Record">
-                                            <span>
-                                                <EditButton
-                                                    label={false}
-                                                    sx={{
-                                                        minWidth: 36,
-                                                    }}
-                                                />
-                                            </span>
-                                        </Tooltip>
-                                    )}
-
-                                    {canDelete && (
-                                        <Tooltip title="Delete Record">
-                                            <span>
-                                                <DeleteButton
-                                                    label={false}
-                                                    confirmColor="error"
-                                                    variant="text"
-                                                    mutationMode="pessimistic"
-                                                    confirmTitle="⚠️ Confirm deletion"
-                                                    confirmContent="This will permanently remove the record."
-                                                    confirmProps={{
-                                                        sx: {
-                                                            '& .RaConfirm-confirm-button': {
-                                                                color: 'error.main !important',
-                                                            },
-                                                            '& .RaConfirm-title': {
-                                                                color: 'error.main !important',
-                                                            },
-                                                            '& .RaConfirm-content': {
-                                                                color: 'error.main !important',
-                                                            },
-                                                        },
-                                                    }}
-                                                    sx={{
-                                                        minWidth: 36,
-                                                        color: 'error.main',
-                                                        '&:hover': {
-                                                            color: 'error.dark',
-                                                        },
-                                                    }}
-                                                />
-                                            </span>
-                                        </Tooltip>
-                                    )}
-                                </Stack>
-                            </DataTable.Col>
-                        </DataTable>
-                        <Pagination sx={{ mt: 2 }} />
-                    </CardContent>
-                </Card>
-            </ListBase>
+                                    </span>
+                                </Tooltip>
+                            )}
+                        </Stack>
+                    </DataTable.Col>
+                </DataTable>
+            </List>
 
             <Dialog open={open} onClose={handleClose} fullWidth maxWidth="md">
                 <DialogTitle>{`${selectedUser?.Name || selectedUser?.name || "User"} details`}</DialogTitle>
@@ -286,6 +240,6 @@ export const UserList = () => {
                     <Button onClick={handleClose}>Close</Button>
                 </DialogActions>
             </Dialog>
-        </Box>
+        </Box >
     );
 };

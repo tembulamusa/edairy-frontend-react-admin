@@ -1,27 +1,65 @@
-import { BooleanField, DataTable, DateField, List, TextInput, required } from 'react-admin';
-import { CreateButton } from '../../../components/forms/FormUtils';
+import {
+    DataTable,
+    List,
+    useResourceContext,
+    EditButton,
+    DeleteButton,
+    CreateButton,
+    TopToolbar,
+} from 'react-admin';
+import { Stack, Tooltip } from '@mui/material';
+import { useCan } from '../../../components/permissions/user-can';
 
-export const FixedAssetList = () => (
-    <List 
-        title="Fixed Assets"
-        actions={
-            <CreateButton resource="fixed-assets" title="Fixed Asset">
-                <TextInput source="asset_code" validate={required()} fullWidth />
-                <TextInput source="asset_name" validate={required()} fullWidth />
-                <TextInput source="serial_no" fullWidth />
-            </CreateButton>
-        }
-    >
-        <DataTable>
-            <DataTable.Col source="asset_code" />
-            <DataTable.Col source="asset_name" />
-            <DataTable.Col source="serial_no" />
+export const FixedAssetList = () => {
+    const can = useCan();
+    const resource = useResourceContext() ?? "fixed-assets";
 
-            <DataTable.Col source="category_name" />
+    const canCreate = can(resource, "create");
+    const canEdit = can(resource, "update");
+    const canDelete = can(resource, "delete");
 
-            <DataTable.NumberCol source="book_value" />
-            <DataTable.Col source="current_location" />
-            <DataTable.Col source="status" />
-        </DataTable>
-    </List>
-);
+    return (
+        <List
+            title="Fixed Assets"
+            actions={
+                <TopToolbar>
+                    {canCreate && <CreateButton />}
+                </TopToolbar>
+            }
+        >
+            <DataTable rowClick="show">
+                <DataTable.Col source="asset_code" />
+                <DataTable.Col source="asset_name" />
+                <DataTable.Col source="asset_category_id" label="Category ID" />
+                <DataTable.NumberCol source="book_value" />
+                <DataTable.Col source="current_location" />
+                <DataTable.Col source="status" />
+
+                <DataTable.Col label="Actions">
+                    <Stack direction="row" spacing={1} alignItems="center">
+                        {canEdit && (
+                            <Tooltip title="Edit Record">
+                                <span>
+                                    <EditButton label={false} />
+                                </span>
+                            </Tooltip>
+                        )}
+
+                        {canDelete && (
+                            <Tooltip title="Delete Record">
+                                <span>
+                                    <DeleteButton
+                                        label={false}
+                                        mutationMode="pessimistic"
+                                        confirmTitle="⚠️ Confirm deletion"
+                                        confirmContent="This will permanently remove the record."
+                                    />
+                                </span>
+                            </Tooltip>
+                        )}
+                    </Stack>
+                </DataTable.Col>
+            </DataTable>
+        </List>
+    );
+};

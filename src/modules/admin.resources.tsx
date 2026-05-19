@@ -33,6 +33,8 @@ import { OrganizationWalletsList } from '../pages/admin/organization/organizatio
 import { PaymentTypeList } from '../pages/admin/payment types/payment-types-list';
 import { RelationshipList } from '../pages/admin/relationships/relationships-list';
 import { LocationList } from '../pages/admin/locations/locations-list';
+import { FixedAssetCreate } from '../pages/admin/fixed assets/FixedAssetCreate';
+import { FixedAssetEdit } from '../pages/admin/fixed assets/FixedAssetEdit';
 
 export const adminResources = [
     <Resource key="licence" name="licence" list={LicenceList} />,
@@ -44,7 +46,7 @@ export const adminResources = [
 
     <Resource key="asset-registers" name="asset-registers" list={AssetRegisterList} />,
     <Resource key="asset-softwares" name="asset-softwares" list={AssetSoftwareList} />,
-    <Resource key="fixed-assets" name="fixed-assets" list={FixedAssetList} />,
+    <Resource key="fixed-assets" name="fixed-assets" list={FixedAssetList}  create={FixedAssetCreate} edit={FixedAssetEdit}/>,
     <Resource key="asset-categories" name="asset-categories" list={AssetCategoryList} />,
     <Resource key="asset-assignments" name="asset-assignments" list={AssetAssignmentList} />,
     <Resource key="asset-depreciation-entries" name="asset-depreciation-entries" list={AssetDepreciationEntryList} />,

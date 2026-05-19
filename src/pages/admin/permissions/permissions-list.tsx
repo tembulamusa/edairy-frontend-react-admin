@@ -1,5 +1,4 @@
-import { List, DataTable, EditButton, DeleteButton, TextInput, required, Toolbar, useResourceContext } from 'react-admin';
-import { CreateButton } from '../../../components/forms/FormUtils';
+import { List, DataTable, EditButton, DeleteButton, useResourceContext, CreateButton, TopToolbar, useCreatePath } from 'react-admin';
 
 import Tooltip from '@mui/material/Tooltip';
 import { Stack } from '@mui/material';
@@ -14,22 +13,17 @@ export const PermissionList = () => {
     const canEdit = can(resource, "update");
     const canDelete = can(resource, "delete");
     const canCreate = can(resource, "create");
+    const createPath = useCreatePath();
 
     return (
-
         <List
             title="Permissions"
             actions={
-                canCreate && (
-                    <CreateButton resource="permissions" title="Permission">
-                        <TextInput source="name" validate={required()} fullWidth />
-                        <TextInput
-                            source="guard_name"
-                            defaultValue="web"
-                            sx={{ display: 'none' }}
-                        />
-                    </CreateButton>
-                )
+                <TopToolbar>
+                    {canCreate && (
+                        <CreateButton label="Add New" variant="primary" color="primary" sx={{ backgroundColor: 'blue', color: 'white' }} to={createPath({ resource, type: 'create' })} />
+                    )}
+                </TopToolbar>
             }
         >
             <DataTable rowClick="show" title="Permissions">

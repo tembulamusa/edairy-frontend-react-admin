@@ -3,11 +3,8 @@ import {
     List,
     DataTable,
     useRecordContext,
-    TextInput,
-    required,
     EditButton,
     DeleteButton,
-    PasswordInput,
     useResourceContext,
 } from "react-admin";
 import Tooltip from '@mui/material/Tooltip';
@@ -22,7 +19,6 @@ import {
     Chip,
     Divider,
 } from "@mui/material";
-import { CreateButton } from "../../../components/forms/FormUtils";
 import { useCan } from "../../../components/permissions/user-can";
 
 type NamedItem = {
@@ -122,13 +118,6 @@ export const UserList = () => {
         <>
             <List
                 title="Users"
-                actions={
-                    <CreateButton resource="users" title="User">
-                        <TextInput source="name" validate={required()} fullWidth />
-                        <TextInput source="email" validate={required()} fullWidth />
-                        <PasswordInput source="password" validate={required()} fullWidth />
-                    </CreateButton>
-                }
             >
                 <DataTable>
                     <DataTable.Col source="name" label="Name" />

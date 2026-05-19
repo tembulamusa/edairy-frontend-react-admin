@@ -3,12 +3,11 @@ import {
     List,
     DataTable,
     useRecordContext,
-    TextInput,
-    required,
+    CreateButton, // Import the standard CreateButton
+    TopToolbar,   // Import TopToolbar for actions layout
     EditButton,
     DeleteButton,
-    ReferenceArrayInput,
-    CheckboxGroupInput,
+    useCreatePath, // Import useCreatePath
     useResourceContext,
 } from "react-admin";
 import {
@@ -23,7 +22,6 @@ import {
     Chip,
     Divider,
 } from "@mui/material";
-import { CreateButton } from "../../../components/forms/FormUtils";
 import { useCan } from "../../../components/permissions/user-can";
 
 type RoleRecord = {
@@ -85,6 +83,7 @@ export const RoleList = () => {
     const canEdit = can(resource, "update");
     const canDelete = can(resource, "delete");
     const canCreate = can(resource, "create");
+    const createPath = useCreatePath();
     const permissions = useMemo(() => {
         const names = (selectedRole?.Permissions || [])
             .map(getPermissionName)
@@ -104,29 +103,13 @@ export const RoleList = () => {
 
     return (
         <>
-            {canCreate && (
-                <Stack
-                    direction="row"
-                    justifyContent="flex-end"
-                    sx={{ mb: 2 }}
-                >
-                    <CreateButton resource="roles" title="Role">
-                        <TextInput
-                            source="guard_name"
-                            defaultValue="web"
-                            sx={{ display: 'none' }}
-                        />
-
-                        <TextInput
-                            source="name"
-                            validate={required()}
-                            fullWidth
-                        />
-                    </CreateButton>
-                </Stack>
-            )}
             <List
                 title="Roles"
+                actions={
+                    <TopToolbar>
+                        {canCreate && <CreateButton label="Add New" variant="primary" color="primary" sx={{ backgroundColor: 'blue', color: 'white' }} to={createPath({ resource, type: 'create' })} />}
+                    </TopToolbar>
+                }
 
             >
                 <DataTable>

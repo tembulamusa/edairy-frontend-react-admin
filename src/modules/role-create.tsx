@@ -1,115 +1,99 @@
-import { Create, SimpleForm, TextInput, required, Toolbar, SaveButton, useRedirect, useNotify } from "react-admin";
-import { Stack, Typography, Button, Box, Breadcrumbs, Link as MuiLink } from "@mui/material";
-import { Link } from "react-router-dom";
-import { useFormContext } from "react-hook-form";
+import {
+    Create,
+    SimpleForm,
+    TextInput,
+    required,
+} from 'react-admin';
 
-const RoleCreateToolbar = () => {
-    const redirect = useRedirect();
-    const notify = useNotify();
-    const { reset } = useFormContext();
+import {
+    Card,
+    CardContent,
+    Typography,
+    Divider,
+    Stack,
+} from '@mui/material';
+
+import Grid from '@mui/material/Grid';
+
+export const RoleCreate = () => {
     return (
-        <Toolbar
+        <Create
+            title={false}
             sx={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                backgroundColor: 'rgba(0, 0, 0, 0.05)',
-                // Removed explicit horizontal padding from the toolbar itself
-                py: 2,
-                // borderRadius: 1,
-                mt: 0,
-                // maxWidth: 500,
-                // mb: 4,
-                // boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
-                mx: 'auto',
-                border: '1px solid',
-                borderColor: 'divider',
-                '&.MuiToolbar-root': { minHeight: 'auto' }
+                "& .RaCreate-main": {
+                    display: "flex",
+                    justifyContent: "center",
+                    padding: 2,
+                },
             }}
         >
-            <Box sx={{ display: 'flex', gap: 1 }}>
-                <SaveButton />
-                <SaveButton
-                    label="Save and Add New"
-                    variant="contained"
-                    color="primary"
-                    mutationOptions={{
-                        onSuccess: () => {
-                            notify('Role created successfully', { type: 'success' });
-                            reset();
-                        },
-                    }}
-                />
-            </Box>
-            <Button variant="outlined" onClick={() => redirect('/roles')}>
-                Cancel
-            </Button>
-        </Toolbar>
-    );
-};
-
-export const RoleCreate = () => (
-    <Create
-        title="Create Role"
-        sx={{
-            mt: 6,
-            '& .RaCreate-main': {
-                display: 'flex',
-                justifyContent: 'center',
-                p: { xs: 2, md: 4 },
-            }
-        }}
-    >
-        <Stack spacing={2} sx={{ width: '100%', maxWidth: 500 }}>
-            <Breadcrumbs aria-label="breadcrumb">
-                <MuiLink component={Link} underline="hover" color="inherit" to="/roles">
-                    Roles
-                </MuiLink>
-                <Typography color="text.primary">Create New Role</Typography>
-            </Breadcrumbs>
-
-            <SimpleForm
-                toolbar={<RoleCreateToolbar />}
+            <Card
+                elevation={3}
                 sx={{
-                    // maxWidth: 500,
+                    borderRadius: 3,
+                    maxWidth: 600,
                     width: '100%',
-                    mx: 'auto',
-                    // mt: 4,
-                    // boxShadow: '0 4px 20px 0 rgba(0,0,0,0.08)',
-                    borderRadius: 2,
-                    overflow: 'hidden',
-                    '& .MuiCardContent-root': { padding: 4 },
-                    '& .RaToolbar-root': {
-                        margin: 0,
-                        padding: '16px 32px', // Apply padding to match CardContent's horizontal padding (4 * 8px = 32px)
-                    }
+                    overflow: "hidden",
                 }}
             >
-                <Stack spacing={3} sx={{ width: '100%' }}>
-                    <Typography
-                        variant="h5"
-                        component="h1"
+                <CardContent sx={{ p: 4 }}>
+                    <Grid
+                        container
+                        spacing={2}
+                        alignItems="center"
+                        justifyContent="space-between"
+                        mb={2}
+                    >
+                        <Grid size={{ xs: 12, md: 12 }}>
+                            <Typography
+                                variant="h5"
+                                fontWeight="bold"
+                            >
+                                Create Role
+                            </Typography>
+
+                            <Typography
+                                variant="body2"
+                                color="text.secondary"
+                            >
+                                Define a new system role and its guard.
+                            </Typography>
+                        </Grid>
+                    </Grid>
+
+                    <Divider sx={{ mb: 4 }} />
+
+                    <SimpleForm
                         sx={{
-                            fontWeight: 700,
-                            color: 'primary.main',
-                            borderBottom: '1px solid',
-                            borderColor: 'primary.main',
-                            pb: 1,
-                            mb: 2,
-                            width: '100%'
+                            "& .RaSimpleForm-toolbar": {
+                                mt: 3,
+                                px: 0,
+                                backgroundColor: 'transparent',
+                            },
+                            "& .MuiInputBase-root": {
+                                borderRadius: 2,
+                            },
                         }}
                     >
-                        Create New Role
-                    </Typography>
-                    <TextInput
-                        source="name"
-                        label="Role Name"
-                        validate={required()}
-                        variant="outlined" // Changed to outlined variant for a more distinct look
-                        fullWidth
-                    />
-                    <TextInput source="guard_name" defaultValue="web" sx={{ display: "none" }} />
-                </Stack>
-            </SimpleForm>
-        </Stack>
-    </Create>
-);
+                        <Stack spacing={3} sx={{ width: '100%' }}>
+                            <TextInput
+                                source="name"
+                                label="Role Name"
+                                validate={required()}
+                                variant="outlined"
+                                fullWidth
+                            />
+                            <TextInput
+                                source="guard_name"
+                                label="Guard Name"
+                                defaultValue="web"
+                                variant="outlined"
+                                fullWidth
+                            />
+                        </Stack>
+                    </SimpleForm>
+                </CardContent>
+            </Card>
+        </Create>
+    );
+};

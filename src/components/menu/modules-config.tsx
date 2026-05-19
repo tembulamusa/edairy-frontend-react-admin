@@ -45,7 +45,6 @@ export const modules: ModulesConfig = {
             {
                 label: "Audit",
                 items: [
-                    r("Audit Logs", <ReceiptLongIcon />),
                     r("Activity Logs", <ReceiptLongIcon />)
                 ],
             },

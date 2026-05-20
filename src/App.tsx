@@ -149,13 +149,37 @@ import { PurchaseRequisitionList } from './pages/suppliers/purchase requisitions
 
 /* ============ SMS MODULE ============ */
 import { SmsCampaignRecipientsList } from './pages/sms/sms-campaign-recipients/sms-campaign-recipients-list';
+import { SmsCampaignRecipientCreate } from './pages/sms/sms-campaign-recipients/SmsCampaignRecipientCreate';
+import { SmsCampaignRecipientEdit } from './pages/sms/sms-campaign-recipients/SmsCampaignRecipientEdit';
+import { SmsCampaignRecipientShow } from './pages/sms/sms-campaign-recipients/SmsCampaignRecipientShow';
 import { SmsCampaignsList } from './pages/sms/sms-campaigns/sms-campaigns-list';
+import { SmsCampaignCreate } from './pages/sms/sms-campaigns/SmsCampaignCreate';
+import { SmsCampaignEdit } from './pages/sms/sms-campaigns/SmsCampaignEdit';
+import { SmsCampaignShow } from './pages/sms/sms-campaigns/SmsCampaignShow';
 import { SmsContactsList } from './pages/sms/sms-contacts/sms-contacts-list';
+import { SmsContactCreate } from './pages/sms/sms-contacts/SmsContactCreate';
+import { SmsContactEdit } from './pages/sms/sms-contacts/SmsContactEdit';
+import { SmsContactShow } from './pages/sms/sms-contacts/SmsContactShow';
 import { SmsGroupsList } from './pages/sms/sms-groups/sms-groups-list';
+import { SmsGroupCreate } from './pages/sms/sms-groups/SmsGroupCreate';
+import { SmsGroupEdit } from './pages/sms/sms-groups/SmsGroupEdit';
+import { SmsGroupShow } from './pages/sms/sms-groups/SmsGroupShow';
 import { SmsMessagesList } from './pages/sms/sms-messages/sms-messages-list';
+import { SmsMessageCreate } from './pages/sms/sms-messages/SmsMessageCreate';
+import { SmsMessageEdit } from './pages/sms/sms-messages/SmsMessageEdit';
+import { SmsMessageShow } from './pages/sms/sms-messages/SmsMessageShow';
 import { SmsProvidersList } from './pages/sms/sms-providers/sms-providers-list';
+import { SmsProviderCreate } from './pages/sms/sms-providers/SmsProviderCreate';
+import { SmsProviderEdit } from './pages/sms/sms-providers/SmsProviderEdit';
+import { SmsProviderShow } from './pages/sms/sms-providers/SmsProviderShow';
 import { SmsQueueList } from './pages/sms/sms-queue/sms-queue-list';
+import { SmsQueueCreate } from './pages/sms/sms-queue/SmsQueueCreate';
+import { SmsQueueEdit } from './pages/sms/sms-queue/SmsQueueEdit';
+import { SmsQueueShow } from './pages/sms/sms-queue/SmsQueueShow';
 import { SmsTemplatesList } from './pages/sms/sms-templates/sms-templates-list';
+import { SmsTemplateCreate } from './pages/sms/sms-templates/SmsTemplateCreate';
+import { SmsTemplateEdit } from './pages/sms/sms-templates/SmsTemplateEdit';
+import { SmsTemplateShow } from './pages/sms/sms-templates/SmsTemplateShow';
 
 const Logo = () => (
   <svg width="100" height="30" xmlns="http://www.w3.org/2000/svg">
@@ -331,14 +355,14 @@ const App = () => {
       <Resource name="locations" list={LocationList} />
 
       {/* SMS Module */}
-      <Resource name="sms-campaign-recipients" list={SmsCampaignRecipientsList} />
-      <Resource name="sms-campaigns" list={SmsCampaignsList} />
-      <Resource name="sms-contacts" list={SmsContactsList} />
-      <Resource name="sms-groups" list={SmsGroupsList} />
-      <Resource name="sms-messages" list={SmsMessagesList} />
-      <Resource name="sms-providers" list={SmsProvidersList} />
-      <Resource name="sms-queue" list={SmsQueueList} />
-      <Resource name="sms-templates" list={SmsTemplatesList} />
+      <Resource name="sms-campaign-recipients" list={SmsCampaignRecipientsList} create={SmsCampaignRecipientCreate} edit={SmsCampaignRecipientEdit} show={SmsCampaignRecipientShow} />
+      <Resource name="sms-campaigns" list={SmsCampaignsList} create={SmsCampaignCreate} edit={SmsCampaignEdit} show={SmsCampaignShow} />
+      <Resource name="sms-contacts" list={SmsContactsList} create={SmsContactCreate} edit={SmsContactEdit} show={SmsContactShow} />
+      <Resource name="sms-groups" list={SmsGroupsList} create={SmsGroupCreate} edit={SmsGroupEdit} show={SmsGroupShow} />
+      <Resource name="sms-messages" list={SmsMessagesList} create={SmsMessageCreate} edit={SmsMessageEdit} show={SmsMessageShow} />
+      <Resource name="sms-providers" list={SmsProvidersList} create={SmsProviderCreate} edit={SmsProviderEdit} show={SmsProviderShow} />
+      <Resource name="sms-queue" list={SmsQueueList} create={SmsQueueCreate} edit={SmsQueueEdit} show={SmsQueueShow} />
+      <Resource name="sms-templates" list={SmsTemplatesList} create={SmsTemplateCreate} edit={SmsTemplateEdit} show={SmsTemplateShow} />
 
     </Admin>
   );

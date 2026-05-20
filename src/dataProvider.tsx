@@ -66,10 +66,6 @@ const fetchJson = async (url: string, options: RequestInit = {}) => {
     throw new Error(errorText || res.statusText);
   }
 
-  if (res.status === 204 || res.headers.get("Content-Length") === "0") {
-    return null;
-  }
-
   return res.json();
 };
 
@@ -98,18 +94,35 @@ export const dataProvider: DataProvider = {
     resource: string,
     params: GetListParams
   ): Promise<GetListResult> => {
+    const { filter } = params;
     const { page = 1, perPage = 50 } = params.pagination ?? {};
+    const { field: sortField, order: sortOrder } = params.sort ?? {};
+
+    const queryParams = new URLSearchParams();
+
+    queryParams.set('page', String(page));
+    queryParams.set('size', String(perPage));
+
+    if (sortField && sortOrder) {
+      queryParams.set('sort', `${sortField},${sortOrder.toLowerCase()}`);
+    }
+
+    Object.entries(filter).forEach(([key, value]) => {
+      if (value !== undefined && value !== null && value !== '') {
+        queryParams.set(key, String(value));
+      }
+    });
 
     const json = await fetchJson(
-      `${apiUrl}/${getApiEndpoint(resource)}?page=${page}&size=${perPage}`
+      `${apiUrl}/${getApiEndpoint(resource)}?${queryParams.toString()}`
     );
 
+    const records = toRecords(json.content || json.data || json.Data || json);
+    const total = json.totalElements ?? json.total ?? records.length;
+
     return {
-      data: normalizeResourceData(resource, toRecords(json.data || json.Data)).map((item) => ({
-        ...item,
-        id: item.id,
-      })),
-      total: json.total ?? toRecords(json.data || json.Data).length ?? 0,
+      data: normalizeResourceData(resource, records).map((item) => ({ ...item, id: item.id })),
+      total,
     };
   },
 
@@ -143,10 +156,6 @@ export const dataProvider: DataProvider = {
     );
 
     const normalized = normalizeResourceData(resource, toRecords(json.data || json.Data || json));
-
-    if (!normalized[0]) {
-      throw new Error("Not found");
-    }
 
     return {
       data: {
@@ -182,20 +191,36 @@ export const dataProvider: DataProvider = {
     resource: string,
     params: GetManyReferenceParams
   ): Promise<GetManyReferenceResult> => {
-    const { page, perPage } = params.pagination;
+    const { page = 1, perPage = 50 } = params.pagination;
+    const { field: sortField, order: sortOrder } = params.sort;
+    const filter = params.filter;
+
+    const queryParams = new URLSearchParams();
+
+    queryParams.set(params.target, String(params.id));
+    queryParams.set('page', String(page));
+    queryParams.set('size', String(perPage));
+
+    if (sortField && sortOrder) {
+      queryParams.set('sort', `${sortField},${sortOrder.toLowerCase()}`);
+    }
+
+    Object.entries(filter).forEach(([key, value]) => {
+      if (value !== undefined && value !== null && value !== '') {
+        queryParams.set(key, String(value));
+      }
+    });
 
     const json = await fetchJson(
-      `${apiUrl}/${getApiEndpoint(resource)}?${params.target}=${params.id}&page=${page}&size=${perPage}`
+      `${apiUrl}/${getApiEndpoint(resource)}?${queryParams.toString()}`
     );
 
-    const normalized = normalizeResourceData(resource, toRecords(json.data || json.Data));
+    const records = toRecords(json.content || json.data || json.Data || json);
+    const total = json.totalElements ?? json.total ?? records.length;
 
     return {
-      data: normalized.map((item) => ({
-        ...item,
-        id: item.id,
-      })),
-      total: json.total ?? normalized.length ?? 0,
+      data: normalizeResourceData(resource, records).map((item) => ({ ...item, id: item.id })),
+      total,
     };
   },
 
@@ -266,12 +291,12 @@ export const dataProvider: DataProvider = {
     resource: string,
     params: DeleteParams
   ): Promise<DeleteResult> => {
-    const json = await fetchJson(`${apiUrl}/${getApiEndpoint(resource)}/${params.id}`, {
+    await fetchJson(`${apiUrl}/${getApiEndpoint(resource)}/${params.id}`, {
       method: "DELETE",
     });
 
     return {
-      data: json || { id: params.id },
+      data: { id: params.id },
     };
   },
 

@@ -1,6 +1,8 @@
 import {
-  Admin
-} from 'react-admin'
+  Admin,
+  ListGuesser,
+  Resource,
+} from 'react-admin';
 
 import { dataProvider } from "./dataProvider"
 import Layout from './Layout';
@@ -144,6 +146,23 @@ import { SupplierQuoteList } from './pages/suppliers/supplier quotes/supplier-qu
 import { PurchaseOrdersList } from './pages/suppliers/purchase orders/purchase-orders-list';
 import { PurchaseRequisitionList } from './pages/suppliers/purchase requisitions/purchase-requisitions-list';
 
+
+/* ============ SMS MODULE ============ */
+import { SmsCampaignRecipientsList } from './pages/sms/sms-campaign-recipients/sms-campaign-recipients-list';
+import { SmsCampaignsList } from './pages/sms/sms-campaigns/sms-campaigns-list';
+import { SmsContactsList } from './pages/sms/sms-contacts/sms-contacts-list';
+import { SmsGroupsList } from './pages/sms/sms-groups/sms-groups-list';
+import { SmsMessagesList } from './pages/sms/sms-messages/sms-messages-list';
+import { SmsProvidersList } from './pages/sms/sms-providers/sms-providers-list';
+import { SmsQueueList } from './pages/sms/sms-queue/sms-queue-list';
+import { SmsTemplatesList } from './pages/sms/sms-templates/sms-templates-list';
+
+const Logo = () => (
+  <svg width="100" height="30" xmlns="http://www.w3.org/2000/svg">
+    <text x="10" y="20" fontFamily="Verdana" fontSize="15" fill="blue">eDairy</text>
+  </svg>
+);
+
 const App = () => {
 
   return (
@@ -185,13 +204,6 @@ const App = () => {
       <Resource name="transporter-drivers" list={TransporterDriverList} />
       <Resource name="transporter-driver-assignments" list={TransporterDriverAssignmentList} />
       <Resource name="transporter-benefits" list={TransporterBenefitList} />
-      <Resource name="cooler-milk-collections" list={CoolerMilkCollectionList} />
-      <Resource name="milk-deliveries" list={MilkDeliveryList} />
-      <Resource name="milk-local-sales" list={MilkLocalSalesList} />
-      <Resource name="daily-milk-variances" list={DailyMilkVariancesList} />
-      <Resource name="stray-milk-collections" list={StrayMilkCollectionsList} />
-      <Resource name="monthly-collections" list={MonthlyCollectionList} />
-      <Resource name="can-movements" list={CanMovementsList} />
       <Resource name="monthly-pay-date-ranges" list={MonthlyPayDateRangeList} />
       <Resource name="pay-rates" list={PayRateList} />
       <Resource name="transporter-payments" list={TransporterPaymentList} />
@@ -204,6 +216,7 @@ const App = () => {
       <Resource name="transporter-statement" list={TransporterStatementList} />
 
       {/* Produce Module */}
+      <Resource name="cooler-milk-collections" list={CoolerMilkCollectionList} />
       <Resource name="milk-deliveries" list={MilkDeliveryList} />
       <Resource name="milk-local-sales" list={MilkLocalSalesList} />
       <Resource name="daily-milk-variances" list={DailyMilkVariancesList} />
@@ -298,7 +311,6 @@ const App = () => {
       <Resource name="asset-depreciation-entries" list={AssetDepreciationEntryList} />
       <Resource name="share-dividends" list={AdminShareDividendList} />
       <Resource name="share-registrations" list={ShareRegistrationList} />
-      <Resource name="share-transactions" list={ShareTransactionList} />
       <Resource name="sms" list={SmsList} />
       <Resource name="sms-error-codes" list={SmsErrorCodeList} />
       <Resource name="organization-details" list={OrganizationDetailsList} />
@@ -317,6 +329,17 @@ const App = () => {
       <Resource name="payment-types" list={PaymentTypeList} />
       <Resource name="relationships" list={RelationshipList} />
       <Resource name="locations" list={LocationList} />
+
+      {/* SMS Module */}
+      <Resource name="sms-campaign-recipients" list={SmsCampaignRecipientsList} />
+      <Resource name="sms-campaigns" list={SmsCampaignsList} />
+      <Resource name="sms-contacts" list={SmsContactsList} />
+      <Resource name="sms-groups" list={SmsGroupsList} />
+      <Resource name="sms-messages" list={SmsMessagesList} />
+      <Resource name="sms-providers" list={SmsProvidersList} />
+      <Resource name="sms-queue" list={SmsQueueList} />
+      <Resource name="sms-templates" list={SmsTemplatesList} />
+
     </Admin>
   );
 

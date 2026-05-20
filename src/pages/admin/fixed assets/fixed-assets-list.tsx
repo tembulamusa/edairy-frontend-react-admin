@@ -8,7 +8,6 @@ import {
     TextField,
     NumberField,
     TopToolbar,
-    FilterButton,
     ExportButton,
 } from 'react-admin';
 
@@ -29,7 +28,6 @@ import { ListBreadcrumbs } from '../../../../ListBreadcrumbs';
 
 const FixedAssetActions = () => (
     <TopToolbar>
-        <FilterButton />
         <CreateButton
             variant="contained"
             sx={{ backgroundColor: 'primary.main', color: 'white', ml: 1, '&:hover': { backgroundColor: 'primary.dark' } }}

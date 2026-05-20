@@ -8,7 +8,6 @@ import {
     useResourceContext,
     CreateButton,
     TopToolbar,
-    FilterButton,
     ExportButton,
 } from "react-admin";
 import {
@@ -98,7 +97,6 @@ const PreviewCell = ({
 
 const UserActions = () => (
     <TopToolbar>
-        <FilterButton />
         <CreateButton
             variant="contained"
             sx={{ backgroundColor: 'primary.main', color: 'white', ml: 1, '&:hover': { backgroundColor: 'primary.dark' } }}

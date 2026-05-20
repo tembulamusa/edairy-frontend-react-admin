@@ -19,7 +19,6 @@ import {
     CardContent,
     Typography,
     Divider,
-    Stack,
     Box,
     Button,
 } from '@mui/material';
@@ -27,7 +26,7 @@ import {
 import Grid from '@mui/material/Grid';
 import { ListBreadcrumbs } from '../../../../ListBreadcrumbs';
 
-const AssetDepreciationEntryCreateToolbar = () => {
+const ShareDividendCreateToolbar = () => {
     const notify = useNotify();
     const redirect = useRedirect();
 
@@ -40,8 +39,8 @@ const AssetDepreciationEntryCreateToolbar = () => {
                     variant="contained"
                     mutationOptions={{
                         onSuccess: () => {
-                            notify('Depreciation entry recorded successfully', { type: 'success' });
-                            redirect('create', 'asset-depreciation-entries');
+                            notify('Share Dividend recorded successfully', { type: 'success' });
+                            redirect('create', 'share-dividends');
                         },
                     }}
                 />
@@ -53,7 +52,7 @@ const AssetDepreciationEntryCreateToolbar = () => {
                     color: 'white',
                     '&:hover': { backgroundColor: 'grey.700' }
                 }}
-                onClick={() => redirect('/asset-depreciation-entries')}
+                onClick={() => redirect('/share-dividends')}
             >
                 Cancel
             </Button>
@@ -61,7 +60,7 @@ const AssetDepreciationEntryCreateToolbar = () => {
     );
 };
 
-export const AssetDepreciationEntryCreate = () => {
+export const ShareDividendCreate = () => {
     return (
         <Create
             title={false}
@@ -92,16 +91,15 @@ export const AssetDepreciationEntryCreate = () => {
                             mb={2}
                         >
                             <Grid item xs={12} md={12}>
-                                <Typography variant="h5" fontWeight="bold">New Depreciation Entry</Typography>
-                                <Typography variant="body2" color="text.secondary">Record a new depreciation value for a specific fixed asset.</Typography>
+                                <Typography variant="h5" fontWeight="bold">New Share Dividend</Typography>
+                                <Typography variant="body2" color="text.secondary">Record a new dividend distribution for shares.</Typography>
                             </Grid>
                         </Grid>
 
                         <Divider sx={{ mb: 4 }} />
 
                         <SimpleForm
-                            // Ensure the form itself takes full width
-                            toolbar={<AssetDepreciationEntryCreateToolbar />}
+                            toolbar={<ShareDividendCreateToolbar />}
                             sx={{
                                 "& .RaSimpleForm-toolbar": {
                                     mt: 3,
@@ -109,35 +107,52 @@ export const AssetDepreciationEntryCreate = () => {
                                     backgroundColor: 'transparent',
                                 },
                                 "& .MuiInputBase-root": { borderRadius: 2 },
+                                width: '100%',
                             }}
                         >
-                            {/* Removed Stack and directly used Grid container for full width */}
-                            {/* Row 1: Asset and Depreciation Date */}
+                            {/* Row 1: Member and Declaration Date */}
                             <Grid container spacing={2} alignItems="flex-start" sx={{ mb: 2 }}>
                                 <Grid item xs={12} md={6}>
-                                    <ReferenceInput source="asset_id" reference="fixed-assets">
-                                        <SelectInput label="Asset" optionText="asset_name" fullWidth variant="outlined" validate={required()} />
+                                    <ReferenceInput source="member_id" reference="share-accounts">
+                                        <SelectInput
+                                            label="Member"
+                                            optionText={(record) => `${record.first_name ?? ''} ${record.last_name ?? ''}`.trim() || record.account_number}
+                                            optionValue="member_id"
+                                            fullWidth
+                                            variant="outlined"
+                                            validate={required()}
+                                        />
                                     </ReferenceInput>
                                 </Grid>
                                 <Grid item xs={12} md={6}>
-                                    <DateInput source="depreciation_date" label="Depreciation Date" fullWidth variant="outlined" validate={required()} />
+                                    <DateInput source="declaration_date" label="Declaration Date" fullWidth variant="outlined" validate={required()} />
                                 </Grid>
                             </Grid>
 
-                            {/* Row 2: Depreciation Amount and Book Value */}
+                            {/* Row 2: Amount Per Share and Net Amount */}
                             <Grid container spacing={2} alignItems="flex-start" sx={{ mb: 2 }}>
                                 <Grid item xs={12} md={6}>
-                                    <NumberInput source="depreciation_amount" label="Depreciation Amount" fullWidth variant="outlined" validate={required()} />
+                                    <NumberInput source="amount_per_share" label="Amount Per Share" fullWidth variant="outlined" validate={required()} />
                                 </Grid>
                                 <Grid item xs={12} md={6}>
-                                    <NumberInput source="book_value" label="Book Value" fullWidth variant="outlined" validate={required()} />
+                                    <NumberInput source="net_amount" label="Net Amount" fullWidth variant="outlined" validate={required()} />
                                 </Grid>
                             </Grid>
 
-                            {/* Row 3: Administrative Notes (full width) */}
+                            {/* Row 3: Fiscal Year and Payment Date */}
+                            <Grid container spacing={2} alignItems="flex-start" sx={{ mb: 2 }}>
+                                <Grid item xs={12} md={6}>
+                                    <NumberInput source="fiscal_year" label="Fiscal Year" fullWidth variant="outlined" validate={required()} />
+                                </Grid>
+                                <Grid item xs={12} md={6}>
+                                    <DateInput source="payment_date" label="Payment Date" fullWidth variant="outlined" />
+                                </Grid>
+                            </Grid>
+
+                            {/* Row 4: Notes (full width) */}
                             <Grid container spacing={2} alignItems="flex-start">
                                 <Grid item xs={12}>
-                                    <TextInput source="notes" label="Administrative Notes" multiline rows={3} fullWidth variant="outlined" />
+                                    <TextInput source="notes" label="Notes" multiline rows={3} fullWidth variant="outlined" />
                                 </Grid>
                             </Grid>
                         </SimpleForm>

@@ -8,7 +8,6 @@ import {
     ExportButton,
     Pagination,
     TopToolbar,
-    FilterButton,
 } from 'react-admin';
 import { Box, Card, CardContent, Typography, Stack, Tooltip } from '@mui/material';
 import Grid from '@mui/material/Grid';
@@ -17,7 +16,6 @@ import { ListBreadcrumbs } from '../../../../ListBreadcrumbs';
 
 const AssetCategoryActions = () => (
     <TopToolbar>
-        <FilterButton />
         <CreateButton
             variant="contained"
             sx={{ backgroundColor: 'primary.main', color: 'white', ml: 1, '&:hover': { backgroundColor: 'primary.dark' } }}

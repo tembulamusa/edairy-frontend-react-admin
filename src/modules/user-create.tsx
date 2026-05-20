@@ -1,0 +1,1 @@
+// Deprecated: Moved to src/pages/admin/users/UserCreate.tsx

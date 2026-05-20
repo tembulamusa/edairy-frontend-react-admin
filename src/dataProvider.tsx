@@ -66,6 +66,10 @@ const fetchJson = async (url: string, options: RequestInit = {}) => {
     throw new Error(errorText || res.statusText);
   }
 
+  if (res.status === 204 || res.headers.get("Content-Length") === "0") {
+    return null;
+  }
+
   return res.json();
 };
 
@@ -139,6 +143,10 @@ export const dataProvider: DataProvider = {
     );
 
     const normalized = normalizeResourceData(resource, toRecords(json.data || json.Data || json));
+
+    if (!normalized[0]) {
+      throw new Error("Not found");
+    }
 
     return {
       data: {
@@ -258,12 +266,12 @@ export const dataProvider: DataProvider = {
     resource: string,
     params: DeleteParams
   ): Promise<DeleteResult> => {
-    await fetchJson(`${apiUrl}/${getApiEndpoint(resource)}/${params.id}`, {
+    const json = await fetchJson(`${apiUrl}/${getApiEndpoint(resource)}/${params.id}`, {
       method: "DELETE",
     });
 
     return {
-      data: { id: params.id },
+      data: json || { id: params.id },
     };
   },
 

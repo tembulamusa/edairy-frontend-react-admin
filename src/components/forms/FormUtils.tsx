@@ -13,6 +13,16 @@ interface BaseFormProps {
 const CustomToolbar = (props: any) => (
     <Toolbar {...props} sx={{ display: 'flex', justifyContent: 'space-between' }}>
         <SaveButton />
+        {/* <SaveButton
+            label="Create & Create New"
+            type="button"
+            variant="text"
+            mutationOptions={{
+                onSuccess: (_data, _variables, context) => {
+                    context?.reset?.();
+                },
+            }}
+        /> */}
         <Button onClick={props.onCancel}>Cancel</Button>
     </Toolbar>
 );
@@ -22,19 +32,33 @@ export const BaseForm = ({ resource, children, onSuccess, transform }: BaseFormP
     const notify = useNotify();
     const refresh = useRefresh();
 
-    const handleSubmit = async (data: any) => {
+    const handleSubmit = async (
+        data: any,
+        redirect: boolean = true
+    ) => {
         const finalData = transform ? transform(data) : data;
+
         create(
             resource,
             { data: finalData },
             {
                 onSuccess: () => {
-                    notify(`${resource} created successfully`, { type: 'success' });
+                    notify(`${resource} created successfully`, {
+                        type: 'success',
+                    });
+
                     refresh();
-                    if (onSuccess) onSuccess();
+
+                    if (redirect && onSuccess) {
+                        onSuccess();
+                    }
                 },
+
                 onError: (error: any) => {
-                    notify(error.message || `Failed to create ${resource}`, { type: 'error' });
+                    notify(
+                        error.message || `Failed to create ${resource}`,
+                        { type: 'error' }
+                    );
                 },
             }
         );
@@ -55,14 +79,16 @@ interface CreateButtonProps {
     title: string;
     children: ReactNode;
     transform?: (data: any) => any;
+    sx?: any;
+    variant?: "contained" | "outlined" | "text";
 }
 
-export const CreateButton = ({ resource, title, children, transform }: CreateButtonProps) => {
+export const CreateButton = ({ resource, title, children, transform, sx, variant = "contained" }: CreateButtonProps) => {
     const [open, setOpen] = useState(false);
 
     return (
         <>
-            <Button variant="contained" onClick={() => setOpen(true)} sx={{ mb: 2 }}>
+            <Button variant={variant} onClick={() => setOpen(true)} sx={sx}>
                 Create {title}
             </Button>
             <CreateModal open={open} onClose={() => setOpen(false)} title={`Create ${title}`}>

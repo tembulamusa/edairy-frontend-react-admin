@@ -2,7 +2,7 @@ import React from 'react';
 
 /* ============ ADMIN MODULE ============ */
 import { LicenceList } from '../../pages/admin/licence/licence-list';
-import { AuditLogList } from '../../pages/admin/audit logs/audit-logs-list';
+import { AuditLogList } from '../../pages/admin/audit logs/activity-log-list';
 import { PermissionList } from '../../pages/admin/permissions/permissions-list';
 import { RoleList } from '../../pages/admin/roles/roles-list';
 import { UserList } from '../../pages/admin/users/users-list';

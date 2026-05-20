@@ -3,10 +3,13 @@ import {
     List,
     DataTable,
     useRecordContext,
-    TextInput,
-    required,
+    CreateButton,
     EditButton,
     DeleteButton,
+    useResourceContext,
+    TopToolbar,
+    FilterButton,
+    ExportButton,
 } from "react-admin";
 import {
     Dialog,
@@ -16,14 +19,20 @@ import {
     Button,
     Stack,
     Typography,
+    Tooltip,
     Chip,
-    Divider,
+    Box,
+    Card,
+    CardContent,
 } from "@mui/material";
-import { CreateButton } from "../../../components/forms/FormUtils";
+import Grid from '@mui/material/Grid';
+import { useCan } from "../../../components/permissions/user-can";
+import { ListBreadcrumbs } from "../../../../ListBreadcrumbs";
 
 type RoleRecord = {
     Name?: string;
     Permissions?: Array<string | { Name?: string; name?: string; PermissionName?: string }>;
+    permissions?: Array<string | { Name?: string; name?: string; PermissionName?: string }>;
 };
 
 const getPermissionName = (permission: RoleRecord["Permissions"][number]) => {
@@ -72,12 +81,28 @@ const PermissionPreview = ({
     );
 };
 
+const RoleActions = () => (
+    <TopToolbar>
+        <FilterButton />
+        <CreateButton
+            variant="contained"
+            sx={{ backgroundColor: 'primary.main', color: 'white', ml: 1, '&:hover': { backgroundColor: 'primary.dark' } }}
+        />
+        <ExportButton />
+    </TopToolbar>
+);
+
 export const RoleList = () => {
     const [open, setOpen] = useState(false);
     const [selectedRole, setSelectedRole] = useState<RoleRecord | null>(null);
+    const can = useCan();
+    const resource = useResourceContext() ?? "roles";
+    const canEdit = can(resource, "update");
+    const canDelete = can(resource, "delete");
+    const canCreate = can(resource, "create");
 
     const permissions = useMemo(() => {
-        const names = (selectedRole?.Permissions || [])
+        const names = (selectedRole?.permissions || selectedRole?.Permissions || [])
             .map(getPermissionName)
             .filter(Boolean);
 
@@ -94,32 +119,82 @@ export const RoleList = () => {
     };
 
     return (
-        <>
-            <List 
+        <Box sx={{ p: 2 }}>
+            <ListBreadcrumbs />
+            <List
                 title="Roles"
-                actions={
-                    <CreateButton resource="roles" title="Role">
-                        <TextInput source="name" validate={required()} fullWidth />
-                    </CreateButton>
-                }
+                actions={<RoleActions />}
             >
-                <DataTable>
+                <DataTable
+                    rowClick="show"
+                    sx={{
+                        '& .RaDataTable-headerCell': {
+                            fontWeight: "bold",
+                            backgroundColor: "#f5f5f5",
+                        },
+                    }}
+                >
                     <DataTable.Col source="name" label="Name" />
                     <DataTable.Col label="Permissions">
                         <PermissionPreview onOpen={handleOpen} />
                     </DataTable.Col>
                     <DataTable.Col label="Actions">
-                        <EditButton />
-                        <DeleteButton />
+                        <Stack
+                            direction="row"
+                            spacing={1}
+                            alignItems="center"
+                        >
+                            {canEdit && (
+                                <Tooltip title="Edit Record">
+                                    <span>
+                                        <EditButton
+                                            label={false}
+                                            sx={{
+                                                minWidth: 36,
+                                            }}
+                                        />
+                                    </span>
+                                </Tooltip>
+                            )}
+
+                            {canDelete && (
+                                <Tooltip title="Delete Record">
+                                    <span>
+                                        <DeleteButton
+                                            label={false}
+                                            confirmColor="error"
+                                            mutationMode="pessimistic"
+                                            confirmTitle="⚠️ Confirm deletion"
+                                            confirmContent="This will permanently remove the record."
+                                            confirmProps={{
+                                                sx: {
+                                                    '& .RaConfirm-confirm-button': {
+                                                        color: 'error.main !important',
+                                                    },
+                                                    '& .RaConfirm-title': {
+                                                        color: 'error.main !important',
+                                                    },
+                                                    '& .RaConfirm-content': {
+                                                        color: 'error.main !important',
+                                                    },
+                                                },
+                                            }}
+                                            sx={{
+                                                minWidth: 36,
+                                            }}
+                                        />
+                                    </span>
+                                </Tooltip>
+                            )}
+                        </Stack>
                     </DataTable.Col>
                 </DataTable>
             </List>
 
             <Dialog open={open} onClose={handleClose} fullWidth maxWidth="sm">
-                <DialogTitle>{`${selectedRole?.Name || "Role"} permissions`}</DialogTitle>
+                <DialogTitle>{`${selectedRole?.Name || selectedRole?.name || "Role"} permissions`}</DialogTitle>
                 <DialogContent dividers>
                     <Stack spacing={2}>
-
                         <div>
                             <Typography variant="overline" color="text.secondary">
                                 Permissions
@@ -142,6 +217,6 @@ export const RoleList = () => {
                     <Button onClick={handleClose}>Close</Button>
                 </DialogActions>
             </Dialog>
-        </>
+        </Box >
     );
 };

@@ -1,75 +1,216 @@
-import { useState } from "react";
-import { List, DataTable, DateField, BooleanField } from "react-admin";
-import { Button } from "@mui/material";
+    import { useState } from "react";
+    import { List, DataTable, EditButton, DeleteButton, useResourceContext, CreateButton, Button, BooleanField, ImageField, ShowButton, TextInput, ReferenceInput, SelectInput } from 'react-admin';
+    import { Box, Card, CardContent, Typography, Stack, Tooltip } from '@mui/material';
+    import Grid from '@mui/material/Grid';
+    import { useCan } from '../../../components/permissions/user-can';
 
-import { MemberCreateWizard } from "./create wizard/member-create-wizard";
 
-export const MemberList = () => {
-    const [open, setOpen] = useState(false);
+    import { MemberCreateWizard } from "./create wizard/member-create-wizard";
 
-    return (
-        <>
-            <List
-                title="Members"
-                actions={
-                    <Button variant="contained" onClick={() => setOpen(true)}>
-                        Create Member
-                    </Button>
-                }
-            >
-                <DataTable>
-                    <DataTable.NumberCol source="id" />
-                    <DataTable.Col source="created_at">
-                        <DateField source="created_at" />
-                    </DataTable.Col>
-                    <DataTable.Col source="updated_at">
-                        <DateField source="updated_at" />
-                    </DataTable.Col>
-                    <DataTable.Col source="deleted_at" />
-                    <DataTable.Col source="created_by">
-                        <DateField source="created_by" />
-                    </DataTable.Col>
-                    <DataTable.Col source="member_no" />
-                    <DataTable.Col source="first_name" />
-                    <DataTable.Col source="last_name" />
-                    <DataTable.Col source="other_names" />
-                    <DataTable.Col source="idnumber" />
-                    <DataTable.Col source="gender" />
-                    <DataTable.Col source="date_of_birth">
-                        <DateField source="date_of_birth" />
-                    </DataTable.Col>
-                    <DataTable.Col source="primary_phone" />
-                    <DataTable.Col source="secondary_phone" />
-                    <DataTable.Col source="email" />
-                    <DataTable.Col source="tax_number" />
-                    <DataTable.Col source="marital_status" />
-                    <DataTable.Col source="status" />
-                    <DataTable.NumberCol source="route_id" />
-                    <DataTable.NumberCol source="member_type_id" />
-                    <DataTable.NumberCol source="number_of_cows" />
-                    <DataTable.Col source="next_of_kin_full_name" />
-                    <DataTable.Col source="next_of_kin_phone" />
-                    <DataTable.Col source="date_registered">
-                        <DateField source="date_registered" />
-                    </DataTable.Col>
-                    <DataTable.Col source="passport_photo" />
-                    <DataTable.Col source="id_front_photo" />
-                    <DataTable.Col source="id_back_photo" />
-                    <DataTable.Col source="updated_by" />
-                    <DataTable.Col source="downloaded" />
-                    <DataTable.Col source="birth_city" />
-                    <DataTable.Col source="id_date_of_issue">
-                        <DateField source="id_date_of_issue" />
-                    </DataTable.Col>
-                    <DataTable.Col source="title" />
-                    <DataTable.Col source="cashout_enrolled">
-                        <BooleanField source="cashout_enrolled" />
-                    </DataTable.Col>
-                    <DataTable.Col source="id" />
-                </DataTable>
-            </List>
+   const MemberFilters = [
+        <TextInput
+            source="member_no"
+            label="Member No"
+            alwaysOn
+        />,
 
-            <MemberCreateWizard open={open} onClose={() => setOpen(false)} />
-        </>
-    );
-};
+        <TextInput
+            source="primary_phone"
+            label="Phone"
+            alwaysOn
+        />,
+
+        <ReferenceInput
+            source="member_type_id"
+            reference="member-types"
+            alwaysOn
+        >
+            <SelectInput optionText="name" label="Member Type" />
+        </ReferenceInput>,
+
+        <ReferenceInput
+            source="route_id"
+            reference="routes"
+            alwaysOn
+        >
+            <SelectInput optionText="name" label="Route" />
+        </ReferenceInput>,
+    ];
+
+    export const MemberList = () => {
+        const [open, setOpen] = useState(false);
+        const can = useCan();
+        const resource = useResourceContext() ?? "members";
+        const canEdit = can(resource, "update");
+        const canDelete = can(resource, "delete");
+        const canCreate = can(resource, "create");
+
+
+        return (
+            <Box sx={{ p: 2 }}>
+                <Card
+                    sx={{
+                        borderRadius: 3,
+                        boxShadow: 3,
+                        overflow: "hidden",
+                    }}
+                >
+                    <CardContent>
+                        <Grid
+                            container
+                            spacing={2}
+                            alignItems="center"
+                            justifyContent="space-between"
+                            mb={2}
+                        >
+                            <Grid size={{ xs: 12, md: 6 }}>
+                                <Typography
+                                    variant="h5"
+                                    fontWeight="bold"
+                                >
+                                    Members
+                                </Typography>
+
+                                <Typography
+                                    variant="body2"
+                                    color="text.secondary"
+                                >
+                                    Manage all member records
+                                </Typography>
+                            </Grid>
+
+                            <Grid size={{ xs: 12, md: "auto" }}>
+                                {canCreate && (
+                                    <CreateButton
+                                        variant="contained"
+                                        sx={{
+                                            backgroundColor: 'primary.main',
+                                            color: 'white',
+                                            '&:hover': {
+                                                backgroundColor: 'primary.dark',
+                                            },
+                                        }}
+                                    />
+                                )}
+                            </Grid>
+                            <MemberCreateWizard open={open} onClose={() => setOpen(false)} />
+                        </Grid>
+                <List
+                    title="Members"
+                            actions={false}
+                            filters={MemberFilters}
+                        >
+                            <DataTable
+                                rowClick="show"
+                                sx={{
+                                    '& .RaDataTable-headerCell': {
+                                        fontWeight: "bold",
+                                        backgroundColor: "#f5f5f5",
+                                    },
+                                }}
+                            >
+                        
+                        <DataTable.Col source="member_no" />
+                        <DataTable.Col source="member_type_name"  label="Type"/>
+                        <DataTable.Col source="route_name" label="Route"/>
+                        <DataTable.Col source="first_name" />
+                        <DataTable.Col source="last_name" />
+                        <DataTable.Col source="gender" />
+
+                        <DataTable.Col source="primary_phone" label="Phone"/>
+                        <DataTable.Col label="ID Back Photo">
+                            <ImageField
+                                source="id_front_photo"
+                                sx={{
+                                    "& .RaImageField-image": {
+                                        width: 100,
+                                        height: 50,
+                                        objectFit: "cover",
+                                        borderRadius: 2,
+                                        border: "1px solid #ddd",
+                                    },
+                                }}
+                            />
+                        </DataTable.Col>
+                        <DataTable.Col label="ID Back Photo">
+                            <ImageField
+                                source="id_back_photo"
+                                sx={{
+                                    "& .RaImageField-image": {
+                                        width: 100,
+                                        height: 50,
+                                        objectFit: "cover",
+                                        borderRadius: 2,
+                                        border: "1px solid #ddd",
+                                    },
+                                }}
+                            />
+                        </DataTable.Col>
+                        
+                    
+                        <DataTable.Col source="cashout_enrolled" label="Loan Status">
+                            <BooleanField source="cashout_enrolled" />
+                        </DataTable.Col>
+                        <DataTable.Col source="status" />
+                    
+
+                        <DataTable.Col label="Actions">
+                            <Stack
+                                direction="row"
+                                spacing={1}
+                                alignItems="center"
+                            >
+                            {(
+                                    <Tooltip title="View Details">
+                                        <span>
+                                            <ShowButton
+                                                label={false}
+                                                sx={{
+                                                    minWidth: 10,
+                                                }}
+                                            />
+                                        </span>
+                                    </Tooltip>
+                                )}
+
+
+                                {canEdit && (
+                                    <Tooltip title="Edit Record">
+                                        <span>
+                                            <EditButton
+                                                label={false}
+                                                sx={{
+                                                    minWidth: 10,
+                                                }}
+                                            />
+                                        </span>
+                                    </Tooltip>
+                                )}
+
+                                {canDelete && (
+                                    <Tooltip title="Delete Record">
+                                        <span>
+                                            <DeleteButton
+                                                label={false}
+                                                mutationMode="pessimistic"
+                                                confirmTitle="⚠️ Confirm deletion"
+                                                confirmContent="This will permanently remove the record."
+                                                sx={{
+                                                    minWidth: 10,
+                                                }}
+                                            />
+                                        </span>
+                                    </Tooltip>
+                                )}
+                            </Stack>
+                        </DataTable.Col>
+                    </DataTable>
+                </List>
+                </CardContent>
+                </Card>
+            </Box>
+
+            
+        
+        );
+    };

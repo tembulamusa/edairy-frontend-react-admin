@@ -41,12 +41,12 @@ const PermissionCreateToolbar = () => {
                     }}
                 />
             </Box>
-            <Button 
-                variant="contained" 
-                sx={{ 
-                    backgroundColor: 'grey.500', 
+            <Button
+                variant="contained"
+                sx={{
+                    backgroundColor: 'grey.500',
                     color: 'white',
-                    '&:hover': { backgroundColor: 'grey.700' } 
+                    '&:hover': { backgroundColor: 'grey.700' }
                 }}
                 onClick={() => redirect('/permissions')}
             >
@@ -69,7 +69,7 @@ export const PermissionCreate = () => {
             }}
         >
             <Card
-                elevation={3}
+                elevation={0}
                 sx={{
                     borderRadius: 3,
                     width: '100%',
@@ -121,7 +121,7 @@ export const PermissionCreate = () => {
                             <TextInput
                                 source="name"
                                 label="Permission Name"
-                                validate={required()}
+                                validate={required()} // Ensure validation is applied
                                 variant="outlined"
                                 fullWidth
                             />

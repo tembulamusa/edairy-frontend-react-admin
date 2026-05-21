@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useState, useEffect } from 'react';
 import {
     Create,
     SimpleForm,
@@ -8,8 +9,9 @@ import {
     SaveButton,
     useNotify,
     useRedirect,
-    ReferenceArrayInput,
-    CheckboxGroupInput,
+    useGetList,
+    useInput,
+    Loading,
 } from 'react-admin';
 
 import {
@@ -20,9 +22,16 @@ import {
     Stack,
     Box,
     Button,
+    Checkbox,
+    FormControlLabel,
+    FormGroup,
+    Pagination,
+    InputAdornment,
+    TextField,
 } from '@mui/material';
 
 import Grid from '@mui/material/Grid';
+import SearchIcon from '@mui/icons-material/Search';
 
 const RoleCreateToolbar = () => {
     const notify = useNotify();
@@ -58,10 +67,126 @@ const RoleCreateToolbar = () => {
     );
 };
 
+const PermissionsSelector = () => {
+    const { field } = useInput({ source: 'permission_ids' });
+    const [search, setSearch] = useState('');
+    const [page, setPage] = useState(1);
+    const perPage = 16;
+
+    const { data, total, isLoading } = useGetList('permissions', {
+        pagination: { page, perPage },
+        sort: { field: 'name', order: 'ASC' },
+        filter: { q: search },
+    });
+
+    const selectedIds = field.value || [];
+
+    const handleToggle = (id: any) => {
+        const newValue = selectedIds.includes(id)
+            ? selectedIds.filter((item: any) => item !== id)
+            : [...selectedIds, id];
+        field.onChange(newValue);
+    };
+
+    const handleSelectAllOnPage = () => {
+        if (!data) return;
+        const pageIds = data.map(p => p.id);
+        const allPageSelected = pageIds.every(id => selectedIds.includes(id));
+
+        let newValue;
+        if (allPageSelected) {
+            newValue = selectedIds.filter((id: any) => !pageIds.includes(id));
+        } else {
+            newValue = Array.from(new Set([...selectedIds, ...pageIds]));
+        }
+        field.onChange(newValue);
+    };
+
+    useEffect(() => {
+        setPage(1);
+    }, [search]);
+
+    if (isLoading) return <Loading />;
+
+    return (
+        <Box sx={{ width: '100%', mt: 1 }}>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2, gap: 2 }}>
+                <TextField
+                    label="Search Permissions"
+                    variant="outlined"
+                    size="small"
+                    sx={{ flexGrow: 1 }}
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                    InputProps={{
+                        startAdornment: (
+                            <InputAdornment position="start">
+                                <SearchIcon fontSize="small" />
+                            </InputAdornment>
+                        ),
+                    }}
+                />
+                <Button
+                    variant="outlined"
+                    size="small"
+                    onClick={handleSelectAllOnPage}
+                    disabled={!data || data.length === 0}
+                >
+                    {data && data.length > 0 && data.map(p => p.id).every(id => selectedIds.includes(id))
+                        ? 'Unselect Page'
+                        : 'Select All on Page'}
+                </Button>
+            </Box>
+
+            <Typography variant="caption" color="text.secondary" sx={{ mb: 1, display: 'block' }}>
+                Selected: {selectedIds.length} permissions
+            </Typography>
+
+            <FormGroup>
+                <Grid container spacing={1}>
+                    {data?.map((permission) => (
+                        <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }} key={permission.id}>
+                            <FormControlLabel
+                                control={
+                                    <Checkbox
+                                        size="small"
+                                        checked={selectedIds.includes(permission.id)}
+                                        onChange={() => handleToggle(permission.id)}
+                                    />
+                                }
+                                label={<Typography variant="body2">{permission.name}</Typography>}
+                            />
+                        </Grid>
+                    ))}
+                </Grid>
+            </FormGroup>
+
+            {total !== undefined && total > perPage && (
+                <Box sx={{ display: 'flex', justifyContent: 'center', mt: 3 }}>
+                    <Pagination
+                        count={Math.ceil(total / perPage)}
+                        page={page}
+                        onChange={(_, p) => setPage(p)}
+                        size="small"
+                        color="primary"
+                    />
+                </Box>
+            )}
+        </Box>
+    );
+};
+
 export const RoleCreate = () => {
     return (
         <Create
             title={false}
+            transform={(data: any) => {
+                const { permission_ids, ...payload } = data;
+                return {
+                    ...payload,
+                    permissions: permission_ids,
+                };
+            }}
             sx={{
                 "& .RaCreate-main": {
                     display: "flex",
@@ -71,7 +196,7 @@ export const RoleCreate = () => {
             }}
         >
             <Card
-                elevation={3}
+                elevation={0}
                 sx={{
                     borderRadius: 3,
                     width: '100%',
@@ -122,30 +247,12 @@ export const RoleCreate = () => {
                             <TextInput
                                 source="name"
                                 label="Role Name"
-                                validate={required()}
+                                validate={required()} // Ensure validation is applied
                                 variant="outlined"
                                 fullWidth
                             />
 
-                            <ReferenceArrayInput source="permission_ids" reference="permissions">
-                                <CheckboxGroupInput
-                                    label="Permissions"
-                                    optionText="name"
-                                    fullWidth
-                                    sx={{
-                                        '& .MuiFormGroup-root': {
-                                            display: 'grid',
-                                            gridTemplateColumns: {
-                                                xs: '1fr',
-                                                sm: '1fr 1fr',
-                                                md: '1fr 1fr 1fr',
-                                                lg: '1fr 1fr 1fr 1fr',
-                                            },
-                                            gap: 1,
-                                        }
-                                    }}
-                                />
-                            </ReferenceArrayInput>
+                            <PermissionsSelector />
 
                             <TextInput
                                 source="guard_name"

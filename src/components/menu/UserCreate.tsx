@@ -53,7 +53,7 @@ export const UserCreate = () => {
                     }}
                 >
                     <Card
-                        elevation={6} // Matching FixedAssetForm's elevation
+                        elevation={0}
                         sx={{
                             borderRadius: 4, // Matching FixedAssetForm's border radius
                             overflow: "hidden",

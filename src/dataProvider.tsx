@@ -81,6 +81,11 @@ const normalizeResourceData = (resource: string, items: ApiRecord[]) => {
   return items;
 };
 
+const getApiEndpoint = (resource: string) => {
+  
+  return resource;
+};
+
 /* ================= DATA PROVIDER ================= */
 
 export const dataProvider: DataProvider = {
@@ -89,41 +94,38 @@ export const dataProvider: DataProvider = {
     resource: string,
     params: GetListParams
   ): Promise<GetListResult> => {
+    const { filter } = params;
     const { page = 1, perPage = 50 } = params.pagination ?? {};
+    const { field: sortField, order: sortOrder } = params.sort ?? {};
 
-    const query = new URLSearchParams();
+    const queryParams = new URLSearchParams();
 
-    /* ================= PAGINATION ================= */
-    query.append("page", String(page));
-    query.append("size", String(perPage));
+    queryParams.set('page', String(page));
+    queryParams.set('size', String(perPage));
 
-    /* ================= FILTERS (NEW) ================= */
-    if (params.filter) {
-      Object.entries(params.filter).forEach(([key, value]) => {
-        if (
-          value !== undefined &&
-          value !== null &&
-          value !== ""
-        ) {
-          query.append(key, String(value));
-        }
-      });
+    if (sortField && sortOrder) {
+      queryParams.set('sort', `${sortField},${sortOrder.toLowerCase()}`);
     }
 
+    Object.entries(filter).forEach(([key, value]) => {
+      if (value !== undefined && value !== null && value !== '') {
+        queryParams.set(key, String(value));
+      }
+    });
+
     const json = await fetchJson(
-      `${apiUrl}/${resource}?${query.toString()}`
+      `${apiUrl}/${getApiEndpoint(resource)}?${queryParams.toString()}`
     );
 
-    const items = toRecords(json.data || json.Data);
+    const records = toRecords(json.content || json.data || json.Data || json);
+    const total = json.totalElements ?? json.total ?? records.length;
 
     return {
-      data: normalizeResourceData(resource, items).map((item) => ({
-        ...item,
-        id: item.id,
-      })),
-      total: json.total ?? items.length ?? 0,
+      data: normalizeResourceData(resource, records).map((item) => ({ ...item, id: item.id })),
+      total,
     };
   },
+
   get: async (
     resource: string,
     params: GetListParams
@@ -131,7 +133,7 @@ export const dataProvider: DataProvider = {
     void params;
 
     const json = await fetchJson(
-      `${apiUrl}/${resource}`
+      `${apiUrl}/${getApiEndpoint(resource)}`
     );
 
     const normalized = normalizeResourceData(resource, toRecords(json.data || json.Data || json));
@@ -150,7 +152,7 @@ export const dataProvider: DataProvider = {
     params: GetOneParams
   ): Promise<GetOneResult> => {
     const json = await fetchJson(
-      `${apiUrl}/${resource}/${params.id}`
+      `${apiUrl}/${getApiEndpoint(resource)}/${params.id}`
     );
 
     const normalized = normalizeResourceData(resource, toRecords(json.data || json.Data || json));
@@ -171,7 +173,7 @@ export const dataProvider: DataProvider = {
     const query = params.ids.map(id => `id=${id}`).join("&");
 
     const json = await fetchJson(
-      `${apiUrl}/${resource}?${query}`
+      `${apiUrl}/${getApiEndpoint(resource)}?${query}`
     );
 
     const normalized = normalizeResourceData(resource, toRecords(json.data || json.Data));
@@ -189,20 +191,36 @@ export const dataProvider: DataProvider = {
     resource: string,
     params: GetManyReferenceParams
   ): Promise<GetManyReferenceResult> => {
-    const { page, perPage } = params.pagination;
+    const { page = 1, perPage = 50 } = params.pagination;
+    const { field: sortField, order: sortOrder } = params.sort;
+    const filter = params.filter;
+
+    const queryParams = new URLSearchParams();
+
+    queryParams.set(params.target, String(params.id));
+    queryParams.set('page', String(page));
+    queryParams.set('size', String(perPage));
+
+    if (sortField && sortOrder) {
+      queryParams.set('sort', `${sortField},${sortOrder.toLowerCase()}`);
+    }
+
+    Object.entries(filter).forEach(([key, value]) => {
+      if (value !== undefined && value !== null && value !== '') {
+        queryParams.set(key, String(value));
+      }
+    });
 
     const json = await fetchJson(
-      `${apiUrl}/${resource}?${params.target}=${params.id}&page=${page}&size=${perPage}`
+      `${apiUrl}/${getApiEndpoint(resource)}?${queryParams.toString()}`
     );
 
-    const normalized = normalizeResourceData(resource, toRecords(json.data || json.Data));
+    const records = toRecords(json.content || json.data || json.Data || json);
+    const total = json.totalElements ?? json.total ?? records.length;
 
     return {
-      data: normalized.map((item) => ({
-        ...item,
-        id: item.id,
-      })),
-      total: json.total ?? normalized.length ?? 0,
+      data: normalizeResourceData(resource, records).map((item) => ({ ...item, id: item.id })),
+      total,
     };
   },
 
@@ -211,7 +229,7 @@ export const dataProvider: DataProvider = {
     resource: string,
     params: CreateParams
   ): Promise<CreateResult> => {
-    const json = await fetchJson(`${apiUrl}/${resource}`, {
+    const json = await fetchJson(`${apiUrl}/${getApiEndpoint(resource)}`, {
       method: "POST",
       body: JSON.stringify(params.data),
     });
@@ -221,7 +239,7 @@ export const dataProvider: DataProvider = {
     return {
       data: {
         ...data,
-        id: data?.ID || data?.Id || data?.id,
+        id: data.id,
       },
     };
   },
@@ -232,7 +250,7 @@ export const dataProvider: DataProvider = {
     params: UpdateParams
   ): Promise<UpdateResult> => {
     const json = await fetchJson(
-      `${apiUrl}/${resource}/${params.id}`,
+      `${apiUrl}/${getApiEndpoint(resource)}/${params.id}`,
       {
         method: "PUT",
         body: JSON.stringify(params.data),
@@ -256,7 +274,7 @@ export const dataProvider: DataProvider = {
   ): Promise<UpdateManyResult> => {
     await Promise.all(
       params.ids.map(id =>
-        fetchJson(`${apiUrl}/${resource}/${id}`, {
+        fetchJson(`${apiUrl}/${getApiEndpoint(resource)}/${id}`, {
           method: "PUT",
           body: JSON.stringify(params.data),
         })
@@ -273,7 +291,7 @@ export const dataProvider: DataProvider = {
     resource: string,
     params: DeleteParams
   ): Promise<DeleteResult> => {
-    await fetchJson(`${apiUrl}/${resource}/${params.id}`, {
+    await fetchJson(`${apiUrl}/${getApiEndpoint(resource)}/${params.id}`, {
       method: "DELETE",
     });
 
@@ -289,7 +307,7 @@ export const dataProvider: DataProvider = {
   ): Promise<DeleteManyResult> => {
     await Promise.all(
       params.ids.map(id =>
-        fetchJson(`${apiUrl}/${resource}/${id}`, {
+        fetchJson(`${apiUrl}/${getApiEndpoint(resource)}/${id}`, {
           method: "DELETE",
         })
       )

@@ -1,6 +1,7 @@
 import {
     DataTable,
     List,
+    TopToolbar,
     useResourceContext,
     EditButton,
     DeleteButton,
@@ -8,7 +9,11 @@ import {
     TextField,
     NumberField,
     ReferenceField,
-    DateField
+    DateField,
+    FilterButton,
+    ExportButton,
+    TextInput,
+    Pagination,
 } from 'react-admin';
 
 import {
@@ -25,95 +30,56 @@ import Grid from '@mui/material/Grid';
 import { useCan } from '../../../components/permissions/user-can';
 import { ListBreadcrumbs } from '../../../../ListBreadcrumbs';
 
+const activityLogFilters = [
+    <TextInput label="Search" source="q" alwaysOn />,
+];
+
+const ActivityLogActions = () => (
+    <TopToolbar>
+        <FilterButton />
+        <CreateButton
+            variant="contained"
+            sx={{ backgroundColor: 'primary.main', color: 'white', ml: 1, '&:hover': { backgroundColor: 'primary.dark' } }}
+        />
+        <ExportButton />
+    </TopToolbar>
+);
+
 export const ActivityLogList = () => {
-
     const can = useCan();
-    const resource = useResourceContext() ?? "fixed-assets";
-
-    const canCreate = can(resource, "create");
-    const canEdit = can(resource, "update");
-    const canDelete = can(resource, "delete");
+    const resource = useResourceContext() ?? "activity-logs";
 
     return (
         <Box sx={{ p: 2 }}>
             <ListBreadcrumbs />
-            <Card
-                sx={{
-                    borderRadius: 3,
-                    boxShadow: 3,
-                    overflow: "hidden",
-                }}
+            <List
+                title="Activity Logs"
+                filters={activityLogFilters}
+                actions={<ActivityLogActions />}
             >
-                <CardContent>
-                    <Grid
-                        container
-                        spacing={2}
-                        alignItems="center"
-                        justifyContent="space-between"
-                        mb={2}
-                    >
-                        <Grid size={{ xs: 12, md: 6 }}>
-                            <Typography
-                                variant="h5"
-                                fontWeight="bold"
-                            >
-                                Activity Logs
-                            </Typography>
-
-                            <Typography
-                                variant="body2"
-                                color="text.secondary"
-                            >
-                                Activity Log Records
-                            </Typography>
-                        </Grid>
-
-                        <Grid size={{ xs: 12, md: "auto" }}>
-                            {canCreate && (
-                                <CreateButton
-                                    variant="contained"
-                                    sx={{
-                                        backgroundColor: 'primary.main',
-                                        color: 'white',
-                                        '&:hover': {
-                                            backgroundColor: 'primary.dark',
-                                        },
-                                    }}
-                                />
-                            )}
-                        </Grid>
-                    </Grid>
-
-                    <List
-                        title={false}
-                        actions={false}  >
-                        <DataTable
-                            rowClick="show"
-                            sx={{
-                                '& .RaDataTable-headerCell': {
-                                    fontWeight: "bold",
-                                    backgroundColor: "#f5f5f5",
-                                },
-                            }}
-                        >
-                            <DataTable.Col source="id" />
-                            <DataTable.Col source="created_at">
-                                <DateField source="created_at" />
-                            </DataTable.Col>
-
-                            <DataTable.Col source="log_name" />
-                            <DataTable.Col source="description" />
-                            <DataTable.Col source="subject_type" />
-                            <DataTable.Col source="batch_uuid" />
-                            <DataTable.Col source="causer_type" />
-                            <DataTable.Col source="causer_name" />
-                            <DataTable.Col source="properties.index" />
-                            <DataTable.Col source="event" />
-
-                        </DataTable>
-                    </List>
-                </CardContent>
-            </Card>
+                <DataTable
+                    rowClick="show"
+                    sx={{
+                        '& .RaDataTable-headerCell': {
+                            fontWeight: "bold",
+                            backgroundColor: "#f5f5f5",
+                        },
+                    }}
+                >
+                    <DataTable.Col source="id" />
+                    <DataTable.Col source="created_at">
+                        <DateField source="created_at" />
+                    </DataTable.Col>
+                    <DataTable.Col source="log_name" />
+                    <DataTable.Col source="description" />
+                    <DataTable.Col source="subject_type" />
+                    <DataTable.Col source="batch_uuid" />
+                    <DataTable.Col source="causer_type" />
+                    <DataTable.Col source="causer_name" />
+                    <DataTable.Col source="properties.index" />
+                    <DataTable.Col source="event" />
+                </DataTable>
+            </List>
         </Box>
     );
 };

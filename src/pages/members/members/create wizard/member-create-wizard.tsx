@@ -1,11 +1,11 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { useNotify, useRefresh } from "react-admin";
+import { useNotify, useRefresh, useRedirect } from "react-admin";
 import {
+    Box,
     Button,
-    Dialog,
-    DialogActions,
-    DialogContent,
-    DialogTitle,
+    Card,
+    CardContent,
+    Divider,
     Stack,
     Typography,
 } from "@mui/material";
@@ -19,19 +19,16 @@ import {
     loadMemberCreateDraft,
     saveMemberCreateDraft,
 } from "./member-create-wizard.storage";
+
 import {
     initialMemberCreateDraft,
     memberWizardStepTitles,
     type MemberCreateDraft,
     type MemberCreateErrors,
 } from "./member-create-wizard.types";
+
 import { OtherDetailsStep } from "./other-details-step";
 import { PersonalInfoStep } from "./personal-info-step";
-
-type Props = {
-    open: boolean;
-    onClose: () => void;
-};
 
 const apiUrl =
     import.meta.env.VITE_EDAIRY_API_URL ?? "http://192.168.1.10:8080/api";
@@ -41,34 +38,47 @@ const getAuthHeaders = () => {
 
     try {
         const stored = window.localStorage.getItem("user");
+
         if (stored && stored !== "undefined") {
-            user = JSON.parse(stored) as { token?: string };
+            user = JSON.parse(stored);
         }
     } catch {
         user = null;
     }
 
     return {
-        "Content-Type": "application/json",
-        ...(user?.token ? { Authorization: `Bearer ${user.token}` } : {}),
+        "Content-Type": "multipart/form-data",
+        ...(user?.token
+            ? { Authorization: `Bearer ${user.token}` }
+            : {}),
     };
 };
 
 const requiredFieldsByStep: Array<Array<keyof MemberCreateDraft>> = [
-    ["first_name", "last_name", "idnumber", "gender"],
+    ["first_name", "last_name", "id_no", "gender"],
     ["member_no", "date_registered", "member_type_id", "route_id"],
     ["primary_phone"],
     ["passport_photo", "id_front_photo", "id_back_photo"],
     ["status"],
 ];
 
-const validateStep = (values: MemberCreateDraft, stepIndex: number) => {
+const validateStep = (
+    values: MemberCreateDraft,
+    stepIndex: number
+) => {
     const errors: MemberCreateErrors = {};
-    const requiredFields = requiredFieldsByStep[stepIndex] || [];
+
+    const requiredFields =
+        requiredFieldsByStep[stepIndex] || [];
 
     requiredFields.forEach((field) => {
         const value = values[field];
-        const isEmpty = typeof value === "string" ? value.trim() === "" : value === null || value === undefined;
+
+        const isEmpty =
+            typeof value === "string"
+                ? value.trim() === ""
+                : value === null || value === undefined;
+
         if (isEmpty) {
             errors[field] = "Required";
         }
@@ -87,11 +97,14 @@ const validateAll = (values: MemberCreateDraft) => {
     return merged;
 };
 
-const hasErrors = (errors: MemberCreateErrors) => Object.keys(errors).length > 0;
+const hasErrors = (errors: MemberCreateErrors) =>
+    Object.keys(errors).length > 0;
 
 const toNumberOrNull = (value: string) => {
     if (value.trim() === "") return null;
+
     const parsed = Number(value);
+
     return Number.isNaN(parsed) ? value : parsed;
 };
 
@@ -102,66 +115,89 @@ const buildPayload = (values: MemberCreateDraft) => ({
     number_of_cows: toNumberOrNull(values.number_of_cows),
 });
 
-export const MemberCreateWizard = ({ open, onClose }: Props) => {
+export const MemberCreateWizard = () => {
     const notify = useNotify();
     const refresh = useRefresh();
+    const redirect = useRedirect();
+
     const suppressPersistRef = useRef(false);
 
-    const [values, setValues] = useState<MemberCreateDraft>(() => {
-        const draft = loadMemberCreateDraft();
-        return draft?.values ?? initialMemberCreateDraft;
-    });
-    const [activeStep, setActiveStep] = useState(() => loadMemberCreateDraft()?.active_step ?? 0);
-    const [errors, setErrors] = useState<MemberCreateErrors>({});
+    const [values, setValues] =
+        useState<MemberCreateDraft>(() => {
+            const draft = loadMemberCreateDraft();
+
+            return draft?.values ?? initialMemberCreateDraft;
+        });
+
+    const [activeStep, setActiveStep] = useState(
+        () => loadMemberCreateDraft()?.active_step ?? 0
+    );
+
+    const [errors, setErrors] =
+        useState<MemberCreateErrors>({});
+
     const [saving, setSaving] = useState(false);
 
     useEffect(() => {
-        if (!open || suppressPersistRef.current) return;
-        saveMemberCreateDraft({ active_step: activeStep, values });
-    }, [activeStep, open, values]);
+        if (suppressPersistRef.current) return;
 
-    useEffect(() => {
-        if (!open) {
-            setErrors({});
-            return;
-        }
-
-        const draft = loadMemberCreateDraft();
-        if (draft) {
-            setValues(draft.values);
-            setActiveStep(Math.min(draft.active_step, memberWizardStepTitles.length - 1));
-        }
-    }, [open]);
+        saveMemberCreateDraft({
+            active_step: activeStep,
+            values,
+        });
+    }, [activeStep, values]);
 
     const currentStepTitle = useMemo(
-        () => memberWizardStepTitles[activeStep] ?? "Member Wizard",
+        () =>
+            memberWizardStepTitles[activeStep] ??
+            "Member Wizard",
         [activeStep]
     );
 
-    const updateField = <K extends keyof MemberCreateDraft>(field: K, value: MemberCreateDraft[K]) => {
-        setValues((current) => ({ ...current, [field]: value }));
-        setErrors((current) => ({ ...current, [field]: undefined }));
+    const updateField = <
+        K extends keyof MemberCreateDraft
+    >(
+        field: K,
+        value: MemberCreateDraft[K]
+    ) => {
+        setValues((current) => ({
+            ...current,
+            [field]: value,
+        }));
+
+        setErrors((current) => ({
+            ...current,
+            [field]: undefined,
+        }));
     };
 
     const goToStep = (nextStep: number) => {
-        setActiveStep(Math.max(0, Math.min(nextStep, memberWizardStepTitles.length - 1)));
+        setActiveStep(
+            Math.max(
+                0,
+                Math.min(
+                    nextStep,
+                    memberWizardStepTitles.length - 1
+                )
+            )
+        );
     };
 
     const handleNext = () => {
-        const stepErrors = validateStep(values, activeStep);
+        const stepErrors = validateStep(
+            values,
+            activeStep
+        );
+
         setErrors(stepErrors);
 
         if (hasErrors(stepErrors)) return;
+
         goToStep(activeStep + 1);
     };
 
     const handleBack = () => {
         goToStep(activeStep - 1);
-    };
-
-    const handleClose = () => {
-        if (saving) return;
-        onClose();
     };
 
     const handleReset = () => {
@@ -172,193 +208,321 @@ export const MemberCreateWizard = ({ open, onClose }: Props) => {
 
     const handleSubmit = async () => {
         const formErrors = validateAll(values);
+
         setErrors(formErrors);
 
         if (hasErrors(formErrors)) {
-            const firstErrorStep = requiredFieldsByStep.findIndex((fields) =>
-                fields.some((field) => Boolean(formErrors[field]))
-            );
+            const firstErrorStep =
+                requiredFieldsByStep.findIndex((fields) =>
+                    fields.some((field) =>
+                        Boolean(formErrors[field])
+                    )
+                );
 
             if (firstErrorStep >= 0) {
                 setActiveStep(firstErrorStep);
             }
 
-            notify("Please complete all required fields before submitting.", {
-                type: "warning",
-            });
+            notify(
+                "Please complete all required fields before submitting.",
+                { type: "warning" }
+            );
+
             return;
         }
 
         try {
             setSaving(true);
+
             suppressPersistRef.current = true;
+
+            const payload = buildPayload(values);
+
+            const formData = new FormData();
+
+            Object.entries(payload).forEach(([key, value]) => {
+                if (value === null || value === undefined) return;
+
+                // files
+                if (value instanceof File) {
+                    formData.append(key, value);
+                    return;
+                }
+
+                // arrays
+                if (Array.isArray(value)) {
+                    value.forEach((item) => {
+                        formData.append(`${key}[]`, item);
+                    });
+                    return;
+                }
+
+                // normal values
+                formData.append(key, String(value));
+            });
 
             const response = await fetch(`${apiUrl}/members`, {
                 method: "POST",
-                headers: getAuthHeaders(),
-                body: JSON.stringify(buildPayload(values)),
+                headers: {
+                    Authorization: getAuthHeaders().Authorization || "",
+                },
+                body: formData,
             });
 
-            const payload = await response.json().catch(() => ({}));
+            const payloadResponse = await response
+                .json()
+                .catch(() => ({}));
+
             const message =
-                payload?.message ||
-                payload?.Message ||
-                payload?.msg ||
+                payloadResponse?.message ||
                 "Member created successfully";
 
             if (response.status !== 201) {
-                throw new Error(
-                    typeof payload === "string" && payload.trim()
-                        ? payload
-                        : message
-                );
+                throw new Error(message);
             }
 
-            notify(message, { type: "success" });
+            notify(message, {
+                type: "success",
+            });
+
             clearMemberCreateDraft();
+
             handleReset();
-            onClose();
+
             refresh();
+
+            redirect("/members");
         } catch (error) {
             notify(
-                error instanceof Error ? error.message : "Failed to create member",
-                { type: "error" }
+                error instanceof Error
+                    ? error.message
+                    : "Failed to create member",
+                {
+                    type: "error",
+                }
             );
         } finally {
             setSaving(false);
-            if (!open) {
-                suppressPersistRef.current = false;
-            } else if (suppressPersistRef.current) {
-                suppressPersistRef.current = false;
-            }
+            suppressPersistRef.current = false;
         }
     };
 
     return (
-        <Dialog open={open} onClose={handleClose} fullWidth maxWidth="lg">
-            <DialogTitle>
-                <Stack spacing={0.5}>
-                    <Typography variant="h6">Create Member</Typography>
-                    <Typography variant="body2" color="text.secondary">
-                        Step {String(activeStep + 1).padStart(2, "0")} of {String(memberWizardStepTitles.length).padStart(2, "0")}: {currentStepTitle}
-                    </Typography>
-                </Stack>
-            </DialogTitle>
-            <DialogContent dividers>
-                <Stack spacing={3}>
-                    <Stack direction="row" alignItems="center" sx={{ overflowX: "auto" }}>
-                        {memberWizardStepTitles.map((title, index) => {
-                            const isActive = index === activeStep;
-                            const isCompleted = index < activeStep;
+        <Box sx={{ p: 3 }}>
+            <Card>
+                <CardContent>
+                    <Stack spacing={3}>
+                        <Stack spacing={0.5}>
+                            <Typography variant="h5">
+                                Create Member
+                            </Typography>
 
-                            return (
-                                <Stack key={title} direction="row" alignItems="center">
-                                    {/* STEP ITEM */}
-                                    <Stack
-                                        direction="row"
-                                        alignItems="center"
-                                        onClick={() => {
-                                            if (index <= activeStep) goToStep(index);
-                                        }}
-                                        sx={{
-                                            cursor: index <= activeStep ? "pointer" : "default",
-                                            backgroundColor: isActive ? "#fff7ed" : "#f3f4f6",
-                                            borderRadius: "30px",
-                                            px: 2,
-                                            py: 1,
-                                            border: isActive ? "2px solid #f97316" : "1px solid #e5e7eb",
-                                            transition: "all 0.3s ease",
-                                        }}
-                                    >
-                                        {/* CIRCLE NUMBER */}
+                            <Typography
+                                variant="body2"
+                                color="text.secondary"
+                            >
+                                Step{" "}
+                                {String(activeStep + 1).padStart(
+                                    2,
+                                    "0"
+                                )}{" "}
+                                of{" "}
+                                {String(
+                                    memberWizardStepTitles.length
+                                ).padStart(2, "0")}
+                                : {currentStepTitle}
+                            </Typography>
+                        </Stack>
+
+                        <Divider />
+
+                        {/* Stepper */}
+                        <Stack
+                            direction="row"
+                            alignItems="center"
+                            sx={{ overflowX: "auto" }}
+                        >
+                            {memberWizardStepTitles.map(
+                                (title, index) => {
+                                    const isActive =
+                                        index === activeStep;
+
+                                    const isCompleted =
+                                        index < activeStep;
+
+                                    return (
                                         <Stack
+                                            key={title}
+                                            direction="row"
                                             alignItems="center"
-                                            justifyContent="center"
-                                            sx={{
-                                                width: 36,
-                                                height: 36,
-                                                borderRadius: "50%",
-                                                backgroundColor: isActive
-                                                    ? "#f97316"
-                                                    : isCompleted
-                                                        ? "#16a34a"
-                                                        : "#e5e7eb",
-                                                color: isActive || isCompleted ? "#fff" : "#6b7280",
-                                                fontWeight: 600,
-                                                mr: 1.5,
-                                            }}
                                         >
-                                            {String(index + 1).padStart(2, "0")}
+                                            <Stack
+                                                direction="row"
+                                                alignItems="center"
+                                                onClick={() => {
+                                                    if (
+                                                        index <=
+                                                        activeStep
+                                                    ) {
+                                                        goToStep(
+                                                            index
+                                                        );
+                                                    }
+                                                }}
+                                                sx={{
+                                                    cursor:
+                                                        index <=
+                                                            activeStep
+                                                            ? "pointer"
+                                                            : "default",
+                                                    backgroundColor:
+                                                        isActive
+                                                            ? "#fff7ed"
+                                                            : "#f3f4f6",
+                                                    borderRadius:
+                                                        "30px",
+                                                    px: 2,
+                                                    py: 1,
+                                                }}
+                                            >
+                                                <Stack
+                                                    alignItems="center"
+                                                    justifyContent="center"
+                                                    sx={{
+                                                        width: 36,
+                                                        height: 36,
+                                                        borderRadius:
+                                                            "50%",
+                                                        backgroundColor:
+                                                            isActive
+                                                                ? "#f97316"
+                                                                : isCompleted
+                                                                    ? "#16a34a"
+                                                                    : "#e5e7eb",
+                                                        color:
+                                                            isActive ||
+                                                                isCompleted
+                                                                ? "#fff"
+                                                                : "#6b7280",
+                                                        fontWeight: 600,
+                                                        mr: 1.5,
+                                                    }}
+                                                >
+                                                    {String(
+                                                        index + 1
+                                                    ).padStart(
+                                                        2,
+                                                        "0"
+                                                    )}
+                                                </Stack>
+
+                                                <Typography>
+                                                    {title}
+                                                </Typography>
+                                            </Stack>
                                         </Stack>
+                                    );
+                                }
+                            )}
+                        </Stack>
 
-                                        {/* TITLE */}
-                                        <Typography
-                                            sx={{
-                                                fontWeight: isActive ? 600 : 500,
-                                                color: isActive ? "#c2410c" : "#374151",
-                                                whiteSpace: "nowrap",
-                                            }}
-                                        >
-                                            {title}
-                                        </Typography>
-                                    </Stack>
+                        {/* Steps */}
+                        {activeStep === 0 && (
+                            <PersonalInfoStep
+                                values={values}
+                                errors={errors}
+                                onChange={updateField}
+                            />
+                        )}
 
-                                    {/* CONNECTOR LINE */}
-                                    {index < memberWizardStepTitles.length - 1 && (
-                                        <Stack
-                                            sx={{
-                                                width: 40,
-                                                height: 2,
-                                                backgroundColor:
-                                                    index < activeStep ? "#16a34a" : "#e5e7eb",
-                                                mx: 1,
-                                            }}
-                                        />
-                                    )}
-                                </Stack>
-                            );
-                        })}
+                        {activeStep === 1 && (
+                            <DairyInfoStep
+                                values={values}
+                                errors={errors}
+                                onChange={updateField}
+                            />
+                        )}
+
+                        {activeStep === 2 && (
+                            <ContactsStep
+                                values={values}
+                                errors={errors}
+                                onChange={updateField}
+                            />
+                        )}
+
+                        {activeStep === 3 && (
+                            <DocumentsStep
+                                values={values}
+                                errors={errors}
+                                onChange={updateField}
+                            />
+                        )}
+
+                        {activeStep === 4 && (
+                            <OtherDetailsStep
+                                values={values}
+                                errors={errors}
+                                onChange={updateField}
+                            />
+                        )}
+
+                        {activeStep === 5 && (
+                            <ConfirmStep
+                                values={values}
+                                onEdit={goToStep}
+                            />
+                        )}
+
+                        {/* Actions */}
+                        <Stack
+                            direction="row"
+                            justifyContent="flex-end"
+                            spacing={2}
+                        >
+                            <Button
+                                onClick={() =>
+                                    redirect("/members")
+                                }
+                                disabled={saving}
+                            >
+                                Cancel
+                            </Button>
+
+                            {activeStep > 0 && (
+                                <Button
+                                    onClick={handleBack}
+                                    disabled={saving}
+                                >
+                                    Back
+                                </Button>
+                            )}
+
+                            {activeStep <
+                                memberWizardStepTitles.length -
+                                1 ? (
+                                <Button
+                                    variant="contained"
+                                    onClick={handleNext}
+                                    disabled={saving}
+                                >
+                                    Next
+                                </Button>
+                            ) : (
+                                <Button
+                                    variant="contained"
+                                    onClick={handleSubmit}
+                                    disabled={saving}
+                                >
+                                    {saving
+                                        ? "Saving..."
+                                        : "Confirm"}
+                                </Button>
+                            )}
+                        </Stack>
                     </Stack>
-
-                    {activeStep === 0 ? (
-                        <PersonalInfoStep values={values} errors={errors} onChange={updateField} />
-                    ) : null}
-                    {activeStep === 1 ? (
-                        <DairyInfoStep values={values} errors={errors} onChange={updateField} />
-                    ) : null}
-                    {activeStep === 2 ? (
-                        <ContactsStep values={values} errors={errors} onChange={updateField} />
-                    ) : null}
-                    {activeStep === 3 ? (
-                        <DocumentsStep values={values} errors={errors} onChange={updateField} />
-                    ) : null}
-                    {activeStep === 4 ? (
-                        <OtherDetailsStep values={values} errors={errors} onChange={updateField} />
-                    ) : null}
-                    {activeStep === 5 ? <ConfirmStep values={values} onEdit={goToStep} /> : null}
-                </Stack>
-            </DialogContent>
-            <DialogActions>
-                <Button onClick={handleClose} disabled={saving}>
-                    Cancel
-                </Button>
-
-                {activeStep > 0 ? (
-                    <Button onClick={handleBack} disabled={saving}>
-                        Back
-                    </Button>
-                ) : null}
-
-                {activeStep < memberWizardStepTitles.length - 1 ? (
-                    <Button variant="contained" onClick={handleNext} disabled={saving}>
-                        Next
-                    </Button>
-                ) : (
-                    <Button variant="contained" onClick={handleSubmit} disabled={saving}>
-                        {saving ? "Saving..." : "Confirm"}
-                    </Button>
-                )}
-            </DialogActions>
-        </Dialog>
+                </CardContent>
+            </Card>
+        </Box>
     );
 };

@@ -70,6 +70,13 @@ export const modules: ModulesConfig = {
                 ],
             },
             {
+                label: "Setup",
+                items: [
+                    s("Document Types", "document-types", <SettingsIcon />),
+
+                ],
+            },
+            {
                 label: "Shares",
                 items: [
                     r("Share Dividends", <AdminPanelSettingsIcon />),
@@ -77,6 +84,7 @@ export const modules: ModulesConfig = {
                     r("Share Transactions", <AdminPanelSettingsIcon />),
                 ],
             },
+
             {
                 label: "Organization",
                 items: [
@@ -84,10 +92,9 @@ export const modules: ModulesConfig = {
                     r("Organization Addresses", <LocationOnIcon />),
                     r("Organization Banks", <AccountBalanceIcon />),
                     r("Organization Documents", <Inventory2Icon />),
-                    r("Organization Kyb Comments", <ReceiptLongIcon />),
+                    // r("Organization Kyb Comments", <ReceiptLongIcon />),
                     r("Organization Leaderships", <PeopleIcon />),
                     r("Organization Wallets", <AttachMoneyIcon />),
-                    r("Document Types", <SettingsIcon />),
                     r("Departments", <WorkIcon />),
                 ],
             },

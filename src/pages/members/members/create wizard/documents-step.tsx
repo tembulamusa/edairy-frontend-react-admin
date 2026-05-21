@@ -6,49 +6,48 @@ import {
     CardContent,
     Grid,
     IconButton,
-    Paper,
     Stack,
     Typography,
 } from "@mui/material";
-import PictureAsPdfOutlinedIcon from "@mui/icons-material/PictureAsPdfOutlined";
+
 import InsertDriveFileOutlinedIcon from "@mui/icons-material/InsertDriveFileOutlined";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
-import type { MemberCreateDraft, MemberCreateErrors } from "./member-create-wizard.types";
+
+import type {
+    MemberCreateDraft,
+    MemberCreateErrors,
+} from "./member-create-wizard.types";
 
 type Props = {
     values: MemberCreateDraft;
     errors: MemberCreateErrors;
-    onChange: <K extends keyof MemberCreateDraft>(field: K, value: MemberCreateDraft[K]) => void;
+    onChange: <K extends keyof MemberCreateDraft>(
+        field: K,
+        value: MemberCreateDraft[K]
+    ) => void;
 };
 
-const fileToDataUrl = (file: File) =>
-    new Promise<string>((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onload = () => resolve(String(reader.result || ""));
-        reader.onerror = () => reject(new Error("Failed to read file"));
-        reader.readAsDataURL(file);
-    });
+const DocumentPreview = ({
+    label,
+    value,
+    onClear,
+}: {
+    label: string;
+    value: File | null;
+    onClear: () => void;
+}) => {
+    const previewUrl =
+        value instanceof File
+            ? URL.createObjectURL(value)
+            : "";
 
-const getPreviewMeta = (value: string) => {
-    if (!value) {
-        return { kind: "empty" as const };
-    }
+    const isImage =
+        value instanceof File &&
+        value.type.startsWith("image/");
 
-    const mime = value.startsWith("data:") ? value.slice(5, value.indexOf(";")) : "";
-
-    if (mime.startsWith("image/")) {
-        return { kind: "image" as const, mime };
-    }
-
-    if (mime === "application/pdf") {
-        return { kind: "pdf" as const, mime };
-    }
-
-    return { kind: "file" as const, mime: mime || "unknown" };
-};
-
-const DocumentPreview = ({ label, value, onClear }: { label: string; value: string; onClear: () => void }) => {
-    const meta = getPreviewMeta(value);
+    const isPdf =
+        value instanceof File &&
+        value.type === "application/pdf";
 
     return (
         <Card
@@ -57,7 +56,8 @@ const DocumentPreview = ({ label, value, onClear }: { label: string; value: stri
                 borderRadius: 3,
                 overflow: "hidden",
                 bgcolor: "background.paper",
-                boxShadow: "0 8px 24px rgba(15, 23, 42, 0.06)",
+                boxShadow:
+                    "0 8px 24px rgba(15, 23, 42, 0.06)",
             }}
         >
             <CardContent sx={{ p: 0 }}>
@@ -75,14 +75,26 @@ const DocumentPreview = ({ label, value, onClear }: { label: string; value: stri
                         }}
                     >
                         <Stack spacing={0.25}>
-                            <Typography variant="subtitle2" fontWeight={700}>
+                            <Typography
+                                variant="subtitle2"
+                                fontWeight={700}
+                            >
                                 {label}
                             </Typography>
-                            <Typography variant="caption" color="text.secondary">
+
+                            <Typography
+                                variant="caption"
+                                color="text.secondary"
+                            >
                                 Preview
                             </Typography>
                         </Stack>
-                        <IconButton size="small" onClick={onClear} aria-label={`Clear ${label}`}>
+
+                        <IconButton
+                            size="small"
+                            onClick={onClear}
+                            aria-label={`Clear ${label}`}
+                        >
                             <CloseOutlinedIcon fontSize="small" />
                         </IconButton>
                     </Stack>
@@ -97,10 +109,30 @@ const DocumentPreview = ({ label, value, onClear }: { label: string; value: stri
                             p: 1.5,
                         }}
                     >
-                        {meta.kind === "image" ? (
+                        {!value ? (
+                            <Stack
+                                spacing={1}
+                                alignItems="center"
+                            >
+                                <InsertDriveFileOutlinedIcon
+                                    sx={{
+                                        fontSize: 54,
+                                        color:
+                                            "text.secondary",
+                                    }}
+                                />
+
+                                <Typography
+                                    variant="body2"
+                                    color="text.secondary"
+                                >
+                                    No file selected
+                                </Typography>
+                            </Stack>
+                        ) : isImage ? (
                             <Box
                                 component="img"
-                                src={value}
+                                src={previewUrl}
                                 alt={label}
                                 sx={{
                                     width: "100%",
@@ -110,10 +142,10 @@ const DocumentPreview = ({ label, value, onClear }: { label: string; value: stri
                                     bgcolor: "common.white",
                                 }}
                             />
-                        ) : meta.kind === "pdf" ? (
+                        ) : isPdf ? (
                             <Box
                                 component="iframe"
-                                src={value}
+                                src={previewUrl}
                                 title={label}
                                 sx={{
                                     width: "100%",
@@ -123,21 +155,31 @@ const DocumentPreview = ({ label, value, onClear }: { label: string; value: stri
                                     bgcolor: "common.white",
                                 }}
                             />
-                        ) : meta.kind === "file" ? (
-                            <Stack spacing={1.25} alignItems="center">
-                                <InsertDriveFileOutlinedIcon sx={{ fontSize: 54, color: "text.secondary" }} />
-                                <Typography variant="body2" fontWeight={600}>
-                                    Uploaded file
-                                </Typography>
-                                <Typography variant="caption" color="text.secondary">
-                                    {meta.mime}
-                                </Typography>
-                            </Stack>
                         ) : (
-                            <Stack spacing={1} alignItems="center">
-                                <InsertDriveFileOutlinedIcon sx={{ fontSize: 54, color: "text.secondary" }} />
-                                <Typography variant="body2" color="text.secondary">
-                                    No file selected
+                            <Stack
+                                spacing={1.25}
+                                alignItems="center"
+                            >
+                                <InsertDriveFileOutlinedIcon
+                                    sx={{
+                                        fontSize: 54,
+                                        color:
+                                            "text.secondary",
+                                    }}
+                                />
+
+                                <Typography
+                                    variant="body2"
+                                    fontWeight={600}
+                                >
+                                    {value.name}
+                                </Typography>
+
+                                <Typography
+                                    variant="caption"
+                                    color="text.secondary"
+                                >
+                                    {value.type}
                                 </Typography>
                             </Stack>
                         )}
@@ -155,17 +197,22 @@ const UploadWell = ({
     onPick,
 }: {
     label: string;
-    value: string;
+    value: File | null;
     error?: string;
-    onPick: (value: string) => void;
+    onPick: (value: File | null) => void;
 }) => {
-    const inputRef = useRef<HTMLInputElement | null>(null);
+    const inputRef =
+        useRef<HTMLInputElement | null>(null);
 
-    const handleChange = async (event: ChangeEvent<HTMLInputElement>) => {
+    const handleChange = (
+        event: ChangeEvent<HTMLInputElement>
+    ) => {
         const file = event.target.files?.[0];
+
         if (!file) return;
-        const dataUrl = await fileToDataUrl(file);
-        onPick(dataUrl);
+
+        onPick(file);
+
         event.target.value = "";
     };
 
@@ -178,16 +225,28 @@ const UploadWell = ({
                 accept="image/*,application/pdf"
                 onChange={handleChange}
             />
+
             <Button
                 variant="outlined"
-                onClick={() => inputRef.current?.click()}
+                onClick={() =>
+                    inputRef.current?.click()
+                }
                 sx={{ alignSelf: "flex-start" }}
             >
                 Choose {label}
             </Button>
-            <DocumentPreview label={label} value={value} onClear={() => onPick("")} />
+
+            <DocumentPreview
+                label={label}
+                value={value}
+                onClear={() => onPick(null)}
+            />
+
             {error ? (
-                <Typography variant="caption" color="error">
+                <Typography
+                    variant="caption"
+                    color="error"
+                >
                     {error}
                 </Typography>
             ) : null}
@@ -195,35 +254,65 @@ const UploadWell = ({
     );
 };
 
-export const DocumentsStep = ({ values, errors, onChange }: Props) => (
+export const DocumentsStep = ({
+    values,
+    errors,
+    onChange,
+}: Props) => (
     <Stack spacing={2}>
-        <Typography variant="h6">Documents</Typography>
-        <Typography variant="body2" color="text.secondary">
-            Upload image or PDF documents for the member records. Each file shows a live preview below the upload control.
+        <Typography variant="h6">
+            Documents
         </Typography>
+
+        <Typography
+            variant="body2"
+            color="text.secondary"
+        >
+            Upload image or PDF documents for the
+            member records. Each file shows a live
+            preview below the upload control.
+        </Typography>
+
         <Grid container spacing={2}>
             <Grid item xs={12} md={4}>
                 <UploadWell
                     label="Passport Photo"
                     value={values.passport_photo}
                     error={errors.passport_photo}
-                    onPick={(value) => onChange("passport_photo", value)}
+                    onPick={(file) =>
+                        onChange(
+                            "passport_photo",
+                            file
+                        )
+                    }
                 />
             </Grid>
+
             <Grid item xs={12} md={4}>
                 <UploadWell
                     label="ID Front Photo"
                     value={values.id_front_photo}
                     error={errors.id_front_photo}
-                    onPick={(value) => onChange("id_front_photo", value)}
+                    onPick={(file) =>
+                        onChange(
+                            "id_front_photo",
+                            file
+                        )
+                    }
                 />
             </Grid>
+
             <Grid item xs={12} md={4}>
                 <UploadWell
                     label="ID Back Photo"
                     value={values.id_back_photo}
                     error={errors.id_back_photo}
-                    onPick={(value) => onChange("id_back_photo", value)}
+                    onPick={(file) =>
+                        onChange(
+                            "id_back_photo",
+                            file
+                        )
+                    }
                 />
             </Grid>
         </Grid>

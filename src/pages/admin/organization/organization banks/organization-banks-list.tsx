@@ -3,12 +3,9 @@ import {
     DataTable,
     EditButton,
     DeleteButton,
-    TextInput,
-    required,
     useResourceContext,
-    useRecordContext,
 } from "react-admin";
-import { CreateButton } from "../../../../components/forms/FormUtils";
+import { ListCreateButton } from "../../../../components/forms/ListCreateButton";
 import {
     Box,
     Card,
@@ -19,41 +16,6 @@ import {
 } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import { useCan } from "../../../../components/permissions/user-can";
-
-const DocumentField = () => {
-    const record = useRecordContext();
-    if (!record?.document) return null;
-
-    const url = record.document;
-    const isImage = /\.(jpg|jpeg|png|gif|webp)$/i.test(url);
-
-    return (
-        <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-            {isImage && (
-                <img
-                    src={url}
-                    alt="document preview"
-                    style={{
-                        width: 60,
-                        height: 60,
-                        objectFit: "cover",
-                        borderRadius: 6,
-                        border: "1px solid #ddd",
-                    }}
-                />
-            )}
-
-            <a
-                href={url}
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{ color: "#1976d2", fontSize: 12 }}
-            >
-                Download
-            </a>
-        </div>
-    );
-};
 
 export const OrganizationBanksList = () => {
     const can = useCan();
@@ -91,9 +53,8 @@ export const OrganizationBanksList = () => {
 
                         <Grid size={{ xs: 12, md: "auto" }}>
                             {canCreate && (
-                                <CreateButton
-                                    resource="organization-banks"
-                                    title="Organization Bank"
+                                <ListCreateButton
+                                    resource={resource}
                                     sx={{
                                         backgroundColor: "primary.main",
                                         color: "white",
@@ -101,13 +62,7 @@ export const OrganizationBanksList = () => {
                                             backgroundColor: "primary.dark",
                                         },
                                     }}
-                                >
-                                    <TextInput
-                                        source="name"
-                                        validate={required()}
-                                        fullWidth
-                                    />
-                                </CreateButton>
+                                />
                             )}
                         </Grid>
                     </Grid>

@@ -1,10 +1,109 @@
 import { Grid, TextField, Typography, Stack } from "@mui/material";
 import type { MemberCreateDraft, MemberCreateErrors } from "./member-create-wizard.types";
+import { required, SelectInput, useGetList } from "react-admin";
+import {
+    CircularProgress,
+    MenuItem,
+} from "@mui/material";
 
 type Props = {
     values: MemberCreateDraft;
     errors: MemberCreateErrors;
     onChange: <K extends keyof MemberCreateDraft>(field: K, value: MemberCreateDraft[K]) => void;
+};
+
+const MemberTypeSelect = ({
+    value,
+    error,
+    onChange,
+}: {
+    value: string;
+    error?: string;
+    onChange: (value: string) => void;
+}) => {
+    const { data: memberTypes = [], isLoading } = useGetList(
+        "member-types",
+        {
+            pagination: { page: 1, perPage: 200 },
+            sort: { field: "name", order: "ASC" },
+        }
+    );
+
+    return (
+        <TextField
+            select
+            fullWidth
+            required
+            label="Member Type"
+            value={value}
+            onChange={(event) => onChange(event.target.value)}
+            error={Boolean(error)}
+            helperText={error}
+            disabled={isLoading}
+        >
+            {isLoading ? (
+                <MenuItem value="">
+                    <CircularProgress size={20} />
+                </MenuItem>
+            ) : (
+                memberTypes.map((type) => (
+                    <MenuItem
+                        key={type.id}
+                        value={type.id}
+                    >
+                        {type.name}
+                    </MenuItem>
+                ))
+            )}
+        </TextField>
+    );
+};
+
+const RouteTypeSelect = ({
+    value,
+    error,
+    onChange,
+}: {
+    value: string;
+    error?: string;
+    onChange: (value: string) => void;
+}) => {
+    const { data: memberTypes = [], isLoading } = useGetList(
+        "routes",
+        {
+            pagination: { page: 1, perPage: 200 },
+            sort: { field: "name", order: "ASC" },
+        }
+    );
+
+    return (
+        <TextField
+            select
+            fullWidth
+            required
+            label="Route"
+            value={value}
+            onChange={(event) => onChange(event.target.value)}
+            error={Boolean(error)}
+            helperText={error}
+            disabled={isLoading}
+        >
+            {isLoading ? (
+                <MenuItem value="">
+                    <CircularProgress size={20} />
+                </MenuItem>
+            ) : (
+                memberTypes.map((type) => (
+                    <MenuItem
+                        key={type.id}
+                        value={type.id}
+                    >
+                        {type.name}
+                    </MenuItem>
+                ))
+            )}
+        </TextField>
+    );
 };
 
 export const DairyInfoStep = ({ values, errors, onChange }: Props) => (
@@ -36,28 +135,12 @@ export const DairyInfoStep = ({ values, errors, onChange }: Props) => (
                 />
             </Grid>
             <Grid item xs={12} sm={4}>
-                <TextField
-                    fullWidth
-                    required
-                    label="Member Type ID"
-                    type="number"
-                    value={values.member_type_id}
-                    onChange={(event) => onChange("member_type_id", event.target.value)}
-                    error={Boolean(errors.member_type_id)}
-                    helperText={errors.member_type_id}
-                />
+                <Grid size={{ xs: 12, md: 6 }}>
+                    <MemberTypeSelect />
+                </Grid>
             </Grid>
             <Grid item xs={12} sm={4}>
-                <TextField
-                    fullWidth
-                    required
-                    label="Route ID"
-                    type="number"
-                    value={values.route_id}
-                    onChange={(event) => onChange("route_id", event.target.value)}
-                    error={Boolean(errors.route_id)}
-                    helperText={errors.route_id}
-                />
+                <RouteTypeSelect />
             </Grid>
             <Grid item xs={12} sm={4}>
                 <TextField

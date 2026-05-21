@@ -3,12 +3,9 @@ import {
     DataTable,
     EditButton,
     DeleteButton,
-    TextInput,
-    required,
     useResourceContext,
     useRecordContext,
 } from "react-admin";
-import { CreateButton } from "../../../../components/forms/FormUtils";
 import {
     Box,
     Card,
@@ -19,6 +16,7 @@ import {
 } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import { useCan } from "../../../../components/permissions/user-can";
+import { ListCreateButton } from "../../../../components/forms/ListCreateButton";
 
 const DocumentField = () => {
     const record = useRecordContext();
@@ -91,9 +89,8 @@ export const OrganizationDocumentsList = () => {
 
                         <Grid size={{ xs: 12, md: "auto" }}>
                             {canCreate && (
-                                <CreateButton
-                                    resource="organization-documents"
-                                    title="Organization Document"
+                                <ListCreateButton
+                                    resource={resource}
                                     sx={{
                                         backgroundColor: "primary.main",
                                         color: "white",
@@ -101,20 +98,7 @@ export const OrganizationDocumentsList = () => {
                                             backgroundColor: "primary.dark",
                                         },
                                     }}
-                                >
-                                    <TextInput
-                                        source="document_type"
-                                        validate={required()}
-                                        fullWidth
-                                    />
-                                    <TextInput
-                                        source="document"
-                                        validate={required()}
-                                        fullWidth
-                                    />
-                                    <TextInput source="submitted" fullWidth />
-                                    <TextInput source="astra_id" fullWidth />
-                                </CreateButton>
+                                />
                             )}
                         </Grid>
                     </Grid>
@@ -129,12 +113,11 @@ export const OrganizationDocumentsList = () => {
                                 },
                             }}
                         >
-                            <DataTable.Col source="document_type" label="Type" />
-                            <DataTable.Col label="Document">
-                                <DocumentField />
+                            <DataTable.Col source="document_type_name" label="Type" />
+                            <DataTable.Col label="Document" source="document_url">
+                                <DocumentField source="document_url" />
                             </DataTable.Col>
                             <DataTable.Col source="submitted" label="Submitted" />
-                            <DataTable.Col source="astra_id" label="Astra ID" />
                             <DataTable.Col label="Actions">
                                 <Stack direction="row" spacing={1} alignItems="center">
                                     {canEdit && (
@@ -171,6 +154,6 @@ export const OrganizationDocumentsList = () => {
                     </List>
                 </CardContent>
             </Card>
-        </Box>
+        </Box >
     );
 };

@@ -1,88 +1,72 @@
-import { List, DataTable, DateField, EditButton, DeleteButton, TextInput, required, useResourceContext } from 'react-admin';
-import { CreateButton } from '../../../components/forms/FormUtils';
-import { Box, Card, CardContent, Grid, Typography, Stack, Tooltip } from '@mui/material';
+import {
+    List,
+    TopToolbar,
+    DataTable,
+    DateField,
+    TextField,
+    NumberField,
+    TextInput,
+    useResourceContext,
+    FilterButton,
+    ExportButton,
+    Pagination,
+} from 'react-admin';
+import { Box } from '@mui/material';
 import { useCan } from '../../../components/permissions/user-can';
+import { ListBreadcrumbs } from '../../../../ListBreadcrumbs';
 
-export const ShareTransactionList = () => {
+const shareTransactionFilters = [
+    <TextInput label="Search" source="q" alwaysOn />,
+];
+
+const ShareTransactionActions = () => (
+    <TopToolbar>
+        <FilterButton />
+        <ExportButton />
+    </TopToolbar>
+);
+
+export const ShareTransactionsList = () => {
     const can = useCan();
     const resource = useResourceContext() ?? "share-transactions";
-    const canCreate = can(resource, "create");
-    const canEdit = can(resource, "update");
-    const canDelete = can(resource, "delete");
 
     return (
         <Box sx={{ p: 2 }}>
-            <Card sx={{ borderRadius: 3, boxShadow: 3, overflow: "hidden" }}>
-                <CardContent>
-                    <Grid container spacing={2} alignItems="center" justifyContent="space-between" mb={2}>
-                        <Grid size={{ xs: 12, md: 6 }}>
-                            <Typography variant="h5" fontWeight="bold">Share Transactions</Typography>
-                            <Typography variant="body2" color="text.secondary">Manage all share transaction records</Typography>
-                        </Grid>
-                        <Grid size={{ xs: 12, md: "auto" }}>
-                            {canCreate && (
-                                <CreateButton 
-                                    resource={resource} 
-                                    title="Share Transaction"
-                                    variant="contained"
-                                    sx={{
-                                        backgroundColor: 'primary.main',
-                                        color: 'white',
-                                        '&:hover': {
-                                            backgroundColor: 'primary.dark',
-                                        },
-                                    }}
-                                >
-                                    <TextInput source="name" validate={required()} fullWidth />
-                                </CreateButton>
-                            )}
-                        </Grid>
-                    </Grid>
-
-                    <List title={false} actions={false}>
-                        <DataTable 
-                            rowClick="show"
-                            sx={{
-                                '& .RaDataTable-headerCell': {
-                                    fontWeight: "bold",
-                                    backgroundColor: "#f5f5f5",
-                                },
-                            }}
-                        >
-                            <DataTable.Col source="id" label="ID" />
-                            <DataTable.Col source="created_at" label="Created At">
-                                <DateField source="created_at" />
-                            </DataTable.Col>
-                            <DataTable.Col source="name" label="Name" />
-                            <DataTable.Col label="Actions">
-                                <Stack direction="row" spacing={1} alignItems="center">
-                                    {canEdit && (
-                                        <Tooltip title="Edit Record">
-                                            <span>
-                                                <EditButton label={false} sx={{ minWidth: 36 }} />
-                                            </span>
-                                        </Tooltip>
-                                    )}
-                                    {canDelete && (
-                                        <Tooltip title="Delete Record">
-                                            <span>
-                                                <DeleteButton 
-                                                    label={false} 
-                                                    mutationMode="pessimistic"
-                                                    confirmTitle="⚠️ Confirm deletion"
-                                                    confirmContent="This will permanently remove the record."
-                                                    sx={{ minWidth: 36 }}
-                                                />
-                                            </span>
-                                        </Tooltip>
-                                    )}
-                                </Stack>
-                            </DataTable.Col>
-                        </DataTable>
-                    </List>
-                </CardContent>
-            </Card>
+            <ListBreadcrumbs />
+            <List
+                title="Share Transactions"
+                filters={shareTransactionFilters}
+                actions={<ShareTransactionActions />}
+            >
+                <DataTable
+                    rowClick="show"
+                    sx={{
+                        '& .RaDataTable-headerCell': {
+                            fontWeight: "bold",
+                            backgroundColor: "#f5f5f5",
+                        },
+                    }}
+                >
+                    <DataTable.Col source="transaction_id" label="Transaction ID" />
+                    <DataTable.Col source="transaction_date" label="Transaction Date">
+                        <DateField source="transaction_date" showTime />
+                    </DataTable.Col>
+                    <DataTable.Col source="member_no" label="Member No." />
+                    <DataTable.Col source="member_first_name" label="First Name" />
+                    <DataTable.Col source="member_last_name" label="Last Name" />
+                    <DataTable.Col source="transaction_type" label="Transaction Type" />
+                    <DataTable.Col source="share_units" label="Share Units">
+                        <NumberField source="share_units" />
+                    </DataTable.Col>
+                    <DataTable.Col source="unit_price" label="Unit Price">
+                        <NumberField source="unit_price" />
+                    </DataTable.Col>
+                    <DataTable.Col source="balance_after" label="Balance After">
+                        <NumberField source="balance_after" />
+                    </DataTable.Col>
+                </DataTable>
+                <Pagination sx={{ mt: 2 }} />
+            </List>
         </Box>
     );
 };
-

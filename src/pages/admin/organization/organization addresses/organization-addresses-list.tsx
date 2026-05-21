@@ -3,11 +3,9 @@ import {
     DataTable,
     EditButton,
     DeleteButton,
-    TextInput,
-    required,
+    CreateButton,
     useResourceContext,
 } from "react-admin";
-import { CreateButton } from "../../../../components/forms/FormUtils";
 import {
     Box,
     Card,
@@ -56,8 +54,7 @@ export const OrganizationAddressesList = () => {
                         <Grid size={{ xs: 12, md: "auto" }}>
                             {canCreate && (
                                 <CreateButton
-                                    resource="organization-addresses"
-                                    title="Organization Address"
+                                    variant="contained"
                                     sx={{
                                         backgroundColor: "primary.main",
                                         color: "white",
@@ -65,29 +62,7 @@ export const OrganizationAddressesList = () => {
                                             backgroundColor: "primary.dark",
                                         },
                                     }}
-                                >
-                                    <TextInput
-                                        source="address_type"
-                                        validate={required()}
-                                        fullWidth
-                                    />
-                                    <TextInput
-                                        source="city"
-                                        validate={required()}
-                                        fullWidth
-                                    />
-                                    <TextInput
-                                        source="country"
-                                        validate={required()}
-                                        fullWidth
-                                    />
-                                    <TextInput
-                                        source="line1"
-                                        validate={required()}
-                                        fullWidth
-                                    />
-                                    <TextInput source="state" fullWidth />
-                                </CreateButton>
+                                />
                             )}
                         </Grid>
                     </Grid>

@@ -41,7 +41,7 @@
         const [open, setOpen] = useState(false);
         const can = useCan();
         const resource = useResourceContext() ?? "members";
-        const canEdit = can(resource, "update");
+        const canEdit = can(resource, "edit");
         const canDelete = can(resource, "delete");
         const canCreate = can(resource, "create");
 

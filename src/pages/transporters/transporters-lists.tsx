@@ -1,181 +1,152 @@
 /* eslint-disable react-refresh/only-export-components */
-import { List, DataTable, FunctionField, DateField, EditButton, DeleteButton, TextInput } from "react-admin";
-import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
-import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import {
+    List,
+    Datagrid,
+    TextField,
+    FunctionField,
+    DateField,
+    EditButton,
+    DeleteButton,
+    SearchInput,
+    BooleanField
+} from "react-admin";
+import { Box, Breadcrumbs, Link, Typography } from "@mui/material";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
-import { CreateButton } from "../../components/forms/FormUtils";
 
-const createSimpleList = (title: string, resource: string) => () => (
-    <List 
-        title={title}
-        actions={<CreateButton resource={resource} title={title}>
-            <TextInput source="name" fullWidth />
-            <TextInput source="description" fullWidth multiline />
-        </CreateButton>}
-    >
-        <DataTable>
-            <DataTable.Col source="name" label="Name" />
-        </DataTable>
-    </List>
+const ListBreadcrumbs = ({ title }: { title: string }) => (
+    <Box sx={{ mb: 2, mt: 1 }}>
+        <Breadcrumbs aria-label="breadcrumb">
+            <Link underline="hover" color="inherit" href="/">
+                Home
+            </Link>
+            <Typography color="text.primary">{title}</Typography>
+        </Breadcrumbs>
+    </Box>
 );
+
+const listFilters = [
+    <SearchInput source="q" alwaysOn placeholder="Search..." />,
+];
 
 type TransporterRecord = {
     TransporterNo?: string;
+    transporter_no?: string;
     Status?: string;
+    status?: string;
     Individual?: {
         FirstName?: string;
         LastName?: string;
     } | null;
+    individual?: {
+        first_name?: string;
+        last_name?: string;
+    } | null;
     Company?: {
         CompanyName?: string;
+    } | null;
+    company?: {
+        company_name?: string;
     } | null;
 };
 
 export const TransporterList = () => (
-    <List 
-        title="Transporters"
-        actions={<CreateButton resource="transporters" title="Transporter">
-            <TextInput source="transporter_no" fullWidth />
-            <TextInput source="status" fullWidth />
-        </CreateButton>}
-    >
-        <DataTable>
-            <DataTable.Col source="transporter_no" label="Transporter No">
+    <>
+        <ListBreadcrumbs title="Transporters" />
+        <List filters={listFilters}>
+            <Datagrid rowClick="show">
+                <TextField source="transporter_no" label="Transporter No" />
                 <FunctionField
-                    render={(record: TransporterRecord) => record?.transporter_no || ""}
-                />
-            </DataTable.Col>
-            <DataTable.Col label="Type">
-                <FunctionField
+                    label="Type"
                     render={(record: TransporterRecord) =>
-                        record?.individual ? "individual" : record?.company ? "company" : ""
+                        record?.individual ? "Individual" : record?.company ? "Company" : ""
                     }
                 />
-            </DataTable.Col>
-            <DataTable.Col label="Name">
                 <FunctionField
+                    label="Name"
                     render={(record: TransporterRecord) =>
                         record?.individual
-                            ? [record.individual.first_name, record.individual.last_name]
-                                .filter(Boolean)
-                                .join(" ")
+                            ? [record.individual.first_name, record.individual.last_name].filter(Boolean).join(" ")
                             : record?.company?.company_name || ""
                     }
                 />
-            </DataTable.Col>
-            <DataTable.Col source="status" label="Status">
-                <FunctionField render={(record: TransporterRecord) => record?.status || ""} />
-            </DataTable.Col>
-        </DataTable>
-    </List>
+                <TextField source="status" label="Status" />
+                <EditButton />
+                <DeleteButton />
+            </Datagrid>
+        </List>
+    </>
 );
 
 export const IndividualTransporterList = () => (
-    <List 
-        title="Individual Transporters"
-        actions={<CreateButton resource="individual-transporters" title="Individual Transporter">
-            <TextInput source="first_name" fullWidth />
-            <TextInput source="last_name" fullWidth />
-            <TextInput source="primary_phone" fullWidth />
-        </CreateButton>}
-    >
-        <DataTable>
-            <DataTable.Col source="first_name" label="First Name" />
-            <DataTable.Col source="last_name" label="Last Name" />
-            <DataTable.Col source="primary_phone" label="Phone Number" />
-            <DataTable.Col label="Actions">
-                <EditButton label="" icon={<EditOutlinedIcon fontSize="small" />} sx={{ minWidth: 0, p: 0.5 }} />
-                <DeleteButton label="" icon={<DeleteOutlineIcon fontSize="small" />} sx={{ minWidth: 0, p: 0.5 }} />
-            </DataTable.Col>
-        </DataTable>
-    </List>
+    <>
+        <ListBreadcrumbs title="Individual Transporters" />
+        <List filters={listFilters}>
+            <Datagrid rowClick="show">
+                <TextField source="first_name" label="First Name" />
+                <TextField source="last_name" label="Last Name" />
+                <TextField source="primary_phone" label="Phone Number" />
+                <EditButton />
+                <DeleteButton />
+            </Datagrid>
+        </List>
+    </>
 );
+
 export const CompanyTransporterList = () => (
-    <List 
-        title="Company Transporters"
-        actions={<CreateButton resource="company-transporters" title="Company Transporter">
-            <TextInput source="company_name" fullWidth />
-            <TextInput source="registration_no" fullWidth />
-            <TextInput source="contact_person_name" fullWidth />
-            <TextInput source="contact_person_phone" fullWidth />
-        </CreateButton>}
-    >
-        <DataTable>
-            <DataTable.Col source="company_name" label="Name" />
-            <DataTable.Col source="registration_no" label="Registration Number" />
-            <DataTable.Col source="contact_person_name" label="Contact Person" />
-            <DataTable.Col source="contact_person_phone" label="Contact Phone" />
-            <DataTable.Col label="Actions">
-                <EditButton label="" icon={<EditOutlinedIcon fontSize="small" />} sx={{ minWidth: 0, p: 0.5 }} />
-                <DeleteButton label="" icon={<DeleteOutlineIcon fontSize="small" />} sx={{ minWidth: 0, p: 0.5 }} />
-            </DataTable.Col>
-        </DataTable>
-    </List>
+    <>
+        <ListBreadcrumbs title="Company Transporters" />
+        <List filters={listFilters}>
+            <Datagrid rowClick="show">
+                <TextField source="company_name" label="Name" />
+                <TextField source="registration_no" label="Registration Number" />
+                <TextField source="contact_person_name" label="Contact Person" />
+                <TextField source="contact_person_phone" label="Contact Phone" />
+                <EditButton />
+                <DeleteButton />
+            </Datagrid>
+        </List>
+    </>
 );
+
 export const TransporterVehicleList = () => (
-    <List 
-        title="Transporter Vehicles"
-        actions={<CreateButton resource="transporter-vehicles" title="Transporter Vehicle">
-            <TextInput source="registration_no" fullWidth />
-            <TextInput source="vehicle_type" fullWidth />
-            <TextInput source="capacity_litres" fullWidth />
-        </CreateButton>}
-    >
-        <DataTable>
-            <DataTable.Col source="registration_no" label="Registration Number" />
-            <DataTable.Col source="vehicle_type" label="Type" />
-            <DataTable.Col source="capacity_litres" label="Capacity" />
-            <DataTable.Col source="active" label="Status" />
-            <DataTable.Col label="Actions">
-                <EditButton label="" icon={<EditOutlinedIcon fontSize="small" />} sx={{ minWidth: 0, p: 0.5 }} />
-                <DeleteButton label="" icon={<DeleteOutlineIcon fontSize="small" />} sx={{ minWidth: 0, p: 0.5 }} />
-            </DataTable.Col>
-        </DataTable>
-    </List>
+    <>
+        <ListBreadcrumbs title="Transporter Vehicles" />
+        <List filters={listFilters}>
+            <Datagrid rowClick="show">
+                <TextField source="registration_no" label="Registration Number" />
+                <TextField source="vehicle_type" label="Type" />
+                <TextField source="capacity_litres" label="Capacity" />
+                <BooleanField source="active" label="Status" />
+                <EditButton />
+                <DeleteButton />
+            </Datagrid>
+        </List>
+    </>
 );
-type TransporterRouteAssignmentRecord = {
-    TransporterNo?: string;
-    RouteName?: string;
-    StartDate?: string;
-    EndDate?: string;
-    Active?: boolean;
-};
 
 export const TransporterRouteAssignmentList = () => (
-    <List 
-        title="Transporter Route Assignments"
-        actions={<CreateButton resource="transporter-route-assignments" title="Route Assignment">
-            <TextInput source="transporter_no" fullWidth />
-            <TextInput source="route_name" fullWidth />
-            <TextInput source="start_date" fullWidth />
-            <TextInput source="end_date" fullWidth />
-        </CreateButton>}
-    >
-        <DataTable>
-            <DataTable.Col source="transporter_no" label="Transporter No" />
-            <DataTable.Col source="route_name" label="Route Name">
-                <FunctionField render={(record: TransporterRouteAssignmentRecord) => record?.route_name || ""} />
-            </DataTable.Col>
-            <DataTable.Col source="start_date" label="Start Date">
-                <DateField source="start_date" />
-            </DataTable.Col>
-            <DataTable.Col source="end_date" label="End Date">
-                <DateField source="end_date" />
-            </DataTable.Col>
-            <DataTable.Col source="active" label="Status">
-                <FunctionField render={(record: TransporterRouteAssignmentRecord) => record?.active ? "true" : "false"} />
-            </DataTable.Col>
-            <DataTable.Col label="Actions">
-                <EditButton label="" icon={<EditOutlinedIcon fontSize="small" />} sx={{ minWidth: 0, p: 0.5 }} />
-                <DeleteButton label="" icon={<DeleteOutlineIcon fontSize="small" />} sx={{ minWidth: 0, p: 0.5 }} />
-            </DataTable.Col>
-        </DataTable>
-    </List>
+    <>
+        <ListBreadcrumbs title="Transporter Route Assignments" />
+        <List filters={listFilters}>
+            <Datagrid rowClick="show">
+                <TextField source="transporter_no" label="Transporter No" />
+                <TextField source="route_name" label="Route Name" />
+                <DateField source="start_date" label="Start Date" />
+                <DateField source="end_date" label="End Date" />
+                <BooleanField source="active" label="Status" />
+                <EditButton />
+                <DeleteButton />
+            </Datagrid>
+        </List>
+    </>
 );
+
 type TransporterDriverRecord = {
     FirstName?: string;
+    first_name?: string;
     LastName?: string;
+    last_name?: string;
     DriverNo?: string;
     PrimaryPhone?: string;
     DrivingLicenseNo?: string;
@@ -183,109 +154,62 @@ type TransporterDriverRecord = {
 };
 
 export const TransporterDriverList = () => (
-    <List 
-        title="Transporter Drivers"
-        actions={<CreateButton resource="transporter-drivers" title="Driver">
-            <TextInput source="first_name" fullWidth />
-            <TextInput source="last_name" fullWidth />
-            <TextInput source="driver_no" fullWidth />
-            <TextInput source="primary_phone" fullWidth />
-            <TextInput source="driving_license_no" fullWidth />
-        </CreateButton>}
-    >
-        <DataTable>
-            <DataTable.Col label="Name">
+    <>
+        <ListBreadcrumbs title="Transporter Drivers" />
+        <List filters={listFilters}>
+            <Datagrid rowClick="show">
                 <FunctionField
+                    label="Name"
                     render={(record: TransporterDriverRecord) =>
                         [record?.first_name, record?.last_name].filter(Boolean).join(" ")
                     }
                 />
-            </DataTable.Col>
-            <DataTable.Col source="driver_no" label="Driver No" />
-            <DataTable.Col source="primary_phone" label="Primary Phone" />
-            <DataTable.Col source="driving_license_no" label="Driving License No" />
-            <DataTable.Col source="status" label="Status" />
-            <DataTable.Col label="Actions">
-                <EditButton label="" icon={<EditOutlinedIcon fontSize="small" />} sx={{ minWidth: 0, p: 0.5 }} />
-                <DeleteButton label="" icon={<DeleteOutlineIcon fontSize="small" />} sx={{ minWidth: 0, p: 0.5 }} />
-            </DataTable.Col>
-        </DataTable>
-    </List>
+                <TextField source="driver_no" label="Driver No" />
+                <TextField source="primary_phone" label="Primary Phone" />
+                <TextField source="driving_license_no" label="Driving License No" />
+                <TextField source="status" label="Status" />
+                <EditButton />
+                <DeleteButton />
+            </Datagrid>
+        </List>
+    </>
 );
-type TransporterDriverAssignmentRecord = {
-    DriverName?: string;
-    VehicleRegNo?: string;
-    AssignedFrom?: string;
-    AssignedTo?: string | null;
-    AssignmentType?: string;
-    Active?: boolean;
-};
 
 export const TransporterDriverAssignmentList = () => (
-    <List 
-        title="Transporter Driver Assignments"
-        actions={<CreateButton resource="transporter-driver-assignments" title="Driver Assignment">
-            <TextInput source="driver_name" fullWidth />
-            <TextInput source="vehicle_reg_no" fullWidth />
-            <TextInput source="assignment_type" fullWidth />
-        </CreateButton>}
-    >
-        <DataTable>
-            <DataTable.Col source="driver_name" label="Driver Name" />
-            <DataTable.Col source="vehicle_reg_no" label="Vehicle Number" />
-            <DataTable.Col source="assigned_from" label="From">
-                <DateField source="assigned_from" />
-            </DataTable.Col>
-            <DataTable.Col source="assigned_to" label="To">
-                <DateField source="assigned_to" />
-            </DataTable.Col>
-            <DataTable.Col source="assignment_type" label="Assignment Type" />
-            <DataTable.Col label="Active">
-                <FunctionField
-                    render={(record: TransporterDriverAssignmentRecord) =>
-                        record?.active ? "✓" : "✗"
-                    }
-                />
-            </DataTable.Col>
-            <DataTable.Col label="Actions">
-                <EditButton label="" icon={<EditOutlinedIcon fontSize="small" />} sx={{ minWidth: 0, p: 0.5 }} />
-                <DeleteButton label="" icon={<DeleteOutlineIcon fontSize="small" />} sx={{ minWidth: 0, p: 0.5 }} />
-            </DataTable.Col>
-        </DataTable>
-    </List>
+    <>
+        <ListBreadcrumbs title="Transporter Driver Assignments" />
+        <List filters={listFilters}>
+            <Datagrid rowClick="show">
+                <TextField source="driver_name" label="Driver Name" />
+                <TextField source="vehicle_reg_no" label="Vehicle Number" />
+                <DateField source="assigned_from" label="From" />
+                <DateField source="assigned_to" label="To" />
+                <TextField source="assignment_type" label="Assignment Type" />
+                <BooleanField source="active" label="Active" />
+                <EditButton />
+                <DeleteButton />
+            </Datagrid>
+        </List>
+    </>
 );
+
 type TransporterBenefitRecord = {
-    Name?: string;
-    Rate?: string | number;
-    MinQuantity?: string | number;
-    RouteName?: string;
-    StartDate?: string;
-    EndDate?: string;
-    Status?: string | number;
+    status?: string | number;
 };
 
 export const TransporterBenefitList = () => (
-    <List 
-        title="Transporter Benefits"
-        actions={<CreateButton resource="transporter-benefits" title="Benefit">
-            <TextInput source="name" fullWidth />
-            <TextInput source="rate" fullWidth />
-            <TextInput source="route_name" fullWidth />
-        </CreateButton>}
-    >
-        <DataTable>
-            <DataTable.Col source="name" label="Name" />
-            <DataTable.Col source="rate" label="Rate" />
-            <DataTable.Col source="min_quantity" label="Minimum Quantity" />
-            <DataTable.Col source="route_name" label="Route Name" />
-            <DataTable.Col source="start_date" label="Start Date">
-                <DateField source="start_date" />
-            </DataTable.Col>
-            <DataTable.Col source="end_date" label="End Date">
-                <DateField source="end_date" />
-            </DataTable.Col>
-            <DataTable.Col label="Status">
+    <>
+        <ListBreadcrumbs title="Transporter Benefits" />
+        <List filters={listFilters}>
+            <Datagrid rowClick="show">
+                <TextField source="name" label="Name" />
+                <TextField source="rate" label="Rate" />
+                <TextField source="min_quantity" label="Minimum Quantity" />
+                <TextField source="route_name" label="Route Name" />
+                <DateField source="start_date" label="Start Date" />
+                <DateField source="end_date" label="End Date" />
                 <FunctionField
+                    label="Status"
                     render={(record: TransporterBenefitRecord) =>
                         String(record?.status) === "1" ? (
                             <CheckCircleOutlineIcon sx={{ color: "success.main" }} fontSize="small" />
@@ -294,30 +218,172 @@ export const TransporterBenefitList = () => (
                         )
                     }
                 />
-            </DataTable.Col>
-            <DataTable.Col label="Actions">
-                <EditButton
-                    label=""
-                    icon={<EditOutlinedIcon fontSize="small" />}
-                    sx={{ minWidth: 0, p: 0.5 }}
-                />
-                <DeleteButton
-                    label=""
-                    icon={<DeleteOutlineIcon fontSize="small" />}
-                    sx={{ minWidth: 0, p: 0.5 }}
-                />
-            </DataTable.Col>
-        </DataTable>
-    </List>
+                <EditButton />
+                <DeleteButton />
+            </Datagrid>
+        </List>
+    </>
 );
-export const MonthlyPayDateRangeList = createSimpleList("Monthly Pay Date Ranges", "monthly-pay-date-ranges");
-export const PayRateList = createSimpleList("Pay Rates", "pay-rates");
-export const TransporterPaymentList = createSimpleList("Transporter Payments", "transporter-payments");
-export const DeductionsRecoveryList = createSimpleList("Deductions Recovery", "deductions-recovery");
-export const TransporterPayrollList = createSimpleList("Transporter Payroll", "transporter-payroll");
-export const TransporterDeductionList = createSimpleList("Transporter Deductions", "transporter-deductions");
-export const TransportVehicleList = createSimpleList("Transport Vehicles", "transport-vehicles");
-export const TransporterPayrollSummaryList = createSimpleList("Transporter Payroll Summary", "transporter-payroll-summary");
-export const TransporterPayrollBankSummaryList = createSimpleList("Transporter Payroll Bank Summary", "transporter-payroll-bank-summary");
-export const TransporterStatementList = createSimpleList("Transporter Statement", "transporter-statement");
 
+export const MonthlyPayDateRangeList = () => (
+    <>
+        <ListBreadcrumbs title="Monthly Pay Date Ranges" />
+        <List filters={listFilters}>
+            <Datagrid rowClick="show">
+                <TextField source="month" label="Month" />
+                <DateField source="start_date" label="Start Date" />
+                <DateField source="end_date" label="End Date" />
+                <EditButton />
+                <DeleteButton />
+            </Datagrid>
+        </List>
+    </>
+);
+
+export const PayRateList = () => (
+    <>
+        <ListBreadcrumbs title="Pay Rates" />
+        <List filters={listFilters}>
+            <Datagrid rowClick="show">
+                <TextField source="route_name" label="Route Name" />
+                <TextField source="rate" label="Rate" />
+                <DateField source="effective_date" label="Effective Date" />
+                <EditButton />
+                <DeleteButton />
+            </Datagrid>
+        </List>
+    </>
+);
+
+export const TransporterPaymentList = () => (
+    <>
+        <ListBreadcrumbs title="Transporter Payments" />
+        <List filters={listFilters}>
+            <Datagrid rowClick="show">
+                <TextField source="transporter_no" label="Transporter No" />
+                <TextField source="amount" label="Amount" />
+                <DateField source="payment_date" label="Payment Date" />
+                <TextField source="reference_no" label="Reference No" />
+                <TextField source="status" label="Status" />
+                <EditButton />
+                <DeleteButton />
+            </Datagrid>
+        </List>
+    </>
+);
+
+export const DeductionsRecoveryList = () => (
+    <>
+        <ListBreadcrumbs title="Deductions Recovery" />
+        <List filters={listFilters}>
+            <Datagrid rowClick="show">
+                <TextField source="transporter_no" label="Transporter No" />
+                <TextField source="deduction_type" label="Deduction Type" />
+                <TextField source="amount" label="Amount" />
+                <DateField source="date" label="Date" />
+                <EditButton />
+                <DeleteButton />
+            </Datagrid>
+        </List>
+    </>
+);
+
+export const TransporterPayrollList = () => (
+    <>
+        <ListBreadcrumbs title="Transporter Payroll" />
+        <List filters={listFilters}>
+            <Datagrid rowClick="show">
+                <TextField source="transporter_no" label="Transporter No" />
+                <TextField source="period" label="Period" />
+                <TextField source="gross_pay" label="Gross Pay" />
+                <TextField source="total_deductions" label="Total Deductions" />
+                <TextField source="net_pay" label="Net Pay" />
+                <EditButton />
+                <DeleteButton />
+            </Datagrid>
+        </List>
+    </>
+);
+
+export const TransporterDeductionList = () => (
+    <>
+        <ListBreadcrumbs title="Transporter Deductions" />
+        <List filters={listFilters}>
+            <Datagrid rowClick="show">
+                <TextField source="transporter_no" label="Transporter No" />
+                <TextField source="deduction_name" label="Deduction Name" />
+                <TextField source="amount" label="Amount" />
+                <DateField source="date" label="Date" />
+                <EditButton />
+                <DeleteButton />
+            </Datagrid>
+        </List>
+    </>
+);
+
+export const TransportVehicleList = () => (
+    <>
+        <ListBreadcrumbs title="Transport Vehicles" />
+        <List filters={listFilters}>
+            <Datagrid rowClick="show">
+                <TextField source="registration_no" label="Registration No" />
+                <TextField source="make" label="Make" />
+                <TextField source="model" label="Model" />
+                <TextField source="capacity" label="Capacity" />
+                <EditButton />
+                <DeleteButton />
+            </Datagrid>
+        </List>
+    </>
+);
+
+export const TransporterPayrollSummaryList = () => (
+    <>
+        <ListBreadcrumbs title="Transporter Payroll Summary" />
+        <List filters={listFilters}>
+            <Datagrid rowClick="show">
+                <TextField source="period" label="Period" />
+                <TextField source="total_transporters" label="Total Transporters" />
+                <TextField source="total_gross" label="Total Gross" />
+                <TextField source="total_deductions" label="Total Deductions" />
+                <TextField source="total_net" label="Total Net" />
+                <EditButton />
+                <DeleteButton />
+            </Datagrid>
+        </List>
+    </>
+);
+
+export const TransporterPayrollBankSummaryList = () => (
+    <>
+        <ListBreadcrumbs title="Transporter Payroll Bank Summary" />
+        <List filters={listFilters}>
+            <Datagrid rowClick="show">
+                <TextField source="bank_name" label="Bank Name" />
+                <TextField source="period" label="Period" />
+                <TextField source="no_of_transactions" label="Transactions" />
+                <TextField source="total_amount" label="Total Amount" />
+                <EditButton />
+                <DeleteButton />
+            </Datagrid>
+        </List>
+    </>
+);
+
+export const TransporterStatementList = () => (
+    <>
+        <ListBreadcrumbs title="Transporter Statement" />
+        <List filters={listFilters}>
+            <Datagrid rowClick="show">
+                <TextField source="transporter_no" label="Transporter No" />
+                <DateField source="date" label="Date" />
+                <TextField source="description" label="Description" />
+                <TextField source="debit" label="Debit" />
+                <TextField source="credit" label="Credit" />
+                <TextField source="balance" label="Balance" />
+                <EditButton />
+                <DeleteButton />
+            </Datagrid>
+        </List>
+    </>
+);

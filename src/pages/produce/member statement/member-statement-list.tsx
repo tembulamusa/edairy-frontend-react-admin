@@ -1,3 +1,50 @@
-import { createProduceList } from "../produce-list";
+import * as React from 'react';
+import {
+    List,
+    Datagrid,
+    TextField,
+    NumberField,
+    DateField,
+    TopToolbar,
+    FilterButton,
+    CreateButton,
+    ExportButton,
+    EditButton,
+    DeleteButton,
+    TextInput
+} from 'react-admin';
+import { Box } from '@mui/material';
+import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import { ListBreadcrumbs } from '../../../../ListBreadcrumbs';
 
-export const MemberStatementList = createProduceList("Member Statement", "member-statement");
+const ListActions = () => (
+    <TopToolbar>
+        <FilterButton />
+        <CreateButton />
+        <ExportButton />
+    </TopToolbar>
+);
+
+const filters = [
+    <TextInput label="Search" source="q" alwaysOn />,
+];
+
+export const MemberStatementList = () => (
+    <Box sx={{ p: { xs: 2, md: 3 } }}>
+        <ListBreadcrumbs />
+        <List actions={<ListActions />} filters={filters}>
+            <Datagrid rowClick="show">
+                <TextField source="member_name" label="Member Name" />
+                <DateField source="statement_date" label="Date" />
+                <TextField source="reference" label="Reference" />
+                <TextField source="description" label="Description" />
+                <NumberField source="debit" label="Debit" />
+                <NumberField source="credit" label="Credit" />
+                <NumberField source="balance" label="Balance" />
+                <EditButton label="" icon={<EditOutlinedIcon fontSize="small" />} sx={{ minWidth: 0, p: 0.5 }} />
+                <DeleteButton label="" icon={<DeleteOutlineIcon fontSize="small" />} sx={{ minWidth: 0, p: 0.5 }} />
+            </Datagrid>
+        </List>
+    </Box>
+);

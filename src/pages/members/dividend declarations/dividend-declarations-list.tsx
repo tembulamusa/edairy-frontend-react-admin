@@ -1,8 +1,31 @@
-import { List, DataTable, FunctionField, TextInput, required, EditButton, DeleteButton } from 'react-admin';
-import { CreateButton } from '../../../components/forms/FormUtils';
+import {
+    List,
+    Datagrid,
+    TextField,
+    FunctionField,
+    EditButton,
+    DeleteButton,
+    SearchInput
+} from "react-admin";
+import { Box, Breadcrumbs, Link, Typography } from "@mui/material";
+
+const ListBreadcrumbs = ({ title }: { title: string }) => (
+    <Box sx={{ mb: 2, mt: 1 }}>
+        <Breadcrumbs aria-label="breadcrumb">
+            <Link underline="hover" color="inherit" href="/">
+                Home
+            </Link>
+            <Typography color="text.primary">{title}</Typography>
+        </Breadcrumbs>
+    </Box>
+);
+
+const listFilters = [
+    <SearchInput source="q" alwaysOn placeholder="Search..." />,
+];
 
 type DividendDeclarationRecord = {
-    ApprovedBy?: number;
+    approved_by?: number;
 };
 
 const formatApprovedBy = (approvedBy?: number) => {
@@ -11,36 +34,25 @@ const formatApprovedBy = (approvedBy?: number) => {
 };
 
 export const DividendDeclarationList = () => (
-    <List title="Dividend Declarations" actions={
-        <CreateButton resource="dividend-declarations" title="Dividend Declaration">
-            <TextInput source="fiscal_year" validate={[required()]} fullWidth />
-            <TextInput source="period" validate={[required()]} fullWidth />
-            <TextInput source="total_pool" validate={[required()]} fullWidth />
-            <TextInput source="rate_per_share" validate={[required()]} fullWidth />
-            <TextInput source="calculation_type" validate={[required()]} fullWidth />
-            <TextInput source="status" validate={[required()]} fullWidth />
-            <TextInput source="moses" validate={[]} fullWidth />
-
-        </CreateButton>
-    }>
-        <DataTable>
-            <DataTable.Col source="fiscal_year" label="Fiscal Year" />
-            <DataTable.Col source="period" label="Period" />
-            <DataTable.Col source="total_pool" label="Total Pool" />
-            <DataTable.Col source="rate_per_share" label="Rate Per Share" />
-            <DataTable.Col source="calculation_type" label="Calculation Type" />
-            <DataTable.Col source="status" label="Status" />
-            <DataTable.Col label="Approved By">
+    <>
+        <ListBreadcrumbs title="Dividend Declarations" />
+        <List filters={listFilters}>
+            <Datagrid rowClick="show">
+                <TextField source="fiscal_year" label="Fiscal Year" />
+                <TextField source="period" label="Period" />
+                <TextField source="total_pool" label="Total Pool" />
+                <TextField source="rate_per_share" label="Rate Per Share" />
+                <TextField source="calculation_type" label="Calculation Type" />
+                <TextField source="status" label="Status" />
                 <FunctionField
+                    label="Approved By"
                     render={(record: DividendDeclarationRecord) =>
                         formatApprovedBy(record?.approved_by)
                     }
                 />
-            </DataTable.Col>
-            <DataTable.Col label="Actions">
                 <EditButton />
                 <DeleteButton />
-            </DataTable.Col>
-        </DataTable>
-    </List>
+            </Datagrid>
+        </List>
+    </>
 );

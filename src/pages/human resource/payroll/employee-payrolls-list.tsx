@@ -1,3 +1,49 @@
-import { createHumanResourceList } from "../human-resource-list";
+import * as React from 'react';
+import {
+    List,
+    Datagrid,
+    TextField,
+    NumberField,
+    DateField,
+    TopToolbar,
+    FilterButton,
+    CreateButton,
+    ExportButton,
+    EditButton,
+    DeleteButton,
+    TextInput
+} from 'react-admin';
+import { Box } from '@mui/material';
+import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import { ListBreadcrumbs } from '../../../../ListBreadcrumbs';
 
-export const EmployeePayrollsList = createHumanResourceList("Employee Payrolls", "employee-payrolls");
+const ListActions = () => (
+    <TopToolbar>
+        <FilterButton />
+        <CreateButton />
+        <ExportButton />
+    </TopToolbar>
+);
+
+const filters = [
+    <TextInput label="Search" source="q" alwaysOn />,
+];
+
+export const EmployeePayrollsList = () => (
+    <Box sx={{ p: { xs: 2, md: 3 } }}>
+        <ListBreadcrumbs />
+        <List actions={<ListActions />} filters={filters}>
+            <Datagrid rowClick="show">
+                <TextField source="payroll_month" label="Month" />
+                <TextField source="payroll_year" label="Year" />
+                <NumberField source="gross_pay" label="Gross Pay" />
+                <NumberField source="total_deductions" label="Deductions" />
+                <NumberField source="net_pay" label="Net Pay" />
+                <DateField source="date_opened" label="Date Opened" />
+                <EditButton label="" icon={<EditOutlinedIcon fontSize="small" />} sx={{ minWidth: 0, p: 0.5 }} />
+                <DeleteButton label="" icon={<DeleteOutlineIcon fontSize="small" />} sx={{ minWidth: 0, p: 0.5 }} />
+            </Datagrid>
+        </List>
+    </Box>
+);

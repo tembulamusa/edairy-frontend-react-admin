@@ -1,35 +1,50 @@
-import { List, DataTable, EditButton, DeleteButton, TextInput, required } from "react-admin";
+import * as React from 'react';
+import {
+    List,
+    Datagrid,
+    TextField,
+    DateField,
+    TopToolbar,
+    FilterButton,
+    CreateButton,
+    ExportButton,
+    EditButton,
+    DeleteButton,
+    TextInput
+} from 'react-admin';
+import { Box } from '@mui/material';
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
-import { CreateButton } from "../../../../components/forms/FormUtils";
+import { ListBreadcrumbs } from '../../../../../ListBreadcrumbs';
+
+const ListActions = () => (
+    <TopToolbar>
+        <FilterButton />
+        <CreateButton />
+        <ExportButton />
+    </TopToolbar>
+);
+
+const filters = [
+    <TextInput label="Search" source="q" alwaysOn />,
+    <TextInput label="Employee No" source="employee_no" />,
+    <TextInput label="Bank Name" source="bank_name" />,
+];
 
 export const EmployeeBankAccountsList = () => (
-    <List 
-        title="Employee Bank Accounts"
-        actions={
-            <CreateButton resource="employee-bank-accounts" title="Employee Bank Account">
-                <TextInput source="account_name" label="Account Name" validate={[required()]} fullWidth />
-                <TextInput source="bank_name" label="Bank" validate={[required()]} fullWidth />
-                <TextInput source="account_number" label="Account Number" validate={[required()]} fullWidth />
-            </CreateButton>
-        }
-    >
-        <DataTable>
-            <DataTable.Col source="account_name" label="Account Name" />
-            <DataTable.Col source="bank_name" label="Bank" />
-            <DataTable.Col source="account_number" label="Account Number" />
-            <DataTable.Col label="Actions">
-                <EditButton
-                    label=""
-                    icon={<EditOutlinedIcon fontSize="small" />}
-                    sx={{ minWidth: 0, p: 0.5 }}
-                />
-                <DeleteButton
-                    label=""
-                    icon={<DeleteOutlineIcon fontSize="small" />}
-                    sx={{ minWidth: 0, p: 0.5 }}
-                />
-            </DataTable.Col>
-        </DataTable>
-    </List>
+    <Box sx={{ p: { xs: 2, md: 3 } }}>
+        <ListBreadcrumbs />
+        <List actions={<ListActions />} filters={filters}>
+            <Datagrid rowClick="show">
+                <TextField source="employee_no" label="Employee No" />
+                <TextField source="employee_name" label="Employee Name" />
+                <TextField source="bank_name" label="Bank Name" />
+                <TextField source="account_number" label="Account Number" />
+                <TextField source="account_name" label="Account Name" />
+                <DateField source="created_at" label="Created At" showTime />
+                <EditButton label="" icon={<EditOutlinedIcon fontSize="small" />} sx={{ minWidth: 0, p: 0.5 }} />
+                <DeleteButton label="" icon={<DeleteOutlineIcon fontSize="small" />} sx={{ minWidth: 0, p: 0.5 }} />
+            </Datagrid>
+        </List>
+    </Box>
 );

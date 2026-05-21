@@ -1,47 +1,51 @@
-import { List, DataTable, DateField, NumberField, EditButton, DeleteButton, TextInput, required } from "react-admin";
+import * as React from 'react';
+import {
+    List,
+    Datagrid,
+    TextField,
+    DateField,
+    NumberField,
+    TopToolbar,
+    FilterButton,
+    CreateButton,
+    ExportButton,
+    EditButton,
+    DeleteButton,
+    TextInput
+} from 'react-admin';
+import { Box } from '@mui/material';
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
-import { CreateButton } from "../../../components/forms/FormUtils";
+import { ListBreadcrumbs } from '../../../../ListBreadcrumbs';
+
+const ListActions = () => (
+    <TopToolbar>
+        <FilterButton />
+        <CreateButton />
+        <ExportButton />
+    </TopToolbar>
+);
+
+const filters = [
+    <TextInput label="Search" source="q" alwaysOn />,
+    <TextInput label="Receipt Number" source="receipt_number" />,
+];
 
 export const CustomerPaymentList = () => (
-    <List 
-        title="Customer Payments"
-        actions={
-            <CreateButton resource="customer-payments" title="Customer Payment">
-                <TextInput source="receipt_number" label="Receipt Number" validate={[required()]} fullWidth />
-                <TextInput source="customer_name" label="Customer Name" validate={[required()]} fullWidth />
-                <TextInput source="invoice_no" label="Invoice No" validate={[required()]} fullWidth />
-                <TextInput source="payment_date" label="Payment Date" validate={[required()]} fullWidth />
-                <TextInput source="amount" label="Amount" validate={[required()]} fullWidth />
-                <TextInput source="payment_method" label="Payment Method" validate={[required()]} fullWidth />
-                <TextInput source="notes" label="Notes" validate={[required()]} fullWidth />
-            </CreateButton>
-        }
-    >
-        <DataTable>
-            <DataTable.Col source="receipt_number" label="Receipt Number" />
-            <DataTable.Col source="customer_name" label="Customer Name" />
-            <DataTable.Col source="invoice_no" label="Invoice No" />
-            <DataTable.Col source="payment_date" label="Payment Date">
-                <DateField source="payment_date" />
-            </DataTable.Col>
-            <DataTable.Col source="amount" label="Amount">
-                <NumberField source="amount" />
-            </DataTable.Col>
-            <DataTable.Col source="payment_method" label="Payment Method" />
-            <DataTable.Col source="notes" label="Notes" />
-            <DataTable.Col label="Actions">
-                <EditButton
-                    label=""
-                    icon={<EditOutlinedIcon fontSize="small" />}
-                    sx={{ minWidth: 0, p: 0.5 }}
-                />
-                <DeleteButton
-                    label=""
-                    icon={<DeleteOutlineIcon fontSize="small" />}
-                    sx={{ minWidth: 0, p: 0.5 }}
-                />
-            </DataTable.Col>
-        </DataTable>
-    </List>
+    <Box sx={{ p: { xs: 2, md: 3 } }}>
+        <ListBreadcrumbs />
+        <List actions={<ListActions />} filters={filters}>
+            <Datagrid rowClick="show">
+                <TextField source="receipt_number" label="Receipt Number" />
+                <TextField source="customer_name" label="Customer Name" />
+                <TextField source="invoice_no" label="Invoice No" />
+                <DateField source="payment_date" label="Payment Date" />
+                <NumberField source="amount" label="Amount" />
+                <TextField source="payment_method" label="Payment Method" />
+                <TextField source="notes" label="Notes" />
+                <EditButton label="" icon={<EditOutlinedIcon fontSize="small" />} sx={{ minWidth: 0, p: 0.5 }} />
+                <DeleteButton label="" icon={<DeleteOutlineIcon fontSize="small" />} sx={{ minWidth: 0, p: 0.5 }} />
+            </Datagrid>
+        </List>
+    </Box>
 );

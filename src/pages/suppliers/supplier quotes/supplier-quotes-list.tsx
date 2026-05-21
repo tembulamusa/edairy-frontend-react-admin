@@ -1,27 +1,46 @@
-import { List, DataTable, EditButton, DeleteButton } from "react-admin";
+import * as React from 'react';
+import {
+    List,
+    Datagrid,
+    TextField,
+    TopToolbar,
+    FilterButton,
+    CreateButton,
+    ExportButton,
+    EditButton,
+    DeleteButton,
+    TextInput
+} from 'react-admin';
+import { Box } from '@mui/material';
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import { ListBreadcrumbs } from '../../../../ListBreadcrumbs';
+
+const ListActions = () => (
+    <TopToolbar>
+        <FilterButton />
+        <CreateButton />
+        <ExportButton />
+    </TopToolbar>
+);
+
+const filters = [
+    <TextInput label="Search" source="q" alwaysOn />,
+];
 
 export const SupplierQuoteList = () => (
-    <List title="Supplier Quotes">
-        <DataTable>
-            <DataTable.Col source="vendor_name" label="Vendor Name" />
-            <DataTable.Col source="description" label="Description" />
-            <DataTable.Col source="status" label="Status" />
-            <DataTable.Col source="rfq_no" label="RFQ No" />
-            <DataTable.Col source="supplier_quote_ref" label="Quote Reference" />
-            <DataTable.Col label="Actions">
-                <EditButton
-                    label=""
-                    icon={<EditOutlinedIcon fontSize="small" />}
-                    sx={{ minWidth: 0, p: 0.5 }}
-                />
-                <DeleteButton
-                    label=""
-                    icon={<DeleteOutlineIcon fontSize="small" />}
-                    sx={{ minWidth: 0, p: 0.5 }}
-                />
-            </DataTable.Col>
-        </DataTable>
-    </List>
+    <Box sx={{ p: { xs: 2, md: 3 } }}>
+        <ListBreadcrumbs />
+        <List actions={<ListActions />} filters={filters}>
+            <Datagrid rowClick="show">
+                <TextField source="vendor_name" label="Vendor Name" />
+                <TextField source="description" label="Description" />
+                <TextField source="status" label="Status" />
+                <TextField source="rfq_no" label="RFQ No" />
+                <TextField source="supplier_quote_ref" label="Quote Reference" />
+                <EditButton label="" icon={<EditOutlinedIcon fontSize="small" />} sx={{ minWidth: 0, p: 0.5 }} />
+                <DeleteButton label="" icon={<DeleteOutlineIcon fontSize="small" />} sx={{ minWidth: 0, p: 0.5 }} />
+            </Datagrid>
+        </List>
+    </Box>
 );

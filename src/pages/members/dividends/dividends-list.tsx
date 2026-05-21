@@ -1,11 +1,33 @@
+import {
+    List,
+    Datagrid,
+    TextField,
+    FunctionField,
+    EditButton,
+    DeleteButton,
+    SearchInput
+} from "react-admin";
+import { Box, Breadcrumbs, Link, Typography } from "@mui/material";
 
-import { List, DataTable, EditButton, DeleteButton, FunctionField, TextInput, required } from 'react-admin';
-import { CreateButton } from '../../../components/forms/FormUtils';
+const ListBreadcrumbs = ({ title }: { title: string }) => (
+    <Box sx={{ mb: 2, mt: 1 }}>
+        <Breadcrumbs aria-label="breadcrumb">
+            <Link underline="hover" color="inherit" href="/">
+                Home
+            </Link>
+            <Typography color="text.primary">{title}</Typography>
+        </Breadcrumbs>
+    </Box>
+);
+
+const listFilters = [
+    <SearchInput source="q" alwaysOn placeholder="Search..." />,
+];
 
 type ShareDividendRecord = {
-    MemberNo?: string;
-    FirstName?: string;
-    LastName?: string;
+    member_no?: string;
+    first_name?: string;
+    last_name?: string;
 };
 
 const formatMember = (firstName?: string, lastName?: string, memberNo?: string) => {
@@ -19,36 +41,25 @@ const formatMember = (firstName?: string, lastName?: string, memberNo?: string) 
 };
 
 export const ShareDividendList = () => (
-    <List title="Share Dividends" actions={
-        <CreateButton resource="dividends" title="Share Dividend">
-            <TextInput source="fiscal_year" validate={[required()]} fullWidth />
-            <TextInput source="period" validate={[required()]} fullWidth />
-            <TextInput source="calculation_type" validate={[required()]} fullWidth />
-            <TextInput source="share_units" validate={[required()]} fullWidth />
-            <TextInput source="calculation_amount" validate={[required()]} fullWidth />
-            <TextInput source="dividend_amount" validate={[required()]} fullWidth />
-            <TextInput source="include_in_milk" validate={[required()]} fullWidth />
-            <TextInput source="status" validate={[required()]} fullWidth />
-        </CreateButton>
-    }>
-        <DataTable>
-            <DataTable.Col label="Member">
+    <>
+        <ListBreadcrumbs title="Share Dividends" />
+        <List filters={listFilters}>
+            <Datagrid rowClick="show">
                 <FunctionField
+                    label="Member"
                     render={(record: ShareDividendRecord) => formatMember(record?.first_name, record?.last_name, record?.member_no)}
                 />
-            </DataTable.Col>
-            <DataTable.Col source="fiscal_year" label="Fiscal Year" />
-            <DataTable.Col source="period" label="Period" />
-            <DataTable.Col source="calculation_type" label="Calculation Type" />
-            <DataTable.Col source="share_units" label="Share Units" />
-            <DataTable.Col source="calculation_amount" label="Calculation Amount" />
-            <DataTable.Col source="dividend_amount" label="Dividend Amount" />
-            <DataTable.Col source="include_in_milk" label="Include In Milk" />
-            <DataTable.Col source="status" label="Status" />
-            <DataTable.Col label="Actions">
+                <TextField source="fiscal_year" label="Fiscal Year" />
+                <TextField source="period" label="Period" />
+                <TextField source="calculation_type" label="Calculation Type" />
+                <TextField source="share_units" label="Share Units" />
+                <TextField source="calculation_amount" label="Calculation Amount" />
+                <TextField source="dividend_amount" label="Dividend Amount" />
+                <TextField source="include_in_milk" label="Include In Milk" />
+                <TextField source="status" label="Status" />
                 <EditButton />
                 <DeleteButton />
-            </DataTable.Col>
-        </DataTable>
-    </List>
+            </Datagrid>
+        </List>
+    </>
 );

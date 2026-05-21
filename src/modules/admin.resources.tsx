@@ -1,4 +1,4 @@
-import { ListGuesser, Resource } from 'react-admin';
+import { Resource } from 'react-admin';
 
 /* ============ ADMIN MODULE ============ */
 import { LicenceList } from '../pages/admin/licence/licence-list';

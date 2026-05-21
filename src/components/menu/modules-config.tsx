@@ -134,14 +134,21 @@ export const modules: ModulesConfig = {
             {
                 label: "Livestock",
                 items: [
-                    r("Share Types", <AttachMoneyIcon />),
-                    r("Share Accounts", <AttachMoneyIcon />),
+                    r("Livestock Categories", <AttachMoneyIcon />),
+                    r("Livestock Breeds", <AttachMoneyIcon />),
+                    r("Livestock", <AttachMoneyIcon />),
+                     r("Livestock Photos", <AttachMoneyIcon />),
+                    r("Livestock Movements", <AttachMoneyIcon />),
+                    r("Livestock Feedings", <AttachMoneyIcon />),
+                    r("Livestock Breeding Records", <AttachMoneyIcon />),
+                    r("Livestock Production Records", <AttachMoneyIcon />),
+                    r("Livestock Weight Records", <AttachMoneyIcon />),
+                    r("Livestock Health Records", <AttachMoneyIcon />),
+                    r("Livestock Sales", <AttachMoneyIcon />),
+                    r("Livestock Deaths", <AttachMoneyIcon />),
                 ],
             },
-            {
-                label: "Reports",
-                items: [r("Member with Missing Details", <FactCheckIcon />)],
-            },
+            
             {
                 label: "Setup",
                 items: [
@@ -150,6 +157,10 @@ export const modules: ModulesConfig = {
                     r("Route Centers", <StoreIcon />),
                     r("Payment Modes", <AccountBalanceIcon />),
                 ],
+            },
+            {
+                label: "Reports",
+                items: [r("Member with Missing Details", <FactCheckIcon />)],
             },
         ],
     },

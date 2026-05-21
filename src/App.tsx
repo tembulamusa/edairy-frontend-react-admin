@@ -9,6 +9,17 @@ import Layout from './Layout';
 import { authProvider } from './components/auth/auth-provider';
 import { LoginPage } from './pages/auth/login';
 import { Dashboard } from './pages/dashboard';
+import { suppliersResources } from './modules/suppliers.resources';
+import { customersResources } from './modules/customers.resources';
+import { humanResourceResources } from './modules/hr.resources';
+import { membersResources } from './modules/members.resources';
+import { transportersResources } from './modules/transporters.resources';
+import { produceResources } from './modules/produce.resources';
+import { storesResources } from './modules/stores.resources';
+import { loansResources } from './modules/loans.resources';
+import { adminResources } from './modules/admin.resources';
+import { smsResources } from './modules/sms.resources';
+import { livestockResources } from './modules/livestock.resources';
 
 /* ============ MEMBERS MODULE ============ */
 import { MemberList } from './pages/members/members/member-list';
@@ -420,6 +431,18 @@ const App = () => {
       loginPage={LoginPage}
       logo={Logo}
     >
+      {membersResources}
+      {transportersResources}
+      {produceResources}
+      {storesResources}
+      {suppliersResources}
+      {customersResources}
+      {loansResources}
+      {adminResources}
+      {humanResourceResources}
+      {smsResources}
+      {livestockResources}
+
       {/* Members Module */}
       <Resource name="members" list={MemberList} />
       <Resource name="member-bank-accounts" list={MemberBankAccountList} />
@@ -586,6 +609,7 @@ const App = () => {
       <Resource name="sms-templates" list={SmsTemplatesList} create={SmsTemplateCreate} edit={SmsTemplateEdit} show={SmsTemplateShow} />
 
     </Admin>
+
   );
 
 }

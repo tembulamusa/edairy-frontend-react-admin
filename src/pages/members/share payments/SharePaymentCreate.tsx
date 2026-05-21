@@ -17,6 +17,19 @@ import { Card, CardContent, Typography, Divider, Box, Button } from '@mui/materi
 import Grid from '@mui/material/Grid';
 import { ListBreadcrumbs } from '../../../../ListBreadcrumbs';
 
+const validateTransactionDate = (value: any) => {
+    if (!value) return undefined;
+    const selectedDate = new Date(value);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    if (selectedDate > today) {
+        return 'Transaction date cannot be in the future';
+    }
+    return undefined;
+};
+
+const today = new Date().toLocaleDateString('en-CA');
+
 const SharePaymentCreateToolbar = () => {
     const notify = useNotify();
     const redirect = useRedirect();
@@ -84,23 +97,22 @@ export const SharePaymentCreate = () => (
                                 </ReferenceInput>
                             </Grid>
                             <Grid item xs={12} md={6}>
-                                <DateInput source="transaction_date" label="Transaction Date" validate={required()} fullWidth variant="outlined" />
+                                <DateInput
+                                    source="transaction_date"
+                                    label="Transaction Date"
+                                    validate={[required(), validateTransactionDate]}
+                                    max={today}
+                                    fullWidth
+                                    variant="outlined"
+                                />
                             </Grid>
                             <Grid item xs={12} md={6}>
                                 <NumberInput source="amount_paid" label="Amount Paid" validate={required()} fullWidth variant="outlined" />
                             </Grid>
                             <Grid item xs={12} md={6}>
-                                <SelectInput
-                                    source="payment_mode"
-                                    choices={[
-                                        { id: 'CASH', name: 'Cash' },
-                                        { id: 'BANK', name: 'Bank Transfer' },
-                                        { id: 'MOBILE_MONEY', name: 'Mobile Money' },
-                                    ]}
-                                    fullWidth
-                                    variant="outlined"
-                                    validate={required()}
-                                />
+                                <ReferenceInput source="payment_mode_id" reference="payment-modes">
+                                    <SelectInput label="Payment Mode" optionText="name" fullWidth variant="outlined" validate={required()} />
+                                </ReferenceInput>
                             </Grid>
                             <Grid item xs={12}>
                                 <TextInput source="reference_number" label="Transaction Reference" fullWidth variant="outlined" />

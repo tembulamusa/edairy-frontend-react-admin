@@ -32,7 +32,7 @@ import { OrganizationLeadershipsList } from '../../pages/admin/organization/orga
 import { OrganizationWalletsList } from '../../pages/admin/organization/organization wallets/organization-wallets-list';
 import { PaymentTypeList } from '../../pages/admin/payment types/payment-types-list';
 import { RelationshipList } from '../../pages/admin/relationships/relationships-list';
-import { LocationList } from '../../pages/admin/locations/locations-list';
+import { LocationList } from '../../pages/members/locations/locations-list';
 import { ShareTransactionList } from '../../pages/admin/share transactions/share-transactions-list';
 
 // Define the interface for the dictionary structure

@@ -83,7 +83,7 @@ export const MemberShareCreate = () => (
                             </Grid>
                             <Grid item xs={12} md={6}>
                                 <ReferenceInput source="share_type_id" reference="share-types">
-                                    <SelectInput label="Share Type" optionText="name" fullWidth variant="outlined" validate={required()} />
+                                    <SelectInput label="Share Type" optionText="share_code" fullWidth variant="outlined" validate={required()} />
                                 </ReferenceInput>
                             </Grid>
                             <Grid item xs={12} md={6}>

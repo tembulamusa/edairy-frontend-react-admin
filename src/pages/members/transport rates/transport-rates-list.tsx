@@ -1,44 +1,39 @@
-import { List, DataTable, EditButton, DeleteButton, useResourceContext, CreateButton, ShowButton, TextInput, ReferenceInput, SelectInput } from 'react-admin';
+import {
+    List,
+    DataTable,
+    EditButton,
+    DeleteButton,
+    useResourceContext,
+    TextInput,
+    ReferenceInput,
+    SelectInput,
+} from 'react-admin';
 import { Box, Card, CardContent, Typography, Stack, Tooltip } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import { useCan } from '../../../components/permissions/user-can';
+import { ListBreadcrumbs } from '../../../../ListBreadcrumbs';
+import { ListCreateButton } from '../../../components/forms/ListCreateButton';
+import { listCreateButtonSx } from '../../transporters/shared/transporter-page-layout';
 
 const TransportRateFilters = [
-    <TextInput
-        source="transporter_no"
-        label="Transporter No"
-        alwaysOn
-    />,
-     <ReferenceInput
-        source="route_id"
-        reference="routes"
-        alwaysOn
-    >
+    <TextInput key="transporter_no" source="transporter_no" label="Transporter No" alwaysOn />,
+    <ReferenceInput key="route_id" source="route_id" reference="routes" alwaysOn>
         <SelectInput optionText="name" label="Route" />
     </ReferenceInput>,
-    <TextInput
-        source="member_no"
-        label="Member No"
-        alwaysOn
-    />,
+    <TextInput key="member_no" source="member_no" label="Member No" alwaysOn />,
 ];
 
 export const TransportRateList = () => {
     const can = useCan();
-    const resource = useResourceContext() ?? "transport-rates";
-    const canEdit = can(resource, "update");
-    const canDelete = can(resource, "delete");
-    const canCreate = can(resource, "create");
+    const resource = useResourceContext() ?? 'transport-rates';
+    const canEdit = can(resource, 'update');
+    const canDelete = can(resource, 'delete');
+    const canCreate = can(resource, 'create');
 
     return (
         <Box sx={{ p: 2 }}>
-            <Card
-                sx={{
-                    borderRadius: 3,
-                    boxShadow: 3,
-                    overflow: "hidden",
-                }}
-            >
+            <ListBreadcrumbs />
+            <Card sx={{ borderRadius: 3, boxShadow: 3, overflow: 'hidden' }}>
                 <CardContent>
                     <Grid
                         container
@@ -48,47 +43,26 @@ export const TransportRateList = () => {
                         mb={2}
                     >
                         <Grid size={{ xs: 12, md: 6 }}>
-                            <Typography
-                                variant="h5"
-                                fontWeight="bold"
-                            >
+                            <Typography variant="h5" fontWeight="bold">
                                 Transport Rates
                             </Typography>
-
-                            <Typography
-                                variant="body2"
-                                color="text.secondary"
-                            >
+                            <Typography variant="body2" color="text.secondary">
                                 Manage all transport rate records
                             </Typography>
                         </Grid>
-
-                        <Grid size={{ xs: 12, md: "auto" }}>
+                        <Grid size={{ xs: 12, md: 'auto' }}>
                             {canCreate && (
-                                <CreateButton
-                                    variant="contained"
-                                    sx={{
-                                        backgroundColor: 'primary.main',
-                                        color: 'white',
-                                        '&:hover': {
-                                            backgroundColor: 'primary.dark',
-                                        },
-                                    }}
-                                />
+                                <ListCreateButton resource={resource} sx={listCreateButtonSx} />
                             )}
                         </Grid>
                     </Grid>
-                    <List 
-                        title={false}
-                        filters={TransportRateFilters}
-                        actions={false}
-                    >
+                    <List title={false} filters={TransportRateFilters} actions={false}>
                         <DataTable
-                            rowClick="show"
+                            rowClick="edit"
                             sx={{
                                 '& .RaDataTable-headerCell': {
-                                    fontWeight: "bold",
-                                    backgroundColor: "#f5f5f5",
+                                    fontWeight: 'bold',
+                                    backgroundColor: '#f5f5f5',
                                 },
                             }}
                         >
@@ -99,20 +73,13 @@ export const TransportRateList = () => {
                             <DataTable.Col source="status" label="Status" />
                             <DataTable.Col label="Actions">
                                 <Stack direction="row" spacing={1} alignItems="center">
-                                    <Tooltip title="View Details">
-                                        <span>
-                                            <ShowButton label={false} sx={{ minWidth: 10 }} />
-                                        </span>
-                                    </Tooltip>
-
                                     {canEdit && (
                                         <Tooltip title="Edit Record">
                                             <span>
-                                                <EditButton label={false} sx={{ minWidth: 10 }} />
+                                                <EditButton label={false} sx={{ minWidth: 36 }} />
                                             </span>
                                         </Tooltip>
                                     )}
-
                                     {canDelete && (
                                         <Tooltip title="Delete Record">
                                             <span>
@@ -121,6 +88,7 @@ export const TransportRateList = () => {
                                                     mutationMode="pessimistic"
                                                     confirmTitle="⚠️ Confirm deletion"
                                                     confirmContent="This will permanently remove the record."
+                                                    sx={{ minWidth: 36 }}
                                                 />
                                             </span>
                                         </Tooltip>

@@ -1,3 +1,6 @@
-import { createProduceList } from "../produce-list";
+import { createProduceList } from '../produce-list';
 
-export const MilkDeliveryReportList = createProduceList("Milk Delivery Reports", "milk-delivery-reports");
+export const MilkDeliveryReportList = createProduceList(
+    'Milk Delivery Reports',
+    'Manage milk delivery report records'
+);

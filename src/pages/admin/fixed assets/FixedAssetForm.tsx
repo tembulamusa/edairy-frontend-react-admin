@@ -8,10 +8,7 @@ import {
     required,
 } from "react-admin";
 
-import {
-    Box,
-    Button,
-} from "@mui/material";
+import { Box, Button, Stack } from "@mui/material";
 
 import Grid from "@mui/material/Grid";
 import { useFormContext } from "react-hook-form";
@@ -22,10 +19,21 @@ interface FixedAssetFormProps {
     isLast: boolean;
     stepFields: Record<number, string[]>;
     onFinalSubmit: (data: any) => void;
+    onFinalSubmitAndAddNew?: (data: any) => void;
     lastStepLabel?: string;
+    saveAndAddLabel?: string;
 }
 
-export const FixedAssetForm = ({ step, setStep, isLast, stepFields, onFinalSubmit, lastStepLabel = "Create Asset" }: FixedAssetFormProps) => {
+export const FixedAssetForm = ({
+    step,
+    setStep,
+    isLast,
+    stepFields,
+    onFinalSubmit,
+    onFinalSubmitAndAddNew,
+    lastStepLabel = "Save",
+    saveAndAddLabel = "Save and Add New",
+}: FixedAssetFormProps) => {
     const { trigger, handleSubmit } = useFormContext();
 
     const handleNext = async () => {
@@ -129,17 +137,40 @@ export const FixedAssetForm = ({ step, setStep, isLast, stepFields, onFinalSubmi
                 >
                     Back
                 </Button>
-                <Button
-                    variant="contained"
-                    size="large"
-                    type="button" // Always type="button" to prevent default form submission
-                    onClick={
-                        isLast ? handleSubmit(onFinalSubmit) : handleNext
-                    }
-                    sx={{ px: 4, borderRadius: 2 }}
-                >
-                    {isLast ? lastStepLabel : "Next Step"}
-                </Button>
+                {isLast ? (
+                    <Stack direction="row" spacing={1}>
+                        <Button
+                            variant="contained"
+                            size="large"
+                            type="button"
+                            onClick={handleSubmit(onFinalSubmit)}
+                            sx={{ px: 4, borderRadius: 2 }}
+                        >
+                            {lastStepLabel}
+                        </Button>
+                        {onFinalSubmitAndAddNew ? (
+                            <Button
+                                variant="contained"
+                                size="large"
+                                type="button"
+                                onClick={handleSubmit(onFinalSubmitAndAddNew)}
+                                sx={{ px: 4, borderRadius: 2 }}
+                            >
+                                {saveAndAddLabel}
+                            </Button>
+                        ) : null}
+                    </Stack>
+                ) : (
+                    <Button
+                        variant="contained"
+                        size="large"
+                        type="button"
+                        onClick={handleNext}
+                        sx={{ px: 4, borderRadius: 2 }}
+                    >
+                        Next Step
+                    </Button>
+                )}
             </Box>
         </>
     );

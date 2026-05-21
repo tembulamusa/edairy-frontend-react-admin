@@ -2,7 +2,6 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useNotify, useRefresh, useRedirect } from "react-admin";
 import {
     Box,
-    Button,
     Card,
     CardContent,
     Divider,
@@ -29,6 +28,7 @@ import {
 
 import { OtherDetailsStep } from "./other-details-step";
 import { PersonalInfoStep } from "./personal-info-step";
+import { WizardCreateActions } from "../../../../components/forms/WizardCreateActions";
 
 const apiUrl =
     import.meta.env.VITE_EDAIRY_API_URL ?? "http://192.168.1.10:8080/api";
@@ -206,7 +206,7 @@ export const MemberCreateWizard = () => {
         setActiveStep(0);
     };
 
-    const handleSubmit = async () => {
+    const handleSubmit = async (addAnother: boolean) => {
         const formErrors = validateAll(values);
 
         setErrors(formErrors);
@@ -286,12 +286,14 @@ export const MemberCreateWizard = () => {
             });
 
             clearMemberCreateDraft();
-
-            handleReset();
-
             refresh();
 
-            redirect("/members");
+            if (addAnother) {
+                handleReset();
+                redirect("create", "members");
+            } else {
+                redirect("list", "members");
+            }
         } catch (error) {
             notify(
                 error instanceof Error
@@ -474,52 +476,19 @@ export const MemberCreateWizard = () => {
                             />
                         )}
 
-                        {/* Actions */}
-                        <Stack
-                            direction="row"
-                            justifyContent="flex-end"
-                            spacing={2}
-                        >
-                            <Button
-                                onClick={() =>
-                                    redirect("/members")
-                                }
-                                disabled={saving}
-                            >
-                                Cancel
-                            </Button>
-
-                            {activeStep > 0 && (
-                                <Button
-                                    onClick={handleBack}
-                                    disabled={saving}
-                                >
-                                    Back
-                                </Button>
-                            )}
-
-                            {activeStep <
-                                memberWizardStepTitles.length -
-                                1 ? (
-                                <Button
-                                    variant="contained"
-                                    onClick={handleNext}
-                                    disabled={saving}
-                                >
-                                    Next
-                                </Button>
-                            ) : (
-                                <Button
-                                    variant="contained"
-                                    onClick={handleSubmit}
-                                    disabled={saving}
-                                >
-                                    {saving
-                                        ? "Saving..."
-                                        : "Confirm"}
-                                </Button>
-                            )}
-                        </Stack>
+                        <WizardCreateActions
+                            saving={saving}
+                            showBack={activeStep > 0}
+                            showNext={
+                                activeStep <
+                                memberWizardStepTitles.length - 1
+                            }
+                            onCancel={() => redirect("list", "members")}
+                            onBack={handleBack}
+                            onNext={handleNext}
+                            onSave={() => handleSubmit(false)}
+                            onSaveAndAddNew={() => handleSubmit(true)}
+                        />
                     </Stack>
                 </CardContent>
             </Card>

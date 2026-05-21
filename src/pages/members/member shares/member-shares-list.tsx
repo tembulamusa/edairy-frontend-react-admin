@@ -97,35 +97,6 @@ export const MemberShareList = () => {
                                         </Tooltip>
                                     )}
 
-                                    {canDelete && (
-                                        <Tooltip title="Delete Record">
-                                            <span>
-                                                <DeleteButton
-                                                    label={false}
-                                                    confirmColor="error"
-                                                    mutationMode="pessimistic"
-                                                    confirmTitle="⚠️ Confirm deletion"
-                                                    confirmContent="This will permanently remove the record."
-                                                    confirmProps={{
-                                                        sx: {
-                                                            '& .RaConfirm-confirm-button': {
-                                                                color: 'error.main !important',
-                                                            },
-                                                            '& .RaConfirm-title': {
-                                                                color: 'error.main !important',
-                                                            },
-                                                            '& .RaConfirm-content': {
-                                                                color: 'error.main !important',
-                                                            },
-                                                        },
-                                                    }}
-                                                    sx={{
-                                                        minWidth: 36,
-                                                    }}
-                                                />
-                                            </span>
-                                        </Tooltip>
-                                    )}
                                 </Stack>
                             </DataTable.Col>
                         </DataTable>

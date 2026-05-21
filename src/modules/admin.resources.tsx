@@ -50,7 +50,6 @@ import { OrganizationLeadershipCreate } from '../pages/admin/organization/organi
 import { OrganizationWalletsList } from '../pages/admin/organization/organization wallets/organization-wallets-list';
 import { PaymentTypeList } from '../pages/admin/payment types/payment-types-list';
 import { RelationshipList } from '../pages/admin/relationships/relationships-list';
-import { LocationList } from '../pages/admin/locations/locations-list';
 import { FixedAssetCreate } from '../pages/admin/fixed assets/FixedAssetCreate';
 import { FixedAssetEdit } from '../pages/admin/fixed assets/FixedAssetEdit';
 import { RoleEdit } from '../pages/admin/roles/edit';
@@ -95,5 +94,4 @@ export const adminResources = [
 
     <Resource key="payment-types" name="payment-types" list={PaymentTypeList} />,
     <Resource key="relationships" name="relationships" list={RelationshipList} />,
-    <Resource key="locations" name="locations" list={LocationList} />,
 ];

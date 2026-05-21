@@ -1,24 +1,9 @@
-import { List, DataTable, EditButton, DeleteButton } from "react-admin";
-import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
-import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import { DataTable } from 'react-admin';
+import { ProduceListWrapper } from '../shared/produce-list-layout';
 
 export const ProductGradesList = () => (
-    <List title="Product Grades">
-        <DataTable>
-            <DataTable.Col source="name" label="Name" />
-            <DataTable.Col source="description" label="Description" />
-            <DataTable.Col label="Actions">
-                <EditButton
-                    label=""
-                    icon={<EditOutlinedIcon fontSize="small" />}
-                    sx={{ minWidth: 0, p: 0.5 }}
-                />
-                <DeleteButton
-                    label=""
-                    icon={<DeleteOutlineIcon fontSize="small" />}
-                    sx={{ minWidth: 0, p: 0.5 }}
-                />
-            </DataTable.Col>
-        </DataTable>
-    </List>
+    <ProduceListWrapper title="Product Grades" subtitle="Manage product grade classifications">
+        <DataTable.Col source="name" label="Name" />
+        <DataTable.Col source="description" label="Description" />
+    </ProduceListWrapper>
 );

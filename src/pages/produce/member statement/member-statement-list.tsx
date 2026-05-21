@@ -1,3 +1,6 @@
-import { createProduceList } from "../produce-list";
+import { createProduceList } from '../produce-list';
 
-export const MemberStatementList = createProduceList("Member Statement", "member-statement");
+export const MemberStatementList = createProduceList(
+    'Member Statement',
+    'Manage member statement records'
+);

@@ -5,9 +5,17 @@ import { MemberList } from '../pages/members/members/member-list';
 import { MemberBankAccountList } from '../pages/members/member bank accounts/member-bank-account-list';
 import { TransportRateList } from '../pages/members/transport rates/transport-rates-list';
 import { MemberTypeList } from '../pages/members/member types/member-types-list';
+import { MemberTypeCreate } from '../pages/members/member types/MemberTypeCreate';
+import { LocationList } from '../pages/members/locations/locations-list';
+import { LocationCreate } from '../pages/members/locations/LocationCreate';
+import { LocationEdit } from '../pages/members/locations/LocationEdit';
 import { RouteList } from '../pages/members/routes/routes-list';
+import { RouteCreate } from '../pages/members/routes/RouteCreate';
+import { RouteEdit } from '../pages/members/routes/RouteEdit';
 import { RouteCenterList } from '../pages/members/route centers/route-center-list';
+import { RouteCenterCreate } from '../pages/members/route centers/RouteCenterCreate';
 import { PaymentModeList } from '../pages/members/payment modes/payment-mode-list';
+import { PaymentModeCreate } from '../pages/members/payment modes/PaymentModeCreate';
 import { TrainingList } from '../pages/members/trainings/training-list';
 import { TrainingSessionList } from '../pages/members/training sessions/training-session-list';
 import { TrainingSessionAttendeesList } from '../pages/members/training session attendees/training-session-attendees-list';
@@ -24,6 +32,7 @@ import { MemberWithMissingDetailsList } from '../pages/members/reports/member-wi
 import { MemberCreate } from '../pages/members/members/MemberCreate';
 import { MemberBankAccountCreate } from '../pages/members/member bank accounts/MemberBankAccountCreate';
 import { TransportRateCreate } from '../pages/members/transport rates/TransportRateCreate';
+import { TransportRateEdit } from '../pages/members/transport rates/TransportRateEdit';
 import { TrainingCreate } from '../pages/members/trainings/TrainingCreate';
 import { TrainingSessionCreate } from '../pages/members/training sessions/TrainingSessionCreate';
 import { TrainingSessionAttendeeCreate } from '../pages/members/training session attendees/TrainingSessionAttendeeCreate';
@@ -39,11 +48,12 @@ import { ShareDividendCreate as MemberShareDividendCreate } from '../pages/membe
 export const membersResources = [
     <Resource key="members" name="members" list={MemberList} create={MemberCreate} />,
     <Resource key="member-bank-accounts" name="member-bank-accounts" list={MemberBankAccountList} create={MemberBankAccountCreate} />,
-    <Resource key="transport-rates" name="transport-rates" list={TransportRateList} create={TransportRateCreate} />,
-    <Resource key="member-types" name="member-types" list={MemberTypeList} />,
-    <Resource key="routes" name="routes" list={RouteList} />,
-    <Resource key="route-centers" name="route-centers" list={RouteCenterList} />,
-    <Resource key="payment-modes" name="payment-modes" list={PaymentModeList} />,
+    <Resource key="transport-rates" name="transport-rates" list={TransportRateList} create={TransportRateCreate} edit={TransportRateEdit} />,
+    <Resource key="member-types" name="member-types" list={MemberTypeList} create={MemberTypeCreate} />,
+    <Resource key="locations" name="locations" list={LocationList} create={LocationCreate} edit={LocationEdit} />,
+    <Resource key="routes" name="routes" list={RouteList} create={RouteCreate} edit={RouteEdit} />,
+    <Resource key="route-centers" name="route-centers" list={RouteCenterList} create={RouteCenterCreate} />,
+    <Resource key="payment-modes" name="payment-modes" list={PaymentModeList} create={PaymentModeCreate} />,
     <Resource key="trainings" name="trainings" list={TrainingList} create={TrainingCreate} />,
     <Resource key="training-sessions" name="training-sessions" list={TrainingSessionList} create={TrainingSessionCreate} />,
     <Resource key="training-session-attendees" name="training-session-attendees" list={TrainingSessionAttendeesList} create={TrainingSessionAttendeeCreate} />,

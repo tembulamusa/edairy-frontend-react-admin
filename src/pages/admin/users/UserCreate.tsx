@@ -1,9 +1,6 @@
 import * as React from 'react';
 import {
     Create,
-    Toolbar,
-    SaveButton,
-    useNotify,
     SimpleForm,
     TextInput,
     PasswordInput,
@@ -18,47 +15,15 @@ import {
     Typography,
     Divider,
     Stack,
-    Box,
 } from '@mui/material';
-import Button from '@mui/material/Button';
 
 import Grid from '@mui/material/Grid';
-
-const UserCreateToolbar = () => {
-    const notify = useNotify();
-
-    return (
-        <Toolbar sx={{ display: 'flex', justifyContent: 'space-between', backgroundColor: 'transparent', px: 0 }}>
-            <Box sx={{ display: 'flex', gap: 1 }}>
-                <SaveButton label="Save" variant="contained" redirect="list" />
-                <SaveButton
-                    label="Save and Add New"
-                    variant="contained"
-                    mutationOptions={{
-                        onSuccess: () => {
-                            notify('User created successfully', { type: 'success' });
-                            // Redirect to create new user, clearing the form
-                            // This assumes 'users' is the resource name
-                            // If you want to redirect to a specific path, use redirect('/path')
-                            // For now, it will redirect to the list page after saving and adding new
-                            // If you want to stay on the create page, you'd need to clear the form manually
-                            // or use a custom form component that handles this.
-                        },
-                    }}
-                />
-            </Box>
-            <Button variant="contained" sx={{ backgroundColor: 'grey.500', color: 'white', '&:hover': { backgroundColor: 'grey.700' } }}
-                onClick={() => window.history.back()} // Go back to the previous page
-            >
-                Cancel
-            </Button>
-        </Toolbar>
-    );
-};
+import { ResourceCreateToolbar } from '../../../components/forms/ResourceCreateToolbar';
 
 export const UserCreate = () => {
     return (
         <Create
+            resource="users"
             title={false}
             sx={{
                 "& .RaCreate-main": {
@@ -104,7 +69,12 @@ export const UserCreate = () => {
                     <Divider sx={{ mb: 4 }} />
 
                     <SimpleForm
-                        toolbar={<UserCreateToolbar />}
+                        toolbar={
+                            <ResourceCreateToolbar
+                                resource="users"
+                                successMessage="User created successfully"
+                            />
+                        }
                         sx={{
                             "& .RaSimpleForm-toolbar": {
                                 mt: 3,

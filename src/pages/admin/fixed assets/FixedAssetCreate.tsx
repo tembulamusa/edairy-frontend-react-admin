@@ -44,8 +44,7 @@ export const FixedAssetCreate = () => {
         3: ["current_location", "status", "loanable", "comments"], // warranty_end_date moved to step 2
     };
 
-    const handleSubmit = (data: any) => {
-        // Explicitly remove AcquisitionDate (PascalCase) to ensure only acquisition_date is sent
+    const handleSubmit = (data: any, addAnother: boolean) => {
         const { AcquisitionDate, ...payload } = data;
         create(
             "fixed-assets",
@@ -53,7 +52,12 @@ export const FixedAssetCreate = () => {
             {
                 onSuccess: () => {
                     notify("Fixed asset created", { type: "success" });
-                    redirect("list", "fixed-assets");
+                    if (addAnother) {
+                        setStep(0);
+                        redirect("create", "fixed-assets");
+                    } else {
+                        redirect("list", "fixed-assets");
+                    }
                 },
             }
         );
@@ -61,6 +65,7 @@ export const FixedAssetCreate = () => {
 
     return (
         <Create
+            resource="fixed-assets"
             title={false}
             sx={{
                 "& .RaCreate-main": {
@@ -138,7 +143,8 @@ export const FixedAssetCreate = () => {
                             setStep={setStep}
                             isLast={isLast}
                             stepFields={stepFields}
-                            onFinalSubmit={handleSubmit} // Pass the final submission handler
+                            onFinalSubmit={(data) => handleSubmit(data, false)}
+                            onFinalSubmitAndAddNew={(data) => handleSubmit(data, true)}
                         />
                     </SimpleForm>
                 </CardContent>

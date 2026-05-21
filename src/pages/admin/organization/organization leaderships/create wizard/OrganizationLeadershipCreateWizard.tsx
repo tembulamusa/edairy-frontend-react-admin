@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import { Create, useCreate, useNotify, useRedirect } from 'react-admin';
-import { Box, Button, Card, CardContent, Divider, Stack, Typography } from '@mui/material';
+import { Box, Card, CardContent, Divider, Stack, Typography } from '@mui/material';
 import { ListBreadcrumbs } from '../../../../../../ListBreadcrumbs';
 import { organizationCreateMainSx, organizationCreateWrapperSx } from '../../organizationCreateLayout';
 import { PersonalInfoStep } from '../../../../members/members/create wizard/personal-info-step';
@@ -10,6 +10,7 @@ import { WizardStepper } from './WizardStepper';
 import { RoleOrganizationStep } from './role-organization-step';
 import { LeadershipContactsStep } from './contacts-step';
 import { LeadershipConfirmStep } from './confirm-step';
+import { WizardCreateActions } from '../../../../../components/forms/WizardCreateActions';
 import {
     initialOrganizationLeadershipCreateDraft,
     leadershipWizardStepTitles,
@@ -106,7 +107,7 @@ export const OrganizationLeadershipCreateWizard = () => {
 
     const handleBack = () => goToStep(activeStep - 1);
 
-    const handleSubmit = () => {
+    const handleSubmit = (addAnother: boolean) => {
         const formErrors = validateAll(values);
         setErrors(formErrors);
 
@@ -126,7 +127,14 @@ export const OrganizationLeadershipCreateWizard = () => {
             {
                 onSuccess: () => {
                     notify('Organization leadership created successfully', { type: 'success' });
-                    redirect('list', 'organization-leaderships');
+                    if (addAnother) {
+                        setValues(initialOrganizationLeadershipCreateDraft);
+                        setErrors({});
+                        setActiveStep(0);
+                        redirect('create', 'organization-leaderships');
+                    } else {
+                        redirect('list', 'organization-leaderships');
+                    }
                 },
                 onError: (error) => {
                     notify(
@@ -140,7 +148,7 @@ export const OrganizationLeadershipCreateWizard = () => {
     };
 
     return (
-        <Create title={false} sx={organizationCreateMainSx}>
+        <Create resource="organization-leaderships" title={false} sx={organizationCreateMainSx}>
             <Box sx={organizationCreateWrapperSx}>
                 <ListBreadcrumbs />
                 <Card elevation={0} sx={{ borderRadius: 3, width: '100%', overflow: 'hidden' }}>
@@ -188,36 +196,18 @@ export const OrganizationLeadershipCreateWizard = () => {
                             ) : null}
                         </Stack>
 
-                        <Stack
-                            direction="row"
-                            justifyContent="space-between"
-                            alignItems="center"
-                            sx={{ mt: 4, pt: 2, borderTop: 1, borderColor: 'divider' }}
-                        >
-                            <Button
-                                variant="outlined"
-                                onClick={() => redirect('/organization-leaderships')}
-                                disabled={saving}
-                            >
-                                Cancel
-                            </Button>
-                            <Stack direction="row" spacing={1}>
-                                {activeStep > 0 ? (
-                                    <Button onClick={handleBack} disabled={saving}>
-                                        Back
-                                    </Button>
-                                ) : null}
-                                {activeStep < leadershipWizardStepTitles.length - 1 ? (
-                                    <Button variant="contained" onClick={handleNext} disabled={saving}>
-                                        Next
-                                    </Button>
-                                ) : (
-                                    <Button variant="contained" onClick={handleSubmit} disabled={saving}>
-                                        {saving ? 'Saving...' : 'Confirm'}
-                                    </Button>
-                                )}
-                            </Stack>
-                        </Stack>
+                        <Box sx={{ mt: 4, pt: 2, borderTop: 1, borderColor: 'divider' }}>
+                            <WizardCreateActions
+                                saving={saving}
+                                showBack={activeStep > 0}
+                                showNext={activeStep < leadershipWizardStepTitles.length - 1}
+                                onCancel={() => redirect('list', 'organization-leaderships')}
+                                onBack={handleBack}
+                                onNext={handleNext}
+                                onSave={() => handleSubmit(false)}
+                                onSaveAndAddNew={() => handleSubmit(true)}
+                            />
+                        </Box>
                     </CardContent>
                 </Card>
             </Box>

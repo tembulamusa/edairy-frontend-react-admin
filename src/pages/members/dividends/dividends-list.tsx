@@ -1,54 +1,59 @@
+import { List, DataTable, EditButton, DeleteButton, useResourceContext, CreateButton, ShowButton, TextInput } from 'react-admin';
+import { Box, Card, CardContent, Typography, Stack, Tooltip } from '@mui/material';
+import Grid from '@mui/material/Grid';
+import { useCan } from '../../../components/permissions/user-can';
 
-import { List, DataTable, EditButton, DeleteButton, FunctionField, TextInput, required } from 'react-admin';
-import { CreateButton } from '../../../components/forms/FormUtils';
+const MemberDividendFilters = [
+    <TextInput source="member_no" label="Member No" alwaysOn />,
+    <TextInput source="financial_year" label="Year" alwaysOn />,
+];
 
-type ShareDividendRecord = {
-    MemberNo?: string;
-    FirstName?: string;
-    LastName?: string;
+export const ShareDividendList = () => {
+    const can = useCan();
+    const resource = useResourceContext() ?? "dividends";
+    const canEdit = can(resource, "update");
+    const canDelete = can(resource, "delete");
+    const canCreate = can(resource, "create");
+
+    return (
+        <Box sx={{ p: 2 }}>
+            <Card sx={{ borderRadius: 3, boxShadow: 3, overflow: "hidden" }}>
+                <CardContent>
+                    <Grid container spacing={2} alignItems="center" justifyContent="space-between" mb={2}>
+                        <Grid size={{ xs: 12, md: 6 }}>
+                            <Typography variant="h5" fontWeight="bold">Member Dividends</Typography>
+                            <Typography variant="body2" color="text.secondary">Calculated dividends based on share holdings</Typography>
+                        </Grid>
+                        <Grid size={{ xs: 12, md: "auto" }}>
+                            {canCreate && (
+                                <CreateButton variant="contained" sx={{ backgroundColor: 'primary.main', color: 'white', '&:hover': { backgroundColor: 'primary.dark' } }} />
+                            )}
+                        </Grid>
+                    </Grid>
+                    <List title={false} filters={MemberDividendFilters} actions={false}>
+                        <DataTable rowClick="show" sx={{ '& .RaDataTable-headerCell': { fontWeight: "bold", backgroundColor: "#f5f5f5" } }}>
+                            <DataTable.Col source="member_no" label="Member" />
+                            <DataTable.Col source="financial_year" label="Year" />
+                            <DataTable.NumberCol source="shares_held" label="Shares Balance" />
+                            <DataTable.NumberCol source="dividend_amount" label="Payable" />
+                            <DataTable.Col source="status" label="Status" />
+                            <DataTable.Col label="Actions">
+                                <Stack direction="row" spacing={1} alignItems="center">
+                                    <Tooltip title="View Details"><span><ShowButton label={false} sx={{ minWidth: 10 }} /></span></Tooltip>
+                                    {canEdit && <Tooltip title="Edit Record"><span><EditButton label={false} sx={{ minWidth: 10 }} /></span></Tooltip>}
+                                    {canDelete && (
+                                        <Tooltip title="Delete Record">
+                                            <span>
+                                                <DeleteButton label={false} mutationMode="pessimistic" confirmTitle="⚠️ Confirm deletion" confirmContent="This will remove the member's specific payout record." />
+                                            </span>
+                                        </Tooltip>
+                                    )}
+                                </Stack>
+                            </DataTable.Col>
+                        </DataTable>
+                    </List>
+                </CardContent>
+            </Card>
+        </Box>
+    );
 };
-
-const formatMember = (firstName?: string, lastName?: string, memberNo?: string) => {
-    const name = [firstName, lastName].filter(Boolean).join(" ");
-
-    if (name && memberNo) return `${name}(${memberNo})`;
-    if (name) return name;
-    if (memberNo) return `(${memberNo})`;
-
-    return "";
-};
-
-export const ShareDividendList = () => (
-    <List title="Share Dividends" actions={
-        <CreateButton resource="dividends" title="Share Dividend">
-            <TextInput source="fiscal_year" validate={[required()]} fullWidth />
-            <TextInput source="period" validate={[required()]} fullWidth />
-            <TextInput source="calculation_type" validate={[required()]} fullWidth />
-            <TextInput source="share_units" validate={[required()]} fullWidth />
-            <TextInput source="calculation_amount" validate={[required()]} fullWidth />
-            <TextInput source="dividend_amount" validate={[required()]} fullWidth />
-            <TextInput source="include_in_milk" validate={[required()]} fullWidth />
-            <TextInput source="status" validate={[required()]} fullWidth />
-        </CreateButton>
-    }>
-        <DataTable>
-            <DataTable.Col label="Member">
-                <FunctionField
-                    render={(record: ShareDividendRecord) => formatMember(record?.first_name, record?.last_name, record?.member_no)}
-                />
-            </DataTable.Col>
-            <DataTable.Col source="fiscal_year" label="Fiscal Year" />
-            <DataTable.Col source="period" label="Period" />
-            <DataTable.Col source="calculation_type" label="Calculation Type" />
-            <DataTable.Col source="share_units" label="Share Units" />
-            <DataTable.Col source="calculation_amount" label="Calculation Amount" />
-            <DataTable.Col source="dividend_amount" label="Dividend Amount" />
-            <DataTable.Col source="include_in_milk" label="Include In Milk" />
-            <DataTable.Col source="status" label="Status" />
-            <DataTable.Col label="Actions">
-                <EditButton />
-                <DeleteButton />
-            </DataTable.Col>
-        </DataTable>
-    </List>
-);

@@ -1,15 +1,18 @@
-import { List, DataTable, DateField, EditButton, DeleteButton, useResourceContext, CreateButton, ShowButton, TextInput } from 'react-admin';
+import { List, DataTable, EditButton, DeleteButton, useResourceContext, CreateButton, ShowButton, TextInput, ReferenceField, TextField, ReferenceInput, SelectInput } from 'react-admin';
 import { Box, Card, CardContent, Typography, Stack, Tooltip } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import { useCan } from '../../../components/permissions/user-can';
 
-const DividendFilters = [
-    <TextInput source="financial_year" label="Financial Year" alwaysOn />,
+const LivestockBreedFilters = [
+    <TextInput source="breed_name" label="Breed Name" alwaysOn />,
+    <ReferenceInput source="livestock_category_id" reference="livestock-categories" alwaysOn>
+        <SelectInput optionText="category_name" label="Category" />
+    </ReferenceInput>,
 ];
 
-export const DividendDeclarationList = () => {
+export const LivestockBreedsList = () => {
     const can = useCan();
-    const resource = useResourceContext() ?? "dividend-declarations";
+    const resource = useResourceContext() ?? "livestock-breeds";
     const canEdit = can(resource, "update");
     const canDelete = can(resource, "delete");
     const canCreate = can(resource, "create");
@@ -20,8 +23,8 @@ export const DividendDeclarationList = () => {
                 <CardContent>
                     <Grid container spacing={2} alignItems="center" justifyContent="space-between" mb={2}>
                         <Grid size={{ xs: 12, md: 6 }}>
-                            <Typography variant="h5" fontWeight="bold">Dividend Declarations</Typography>
-                            <Typography variant="body2" color="text.secondary">Set dividend rates for specific financial years</Typography>
+                            <Typography variant="h5" fontWeight="bold">Livestock Breeds</Typography>
+                            <Typography variant="body2" color="text.secondary">Registry of specific breeds within categories</Typography>
                         </Grid>
                         <Grid size={{ xs: 12, md: "auto" }}>
                             {canCreate && (
@@ -29,15 +32,13 @@ export const DividendDeclarationList = () => {
                             )}
                         </Grid>
                     </Grid>
-                    <List title={false} filters={DividendFilters} actions={false}>
+                    <List title={false} filters={LivestockBreedFilters} actions={false}>
                         <DataTable rowClick="show" sx={{ '& .RaDataTable-headerCell': { fontWeight: "bold", backgroundColor: "#f5f5f5" } }}>
-                            <DataTable.Col source="financial_year" label="Year" />
-                            <DataTable.Col source="declaration_date" label="Declared On">
-                                <DateField source="declaration_date" />
-                            </DataTable.Col>
-                            <DataTable.NumberCol source="rate_per_share" label="Rate/Share" />
-                            <DataTable.NumberCol source="total_declared" label="Total Payout" />
-                            <DataTable.Col source="status" label="Status" />
+                            <DataTable.Col source="breed_name" label="Breed" />
+                            <ReferenceField source="livestock_category_id" reference="livestock-categories" label="Category">
+                                <TextField source="category_name" />
+                            </ReferenceField>
+                            <DataTable.Col source="description" label="Description" />
                             <DataTable.Col label="Actions">
                                 <Stack direction="row" spacing={1} alignItems="center">
                                     <Tooltip title="View Details"><span><ShowButton label={false} sx={{ minWidth: 10 }} /></span></Tooltip>
@@ -45,7 +46,7 @@ export const DividendDeclarationList = () => {
                                     {canDelete && (
                                         <Tooltip title="Delete Record">
                                             <span>
-                                                <DeleteButton label={false} mutationMode="pessimistic" confirmTitle="⚠️ Confirm deletion" confirmContent="This will impact member dividend calculations." />
+                                                <DeleteButton label={false} mutationMode="pessimistic" confirmTitle="⚠️ Confirm deletion" confirmContent="This will remove the breed record." />
                                             </span>
                                         </Tooltip>
                                     )}

@@ -17,7 +17,7 @@ import { LivestockWeightRecordsList } from '../pages/members/livestock/livestock
 
 
 export const livestockResources = [
-    <Resource key="livestock" name="livestock" list={LivestockList} />,
+    <Resource key="livestocks" name="livestocks" list={LivestockList} />,
     <Resource key="livestock-categories" name="livestock-categories" list={LivestockCategoriesList} />,
     <Resource key="livestock-breeding-records" name="livestock-breeding-records" list={LivestockBreedingRecordsList} />,
     <Resource key="livestock-breeds" name="livestock-breeds" list={LivestockBreedsList} />,

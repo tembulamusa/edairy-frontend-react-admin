@@ -1,15 +1,24 @@
-import { useEffect, useRef, type ReactNode } from 'react';
+import { useEffect, useMemo, useRef, type ReactNode } from 'react';
 import { useFormContext, useWatch } from 'react-hook-form';
 import {
     NumberInput,
     ReferenceInput,
     SelectInput,
     required,
-    useGetOne,
+    useGetList,
     type RaRecord,
 } from 'react-admin';
 import { Box, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid';
+import {
+    DAILY_MILK_JOURNALS_RESOURCE,
+    dailyJournalOptionText,
+    findDailyJournal,
+    formatJournalDate,
+    batchChoiceUsesRecordId,
+    parseJournalBatches,
+    transporterLabel,
+} from './daily-milk-journal-utils';
 
 const gridField = (child: ReactNode) => (
     <Grid size={{ xs: 12, md: 6 }}>{child}</Grid>
@@ -29,17 +38,6 @@ const memberOptionText = (record: {
     return String(record.id ?? '');
 };
 
-const journalOptionText = (record: RaRecord) => {
-    const journal = record.journal as string | undefined;
-    const route = record.route_name as string | undefined;
-    const date = record.journal_date as string | undefined;
-    const datePart = date ? date.slice(0, 10) : '';
-    return [journal, route, datePart].filter(Boolean).join(' — ') || String(record.id ?? '');
-};
-
-const batchOptionText = (record: RaRecord) =>
-    String(record.batch_no ?? record.id ?? '');
-
 const milkCanOptionText = (record: RaRecord) => String(record.can_id ?? record.id ?? '');
 
 const routeCenterOptionText = (record: RaRecord) => {
@@ -49,20 +47,6 @@ const routeCenterOptionText = (record: RaRecord) => {
     return String(record.id ?? '');
 };
 
-const formatJournalDate = (value: unknown) => {
-    if (!value || typeof value !== 'string') return '—';
-    const dateOnly = value.slice(0, 10);
-    try {
-        return new Date(dateOnly).toLocaleDateString(undefined, {
-            year: 'numeric',
-            month: 'short',
-            day: 'numeric',
-        });
-    } catch {
-        return dateOnly;
-    }
-};
-
 const noopFilterId = -1;
 
 export const MilkJournalEntryFormFields = () => {
@@ -70,16 +54,43 @@ export const MilkJournalEntryFormFields = () => {
     const journalId = useWatch({ name: 'journal_id' });
     const prevJournalId = useRef<unknown>(undefined);
 
-    const { data: journal, isLoading: journalLoading } = useGetOne(
-        'milk-journals',
-        { id: journalId },
-        { enabled: Boolean(journalId) }
+    const { data: dailyJournals = [], isLoading: journalsLoading } = useGetList(
+        DAILY_MILK_JOURNALS_RESOURCE,
+        {
+            pagination: { page: 1, perPage: 500 },
+            sort: { field: 'journal_date', order: 'DESC' },
+        }
     );
 
-    const routeId = journal?.route_id;
+    const selectedJournal = useMemo(
+        () => findDailyJournal(dailyJournals, journalId),
+        [dailyJournals, journalId]
+    );
+
+    const journalChoices = useMemo(
+        () =>
+            dailyJournals.map((journal) => ({
+                id: journal.id,
+                name: dailyJournalOptionText(journal),
+            })),
+        [dailyJournals]
+    );
+
+    const batchChoices = useMemo(
+        () => parseJournalBatches(selectedJournal),
+        [selectedJournal]
+    );
+
+    const batchFieldSource = batchChoiceUsesRecordId(batchChoices)
+        ? 'milk_journal_batch_id'
+        : 'batch_no';
+    const selectedBatchValue = useWatch({ name: batchFieldSource });
+
+    const routeId = selectedJournal?.route_id;
 
     useEffect(() => {
         if (prevJournalId.current !== undefined && prevJournalId.current !== journalId) {
+            setValue('batch_no', '', { shouldDirty: true, shouldValidate: true });
             setValue('milk_journal_batch_id', '', { shouldDirty: true, shouldValidate: true });
             setValue('route_center_id', '', { shouldDirty: true });
             setValue('can_id', '', { shouldDirty: true });
@@ -87,19 +98,33 @@ export const MilkJournalEntryFormFields = () => {
         prevJournalId.current = journalId;
     }, [journalId, setValue]);
 
+    useEffect(() => {
+        if (!selectedBatchValue) return;
+        const match = batchChoices.find((choice) => choice.id === String(selectedBatchValue));
+        if (match?.batchNo) {
+            setValue('batch_no', match.batchNo, { shouldDirty: true });
+        }
+    }, [selectedBatchValue, batchChoices, setValue]);
+
     return (
         <Grid container spacing={2} alignItems="flex-start">
             {gridField(
-                <ReferenceInput source="journal_id" reference="milk-journals">
-                    <SelectInput
-                        label="Journal"
-                        optionText={journalOptionText}
-                        optionValue="id"
-                        validate={required()}
-                        fullWidth
-                        variant="outlined"
-                    />
-                </ReferenceInput>
+                <SelectInput
+                    source="journal_id"
+                    label="Journal"
+                    choices={journalChoices}
+                    validate={required()}
+                    fullWidth
+                    variant="outlined"
+                    disabled={journalsLoading}
+                    helperText={
+                        journalsLoading
+                            ? 'Loading today\'s journals…'
+                            : journalChoices.length === 0
+                              ? 'No journals for today'
+                              : undefined
+                    }
+                />
             )}
 
             <Grid size={{ xs: 12 }}>
@@ -115,48 +140,51 @@ export const MilkJournalEntryFormFields = () => {
                     <Typography variant="caption" color="text.secondary" display="block" gutterBottom>
                         Journal details
                     </Typography>
-                    {journalLoading && journalId ? (
+                    {journalsLoading && journalId ? (
                         <Typography variant="body2" color="text.secondary">
                             Loading…
                         </Typography>
-                    ) : journal ? (
+                    ) : selectedJournal ? (
                         <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 3 }}>
                             <Typography variant="body2">
-                                <strong>Route:</strong> {String(journal.route_name ?? '—')}
+                                <strong>Route:</strong> {String(selectedJournal.route_name ?? '—')}
                             </Typography>
                             <Typography variant="body2">
-                                <strong>Journal date:</strong> {formatJournalDate(journal.journal_date)}
+                                <strong>Transporter:</strong> {transporterLabel(selectedJournal)}
+                            </Typography>
+                            <Typography variant="body2">
+                                <strong>Journal date:</strong>{' '}
+                                {formatJournalDate(selectedJournal.journal_date)}
                             </Typography>
                         </Box>
                     ) : (
                         <Typography variant="body2" color="text.secondary">
-                            Select a journal to see route and date.
+                            Select a journal to see route, transporter, and date.
                         </Typography>
                     )}
                 </Box>
             </Grid>
 
             {gridField(
-                <ReferenceInput
-                    source="milk_journal_batch_id"
-                    reference="milk-journal-batches"
-                    filter={
-                        journalId
-                            ? { journal_id: journalId }
-                            : { journal_id: noopFilterId }
+                <SelectInput
+                    source={batchFieldSource}
+                    label="Batch"
+                    choices={batchChoices.map((choice) => ({
+                        id: choice.id,
+                        name: choice.name,
+                    }))}
+                    validate={required()}
+                    fullWidth
+                    variant="outlined"
+                    disabled={!journalId || batchChoices.length === 0}
+                    helperText={
+                        !journalId
+                            ? 'Select a journal first'
+                            : batchChoices.length === 0
+                              ? 'This journal has no batches'
+                              : `${batchChoices.length} batch(es) on selected journal`
                     }
-                >
-                    <SelectInput
-                        label="Batch"
-                        optionText={batchOptionText}
-                        optionValue="id"
-                        validate={required()}
-                        fullWidth
-                        variant="outlined"
-                        disabled={!journalId}
-                        helperText={!journalId ? 'Select a journal first' : undefined}
-                    />
-                </ReferenceInput>
+                />
             )}
 
             {gridField(

@@ -4,7 +4,11 @@ import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
 import { ProduceListWrapper } from '../shared/produce-list-layout';
 
 export const MilkJournalsList = () => (
-    <ProduceListWrapper title="Milk Journals" subtitle="Manage milk collection journals by route and shift">
+    <ProduceListWrapper
+        title="Milk Journals"
+        subtitle="Manage milk collection journals by route and shift"
+        showDelete={false}
+    >
         <DataTable.Col source="journal" label="Journal" />
         <DataTable.Col source="journal_date" label="Journal Date">
             <DateField source="journal_date" />
@@ -12,7 +16,7 @@ export const MilkJournalsList = () => (
         <DataTable.Col source="milk_delivery_shift" label="Milk Delivery Shift" />
         <DataTable.Col source="route_name" label="Route Name" />
         <DataTable.Col source="entries_count" label="Entries Count" />
-        <DataTable.Col source="total_collections" label="Total" />
+        <DataTable.Col source="collections" label="Total" />
         <DataTable.Col label="Confirmed">
             <FunctionField
                 render={(record) =>

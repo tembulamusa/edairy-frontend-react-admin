@@ -7,12 +7,13 @@ export const MilkJournalEntriesList = () => (
     <ProduceListWrapper title="Milk Journal Entries" subtitle="Manage member entries on milk journal batches">
         <DataTable.Col source="member_no" label="Member No" />
         <DataTable.Col source="member_name" label="Member Name" />
-        <DataTable.Col source="milk_journal_batch_id" label="Milk Journal Batch" />
+        <DataTable.Col source="batch_no" label="Milk Journal Batch" />
         <DataTable.Col source="journal_date" label="Journal Date">
             <DateField source="journal_date" />
         </DataTable.Col>
         <DataTable.Col source="route_name" label="Route Name" />
         <DataTable.Col source="milk_delivery_shift" label="Milk Delivery Shift" />
+        <DataTable.Col source="quantity" label="Quantity (L)" />
         <DataTable.Col label="Status">
             <FunctionField
                 render={(record) =>

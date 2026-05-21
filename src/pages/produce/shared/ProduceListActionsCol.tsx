@@ -7,11 +7,15 @@ import {
 import { Stack, Tooltip } from '@mui/material';
 import { useCan } from '../../../components/permissions/user-can';
 
-export const ProduceListActionsCol = () => {
+type ProduceListActionsColProps = {
+    showDelete?: boolean;
+};
+
+export const ProduceListActionsCol = ({ showDelete = true }: ProduceListActionsColProps) => {
     const resource = useResourceContext() ?? '';
     const can = useCan();
     const canEdit = can(resource, 'update');
-    const canDelete = can(resource, 'delete');
+    const canDelete = showDelete && can(resource, 'delete');
 
     return (
         <DataTable.Col label="Actions">

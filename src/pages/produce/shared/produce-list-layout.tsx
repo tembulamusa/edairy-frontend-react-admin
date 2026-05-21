@@ -12,6 +12,7 @@ type ProduceListWrapperProps = {
     children: ReactNode;
     showCreateButton?: boolean;
     showActions?: boolean;
+    showDelete?: boolean;
     rowClick?: 'edit' | 'show' | false;
 };
 
@@ -21,6 +22,7 @@ export const ProduceListWrapper = ({
     children,
     showCreateButton = true,
     showActions = true,
+    showDelete = true,
     rowClick = 'edit',
 }: ProduceListWrapperProps) => (
     <TransporterListLayout
@@ -30,7 +32,7 @@ export const ProduceListWrapper = ({
     >
         <DataTable rowClick={rowClick} sx={transporterDataTableSx}>
             {children}
-            {showActions ? <ProduceListActionsCol /> : null}
+            {showActions ? <ProduceListActionsCol showDelete={showDelete} /> : null}
         </DataTable>
     </TransporterListLayout>
 );

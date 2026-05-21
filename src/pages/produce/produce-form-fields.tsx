@@ -114,54 +114,6 @@ export const MilkJournalFormFields = () => (
     </Grid>
 );
 
-export const MilkJournalEntryFormFields = () => (
-    <Grid container spacing={2} alignItems="flex-start">
-        {gridField(
-            <ReferenceInput source="member_id" reference="members">
-                <SelectInput
-                    label="Member"
-                    optionText={memberOptionText}
-                    optionValue="id"
-                    validate={required()}
-                    fullWidth
-                    variant="outlined"
-                />
-            </ReferenceInput>
-        )}
-        {gridField(
-            <TextInput
-                source="milk_journal_batch_id"
-                label="Milk Journal Batch ID"
-                validate={required()}
-                fullWidth
-                variant="outlined"
-            />
-        )}
-        {gridField(
-            <ReferenceInput source="route_id" reference="routes">
-                <SelectInput label="Route" optionText="name" optionValue="id" fullWidth variant="outlined" />
-            </ReferenceInput>
-        )}
-        {gridField(
-            <ReferenceInput source="milk_delivery_shift_id" reference="milk-delivery-shifts">
-                <SelectInput label="Shift" optionText="name" optionValue="id" fullWidth variant="outlined" />
-            </ReferenceInput>
-        )}
-        {gridField(
-            <SelectInput
-                source="status"
-                label="Status"
-                choices={[
-                    { id: 'CONFIRMED', name: 'Confirmed' },
-                    { id: 'PENDING', name: 'Pending' },
-                ]}
-                fullWidth
-                variant="outlined"
-            />
-        )}
-    </Grid>
-);
-
 export const MilkRejectFormFields = () => (
     <Grid container spacing={2} alignItems="flex-start">
         {gridField(

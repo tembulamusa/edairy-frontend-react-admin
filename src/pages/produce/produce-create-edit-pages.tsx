@@ -3,11 +3,12 @@ import type { RaRecord } from 'react-admin';
 import { TransporterCreatePage } from '../transporters/shared/TransporterCreatePage';
 import { TransporterEditPage } from '../transporters/shared/TransporterEditPage';
 import { transformMilkCan } from './transform-milk-can';
+import { transformMilkJournalEntry } from './milk journal entries/transform-milk-journal-entry';
+import { MilkJournalEntryFormFields } from './milk journal entries/MilkJournalEntryFormFields';
 import {
     NameDescriptionFormFields,
     MilkCanFormFields,
     MilkJournalFormFields,
-    MilkJournalEntryFormFields,
     MilkRejectFormFields,
     MilkDeliveryFormFields,
     MilkLocalSaleFormFields,
@@ -63,6 +64,7 @@ const defs: ProduceCrudDef[] = [
         subtitle: 'Record a member entry on a milk journal batch.',
         success: 'Milk journal entry saved successfully',
         fields: MilkJournalEntryFormFields,
+        transform: transformMilkJournalEntry,
     },
     {
         resource: 'milk-rejects',

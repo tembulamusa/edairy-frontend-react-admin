@@ -33,6 +33,8 @@ import { AssetDepreciationEntryEdit } from '../pages/admin/asset depreciation en
 import { AssetDepreciationEntryShow } from '../pages/admin/asset depreciation entries/AssetDepreciationEntryShow';
 import { ShareDividendList as AdminShareDividendList } from '../pages/admin/share dividends/share-dividends-list';
 import { ShareDividendCreate } from '../pages/admin/share dividends/ShareDividendCreate';
+import { ShareDividendEdit } from '../pages/admin/share dividends/ShareDividendEdit';
+import { ShareDividendShow } from '../pages/admin/share dividends/ShareDividendShow';
 import { ShareRegistrationList } from '../pages/admin/share registrations/share-registrations-list';
 import { SmsList } from '../pages/admin/sms/sms-list';
 import { SmsErrorCodeList } from '../pages/admin/sms error codes/sms-error-codes-list';
@@ -86,7 +88,13 @@ import { OrganizationWalletCreate } from '../pages/admin/organization/organizati
 import { OrganizationWalletEdit } from '../pages/admin/organization/organization wallets/OrganizationWalletEdit';
 import { OrganizationWalletShow } from '../pages/admin/organization/organization wallets/OrganizationWalletShow';
 import { PaymentTypeList } from '../pages/admin/payment types/payment-types-list';
+import { PaymentTypeCreate } from '../pages/admin/payment types/PaymentTypeCreate';
+import { PaymentTypeEdit } from '../pages/admin/payment types/PaymentTypeEdit';
+import { PaymentTypeShow } from '../pages/admin/payment types/PaymentTypeShow';
 import { RelationshipList } from '../pages/admin/relationships/relationships-list';
+import { RelationshipCreate } from '../pages/admin/relationships/RelationshipCreate';
+import { RelationshipEdit } from '../pages/admin/relationships/RelationshipEdit';
+import { RelationshipShow } from '../pages/admin/relationships/RelationshipShow';
 import { LocationList } from '../pages/admin/locations/locations-list';
 import { LocationCreate } from '../pages/admin/locations/LocationCreate';
 import { LocationEdit } from '../pages/admin/locations/LocationEdit';
@@ -110,7 +118,7 @@ export const adminResources = [
     <Resource key="asset-assignments" name="asset-assignments" list={AssetAssignmentList} create={AssetAssignmentCreate} show={AssetAssignmentShow} />,
     <Resource key="asset-depreciation-entries" name="asset-depreciation-entries" list={AssetDepreciationEntryList} create={AssetDepreciationEntryCreate} edit={AssetDepreciationEntryEdit} show={AssetDepreciationEntryShow} />,
 
-    <Resource key="share-dividends" name="share-dividends" list={AdminShareDividendList} create={ShareDividendCreate} />,
+    <Resource key="share-dividends" name="share-dividends" list={AdminShareDividendList} create={ShareDividendCreate} edit={ShareDividendEdit} show={ShareDividendShow} />,
     <Resource key="share-registrations" name="share-registrations" list={ShareRegistrationList} />,
 
     <Resource key="sms" name="sms" list={SmsList} />,
@@ -131,7 +139,7 @@ export const adminResources = [
     <Resource key="banks" name="banks" list={BankList} create={BankCreate} edit={BankEdit} show={BankShow} />,
     <Resource key="sites" name="sites" list={SiteList} create={SiteCreate} edit={SiteEdit} show={SiteShow} />,
 
-    <Resource key="payment-types" name="payment-types" list={PaymentTypeList} />,
-    <Resource key="relationships" name="relationships" list={RelationshipList} />,
+    <Resource key="payment-types" name="payment-types" list={PaymentTypeList} create={PaymentTypeCreate} edit={PaymentTypeEdit} show={PaymentTypeShow} />,
+    <Resource key="relationships" name="relationships" list={RelationshipList} create={RelationshipCreate} edit={RelationshipEdit} show={RelationshipShow} />,
     <Resource key="locations" name="locations" list={LocationList} create={LocationCreate} edit={LocationEdit} show={LocationShow} />,
 ];

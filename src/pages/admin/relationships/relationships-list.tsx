@@ -1,8 +1,24 @@
-import { List, DataTable, TextField, DateField, EditButton, DeleteButton, TextInput, required, useResourceContext } from 'react-admin';
-import { CreateButton } from '../../../components/forms/FormUtils';
+import * as React from 'react';
+import {
+    List,
+    TextInput,
+    DataTable,
+    CreateButton,
+    ShowButton,
+    EditButton,
+    DeleteButton,
+    DateField,
+    useResourceContext,
+} from 'react-admin';
 import { Box, Card, CardContent, Typography, Stack, Tooltip } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import { useCan } from '../../../components/permissions/user-can';
+import { ListBreadcrumbs } from '../../../../ListBreadcrumbs';
+
+const RelationshipFilters = [
+    <TextInput source="q" label="Search" alwaysOn />,
+    <TextInput source="name" label="Name" />,
+];
 
 export const RelationshipList = () => {
     const can = useCan();
@@ -13,6 +29,34 @@ export const RelationshipList = () => {
 
     return (
         <Box sx={{ p: 2 }}>
+            <Grid
+                container
+                spacing={2}
+                alignItems="center"
+                justifyContent="space-between"
+                mb={1}
+            >
+                <Grid size={{ xs: 12, md: 6 }}>
+                    <Typography variant="h5" fontWeight="bold">
+                        Relationships
+                    </Typography>
+                </Grid>
+                <Grid size={{ xs: 12, md: "auto" }}>
+                    {canCreate && (
+                        <CreateButton
+                            variant="contained"
+                            sx={{
+                                backgroundColor: 'primary.main',
+                                color: 'white',
+                                '&:hover': {
+                                    backgroundColor: 'primary.dark',
+                                },
+                            }}
+                        />
+                    )}
+                </Grid>
+            </Grid>
+            <ListBreadcrumbs />
             <Card
                 sx={{
                     borderRadius: 3,
@@ -21,50 +65,9 @@ export const RelationshipList = () => {
                 }}
             >
                 <CardContent>
-                    <Grid
-                        container
-                        spacing={2}
-                        alignItems="center"
-                        justifyContent="space-between"
-                        mb={2}
-                    >
-                        <Grid size={{ xs: 12, md: 6 }}>
-                            <Typography
-                                variant="h5"
-                                fontWeight="bold"
-                            >
-                                Relationships
-                            </Typography>
-
-                            <Typography
-                                variant="body2"
-                                color="text.secondary"
-                            >
-                                Manage all Relationships records
-                            </Typography>
-                        </Grid>
-
-                        <Grid size={{ xs: 12, md: "auto" }}>
-                            {canCreate && (
-                                <CreateButton 
-                                    resource="relationships" 
-                                    title="Relationship"
-                                    sx={{
-                                        backgroundColor: 'primary.main',
-                                        color: 'white',
-                                        '&:hover': {
-                                            backgroundColor: 'primary.dark',
-                                        },
-                                    }}
-                                >
-                                    <TextInput source="name" validate={required()} fullWidth />
-                                </CreateButton>
-                            )}
-                        </Grid>
-                    </Grid>
-
                     <List
                         title={false}
+                        filters={RelationshipFilters}
                         actions={false}
                     >
                         <DataTable
@@ -83,6 +86,11 @@ export const RelationshipList = () => {
                             <DataTable.Col source="name" label="Name" />
                             <DataTable.Col label="Actions">
                                 <Stack direction="row" spacing={1} alignItems="center">
+                                    <Tooltip title="View Details">
+                                        <span>
+                                            <ShowButton label={false} sx={{ minWidth: 36 }} />
+                                        </span>
+                                    </Tooltip>
                                     {canEdit && (
                                         <Tooltip title="Edit Record">
                                             <span>
@@ -120,4 +128,3 @@ export const RelationshipList = () => {
         </Box>
     );
 };
-

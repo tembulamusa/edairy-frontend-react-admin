@@ -34,7 +34,6 @@ import {
     MilkJournalEntryEdit,
     MilkRejectCreate,
     MilkRejectEdit,
-    StrayMilkCollectionCreate,
     StrayMilkCollectionEdit,
     MilkDeliveryCreate,
     MilkDeliveryEdit,
@@ -87,7 +86,8 @@ export const produceResources = [
     <Resource
         key="stray-milk-collections"
         name="stray-milk-collections"
-        {...produceCrud(StrayMilkCollectionsList, StrayMilkCollectionCreate, StrayMilkCollectionEdit)}
+        list={StrayMilkCollectionsList}
+        edit={StrayMilkCollectionEdit}
     />,
     <Resource
         key="monthly-collections"

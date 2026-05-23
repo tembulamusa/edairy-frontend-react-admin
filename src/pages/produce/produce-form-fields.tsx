@@ -14,6 +14,19 @@ const gridField = (child: ReactNode) => (
     <Grid size={{ xs: 12, md: 6 }}>{child}</Grid>
 );
 
+const today = new Date().toLocaleDateString('en-CA');
+
+const validateTransactionDateNotFuture = (value: string | Date | null | undefined) => {
+    if (!value) return undefined;
+    const selectedDate = new Date(value);
+    const todayDate = new Date();
+    todayDate.setHours(0, 0, 0, 0);
+    if (selectedDate > todayDate) {
+        return 'Transaction date cannot be greater than today';
+    }
+    return undefined;
+};
+
 const transporterOptionText = (record: {
     transporter_no?: string;
     primary_phone?: string;
@@ -120,7 +133,8 @@ export const MilkRejectFormFields = () => (
             <DateInput
                 source="transaction_date"
                 label="Transaction Date"
-                validate={required()}
+                validate={[required(), validateTransactionDateNotFuture]}
+                max={today}
                 fullWidth
                 variant="outlined"
             />
@@ -147,7 +161,6 @@ export const MilkRejectFormFields = () => (
                 <SelectInput label="Member" optionText={memberOptionText} optionValue="id" fullWidth variant="outlined" />
             </ReferenceInput>
         )}
-        {gridField(<BooleanInput source="confirmed" label="Confirmed" fullWidth />)}
         {gridField(<TextInput source="reason" label="Reason" fullWidth variant="outlined" />)}
         <Grid size={{ xs: 12 }}>
             <TextInput source="description" label="Description" multiline rows={3} fullWidth variant="outlined" />

@@ -230,7 +230,6 @@ export const MilkJournalEntryCreate = createPage(byResource['milk-journal-entrie
 export const MilkJournalEntryEdit = editPage(byResource['milk-journal-entries']);
 export const MilkRejectCreate = createPage(byResource['milk-rejects']);
 export const MilkRejectEdit = editPage(byResource['milk-rejects']);
-export const StrayMilkCollectionCreate = createPage(byResource['stray-milk-collections']);
 export const StrayMilkCollectionEdit = editPage(byResource['stray-milk-collections']);
 export const MilkDeliveryCreate = createPage(byResource['milk-deliveries']);
 export const MilkDeliveryEdit = editPage(byResource['milk-deliveries']);

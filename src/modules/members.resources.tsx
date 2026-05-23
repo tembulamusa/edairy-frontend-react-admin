@@ -6,8 +6,17 @@ import { MemberBankAccountList } from '../pages/members/member bank accounts/mem
 import { TransportRateList } from '../pages/members/transport rates/transport-rates-list';
 import { MemberTypeList } from '../pages/members/member types/member-types-list';
 import { RouteList } from '../pages/members/routes/routes-list';
+import { RouteCreate } from '../pages/members/routes/RouteCreate';
+import { RouteEdit } from '../pages/members/routes/RouteEdit';
+import { RouteShow } from '../pages/members/routes/RouteShow';
 import { RouteCenterList } from '../pages/members/route centers/route-center-list';
+import { RouteCenterCreate } from '../pages/members/route centers/RouteCenterCreate';
+import { RouteCenterEdit } from '../pages/members/route centers/RouteCenterEdit';
+import { RouteCenterShow } from '../pages/members/route centers/RouteCenterShow';
 import { PaymentModeList } from '../pages/members/payment modes/payment-mode-list';
+import { PaymentModeCreate } from '../pages/members/payment modes/PaymentModeCreate';
+import { PaymentModeEdit } from '../pages/members/payment modes/PaymentModeEdit';
+import { PaymentModeShow } from '../pages/members/payment modes/PaymentModeShow';
 import { TrainingList } from '../pages/members/trainings/training-list';
 import { TrainingSessionList } from '../pages/members/training sessions/training-session-list';
 import { TrainingSessionAttendeesList } from '../pages/members/training session attendees/training-session-attendees-list';
@@ -31,9 +40,9 @@ export const membersResources = [
     <Resource key="member-bank-accounts" name="member-bank-accounts" list={MemberBankAccountList} />,
     <Resource key="transport-rates" name="transport-rates" list={TransportRateList} />,
     <Resource key="member-types" name="member-types" list={MemberTypeList} />,
-    <Resource key="routes" name="routes" list={RouteList} />,
-    <Resource key="route-centers" name="route-centers" list={RouteCenterList} />,
-    <Resource key="payment-modes" name="payment-modes" list={PaymentModeList} />,
+    <Resource key="routes" name="routes" list={RouteList} create={RouteCreate} edit={RouteEdit} show={RouteShow} />,
+    <Resource key="route-centers" name="route-centers" list={RouteCenterList} create={RouteCenterCreate} edit={RouteCenterEdit} show={RouteCenterShow} />,
+    <Resource key="payment-modes" name="payment-modes" list={PaymentModeList} create={PaymentModeCreate} edit={PaymentModeEdit} show={PaymentModeShow} />,
     <Resource key="trainings" name="trainings" list={TrainingList} />,
     <Resource key="training-sessions" name="training-sessions" list={TrainingSessionList} />,
     <Resource key="training-session-attendees" name="training-session-attendees" list={TrainingSessionAttendeesList} />,

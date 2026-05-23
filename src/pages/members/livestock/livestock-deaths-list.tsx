@@ -1,4 +1,4 @@
-import { List, DataTable, EditButton, DeleteButton, useResourceContext, CreateButton, ShowButton, TextInput, DateField, ReferenceField, TextField, ReferenceInput, SelectInput } from 'react-admin';
+import { List, DataTable, EditButton, DeleteButton, useResourceContext, CreateButton, ShowButton, TextInput, DateField, ReferenceInput, SelectInput } from 'react-admin';
 import { Box, Card, CardContent, Typography, Stack, Tooltip } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import { useCan } from '../../../components/permissions/user-can';
@@ -36,9 +36,7 @@ export const LivestockDeathsList = () => {
                 <CardContent>
                     <List title={false} filters={LivestockDeathFilters} actions={false}>
                         <DataTable rowClick="show" sx={{ '& .RaDataTable-headerCell': { fontWeight: "bold", backgroundColor: "#f5f5f5" } }}>
-                            <ReferenceField source="livestock_id" reference="livestocks" label="Livestock">
-                                <TextField source="tag_no" />
-                            </ReferenceField>
+                            <DataTable.Col source="livestock_tag_no" label="Livestock Tag No" />
                             <DateField source="death_date" label="Death Date" />
                             <DataTable.Col source="cause_of_death" label="Cause" />
                             <DataTable.Col source="disposal_method" label="Disposal Method" />

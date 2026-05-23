@@ -38,13 +38,7 @@ const LivestockDeathEditToolbar = () => {
 export const LivestockDeathEdit = () => (
     <Edit
         title={false}
-        sx={{
-            "& .RaEdit-main": {
-                display: "flex",
-                justifyContent: "center",
-                padding: 2,
-            },
-        }}
+        sx={{ "& .RaEdit-main": { display: "flex", justifyContent: "center", padding: 2 } }}
     >
         <Box sx={{ width: '100%', maxWidth: 800 }}>
             <ListBreadcrumbs />
@@ -56,9 +50,7 @@ export const LivestockDeathEdit = () => (
                             <Typography variant="body2" color="text.secondary">Modify livestock mortality details.</Typography>
                         </Grid>
                     </Grid>
-
                     <Divider sx={{ mb: 4 }} />
-
                     <SimpleForm toolbar={<LivestockDeathEditToolbar />} sx={{ "& .RaSimpleForm-toolbar": { mt: 3, px: 0, backgroundColor: 'transparent' }, "& .MuiInputBase-root": { borderRadius: 2 }, width: '100%' }}>
                         <ReferenceInput source="livestock_id" reference="livestocks">
                             <SelectInput optionText="tag_no" label="Livestock" fullWidth variant="outlined" validate={required()} />

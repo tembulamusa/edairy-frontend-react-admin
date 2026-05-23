@@ -52,13 +52,7 @@ const LivestockDeathCreateToolbar = () => {
 export const LivestockDeathCreate = () => (
     <Create
         title={false}
-        sx={{
-            "& .RaCreate-main": {
-                display: "flex",
-                justifyContent: "center",
-                padding: 2,
-            },
-        }}
+        sx={{ "& .RaCreate-main": { display: "flex", justifyContent: "center", padding: 2 } }}
     >
         <Box sx={{ width: '100%', maxWidth: 800 }}>
             <ListBreadcrumbs />

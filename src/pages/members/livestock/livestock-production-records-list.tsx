@@ -1,10 +1,13 @@
-import { List, DataTable, EditButton, DeleteButton, useResourceContext, CreateButton, ShowButton, TextInput, DateField, ReferenceField, TextField } from 'react-admin';
+import { List, DataTable, EditButton, DeleteButton, useResourceContext, CreateButton, ShowButton, TextInput, DateField, ReferenceField, TextField, ReferenceInput, SelectInput } from 'react-admin';
 import { Box, Card, CardContent, Typography, Stack, Tooltip } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import { useCan } from '../../../components/permissions/user-can';
+import { ListBreadcrumbs } from '../../../../ListBreadcrumbs';
 
 const ProductionFilters = [
-    <TextInput source="livestock_id" label="Livestock ID" alwaysOn />,
+    <ReferenceInput source="livestock_id" reference="livestocks" alwaysOn>
+        <SelectInput optionText="tag_no" label="Livestock Tag No" />
+    </ReferenceInput>,
     <TextInput source="production_type" label="Production Type" />,
 ];
 
@@ -17,23 +20,24 @@ export const LivestockProductionRecordsList = () => {
 
     return (
         <Box sx={{ p: 2 }}>
+            <Grid container spacing={2} alignItems="center" justifyContent="space-between" mb={1}>
+                <Grid size={{ xs: 12, md: 6 }}>
+                    <Typography variant="h5" fontWeight="bold">Production Records</Typography>
+                    <Typography variant="body2" color="text.secondary">Daily yield tracking for milk, eggs, etc.</Typography>
+                </Grid>
+                <Grid size={{ xs: 12, md: "auto" }}>
+                    {canCreate && (
+                        <CreateButton variant="contained" sx={{ backgroundColor: 'primary.main', color: 'white', '&:hover': { backgroundColor: 'primary.dark' } }} />
+                    )}
+                </Grid>
+            </Grid>
+            <ListBreadcrumbs />
             <Card sx={{ borderRadius: 3, boxShadow: 3, overflow: "hidden" }}>
                 <CardContent>
-                    <Grid container spacing={2} alignItems="center" justifyContent="space-between" mb={2}>
-                        <Grid size={{ xs: 12, md: 6 }}>
-                            <Typography variant="h5" fontWeight="bold">Production Records</Typography>
-                            <Typography variant="body2" color="text.secondary">Daily yield tracking for milk, eggs, etc.</Typography>
-                        </Grid>
-                        <Grid size={{ xs: 12, md: "auto" }}>
-                            {canCreate && (
-                                <CreateButton variant="contained" sx={{ backgroundColor: 'primary.main', color: 'white', '&:hover': { backgroundColor: 'primary.dark' } }} />
-                            )}
-                        </Grid>
-                    </Grid>
                     <List title={false} filters={ProductionFilters} actions={false}>
                         <DataTable rowClick="show" sx={{ '& .RaDataTable-headerCell': { fontWeight: "bold", backgroundColor: "#f5f5f5" } }}>
                             <ReferenceField source="livestock_id" reference="livestocks" label="Livestock">
-                                <TextField source="tag_number" />
+                                <TextField source="tag_no" />
                             </ReferenceField>
                             <DataTable.Col source="production_type" label="Type" />
                             <DateField source="production_date" label="Date" />
@@ -41,12 +45,12 @@ export const LivestockProductionRecordsList = () => {
                             <DataTable.Col source="unit" label="Unit" />
                             <DataTable.Col label="Actions">
                                 <Stack direction="row" spacing={1} alignItems="center">
-                                    <Tooltip title="View Details"><span><ShowButton label={false} sx={{ minWidth: 10 }} /></span></Tooltip>
-                                    {canEdit && <Tooltip title="Edit Record"><span><EditButton label={false} sx={{ minWidth: 10 }} /></span></Tooltip>}
+                                    <Tooltip title="View Details"><span><ShowButton label={false} sx={{ minWidth: 36 }} /></span></Tooltip>
+                                    {canEdit && <Tooltip title="Edit Record"><span><EditButton label={false} sx={{ minWidth: 36 }} /></span></Tooltip>}
                                     {canDelete && (
                                         <Tooltip title="Delete Record">
                                             <span>
-                                                <DeleteButton label={false} mutationMode="pessimistic" confirmTitle="⚠️ Confirm deletion" confirmContent="This will remove the production entry." />
+                                                <DeleteButton label={false} mutationMode="pessimistic" confirmTitle="⚠️ Confirm deletion" confirmContent="This will remove the production entry." sx={{ minWidth: 36 }} />
                                             </span>
                                         </Tooltip>
                                     )}

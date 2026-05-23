@@ -259,7 +259,6 @@ export const modules: ModulesConfig = {
             {
                 label: "Data Entry",
                 items: [
-                    r("POS", <StoreIcon />),
                     r("Store Sales", <AttachMoneyIcon />),
                     r("Inter Store Transfers", <Inventory2Icon />),
                     r("Store Stocks", <Inventory2Icon />),

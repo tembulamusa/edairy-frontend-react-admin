@@ -6,6 +6,8 @@ export type ResourceCreateToolbarProps = {
     successMessage?: string;
     saveLabel?: string;
     saveAndAddLabel?: string;
+    /** After Save, redirect to this resource's list instead of the create resource. */
+    listRedirectResource?: string;
 };
 
 /**
@@ -16,9 +18,11 @@ export const ResourceCreateToolbar = ({
     successMessage = 'Record created successfully',
     saveLabel = 'Save',
     saveAndAddLabel = 'Save and Add New',
+    listRedirectResource,
 }: ResourceCreateToolbarProps) => {
     const notify = useNotify();
     const redirect = useRedirect();
+    const saveListResource = listRedirectResource ?? resource;
 
     return (
         <Toolbar
@@ -30,7 +34,20 @@ export const ResourceCreateToolbar = ({
             }}
         >
             <Box sx={{ display: 'flex', gap: 1 }}>
-                <SaveButton label={saveLabel} variant="contained" redirect="list" />
+                {listRedirectResource ? (
+                    <SaveButton
+                        label={saveLabel}
+                        variant="contained"
+                        mutationOptions={{
+                            onSuccess: () => {
+                                notify(successMessage, { type: 'success' });
+                                redirect('list', saveListResource);
+                            },
+                        }}
+                    />
+                ) : (
+                    <SaveButton label={saveLabel} variant="contained" redirect="list" />
+                )}
                 <SaveButton
                     label={saveAndAddLabel}
                     variant="contained"

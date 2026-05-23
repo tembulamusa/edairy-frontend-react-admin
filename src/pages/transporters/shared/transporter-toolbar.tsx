@@ -5,10 +5,19 @@ import { ResourceCreateToolbar } from '../../../components/forms/ResourceCreateT
 type TransporterCreateToolbarProps = {
     resource: string;
     successMessage: string;
+    listRedirectResource?: string;
 };
 
-export const TransporterCreateToolbar = ({ resource, successMessage }: TransporterCreateToolbarProps) => (
-    <ResourceCreateToolbar resource={resource} successMessage={successMessage} />
+export const TransporterCreateToolbar = ({
+    resource,
+    successMessage,
+    listRedirectResource,
+}: TransporterCreateToolbarProps) => (
+    <ResourceCreateToolbar
+        resource={resource}
+        successMessage={successMessage}
+        listRedirectResource={listRedirectResource}
+    />
 );
 
 export const TransporterEditToolbar = ({ resource, successMessage }: TransporterCreateToolbarProps) => {

@@ -29,6 +29,7 @@ type ProduceCrudDef = {
     success: string;
     fields: ComponentType;
     transform?: (data: RaRecord) => RaRecord | Promise<RaRecord>;
+    createSaveRedirectResource?: string;
 };
 
 const defs: ProduceCrudDef[] = [
@@ -113,6 +114,7 @@ const defs: ProduceCrudDef[] = [
         subtitle: 'Track movement of milk cans between routes and transporters.',
         success: 'Can movement saved successfully',
         fields: CanMovementFormFields,
+        createSaveRedirectResource: 'milk-cans',
     },
     {
         resource: 'cooler-milk-collections',
@@ -189,6 +191,7 @@ const createPage = (def: ProduceCrudDef) => {
             subtitle={def.subtitle}
             successMessage={def.success.replace(' saved', ' created')}
             transform={def.transform}
+            listRedirectResource={def.createSaveRedirectResource}
         >
             <Fields />
         </TransporterCreatePage>
@@ -235,7 +238,6 @@ export const MilkDeliveryCreate = createPage(byResource['milk-deliveries']);
 export const MilkDeliveryEdit = editPage(byResource['milk-deliveries']);
 export const MilkLocalSaleCreate = createPage(byResource['milk-local-sales']);
 export const MilkLocalSaleEdit = editPage(byResource['milk-local-sales']);
-export const DailyMilkVarianceCreate = createPage(byResource['daily-milk-variances']);
 export const DailyMilkVarianceEdit = editPage(byResource['daily-milk-variances']);
 export const CanMovementCreate = createPage(byResource['can-movements']);
 export const CanMovementEdit = editPage(byResource['can-movements']);

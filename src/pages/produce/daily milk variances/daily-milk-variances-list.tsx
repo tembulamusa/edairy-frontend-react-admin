@@ -2,7 +2,13 @@ import { DataTable, DateField } from 'react-admin';
 import { ProduceListWrapper } from '../shared/produce-list-layout';
 
 export const DailyMilkVariancesList = () => (
-    <ProduceListWrapper title="Daily Milk Variances" subtitle="Manage daily milk variance records">
+    <ProduceListWrapper
+        title="Daily Milk Variances"
+        subtitle="Manage daily milk variance records"
+        showCreateButton={false}
+        showActions={false}
+        rowClick={false}
+    >
         <DataTable.Col source="day" label="Day">
             <DateField source="day" />
         </DataTable.Col>

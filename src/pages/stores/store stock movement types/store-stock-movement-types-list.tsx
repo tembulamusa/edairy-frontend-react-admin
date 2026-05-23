@@ -1,24 +1,9 @@
-import { List, DataTable, EditButton, DeleteButton, DateField } from "react-admin";
-import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
-import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import { DataTable } from 'react-admin';
+import { StoresListWrapper } from '../shared/stores-list-layout';
 
 export const StoreStockMovementTypesList = () => (
-    <List title="Store Stock Movement Types">
-        <DataTable>
-            <DataTable.Col source="movement_name" label="Movement Type" />
-            <DataTable.Col source="description" label="Description" />
-            <DataTable.Col label="Actions">
-                <EditButton
-                    label=""
-                    icon={<EditOutlinedIcon fontSize="small" />}
-                    sx={{ minWidth: 0, p: 0.5 }}
-                />
-                <DeleteButton
-                    label=""
-                    icon={<DeleteOutlineIcon fontSize="small" />}
-                    sx={{ minWidth: 0, p: 0.5 }}
-                />
-            </DataTable.Col>
-        </DataTable>
-    </List>
+    <StoresListWrapper title="Store Stock Movement Types" subtitle="Configure movement types used in the stock ledger">
+        <DataTable.Col source="movement_name" label="Movement Type" />
+        <DataTable.Col source="description" label="Description" />
+    </StoresListWrapper>
 );

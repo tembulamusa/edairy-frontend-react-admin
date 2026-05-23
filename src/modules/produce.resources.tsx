@@ -39,8 +39,6 @@ import {
     MilkDeliveryEdit,
     MilkLocalSaleCreate,
     MilkLocalSaleEdit,
-    DailyMilkVarianceCreate,
-    DailyMilkVarianceEdit,
     CanMovementCreate,
     CanMovementEdit,
     CoolerMilkCollectionCreate,
@@ -81,7 +79,7 @@ export const produceResources = [
     <Resource
         key="daily-milk-variances"
         name="daily-milk-variances"
-        {...produceCrud(DailyMilkVariancesList, DailyMilkVarianceCreate, DailyMilkVarianceEdit)}
+        list={DailyMilkVariancesList}
     />,
     <Resource
         key="stray-milk-collections"

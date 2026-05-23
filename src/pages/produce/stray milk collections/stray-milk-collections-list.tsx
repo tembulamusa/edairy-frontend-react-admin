@@ -6,6 +6,8 @@ export const StrayMilkCollectionsList = () => (
         title="Stray Milk Collections"
         subtitle="Manage stray milk collection records"
         showCreateButton={false}
+        showActions={false}
+        rowClick={false}
     >
         <DataTable.Col source="member_no" label="Member No" />
         <DataTable.Col source="member_name" label="Member Name" />

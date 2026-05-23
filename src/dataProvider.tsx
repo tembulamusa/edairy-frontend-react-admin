@@ -77,7 +77,30 @@ const toRecords = (value: unknown): ApiRecord[] => {
   return [];
 };
 
+const normalizeStoreRecord = (item: ApiRecord): ApiRecord => {
+  const nested = item.store as ApiRecord | undefined;
+  const name =
+    item.name ??
+    item.Name ??
+    item.store_name ??
+    item.StoreName ??
+    item.storeName ??
+    nested?.name ??
+    nested?.Name ??
+    nested?.store_name ??
+    item.description ??
+    item.Description;
+
+  return {
+    ...item,
+    name: name != null && String(name).trim() !== "" ? String(name) : item.name,
+  };
+};
+
 const normalizeResourceData = (resource: string, items: ApiRecord[]) => {
+  if (resource === "stores") {
+    return items.map(normalizeStoreRecord);
+  }
   return items;
 };
 
@@ -119,7 +142,7 @@ export const dataProvider: DataProvider = {
     return {
       data: normalizeResourceData(resource, items).map((item) => ({
         ...item,
-        id: item.id,
+        id: item.id ?? item.ID ?? item.Id,
       })),
       total: json.total ?? items.length ?? 0,
     };

@@ -1,4 +1,5 @@
-import type { ReactNode } from 'react';
+import { useEffect, useRef, type ReactNode } from 'react';
+import { useFormContext, useWatch } from 'react-hook-form';
 import {
     TextInput,
     NumberInput,
@@ -173,6 +174,12 @@ export const MilkRejectFormFields = () => (
     </Grid>
 );
 
+const customerOptionText = (record: {
+    full_name?: string;
+    full_names?: string;
+    id?: number;
+}) => record.full_name?.trim() || record.full_names?.trim() || String(record.id ?? '');
+
 export const MilkDeliveryFormFields = () => (
     <Grid container spacing={2} alignItems="flex-start">
         {gridField(
@@ -190,10 +197,15 @@ export const MilkDeliveryFormFields = () => (
         {gridField(<NumberInput source="amount" label="Amount" fullWidth variant="outlined" />)}
         {gridField(<NumberInput source="amount_paid" label="Amount Paid" fullWidth variant="outlined" />)}
         {gridField(<TextInput source="delivery_note_number" label="Delivery Note Number" fullWidth variant="outlined" />)}
-        {gridField(<TextInput source="customer_name" label="Customer Name" fullWidth variant="outlined" />)}
         {gridField(
-            <ReferenceInput source="route_id" reference="routes">
-                <SelectInput label="Route" optionText="name" optionValue="id" fullWidth variant="outlined" />
+            <ReferenceInput source="customer_id" reference="customers">
+                <SelectInput
+                    label="Customer"
+                    optionText={customerOptionText}
+                    optionValue="id"
+                    fullWidth
+                    variant="outlined"
+                />
             </ReferenceInput>
         )}
         {gridField(
@@ -201,8 +213,6 @@ export const MilkDeliveryFormFields = () => (
                 <SelectInput label="Transporter" optionText={transporterOptionText} optionValue="id" fullWidth variant="outlined" />
             </ReferenceInput>
         )}
-        {gridField(<BooleanInput source="confirmed" label="Confirmed" fullWidth />)}
-        {gridField(<BooleanInput source="invoiced" label="Invoiced" fullWidth />)}
     </Grid>
 );
 
@@ -215,8 +225,8 @@ export const MilkLocalSaleFormFields = () => (
         {gridField(<NumberInput source="rate" label="Rate" validate={required()} fullWidth variant="outlined" />)}
         {gridField(<NumberInput source="amount" label="Amount" fullWidth variant="outlined" />)}
         {gridField(
-            <ReferenceInput source="product_grade_id" reference="product-grades">
-                <SelectInput label="Product Grade" optionText="name" optionValue="id" fullWidth variant="outlined" />
+            <ReferenceInput source="grade_id" reference="product-grades">
+                <SelectInput label="Grade" optionText="name" optionValue="id" fullWidth variant="outlined" />
             </ReferenceInput>
         )}
         {gridField(<TextInput source="ref_number" label="Reference Number" fullWidth variant="outlined" />)}
@@ -275,16 +285,44 @@ export const CanMovementFormFields = () => (
             <DateInput source="movement_date" label="Movement Date" validate={required()} fullWidth variant="outlined" />
         )}
         {gridField(
-            <ReferenceInput source="milk_can_id" reference="milk-cans">
-                <SelectInput label="Milk Can" optionText="can_id" optionValue="id" fullWidth variant="outlined" />
+            <ReferenceInput source="can_id" reference="milk-cans">
+                <SelectInput label="Can ID" optionText="can_id" optionValue="id" fullWidth variant="outlined" />
             </ReferenceInput>
         )}
-        {gridField(<TextInput source="can_code" label="Can Code" fullWidth variant="outlined" />)}
-        {gridField(<TextInput source="movement_type" label="Movement Type" validate={required()} fullWidth variant="outlined" />)}
-        {gridField(<NumberInput source="quantity" label="Quantity" validate={required()} fullWidth variant="outlined" />)}
-        {gridField(<TextInput source="condition_on_return" label="Condition on Return" fullWidth variant="outlined" />)}
         {gridField(
-            <ReferenceInput source="milk_delivery_shift_id" reference="milk-delivery-shifts">
+            <SelectInput
+                source="movement_type"
+                label="Movement Type"
+                choices={[
+                    { id: 'ISSUE_TO_TRANSPORTER', name: 'Issue to Transporter' },
+                    { id: 'DELIVER_TO_FARM', name: 'Deliver to Farm' },
+                    { id: 'PICKUP_FROM_FARM', name: 'Pickup from Farm' },
+                    { id: 'DELIVER_TO_COOLER', name: 'Deliver to Cooler' },
+                    { id: 'RETURN_TO_COOP', name: 'Return to Coop' },
+                    { id: 'TRANSFER', name: 'Transfer' },
+                ]}
+                validate={required()}
+                fullWidth
+                variant="outlined"
+            />
+        )}
+        {gridField(
+            <SelectInput
+                source="condition_on_return"
+                label="Return Condition"
+                choices={[
+                    { id: 'GOOD', name: 'Good' },
+                    { id: 'DAMAGED', name: 'Damaged' },
+                    { id: 'MISSING_MILK', name: 'Missing Milk' },
+                    { id: 'LEAKING', name: 'Leaking' },
+                ]}
+                defaultValue="GOOD"
+                fullWidth
+                variant="outlined"
+            />
+        )}
+        {gridField(
+            <ReferenceInput source="shift_id" reference="milk-delivery-shifts">
                 <SelectInput label="Shift" optionText="name" optionValue="id" fullWidth variant="outlined" />
             </ReferenceInput>
         )}
@@ -301,31 +339,88 @@ export const CanMovementFormFields = () => (
     </Grid>
 );
 
-export const CoolerMilkCollectionFormFields = () => (
-    <Grid container spacing={2} alignItems="flex-start">
-        {gridField(
-            <DateInput source="transaction_date" label="Transaction Date" validate={required()} fullWidth variant="outlined" />
-        )}
-        {gridField(<NumberInput source="quantity" label="Quantity" validate={required()} fullWidth variant="outlined" />)}
-        {gridField(<TextInput source="vehicle_reg_no" label="Vehicle Registration" fullWidth variant="outlined" />)}
-        {gridField(
-            <ReferenceInput source="milk_delivery_shift_id" reference="milk-delivery-shifts">
-                <SelectInput label="Shift" optionText="name" optionValue="id" fullWidth variant="outlined" />
-            </ReferenceInput>
-        )}
-        {gridField(<BooleanInput source="confirmed" label="Confirmed" fullWidth />)}
-        {gridField(
-            <ReferenceInput source="transporter_id" reference="transporters">
-                <SelectInput label="Transporter" optionText={transporterOptionText} optionValue="id" fullWidth variant="outlined" />
-            </ReferenceInput>
-        )}
-        {gridField(
-            <ReferenceInput source="route_id" reference="routes">
-                <SelectInput label="Route" optionText="name" optionValue="id" fullWidth variant="outlined" />
-            </ReferenceInput>
-        )}
-    </Grid>
-);
+const vehicleOptionText = (record: {
+    registration_no?: string;
+    vehicle_type?: string;
+    id?: number;
+}) =>
+    record.registration_no
+        ? `${record.registration_no}${record.vehicle_type ? ` — ${record.vehicle_type}` : ''}`
+        : String(record.id ?? '');
+
+const noopFilterId = -1;
+
+export const CoolerMilkCollectionFormFields = () => {
+    const { setValue } = useFormContext();
+    const transporterId = useWatch({ name: 'transporter_id' });
+    const prevTransporterId = useRef<unknown>(undefined);
+
+    useEffect(() => {
+        if (prevTransporterId.current !== undefined && prevTransporterId.current !== transporterId) {
+            setValue('transporter_vehicle_id', '', { shouldDirty: true, shouldValidate: true });
+        }
+        prevTransporterId.current = transporterId;
+    }, [transporterId, setValue]);
+
+    return (
+        <Grid container spacing={2} alignItems="flex-start">
+            {gridField(
+                <DateInput
+                    source="transaction_date"
+                    label="Transaction Date"
+                    validate={required()}
+                    fullWidth
+                    variant="outlined"
+                />
+            )}
+            {gridField(
+                <NumberInput source="quantity" label="Quantity" validate={required()} fullWidth variant="outlined" />
+            )}
+            {gridField(
+                <ReferenceInput source="transporter_id" reference="transporters">
+                    <SelectInput
+                        label="Transporter"
+                        optionText={transporterOptionText}
+                        optionValue="id"
+                        fullWidth
+                        variant="outlined"
+                    />
+                </ReferenceInput>
+            )}
+            {gridField(
+                <ReferenceInput
+                    source="transporter_vehicle_id"
+                    reference="transporter-vehicles"
+                    filter={
+                        transporterId
+                            ? { transporter_id: transporterId }
+                            : { transporter_id: noopFilterId }
+                    }
+                >
+                    <SelectInput
+                        label="Vehicle"
+                        optionText={vehicleOptionText}
+                        optionValue="id"
+                        fullWidth
+                        variant="outlined"
+                        disabled={!transporterId}
+                        helperText={!transporterId ? 'Select a transporter first' : undefined}
+                    />
+                </ReferenceInput>
+            )}
+            {gridField(
+                <ReferenceInput source="milk_delivery_shift_id" reference="milk-delivery-shifts">
+                    <SelectInput label="Shift" optionText="name" optionValue="id" fullWidth variant="outlined" />
+                </ReferenceInput>
+            )}
+            {gridField(
+                <ReferenceInput source="route_id" reference="routes">
+                    <SelectInput label="Route" optionText="name" optionValue="id" fullWidth variant="outlined" />
+                </ReferenceInput>
+            )}
+        </Grid>
+    );
+};
 
 export const MemberPaymentFormFields = () => (
     <Grid container spacing={2} alignItems="flex-start">

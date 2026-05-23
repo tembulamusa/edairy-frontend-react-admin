@@ -16,6 +16,7 @@ type TransporterCreatePageProps = {
     successMessage: string;
     children: ReactNode;
     transform?: (data: RaRecord) => RaRecord | Promise<RaRecord>;
+    listRedirectResource?: string;
 };
 
 export const TransporterCreatePage = ({
@@ -25,6 +26,7 @@ export const TransporterCreatePage = ({
     successMessage,
     children,
     transform,
+    listRedirectResource,
 }: TransporterCreatePageProps) => (
     <Create resource={resource} title={false} sx={transporterCreateMainSx}>
         <Box sx={transporterCreateWrapperSx}>
@@ -41,7 +43,11 @@ export const TransporterCreatePage = ({
                     <SimpleForm
                         transform={transform}
                         toolbar={
-                            <TransporterCreateToolbar resource={resource} successMessage={successMessage} />
+                            <TransporterCreateToolbar
+                                resource={resource}
+                                successMessage={successMessage}
+                                listRedirectResource={listRedirectResource}
+                            />
                         }
                         sx={transporterSimpleFormSx}
                     >

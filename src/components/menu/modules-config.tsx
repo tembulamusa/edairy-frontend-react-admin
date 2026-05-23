@@ -136,7 +136,7 @@ export const modules: ModulesConfig = {
                 items: [
                     r("Livestock Categories", <AttachMoneyIcon />),
                     r("Livestock Breeds", <AttachMoneyIcon />),
-                    r("Livestock", <AttachMoneyIcon />),
+                    s("Livestock", "livestocks", <AttachMoneyIcon />),
                      r("Livestock Photos", <AttachMoneyIcon />),
                     r("Livestock Movements", <AttachMoneyIcon />),
                     r("Livestock Feedings", <AttachMoneyIcon />),

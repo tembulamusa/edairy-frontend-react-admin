@@ -32,7 +32,7 @@ export const LivestockPhotosList = () => {
                     </Grid>
                     <List title={false} filters={LivestockPhotoFilters} actions={false}>
                         <DataTable rowClick="show" sx={{ '& .RaDataTable-headerCell': { fontWeight: "bold", backgroundColor: "#f5f5f5" } }}>
-                            <ReferenceField source="livestock_id" reference="livestock" label="Livestock">
+                            <ReferenceField source="livestock_id" reference="livestocks" label="Livestock">
                                 <TextField source="tag_number" />
                             </ReferenceField>
                             <ImageField source="photo_url" label="Photo" sx={{ '& img': { maxWidth: 100, maxHeight: 100 } }} />

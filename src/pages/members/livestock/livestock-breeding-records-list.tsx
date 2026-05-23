@@ -35,15 +35,15 @@ export const LivestockBreedingRecordsList = () => {
                     </Grid>
                     <List title={false} filters={BreedingRecordFilters} actions={false}>
                         <DataTable rowClick="show" sx={{ '& .RaDataTable-headerCell': { fontWeight: "bold", backgroundColor: "#f5f5f5" } }}>
-                            <ReferenceField source="livestock_id" reference="livestock" label="Livestock">
+                            <ReferenceField source="livestock_id" reference="livestocks" label="Livestock">
                                 <TextField source="tag_number" />
                             </ReferenceField>
                             <DateField source="breeding_date" label="Breeding Date" />
                             <DataTable.Col source="breeding_type" label="Type" />
-                            <ReferenceField source="sire_id" reference="livestock" label="Sire" emptyText="N/A">
+                            <ReferenceField source="sire_id" reference="livestocks" label="Sire" emptyText="N/A">
                                 <TextField source="tag_number" />
                             </ReferenceField>
-                            <ReferenceField source="dam_id" reference="livestock" label="Dam" emptyText="N/A">
+                            <ReferenceField source="dam_id" reference="livestocks" label="Dam" emptyText="N/A">
                                 <TextField source="tag_number" />
                             </ReferenceField>
                             <DateField source="expected_calving_date" label="Expected Calving" />

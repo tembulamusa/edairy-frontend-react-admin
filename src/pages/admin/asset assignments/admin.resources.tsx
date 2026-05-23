@@ -26,6 +26,7 @@ import { AssetCategoryEdit } from '../pages/admin/asset categories/AssetCategory
 import { AssetCategoryShow } from '../pages/admin/asset categories/AssetCategoryShow';
 import { AssetAssignmentList } from '../pages/admin/asset assignments/asset-assignments-list';
 import { AssetAssignmentShow } from '../pages/admin/asset assignments/AssetAssignmentShow';
+import { AssetAssignmentEdit } from '../pages/admin/asset assignments/AssetAssignmentEdit';
 import { AssetAssignmentCreate } from '../pages/admin/asset assignments/AssetAssignmentCreate';
 import { AssetDepreciationEntryList } from '../pages/admin/asset depreciation entries/asset-depreciation-entries-list';
 import { AssetDepreciationEntryCreate } from '../pages/admin/asset depreciation entries/AssetDepreciationEntryCreate';
@@ -107,7 +108,7 @@ export const adminResources = [
     <Resource key="asset-softwares" name="asset-softwares" list={AssetSoftwareList} create={AssetSoftwareCreate} edit={AssetSoftwareEdit} show={AssetSoftwareShow} />,
     <Resource key="fixed-assets" name="fixed-assets" list={FixedAssetList} create={FixedAssetCreate} edit={FixedAssetEdit} />,
     <Resource key="asset-categories" name="asset-categories" list={AssetCategoryList} create={AssetCategoryCreate} edit={AssetCategoryEdit} show={AssetCategoryShow} />,
-    <Resource key="asset-assignments" name="asset-assignments" list={AssetAssignmentList} create={AssetAssignmentCreate} show={AssetAssignmentShow} />,
+    <Resource key="asset-assignments" name="asset-assignments" list={AssetAssignmentList} create={AssetAssignmentCreate} edit={AssetAssignmentEdit} show={AssetAssignmentShow} />,
     <Resource key="asset-depreciation-entries" name="asset-depreciation-entries" list={AssetDepreciationEntryList} create={AssetDepreciationEntryCreate} edit={AssetDepreciationEntryEdit} show={AssetDepreciationEntryShow} />,
 
     <Resource key="share-dividends" name="share-dividends" list={AdminShareDividendList} create={ShareDividendCreate} />,

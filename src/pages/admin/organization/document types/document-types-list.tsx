@@ -5,10 +5,12 @@ import {
     EditButton,
     DeleteButton,
     TextInput,
-    required,
+    SearchInput,
+    CreateButton,
+    TopToolbar,
+    FilterButton,
     useResourceContext,
 } from "react-admin";
-import { CreateButton } from "../../../../components/forms/FormUtils";
 import {
     Box,
     Card,
@@ -16,9 +18,34 @@ import {
     Typography,
     Stack,
     Tooltip,
+    Breadcrumbs,
+    Link as MuiLink,
 } from "@mui/material";
-import Grid from "@mui/material/Grid";
+import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import { useCan } from "../../../../components/permissions/user-can";
+
+const documentTypeFilters = [
+    <SearchInput source="q" alwaysOn placeholder="Search document types..." key="search" />,
+    <TextInput source="name" label="Name" key="name" />
+];
+
+const ListActions = ({ canCreate }: { canCreate: boolean }) => (
+    <TopToolbar>
+        <FilterButton />
+        {canCreate && (
+            <CreateButton
+                variant="contained"
+                sx={{
+                    backgroundColor: "primary.main",
+                    color: "white",
+                    "&:hover": {
+                        backgroundColor: "primary.dark",
+                    },
+                }}
+            />
+        )}
+    </TopToolbar>
+);
 
 export const DocumentTypeList = () => {
     const can = useCan();
@@ -29,6 +56,25 @@ export const DocumentTypeList = () => {
 
     return (
         <Box sx={{ p: 2 }}>
+            <Typography variant="h5" fontWeight="bold" gutterBottom>
+                Document Types
+            </Typography>
+            <Breadcrumbs
+                separator={<NavigateNextIcon fontSize="small" />}
+                aria-label="breadcrumb"
+                sx={{ mb: 3 }}
+            >
+                <MuiLink underline="hover" color="inherit" href="/">
+                    Home
+                </MuiLink>
+                <MuiLink underline="hover" color="inherit" href="/admin">
+                    Admin
+                </MuiLink>
+                <Typography color="text.primary" fontWeight="bold">
+                    Document Types
+                </Typography>
+            </Breadcrumbs>
+
             <Card
                 sx={{
                     borderRadius: 3,
@@ -37,48 +83,11 @@ export const DocumentTypeList = () => {
                 }}
             >
                 <CardContent>
-                    <Grid
-                        container
-                        spacing={2}
-                        alignItems="center"
-                        justifyContent="space-between"
-                        mb={2}
+                    <List 
+                        title={false} 
+                        filters={documentTypeFilters}
+                        actions={<ListActions canCreate={canCreate} />}
                     >
-                        <Grid size={{ xs: 12, md: 6 }}>
-                            <Typography variant="h5" fontWeight="bold">
-                                Document Types
-                            </Typography>
-
-                            <Typography variant="body2" color="text.secondary">
-                                Manage all Document Type records
-                            </Typography>
-                        </Grid>
-
-                        <Grid size={{ xs: 12, md: "auto" }}>
-                            {canCreate && (
-                                <CreateButton
-                                    resource="document-types"
-                                    title="Document Type"
-                                    sx={{
-                                        backgroundColor: "primary.main",
-                                        color: "white",
-                                        "&:hover": {
-                                            backgroundColor: "primary.dark",
-                                        },
-                                    }}
-                                >
-                                    <TextInput
-                                        source="name"
-                                        validate={required()}
-                                        fullWidth
-                                    />
-                                    <TextInput source="description" fullWidth />
-                                </CreateButton>
-                            )}
-                        </Grid>
-                    </Grid>
-
-                    <List title={false} actions={false}>
                         <DataTable
                             rowClick="show"
                             sx={{

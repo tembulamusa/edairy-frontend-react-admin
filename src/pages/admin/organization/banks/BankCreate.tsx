@@ -2,20 +2,16 @@ import {
     Create,
     SimpleForm,
     TextInput,
-    NumberInput,
-    DateInput,
-    ReferenceInput,
-    SelectInput,
     required,
 } from "react-admin";
 import { Box, Card, CardContent, Typography, Breadcrumbs, Link as MuiLink } from "@mui/material";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 
-export const AssetDepreciationEntryCreate = () => {
+export const BankCreate = () => {
     return (
         <Box sx={{ p: 2 }}>
             <Typography variant="h5" fontWeight="bold" gutterBottom>
-                Create Depreciation Entry
+                Create Bank
             </Typography>
             <Breadcrumbs
                 separator={<NavigateNextIcon fontSize="small" />}
@@ -28,8 +24,8 @@ export const AssetDepreciationEntryCreate = () => {
                 <MuiLink underline="hover" color="inherit" href="/admin">
                     Admin
                 </MuiLink>
-                <MuiLink underline="hover" color="inherit" href="/asset-depreciation-entries">
-                    Asset Depreciation Entries
+                <MuiLink underline="hover" color="inherit" href="/banks">
+                    Banks
                 </MuiLink>
                 <Typography color="text.primary" fontWeight="bold">
                     Create
@@ -40,13 +36,9 @@ export const AssetDepreciationEntryCreate = () => {
                 <CardContent>
                     <Create title={false} redirect="list">
                         <SimpleForm sx={{ maxWidth: 600 }}>
-                            <ReferenceInput source="asset_id" reference="fixed-assets">
-                                <SelectInput label="Asset" optionText="asset_name" fullWidth validate={[required()]} />
-                            </ReferenceInput>
-                            <DateInput source="depreciation_date" label="Depreciation Date" fullWidth validate={[required()]} />
-                            <NumberInput source="depreciation_amount" label="Depreciation Amount" fullWidth validate={[required()]} />
-                            <NumberInput source="book_value" label="Book Value" fullWidth validate={[required()]} />
-                            <TextInput source="notes" label="Administrative Notes" multiline rows={3} fullWidth />
+                            <TextInput source="name" validate={[required()]} fullWidth />
+                            <TextInput source="code" validate={[required()]} fullWidth />
+                            <TextInput source="swift_code" label="Swift Code" fullWidth />
                         </SimpleForm>
                     </Create>
                 </CardContent>

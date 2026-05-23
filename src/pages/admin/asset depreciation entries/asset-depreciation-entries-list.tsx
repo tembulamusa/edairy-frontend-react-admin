@@ -1,33 +1,50 @@
 import {
     List,
-    TopToolbar,
     DataTable,
     DateField,
     EditButton,
     DeleteButton,
-    useResourceContext,
+    TextInput,
+    SearchInput,
     CreateButton,
+    TopToolbar,
     FilterButton,
     ExportButton,
-    TextInput,
-    Pagination
-} from 'react-admin';
-import { Box, Card, CardContent, Typography, Stack, Tooltip } from '@mui/material';
-import Grid from '@mui/material/Grid';
-import { useCan } from '../../../components/permissions/user-can';
-import { ListBreadcrumbs } from '../../../../ListBreadcrumbs';
+    useResourceContext,
+} from "react-admin";
+import {
+    Box,
+    Card,
+    CardContent,
+    Typography,
+    Stack,
+    Tooltip,
+    Breadcrumbs,
+    Link as MuiLink,
+} from "@mui/material";
+import NavigateNextIcon from "@mui/icons-material/NavigateNext";
+import { useCan } from "../../../components/permissions/user-can";
 
 const depreciationFilters = [
-    <TextInput label="Search Asset" source="asset_name" alwaysOn />,
+    <SearchInput source="q" alwaysOn placeholder="Search depreciation entries..." key="search" />,
+    <TextInput label="Asset Name" source="asset_name" key="asset_name" />
 ];
 
-const DepreciationActions = () => (
+const ListActions = ({ canCreate }: { canCreate: boolean }) => (
     <TopToolbar>
         <FilterButton />
-        <CreateButton
-            variant="contained"
-            sx={{ backgroundColor: 'primary.main', color: 'white', ml: 1, '&:hover': { backgroundColor: 'primary.dark' } }}
-        />
+        {canCreate && (
+            <CreateButton
+                variant="contained"
+                sx={{
+                    backgroundColor: "primary.main",
+                    color: "white",
+                    "&:hover": {
+                        backgroundColor: "primary.dark",
+                    },
+                }}
+            />
+        )}
         <ExportButton />
     </TopToolbar>
 );
@@ -37,74 +54,95 @@ export const AssetDepreciationEntryList = () => {
     const resource = useResourceContext() ?? "asset-depreciation-entries";
     const canEdit = can(resource, "update");
     const canDelete = can(resource, "delete");
+    const canCreate = can(resource, "create");
 
     return (
         <Box sx={{ p: 2 }}>
-            <ListBreadcrumbs />
-            <List
-                title="Asset Depreciation Entries"
-                filters={depreciationFilters}
-                actions={<DepreciationActions />}
+            <Typography variant="h5" fontWeight="bold" gutterBottom>
+                Asset Depreciation Entries
+            </Typography>
+            <Breadcrumbs
+                separator={<NavigateNextIcon fontSize="small" />}
+                aria-label="breadcrumb"
+                sx={{ mb: 3 }}
             >
-                <DataTable
-                    rowClick="show"
-                    sx={{
-                        '& .RaDataTable-headerCell': {
-                            fontWeight: "bold",
-                            backgroundColor: "#f5f5f5",
-                        },
-                    }}
-                >
-                    <DataTable.Col source="asset_name" label="Asset Name" />
-                    <DataTable.Col source="asset_code" label="Asset Code" />
-                    <DataTable.Col source="depreciation_date" label="Depreciation Date">
-                        <DateField source="depreciation_date" />
-                    </DataTable.Col>
-                    <DataTable.Col source="depreciation_amount" label="Depreciation Amount" />
-                    <DataTable.Col source="accumulated_depreciation" label="Accumulated Depreciation" />
-                    <DataTable.Col source="book_value" label="Book Value" />
-                    <DataTable.Col label="Actions">
-                        <Stack direction="row" spacing={1} alignItems="center">
-                            {canEdit && (
-                                <Tooltip title="Edit Record">
-                                    <span>
-                                        <EditButton
-                                            label={false}
-                                            sx={{
-                                                minWidth: 36,
-                                            }}
-                                        />
-                                    </span>
-                                </Tooltip>
-                            )}
+                <MuiLink underline="hover" color="inherit" href="/">
+                    Home
+                </MuiLink>
+                <MuiLink underline="hover" color="inherit" href="/admin">
+                    Admin
+                </MuiLink>
+                <Typography color="text.primary" fontWeight="bold">
+                    Asset Depreciation Entries
+                </Typography>
+            </Breadcrumbs>
 
-                            {canDelete && (
-                                <Tooltip title="Delete Record">
-                                    <span>
-                                        <DeleteButton
-                                            label={false}
-                                            confirmColor="error"
-                                            mutationMode="pessimistic"
-                                            confirmTitle="⚠️ Confirm deletion"
-                                            confirmContent="This will permanently remove the record."
-                                            confirmProps={{
-                                                sx: {
-                                                    '& .RaConfirm-confirm-button': { color: 'error.main !important' },
-                                                    '& .RaConfirm-title': { color: 'error.main !important' },
-                                                    '& .RaConfirm-content': { color: 'error.main !important' },
-                                                },
-                                            }}
-                                            sx={{
-                                                minWidth: 36,
-                                            }}
-                                        />
-                                    </span>
-                                </Tooltip>
-                            )}
-                        </Stack>
-                    </DataTable.Col>
-                </DataTable>
-            </List>
+            <Card
+                sx={{
+                    borderRadius: 3,
+                    boxShadow: 3,
+                    overflow: "hidden",
+                }}
+            >
+                <CardContent>
+                    <List 
+                        title={false} 
+                        filters={depreciationFilters}
+                        actions={<ListActions canCreate={canCreate} />}
+                    >
+                        <DataTable
+                            rowClick="show"
+                            sx={{
+                                "& .RaDataTable-headerCell": {
+                                    fontWeight: "bold",
+                                    backgroundColor: "#f5f5f5",
+                                },
+                            }}
+                        >
+                            <DataTable.Col source="asset_name" label="Asset Name" />
+                            <DataTable.Col source="asset_code" label="Asset Code" />
+                            <DataTable.Col source="depreciation_date" label="Depreciation Date">
+                                <DateField source="depreciation_date" />
+                            </DataTable.Col>
+                            <DataTable.Col source="depreciation_amount" label="Depreciation Amount" />
+                            <DataTable.Col source="accumulated_depreciation" label="Accumulated Depreciation" />
+                            <DataTable.Col source="book_value" label="Book Value" />
+                            <DataTable.Col label="Actions">
+                                <Stack direction="row" spacing={1} alignItems="center">
+                                    {canEdit && (
+                                        <Tooltip title="Edit Record">
+                                            <span>
+                                                <EditButton
+                                                    label={false}
+                                                    sx={{
+                                                        minWidth: 36,
+                                                    }}
+                                                />
+                                            </span>
+                                        </Tooltip>
+                                    )}
+
+                                    {canDelete && (
+                                        <Tooltip title="Delete Record">
+                                            <span>
+                                                <DeleteButton
+                                                    label={false}
+                                                    mutationMode="pessimistic"
+                                                    confirmTitle="⚠️ Confirm deletion"
+                                                    confirmContent="This will permanently remove the record."
+                                                    sx={{
+                                                        minWidth: 36,
+                                                    }}
+                                                />
+                                            </span>
+                                        </Tooltip>
+                                    )}
+                                </Stack>
+                            </DataTable.Col>
+                        </DataTable>
+                    </List>
+                </CardContent>
+            </Card>
         </Box>
     );
 };

@@ -1,17 +1,17 @@
 import {
-    Edit,
-    SimpleForm,
-    TextInput,
-    required,
-} from 'react-admin';
+    Show,
+    SimpleShowLayout,
+    TextField,
+    DateField,
+} from "react-admin";
 import { Box, Card, CardContent, Typography, Breadcrumbs, Link as MuiLink } from "@mui/material";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 
-export const AssetCategoryEdit = () => {
+export const DirectorManagementShow = () => {
     return (
         <Box sx={{ p: 2 }}>
             <Typography variant="h5" fontWeight="bold" gutterBottom>
-                Edit Asset Category
+                Director/Management Details
             </Typography>
             <Breadcrumbs
                 separator={<NavigateNextIcon fontSize="small" />}
@@ -24,22 +24,27 @@ export const AssetCategoryEdit = () => {
                 <MuiLink underline="hover" color="inherit" href="/admin">
                     Admin
                 </MuiLink>
-                <MuiLink underline="hover" color="inherit" href="/asset-categories">
-                    Asset Categories
+                <MuiLink underline="hover" color="inherit" href="/directors-and-management">
+                    Directors and Management
                 </MuiLink>
                 <Typography color="text.primary" fontWeight="bold">
-                    Edit
+                    Show
                 </Typography>
             </Breadcrumbs>
 
             <Card sx={{ borderRadius: 3, boxShadow: 3 }}>
                 <CardContent>
-                    <Edit title={false} mutationMode="pessimistic" redirect="list">
-                        <SimpleForm sx={{ maxWidth: 600 }}>
-                            <TextInput source="name" label="Category Name" validate={[required()]} fullWidth />
-                            <TextInput source="description" label="Description" multiline rows={3} fullWidth />
-                        </SimpleForm>
-                    </Edit>
+                    <Show title={false}>
+                        <SimpleShowLayout>
+                            <TextField source="id" />
+                            <DateField source="created_at" label="Created At" showTime />
+                            <TextField source="full_name" label="Full Name" />
+                            <TextField source="position" label="Position" />
+                            <TextField source="idnumber" label="ID Number" />
+                            <TextField source="phone" label="Phone" />
+                            <TextField source="email" label="Email" />
+                        </SimpleShowLayout>
+                    </Show>
                 </CardContent>
             </Card>
         </Box>

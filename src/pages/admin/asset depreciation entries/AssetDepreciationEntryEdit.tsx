@@ -1,20 +1,21 @@
 import {
-    Create,
+    Edit,
     SimpleForm,
     TextInput,
+    NumberInput,
     DateInput,
     ReferenceInput,
     SelectInput,
     required,
-} from 'react-admin';
+} from "react-admin";
 import { Box, Card, CardContent, Typography, Breadcrumbs, Link as MuiLink } from "@mui/material";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 
-export const AssetAssignmentCreate = () => {
+export const AssetDepreciationEntryEdit = () => {
     return (
         <Box sx={{ p: 2 }}>
             <Typography variant="h5" fontWeight="bold" gutterBottom>
-                Create Asset Assignment
+                Edit Depreciation Entry
             </Typography>
             <Breadcrumbs
                 separator={<NavigateNextIcon fontSize="small" />}
@@ -27,40 +28,27 @@ export const AssetAssignmentCreate = () => {
                 <MuiLink underline="hover" color="inherit" href="/admin">
                     Admin
                 </MuiLink>
-                <MuiLink underline="hover" color="inherit" href="/asset-assignments">
-                    Asset Assignments
+                <MuiLink underline="hover" color="inherit" href="/asset-depreciation-entries">
+                    Asset Depreciation Entries
                 </MuiLink>
                 <Typography color="text.primary" fontWeight="bold">
-                    Create
+                    Edit
                 </Typography>
             </Breadcrumbs>
 
             <Card sx={{ borderRadius: 3, boxShadow: 3 }}>
                 <CardContent>
-                    <Create title={false} redirect="list">
+                    <Edit title={false} mutationMode="pessimistic" redirect="list">
                         <SimpleForm sx={{ maxWidth: 600 }}>
                             <ReferenceInput source="asset_id" reference="fixed-assets">
                                 <SelectInput label="Asset" optionText="asset_name" fullWidth validate={[required()]} />
                             </ReferenceInput>
-                            <ReferenceInput source="assigned_to_id" reference="users">
-                                <SelectInput label="Assign To User" optionText="name" fullWidth validate={[required()]} />
-                            </ReferenceInput>
-                            <DateInput source="assigned_at" label="Assignment Date" fullWidth validate={[required()]} />
-                            <DateInput source="due_date" label="Due Date" fullWidth />
-                            <SelectInput
-                                source="status"
-                                label="Status"
-                                choices={[
-                                    { id: 'ASSIGNED', name: 'ASSIGNED' },
-                                    { id: 'RETURNED', name: 'RETURNED' },
-                                ]}
-                                defaultValue="ASSIGNED"
-                                fullWidth
-                                validate={[required()]}
-                            />
-                            <TextInput source="notes" label="Assignment Notes" multiline rows={3} fullWidth />
+                            <DateInput source="depreciation_date" label="Depreciation Date" fullWidth validate={[required()]} />
+                            <NumberInput source="depreciation_amount" label="Depreciation Amount" fullWidth validate={[required()]} />
+                            <NumberInput source="book_value" label="Book Value" fullWidth validate={[required()]} />
+                            <TextInput source="notes" label="Administrative Notes" multiline rows={3} fullWidth />
                         </SimpleForm>
-                    </Create>
+                    </Edit>
                 </CardContent>
             </Card>
         </Box>

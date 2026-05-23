@@ -1,21 +1,17 @@
 import {
-    Create,
-    SimpleForm,
-    TextInput,
-    NumberInput,
-    DateInput,
-    ReferenceInput,
-    SelectInput,
-    required,
+    Show,
+    SimpleShowLayout,
+    TextField,
+    DateField,
 } from "react-admin";
 import { Box, Card, CardContent, Typography, Breadcrumbs, Link as MuiLink } from "@mui/material";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 
-export const AssetDepreciationEntryCreate = () => {
+export const AssetDepreciationEntryShow = () => {
     return (
         <Box sx={{ p: 2 }}>
             <Typography variant="h5" fontWeight="bold" gutterBottom>
-                Create Depreciation Entry
+                Depreciation Entry Details
             </Typography>
             <Breadcrumbs
                 separator={<NavigateNextIcon fontSize="small" />}
@@ -32,23 +28,22 @@ export const AssetDepreciationEntryCreate = () => {
                     Asset Depreciation Entries
                 </MuiLink>
                 <Typography color="text.primary" fontWeight="bold">
-                    Create
+                    Show
                 </Typography>
             </Breadcrumbs>
 
             <Card sx={{ borderRadius: 3, boxShadow: 3 }}>
                 <CardContent>
-                    <Create title={false} redirect="list">
-                        <SimpleForm sx={{ maxWidth: 600 }}>
-                            <ReferenceInput source="asset_id" reference="fixed-assets">
-                                <SelectInput label="Asset" optionText="asset_name" fullWidth validate={[required()]} />
-                            </ReferenceInput>
-                            <DateInput source="depreciation_date" label="Depreciation Date" fullWidth validate={[required()]} />
-                            <NumberInput source="depreciation_amount" label="Depreciation Amount" fullWidth validate={[required()]} />
-                            <NumberInput source="book_value" label="Book Value" fullWidth validate={[required()]} />
-                            <TextInput source="notes" label="Administrative Notes" multiline rows={3} fullWidth />
-                        </SimpleForm>
-                    </Create>
+                    <Show title={false}>
+                        <SimpleShowLayout>
+                            <TextField source="id" />
+                            <TextField source="asset_name" label="Asset Name" />
+                            <DateField source="depreciation_date" label="Depreciation Date" />
+                            <TextField source="depreciation_amount" label="Depreciation Amount" />
+                            <TextField source="book_value" label="Book Value" />
+                            <TextField source="notes" label="Administrative Notes" />
+                        </SimpleShowLayout>
+                    </Show>
                 </CardContent>
             </Card>
         </Box>

@@ -4,10 +4,12 @@ import {
     EditButton,
     DeleteButton,
     TextInput,
-    required,
+    SearchInput,
+    CreateButton,
+    TopToolbar,
+    FilterButton,
     useResourceContext,
 } from "react-admin";
-import { CreateButton } from "../../../../components/forms/FormUtils";
 import {
     Box,
     Card,
@@ -15,9 +17,34 @@ import {
     Typography,
     Stack,
     Tooltip,
+    Breadcrumbs,
+    Link as MuiLink,
 } from "@mui/material";
-import Grid from "@mui/material/Grid";
+import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import { useCan } from "../../../../components/permissions/user-can";
+
+const leadershipFilters = [
+    <SearchInput source="q" alwaysOn placeholder="Search leaderships..." key="search" />,
+    <TextInput source="position" label="Position" key="position" />
+];
+
+const ListActions = ({ canCreate }: { canCreate: boolean }) => (
+    <TopToolbar>
+        <FilterButton />
+        {canCreate && (
+            <CreateButton
+                variant="contained"
+                sx={{
+                    backgroundColor: "primary.main",
+                    color: "white",
+                    "&:hover": {
+                        backgroundColor: "primary.dark",
+                    },
+                }}
+            />
+        )}
+    </TopToolbar>
+);
 
 export const OrganizationLeadershipsList = () => {
     const can = useCan();
@@ -28,6 +55,25 @@ export const OrganizationLeadershipsList = () => {
 
     return (
         <Box sx={{ p: 2 }}>
+            <Typography variant="h5" fontWeight="bold" gutterBottom>
+                Organization Leaderships
+            </Typography>
+            <Breadcrumbs
+                separator={<NavigateNextIcon fontSize="small" />}
+                aria-label="breadcrumb"
+                sx={{ mb: 3 }}
+            >
+                <MuiLink underline="hover" color="inherit" href="/">
+                    Home
+                </MuiLink>
+                <MuiLink underline="hover" color="inherit" href="/admin">
+                    Admin
+                </MuiLink>
+                <Typography color="text.primary" fontWeight="bold">
+                    Organization Leaderships
+                </Typography>
+            </Breadcrumbs>
+
             <Card
                 sx={{
                     borderRadius: 3,
@@ -36,59 +82,11 @@ export const OrganizationLeadershipsList = () => {
                 }}
             >
                 <CardContent>
-                    <Grid
-                        container
-                        spacing={2}
-                        alignItems="center"
-                        justifyContent="space-between"
-                        mb={2}
+                    <List 
+                        title={false} 
+                        filters={leadershipFilters}
+                        actions={<ListActions canCreate={canCreate} />}
                     >
-                        <Grid size={{ xs: 12, md: 6 }}>
-                            <Typography variant="h5" fontWeight="bold">
-                                Organization Leaderships
-                            </Typography>
-
-                            <Typography variant="body2" color="text.secondary">
-                                Manage all Organization Leadership records
-                            </Typography>
-                        </Grid>
-
-                        <Grid size={{ xs: 12, md: "auto" }}>
-                            {canCreate && (
-                                <CreateButton
-                                    resource="organization-leaderships"
-                                    title="Organization Leadership"
-                                    sx={{
-                                        backgroundColor: "primary.main",
-                                        color: "white",
-                                        "&:hover": {
-                                            backgroundColor: "primary.dark",
-                                        },
-                                    }}
-                                >
-                                    <TextInput
-                                        source="first_name"
-                                        validate={required()}
-                                        fullWidth
-                                    />
-                                    <TextInput
-                                        source="last_name"
-                                        validate={required()}
-                                        fullWidth
-                                    />
-                                    <TextInput
-                                        source="position"
-                                        validate={required()}
-                                        fullWidth
-                                    />
-                                    <TextInput source="status" fullWidth />
-                                    <TextInput source="phone" fullWidth />
-                                </CreateButton>
-                            )}
-                        </Grid>
-                    </Grid>
-
-                    <List title={false} actions={false}>
                         <DataTable
                             rowClick="show"
                             sx={{

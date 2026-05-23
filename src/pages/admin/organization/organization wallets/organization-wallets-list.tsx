@@ -4,23 +4,76 @@ import {
     EditButton,
     DeleteButton,
     TextInput,
-    required,
+    SearchInput,
+    CreateButton,
+    TopToolbar,
+    FilterButton,
     useResourceContext,
 } from "react-admin";
-import { CreateButton } from "../../../../components/forms/FormUtils";
-import { Box, Card, CardContent, Typography, Stack, Tooltip } from '@mui/material';
-import Grid from '@mui/material/Grid';
+import {
+    Box,
+    Card,
+    CardContent,
+    Typography,
+    Stack,
+    Tooltip,
+    Breadcrumbs,
+    Link as MuiLink,
+} from "@mui/material";
+import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import { useCan } from "../../../../components/permissions/user-can";
+
+const walletFilters = [
+    <SearchInput source="q" alwaysOn placeholder="Search wallets..." key="search" />,
+    <TextInput source="wallet_name" label="Wallet Name" key="wallet_name" />
+];
+
+const ListActions = ({ canCreate }: { canCreate: boolean }) => (
+    <TopToolbar>
+        <FilterButton />
+        {canCreate && (
+            <CreateButton
+                variant="contained"
+                sx={{
+                    backgroundColor: "primary.main",
+                    color: "white",
+                    "&:hover": {
+                        backgroundColor: "primary.dark",
+                    },
+                }}
+            />
+        )}
+    </TopToolbar>
+);
 
 export const OrganizationWalletsList = () => {
     const can = useCan();
     const resource = useResourceContext() ?? "organization-wallets";
-    const canCreate = can(resource, "create");
     const canEdit = can(resource, "update");
     const canDelete = can(resource, "delete");
+    const canCreate = can(resource, "create");
 
     return (
         <Box sx={{ p: 2 }}>
+            <Typography variant="h5" fontWeight="bold" gutterBottom>
+                Organization Wallets
+            </Typography>
+            <Breadcrumbs
+                separator={<NavigateNextIcon fontSize="small" />}
+                aria-label="breadcrumb"
+                sx={{ mb: 3 }}
+            >
+                <MuiLink underline="hover" color="inherit" href="/">
+                    Home
+                </MuiLink>
+                <MuiLink underline="hover" color="inherit" href="/admin">
+                    Admin
+                </MuiLink>
+                <Typography color="text.primary" fontWeight="bold">
+                    Organization Wallets
+                </Typography>
+            </Breadcrumbs>
+
             <Card
                 sx={{
                     borderRadius: 3,
@@ -29,53 +82,10 @@ export const OrganizationWalletsList = () => {
                 }}
             >
                 <CardContent>
-                    <Grid
-                        container
-                        spacing={2}
-                        alignItems="center"
-                        justifyContent="space-between"
-                        mb={2}
-                    >
-                        <Grid size={{ xs: 12, md: 6 }}>
-                            <Typography
-                                variant="h5"
-                                fontWeight="bold"
-                            >
-                                Organization Wallets
-                            </Typography>
-
-                            <Typography
-                                variant="body2"
-                                color="text.secondary"
-                            >
-                                Manage all Organization Wallets records
-                            </Typography>
-                        </Grid>
-
-                        <Grid size={{ xs: 12, md: "auto" }}>
-                            {canCreate && (
-                                <CreateButton 
-                                    resource="organization-wallets" 
-                                    title="Organization Wallet"
-                                    sx={{
-                                        backgroundColor: 'primary.main',
-                                        color: 'white',
-                                        '&:hover': {
-                                            backgroundColor: 'primary.dark',
-                                        },
-                                    }}
-                                >
-                                    <TextInput source="wallet_id" validate={required()} fullWidth />
-                                    <TextInput source="wallet_name" validate={required()} fullWidth />
-                                    <TextInput source="wallet_type_name" fullWidth />
-                                </CreateButton>
-                            )}
-                        </Grid>
-                    </Grid>
-
-                    <List
-                        title={false}
-                        actions={false}
+                    <List 
+                        title={false} 
+                        filters={walletFilters}
+                        actions={<ListActions canCreate={canCreate} />}
                     >
                         <DataTable
                             rowClick="show"

@@ -1,18 +1,80 @@
-import { List, DataTable, TextField, DateField, EditButton, DeleteButton, TextInput, required, useResourceContext } from 'react-admin';
-import { CreateButton } from '../../../../components/forms/FormUtils';
-import { Box, Card, CardContent, Typography, Stack, Tooltip } from '@mui/material';
-import Grid from '@mui/material/Grid';
+import {
+    List,
+    DataTable,
+    DateField,
+    EditButton,
+    DeleteButton,
+    TextInput,
+    SearchInput,
+    CreateButton,
+    TopToolbar,
+    FilterButton,
+    useResourceContext,
+} from "react-admin";
+import {
+    Box,
+    Card,
+    CardContent,
+    Typography,
+    Stack,
+    Tooltip,
+    Breadcrumbs,
+    Link as MuiLink,
+} from "@mui/material";
+import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import { useCan } from '../../../../components/permissions/user-can';
+
+const siteFilters = [
+    <SearchInput source="q" alwaysOn placeholder="Search sites..." key="search" />,
+    <TextInput source="site_type" label="Site Type" key="type" />
+];
+
+const ListActions = ({ canCreate }: { canCreate: boolean }) => (
+    <TopToolbar>
+        <FilterButton />
+        {canCreate && (
+            <CreateButton
+                variant="contained"
+                sx={{
+                    backgroundColor: "primary.main",
+                    color: "white",
+                    "&:hover": {
+                        backgroundColor: "primary.dark",
+                    },
+                }}
+            />
+        )}
+    </TopToolbar>
+);
 
 export const SiteList = () => {
     const can = useCan();
     const resource = useResourceContext() ?? "sites";
-    const canCreate = can(resource, "create");
     const canEdit = can(resource, "update");
     const canDelete = can(resource, "delete");
+    const canCreate = can(resource, "create");
 
     return (
         <Box sx={{ p: 2 }}>
+            <Typography variant="h5" fontWeight="bold" gutterBottom>
+                Sites
+            </Typography>
+            <Breadcrumbs
+                separator={<NavigateNextIcon fontSize="small" />}
+                aria-label="breadcrumb"
+                sx={{ mb: 3 }}
+            >
+                <MuiLink underline="hover" color="inherit" href="/">
+                    Home
+                </MuiLink>
+                <MuiLink underline="hover" color="inherit" href="/admin">
+                    Admin
+                </MuiLink>
+                <Typography color="text.primary" fontWeight="bold">
+                    Sites
+                </Typography>
+            </Breadcrumbs>
+
             <Card
                 sx={{
                     borderRadius: 3,
@@ -21,53 +83,10 @@ export const SiteList = () => {
                 }}
             >
                 <CardContent>
-                    <Grid
-                        container
-                        spacing={2}
-                        alignItems="center"
-                        justifyContent="space-between"
-                        mb={2}
-                    >
-                        <Grid size={{ xs: 12, md: 6 }}>
-                            <Typography
-                                variant="h5"
-                                fontWeight="bold"
-                            >
-                                Sites
-                            </Typography>
-
-                            <Typography
-                                variant="body2"
-                                color="text.secondary"
-                            >
-                                Manage all Sites records
-                            </Typography>
-                        </Grid>
-
-                        <Grid size={{ xs: 12, md: "auto" }}>
-                            {canCreate && (
-                                <CreateButton 
-                                    resource="sites" 
-                                    title="Site"
-                                    sx={{
-                                        backgroundColor: 'primary.main',
-                                        color: 'white',
-                                        '&:hover': {
-                                            backgroundColor: 'primary.dark',
-                                        },
-                                    }}
-                                >
-                                    <TextInput source="name" validate={required()} fullWidth />
-                                    <TextInput source="location" validate={required()} fullWidth />
-                                    <TextInput source="site_type" fullWidth />
-                                </CreateButton>
-                            )}
-                        </Grid>
-                    </Grid>
-
-                    <List
-                        title={false}
-                        actions={false}
+                    <List 
+                        title={false} 
+                        filters={siteFilters}
+                        actions={<ListActions canCreate={canCreate} />}
                     >
                         <DataTable
                             rowClick="show"
@@ -123,4 +142,3 @@ export const SiteList = () => {
         </Box>
     );
 };
-

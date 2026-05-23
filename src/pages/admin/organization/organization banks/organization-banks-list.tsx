@@ -4,11 +4,12 @@ import {
     EditButton,
     DeleteButton,
     TextInput,
-    required,
+    SearchInput,
+    CreateButton,
+    TopToolbar,
+    FilterButton,
     useResourceContext,
-    useRecordContext,
 } from "react-admin";
-import { CreateButton } from "../../../../components/forms/FormUtils";
 import {
     Box,
     Card,
@@ -16,44 +17,34 @@ import {
     Typography,
     Stack,
     Tooltip,
+    Breadcrumbs,
+    Link as MuiLink,
 } from "@mui/material";
-import Grid from "@mui/material/Grid";
+import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import { useCan } from "../../../../components/permissions/user-can";
 
-const DocumentField = () => {
-    const record = useRecordContext();
-    if (!record?.document) return null;
+const bankFilters = [
+    <SearchInput source="q" alwaysOn placeholder="Search banks..." key="search" />,
+    <TextInput source="name" label="Name" key="name" />
+];
 
-    const url = record.document;
-    const isImage = /\.(jpg|jpeg|png|gif|webp)$/i.test(url);
-
-    return (
-        <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-            {isImage && (
-                <img
-                    src={url}
-                    alt="document preview"
-                    style={{
-                        width: 60,
-                        height: 60,
-                        objectFit: "cover",
-                        borderRadius: 6,
-                        border: "1px solid #ddd",
-                    }}
-                />
-            )}
-
-            <a
-                href={url}
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{ color: "#1976d2", fontSize: 12 }}
-            >
-                Download
-            </a>
-        </div>
-    );
-};
+const ListActions = ({ canCreate }: { canCreate: boolean }) => (
+    <TopToolbar>
+        <FilterButton />
+        {canCreate && (
+            <CreateButton
+                variant="contained"
+                sx={{
+                    backgroundColor: "primary.main",
+                    color: "white",
+                    "&:hover": {
+                        backgroundColor: "primary.dark",
+                    },
+                }}
+            />
+        )}
+    </TopToolbar>
+);
 
 export const OrganizationBanksList = () => {
     const can = useCan();
@@ -64,6 +55,25 @@ export const OrganizationBanksList = () => {
 
     return (
         <Box sx={{ p: 2 }}>
+            <Typography variant="h5" fontWeight="bold" gutterBottom>
+                Organization Banks
+            </Typography>
+            <Breadcrumbs
+                separator={<NavigateNextIcon fontSize="small" />}
+                aria-label="breadcrumb"
+                sx={{ mb: 3 }}
+            >
+                <MuiLink underline="hover" color="inherit" href="/">
+                    Home
+                </MuiLink>
+                <MuiLink underline="hover" color="inherit" href="/admin">
+                    Admin
+                </MuiLink>
+                <Typography color="text.primary" fontWeight="bold">
+                    Organization Banks
+                </Typography>
+            </Breadcrumbs>
+
             <Card
                 sx={{
                     borderRadius: 3,
@@ -72,47 +82,11 @@ export const OrganizationBanksList = () => {
                 }}
             >
                 <CardContent>
-                    <Grid
-                        container
-                        spacing={2}
-                        alignItems="center"
-                        justifyContent="space-between"
-                        mb={2}
+                    <List 
+                        title={false} 
+                        filters={bankFilters}
+                        actions={<ListActions canCreate={canCreate} />}
                     >
-                        <Grid size={{ xs: 12, md: 6 }}>
-                            <Typography variant="h5" fontWeight="bold">
-                                Organization Banks
-                            </Typography>
-
-                            <Typography variant="body2" color="text.secondary">
-                                Manage all Organization Bank records
-                            </Typography>
-                        </Grid>
-
-                        <Grid size={{ xs: 12, md: "auto" }}>
-                            {canCreate && (
-                                <CreateButton
-                                    resource="organization-banks"
-                                    title="Organization Bank"
-                                    sx={{
-                                        backgroundColor: "primary.main",
-                                        color: "white",
-                                        "&:hover": {
-                                            backgroundColor: "primary.dark",
-                                        },
-                                    }}
-                                >
-                                    <TextInput
-                                        source="name"
-                                        validate={required()}
-                                        fullWidth
-                                    />
-                                </CreateButton>
-                            )}
-                        </Grid>
-                    </Grid>
-
-                    <List title={false} actions={false}>
                         <DataTable
                             rowClick="show"
                             sx={{

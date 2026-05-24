@@ -1,6 +1,9 @@
-import { Edit, SimpleForm, ReferenceInput, SelectInput, TextInput, DateInput, required } from 'react-admin';
+import { Edit, SimpleForm, ReferenceInput, SelectInput, TextInput, DateInput, NumberInput, BooleanInput, required } from 'react-admin';
 import { Card, CardContent, Typography, Box } from '@mui/material';
 import { ListBreadcrumbs } from '../../../../ListBreadcrumbs';
+
+const parseDate = (val: string) => val ? new Date(val).toISOString().split('.')[0] + 'Z' : null;
+const formatDate = (val: string) => val ? val.split('T')[0] : '';
 
 export const EmployeeLeaveApplicationEdit = () => (
     <Edit title="Edit Leave Application">
@@ -16,15 +19,48 @@ export const EmployeeLeaveApplicationEdit = () => (
                     <CardContent>
                     <SimpleForm>
                         <TextInput source="id" disabled fullWidth />
+                        <TextInput source="application_no" label="Application No" validate={required()} fullWidth />
                         <ReferenceInput source="employee_id" reference="employees">
-                            <SelectInput optionText="first_name" validate={required()} fullWidth />
+                            <SelectInput optionText="first_name" label="Employee" validate={required()} fullWidth />
                         </ReferenceInput>
                         <ReferenceInput source="leave_type_id" reference="employee-leave-types">
-                            <SelectInput optionText="name" validate={required()} fullWidth />
+                            <SelectInput optionText="code" label="Leave Type" validate={required()} fullWidth />
                         </ReferenceInput>
-                        <DateInput source="start_date" validate={required()} fullWidth />
-                        <DateInput source="end_date" validate={required()} fullWidth />
-                        <TextInput source="reason" multiline rows={3} fullWidth />
+                        <NumberInput source="days_applied" label="Days Applied" validate={required()} fullWidth />
+                        <NumberInput source="days_approved" label="Days Approved" fullWidth />
+                        <DateInput 
+                            source="start_date" 
+                            label="Start Date" 
+                            parse={parseDate} 
+                            format={formatDate} 
+                            validate={required()} 
+                            fullWidth 
+                        />
+                        <DateInput 
+                            source="end_date" 
+                            label="End Date" 
+                            parse={parseDate} 
+                            format={formatDate} 
+                            validate={required()} 
+                            fullWidth 
+                        />
+                        <DateInput 
+                            source="return_date" 
+                            label="Return Date" 
+                            parse={parseDate} 
+                            format={formatDate} 
+                            validate={required()} 
+                            fullWidth 
+                        />
+                        <ReferenceInput source="approver_id" reference="employees">
+                            <SelectInput optionText="first_name" label="Approver" fullWidth />
+                        </ReferenceInput>
+                        <SelectInput source="status" label="Status" choices={[
+                            { id: 'PENDING', name: 'Pending' },
+                            { id: 'APPROVED', name: 'Approved' },
+                            { id: 'REJECTED', name: 'Rejected' },
+                        ]} fullWidth />
+                        <BooleanInput source="approved" label="Approved" />
                     </SimpleForm>
                 </CardContent>
             </Card>

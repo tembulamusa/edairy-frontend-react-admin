@@ -19,9 +19,11 @@ export const EmployeeBankAccountEdit = () => (
                         <ReferenceInput source="employee_id" reference="employees">
                             <SelectInput optionText="first_name" validate={required()} fullWidth />
                         </ReferenceInput>
-                        <TextInput source="bank_name" validate={required()} fullWidth />
-                        <TextInput source="account_number" validate={required()} fullWidth />
-                        <TextInput source="branch_name" fullWidth />
+                        <ReferenceInput source="bank_id" reference="banks">
+                            <SelectInput optionText="bank_name" label="Bank" validate={required()} fullWidth />
+                        </ReferenceInput>
+                        <TextInput source="account_number" label="Account Number" validate={required()} fullWidth />
+                        <TextInput source="account_name" label="Account Name" validate={required()} fullWidth />
                     </SimpleForm>
                 </CardContent>
             </Card>

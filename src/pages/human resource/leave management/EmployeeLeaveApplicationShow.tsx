@@ -1,4 +1,4 @@
-import { Show, SimpleShowLayout, ReferenceField, TextField, DateField } from 'react-admin';
+import { Show, SimpleShowLayout, TextField, DateField, NumberField, BooleanField } from 'react-admin';
 import { Card, CardContent, Typography, Box } from '@mui/material';
 import { ListBreadcrumbs } from '../../../../ListBreadcrumbs';
 
@@ -16,15 +16,17 @@ export const EmployeeLeaveApplicationShow = () => (
                     <CardContent>
                     <SimpleShowLayout>
                         <TextField source="id" />
-                        <ReferenceField source="employee_id" reference="employees">
-                            <TextField source="first_name" />
-                        </ReferenceField>
-                        <ReferenceField source="leave_type_id" reference="employee-leave-types">
-                            <TextField source="name" />
-                        </ReferenceField>
-                        <DateField source="start_date" />
-                        <DateField source="end_date" />
-                        <TextField source="reason" />
+                        <TextField source="application_no" label="Application No" />
+                        <TextField source="employee_name" label="Employee Name" />
+                        <TextField source="leave_type" label="Leave Type" />
+                        <NumberField source="days_applied" label="Days Applied" />
+                        <NumberField source="days_approved" label="Days Approved" />
+                        <DateField source="start_date" label="Start Date" />
+                        <DateField source="end_date" label="End Date" />
+                        <DateField source="return_date" label="Return Date" />
+                        <TextField source="approver_name" label="Approver Name" />
+                        <TextField source="status" label="Status" />
+                        <BooleanField source="approved" label="Approved" />
                         <DateField source="created_at" showTime />
                         <DateField source="updated_at" showTime />
                     </SimpleShowLayout>

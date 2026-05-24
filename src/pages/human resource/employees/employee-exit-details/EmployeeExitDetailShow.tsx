@@ -1,4 +1,4 @@
-import { Show, SimpleShowLayout, ReferenceField, TextField, DateField } from 'react-admin';
+import { Show, SimpleShowLayout, TextField, DateField } from 'react-admin';
 import { Card, CardContent, Typography, Box } from '@mui/material';
 import { ListBreadcrumbs } from '../../../../../ListBreadcrumbs';
 
@@ -16,14 +16,13 @@ export const EmployeeExitDetailShow = () => (
                     <CardContent>
                     <SimpleShowLayout>
                         <TextField source="id" />
-                        <ReferenceField source="employee_id" reference="employees">
-                            <TextField source="first_name" />
-                        </ReferenceField>
-                        <ReferenceField source="termination_category_id" reference="employee-termination-categories">
-                            <TextField source="name" />
-                        </ReferenceField>
-                        <DateField source="exit_date" />
-                        <TextField source="reason" />
+                        <TextField source="employee_no" label="Employee No" />
+                        <TextField source="employee_name" label="Employee Name" />
+                        <TextField source="contract_type" label="Contract Type" />
+                        <DateField source="contract_end_date" label="Contract End Date" />
+                        <DateField source="date_of_leaving" label="Date of Leaving" />
+                        <TextField source="exit_category" label="Exit Category" />
+                        <TextField source="reasons" label="Reasons" />
                         <DateField source="created_at" showTime />
                         <DateField source="updated_at" showTime />
                     </SimpleShowLayout>

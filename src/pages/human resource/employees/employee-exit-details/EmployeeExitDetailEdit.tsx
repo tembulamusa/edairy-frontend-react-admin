@@ -2,6 +2,9 @@ import { Edit, SimpleForm, ReferenceInput, SelectInput, TextInput, DateInput, re
 import { Card, CardContent, Typography, Box } from '@mui/material';
 import { ListBreadcrumbs } from '../../../../../ListBreadcrumbs';
 
+const parseDate = (val: string) => val ? new Date(val).toISOString().split('.')[0] + 'Z' : null;
+const formatDate = (val: string) => val ? val.split('T')[0] : '';
+
 export const EmployeeExitDetailEdit = () => (
     <Edit title="Edit Employee Exit Detail">
         <Box sx={{ p: { xs: 2, md: 3 } }}>
@@ -19,11 +22,26 @@ export const EmployeeExitDetailEdit = () => (
                         <ReferenceInput source="employee_id" reference="employees">
                             <SelectInput optionText="first_name" validate={required()} fullWidth />
                         </ReferenceInput>
-                        <ReferenceInput source="termination_category_id" reference="employee-termination-categories">
-                            <SelectInput optionText="name" validate={required()} fullWidth />
+                        <TextInput source="contract_type" label="Contract Type" fullWidth />
+                        <DateInput 
+                            source="contract_end_date" 
+                            label="Contract End Date" 
+                            parse={parseDate} 
+                            format={formatDate} 
+                            fullWidth 
+                        />
+                        <ReferenceInput source="exit_category" reference="employee-termination-categories">
+                            <SelectInput optionText="name" optionValue="name" label="Exit Category" validate={required()} fullWidth />
                         </ReferenceInput>
-                        <DateInput source="exit_date" validate={required()} fullWidth />
-                        <TextInput source="reason" multiline rows={3} fullWidth />
+                        <DateInput 
+                            source="date_of_leaving" 
+                            label="Date of Leaving" 
+                            parse={parseDate} 
+                            format={formatDate} 
+                            validate={required()} 
+                            fullWidth 
+                        />
+                        <TextInput source="reasons" label="Reasons" multiline rows={3} fullWidth />
                     </SimpleForm>
                 </CardContent>
             </Card>

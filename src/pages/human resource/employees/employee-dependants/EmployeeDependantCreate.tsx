@@ -1,4 +1,4 @@
-import { Create, SimpleForm, ReferenceInput, SelectInput, TextInput, DateInput, required } from 'react-admin';
+import { Create, SimpleForm, ReferenceInput, SelectInput, TextInput, required } from 'react-admin';
 import { Card, CardContent, Typography, Box } from '@mui/material';
 import { ListBreadcrumbs } from '../../../../../ListBreadcrumbs';
 
@@ -20,7 +20,6 @@ export const EmployeeDependantCreate = () => (
                         </ReferenceInput>
                         <TextInput source="name" validate={required()} fullWidth />
                         <TextInput source="relationship" validate={required()} fullWidth />
-                        <DateInput source="date_of_birth" fullWidth />
                     </SimpleForm>
                 </CardContent>
             </Card>

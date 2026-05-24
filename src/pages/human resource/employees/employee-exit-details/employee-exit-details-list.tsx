@@ -4,7 +4,6 @@ import {
     Datagrid,
     TextField,
     DateField,
-    ReferenceField,
     TopToolbar,
     FilterButton,
     CreateButton,
@@ -35,14 +34,13 @@ export const EmployeeExitDetailsList = () => (
         <ListBreadcrumbs />
         <List actions={<ListActions />} filters={filters}>
             <Datagrid rowClick="show">
-                <ReferenceField source="employee_id" reference="employees">
-                    <TextField source="first_name" label="Employee First Name" />
-                </ReferenceField>
-                <ReferenceField source="termination_category_id" reference="employee-termination-categories">
-                    <TextField source="name" label="Termination Category" />
-                </ReferenceField>
-                <DateField source="exit_date" label="Exit Date" />
-                <TextField source="reason" label="Reason" />
+                <TextField source="employee_no" label="Employee No" />
+                <TextField source="employee_name" label="Employee Name" />
+                <TextField source="contract_type" label="Contract Type" />
+                <DateField source="contract_end_date" label="Contract End Date" />
+                <DateField source="date_of_leaving" label="Date of Leaving" />
+                <TextField source="exit_category" label="Exit Category" />
+                <TextField source="reasons" label="Reasons" />
                 <EditButton label="" icon={<EditOutlinedIcon fontSize="small" />} sx={{ minWidth: 0, p: 0.5 }} />
                 <DeleteButton label="" icon={<DeleteOutlineIcon fontSize="small" />} sx={{ minWidth: 0, p: 0.5 }} />
             </Datagrid>

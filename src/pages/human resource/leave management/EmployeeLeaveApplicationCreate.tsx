@@ -50,6 +50,7 @@ export const EmployeeLeaveApplicationCreate = () => (
                             validate={required()} 
                             fullWidth 
                         />
+                        <TextInput source="assignment" label="Assignment Details" multiline rows={3} validate={required()} fullWidth />
                         <SelectInput source="status" label="Status" choices={[
                             { id: 'PENDING', name: 'Pending' },
                             { id: 'APPROVED', name: 'Approved' },

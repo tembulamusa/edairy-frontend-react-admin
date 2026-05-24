@@ -24,6 +24,7 @@ export const EmployeeLeaveApplicationShow = () => (
                         <DateField source="start_date" label="Start Date" />
                         <DateField source="end_date" label="End Date" />
                         <DateField source="return_date" label="Return Date" />
+                        <TextField source="assignment" label="Assignment Details" />
                         <TextField source="approver_name" label="Approver Name" />
                         <TextField source="status" label="Status" />
                         <BooleanField source="approved" label="Approved" />

@@ -20,7 +20,7 @@ export const EmployeeLeaveDetailShow = () => (
                             <TextField source="first_name" />
                         </ReferenceField>
                         <ReferenceField source="leave_type_id" reference="employee-leave-types">
-                            <TextField source="name" />
+                            <TextField source="code" />
                         </ReferenceField>
                         <NumberField source="days_taken" />
                         <NumberField source="days_remaining" />

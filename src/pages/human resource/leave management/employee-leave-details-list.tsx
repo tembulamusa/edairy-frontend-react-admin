@@ -39,8 +39,11 @@ export const EmployeeLeaveDetailsList = () => (
                 <ReferenceField source="employee_id" reference="employees">
                     <TextField source="first_name" label="Employee First Name" />
                 </ReferenceField>
-                <TextField source="balance_bf" label="Balance BF" />
-                <NumberField source="allocated_days" label="Allocated Days" />
+                <ReferenceField source="leave_type_id" reference="employee-leave-types" label="Leave Type">
+                    <TextField source="code" />
+                </ReferenceField>
+                <NumberField source="days_taken" label="Days Taken" />
+                <NumberField source="days_remaining" label="Days Remaining" />
                 <DateField source="created_at" label="Created At" showTime />
                 <EditButton label="" icon={<EditOutlinedIcon fontSize="small" />} sx={{ minWidth: 0, p: 0.5 }} />
                 <DeleteButton label="" icon={<DeleteOutlineIcon fontSize="small" />} sx={{ minWidth: 0, p: 0.5 }} />

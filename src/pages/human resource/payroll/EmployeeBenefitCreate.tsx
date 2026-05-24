@@ -16,7 +16,11 @@ export const EmployeeBenefitCreate = () => (
                     <CardContent>
                     <SimpleForm>
                         <ReferenceInput source="employee_id" reference="employees">
-                            <SelectInput optionText="first_name" validate={required()} fullWidth />
+                            <SelectInput 
+                                optionText={(choice) => `${choice.first_name} ${choice.surname} (${choice.employee_no})`} 
+                                validate={required()} 
+                                fullWidth 
+                            />
                         </ReferenceInput>
                         <NumberInput source="benefit_id" label="Benefit ID" validate={required()} fullWidth />
                         <TextInput source="benefit_name" label="Benefit Name" fullWidth />

@@ -20,7 +20,7 @@ export const EmployeeLeaveDetailEdit = () => (
                             <SelectInput optionText="first_name" validate={required()} fullWidth />
                         </ReferenceInput>
                         <ReferenceInput source="leave_type_id" reference="employee-leave-types">
-                            <SelectInput optionText="name" validate={required()} fullWidth />
+                            <SelectInput optionText="code" validate={required()} fullWidth />
                         </ReferenceInput>
                         <NumberInput source="days_taken" fullWidth />
                         <NumberInput source="days_remaining" fullWidth />

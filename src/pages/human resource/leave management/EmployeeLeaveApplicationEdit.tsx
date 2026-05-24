@@ -52,6 +52,7 @@ export const EmployeeLeaveApplicationEdit = () => (
                             validate={required()} 
                             fullWidth 
                         />
+                        <TextInput source="assignment" label="Assignment Details" multiline rows={3} validate={required()} fullWidth />
                         <ReferenceInput source="approver_id" reference="employees">
                             <SelectInput optionText="first_name" label="Approver" fullWidth />
                         </ReferenceInput>

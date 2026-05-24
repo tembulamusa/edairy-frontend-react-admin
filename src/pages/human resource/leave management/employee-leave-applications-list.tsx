@@ -34,6 +34,7 @@ export const EmployeeLeaveApplicationsList = () => (
             <DateField source="start_date" label="Start Date" />
             <DateField source="end_date" label="End Date" />
             <DateField source="return_date" label="Return Date" />
+            <TextField source="assignment" label="Assignment Details" />
             <TextField source="status" label="Status" />
             <EditButton label="" icon={<EditOutlinedIcon fontSize="small" />} sx={{ minWidth: 0, p: 0.5 }} />
             <DeleteButton label="" icon={<DeleteOutlineIcon fontSize="small" />} sx={{ minWidth: 0, p: 0.5 }} />

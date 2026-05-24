@@ -1,4 +1,4 @@
-import { Edit, SimpleForm, ReferenceInput, SelectInput, NumberInput, TextInput, required } from 'react-admin';
+import { Edit, SimpleForm, ReferenceInput, SelectInput, TextInput, required } from 'react-admin';
 import { Card, CardContent, Typography, Box } from '@mui/material';
 import { ListBreadcrumbs } from '../../../../ListBreadcrumbs';
 
@@ -17,12 +17,15 @@ export const EmployeeLeaveAssignmentEdit = () => (
                     <SimpleForm>
                         <TextInput source="id" disabled fullWidth />
                         <ReferenceInput source="employee_id" reference="employees">
-                            <SelectInput optionText="first_name" validate={required()} fullWidth />
+                            <SelectInput optionText="first_name" label="Employee" validate={required()} fullWidth />
                         </ReferenceInput>
-                        <ReferenceInput source="leave_type_id" reference="employee-leave-types">
-                            <SelectInput optionText="name" validate={required()} fullWidth />
+                        <ReferenceInput source="leave_application_id" reference="employee-leave-applications">
+                            <SelectInput optionText="application_no" label="Leave Application" validate={required()} fullWidth />
                         </ReferenceInput>
-                        <NumberInput source="days_assigned" validate={required()} fullWidth />
+                        <ReferenceInput source="reliever_id" reference="employees">
+                            <SelectInput optionText="first_name" label="Reliever" validate={required()} fullWidth />
+                        </ReferenceInput>
+                        <TextInput source="assignment" label="Assignment Details" multiline rows={3} validate={required()} fullWidth />
                     </SimpleForm>
                 </CardContent>
             </Card>

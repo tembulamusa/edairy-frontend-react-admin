@@ -8,7 +8,7 @@ const LivestockDeathFilters = [
     <ReferenceInput source="livestock_id" reference="livestocks" alwaysOn>
         <SelectInput optionText="tag_no" label="Livestock Tag No" />
     </ReferenceInput>,
-    <TextInput source="cause_of_death" label="Cause of Death" />,
+    <TextInput source="cause_of_death" label="Date" />,
 ];
 
 export const LivestockDeathsList = () => {
@@ -38,9 +38,9 @@ export const LivestockDeathsList = () => {
                         <DataTable rowClick="show" sx={{ '& .RaDataTable-headerCell': { fontWeight: "bold", backgroundColor: "#f5f5f5" } }}>
                             <DataTable.Col source="livestock_tag_no" label="Livestock Tag No" />
                             <DateField source="death_date" label="Death Date" />
-                            <DataTable.Col source="cause_of_death" label="Cause" />
-                            <DataTable.Col source="disposal_method" label="Disposal Method" />
-                            <DataTable.Col source="remarks" label="Remarks" />
+                            <DataTable.Col source="cause_of_death" label="Date" />
+                            <DataTable.Col source="disposal_method" label="Cause" />
+                            <DataTable.Col source="remarks" label="Disposal Method" />
                             <DataTable.Col label="Actions">
                                 <Stack direction="row" spacing={1} alignItems="center">
                                     <Tooltip title="View Details"><span><ShowButton label={false} sx={{ minWidth: 36 }} /></span></Tooltip>

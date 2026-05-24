@@ -70,9 +70,9 @@ export const LivestockDeathCreate = () => (
                             <SelectInput optionText="tag_no" label="Livestock" fullWidth variant="outlined" validate={required()} />
                         </ReferenceInput>
                         <DateInput source="death_date" label="Death Date" fullWidth variant="outlined" validate={required()} />
-                        <TextInput source="cause_of_death" label="Cause of Death" fullWidth variant="outlined" validate={required()} />
-                        <TextInput source="disposal_method" label="Disposal Method" fullWidth variant="outlined" />
-                        <TextInput source="remarks" label="Remarks" fullWidth variant="outlined" multiline rows={3} />
+                        <TextInput source="cause_of_death" label="Date" fullWidth variant="outlined" validate={required()} />
+                        <TextInput source="disposal_method" label="Cause" fullWidth variant="outlined" />
+                        <TextInput source="remarks" label="Disposal Method" fullWidth variant="outlined" multiline rows={3} />
                     </SimpleForm>
                 </CardContent>
             </Card>

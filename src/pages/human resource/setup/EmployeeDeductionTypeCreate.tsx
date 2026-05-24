@@ -1,4 +1,4 @@
-import { Create, SimpleForm, TextInput, NumberInput, BooleanInput, required } from 'react-admin';
+import { Create, SimpleForm, TextInput, BooleanInput, required } from 'react-admin';
 import { Card, CardContent, Typography, Box } from '@mui/material';
 import { ListBreadcrumbs } from '../../../../ListBreadcrumbs';
 
@@ -17,8 +17,7 @@ export const EmployeeDeductionTypeCreate = () => (
                     <SimpleForm>
                         <TextInput source="name" validate={required()} fullWidth />
                         <TextInput source="description" multiline rows={3} fullWidth />
-                        <NumberInput source="default_amount" fullWidth />
-                        <BooleanInput source="is_active" defaultValue={true} />
+                        <BooleanInput source="is_statutory" defaultValue={false} />
                     </SimpleForm>
                 </CardContent>
             </Card>

@@ -30,9 +30,9 @@ export const LivestockDeathShow = () => (
                         <TextField source="id" label="ID" />
                         <TextField source="livestock_tag_no" label="Livestock Tag No" />
                         <DateField source="death_date" label="Death Date" />
-                        <TextField source="cause_of_death" label="Cause of Death" />
-                        <TextField source="disposal_method" label="Disposal Method" />
-                        <TextField source="remarks" label="Remarks" />
+                        <TextField source="cause_of_death" label="Date" />
+                        <TextField source="disposal_method" label="Cause" />
+                        <TextField source="remarks" label="Disposal Method" />
                     </SimpleShowLayout>
                 </CardContent>
             </Card>

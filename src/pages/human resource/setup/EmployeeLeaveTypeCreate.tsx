@@ -1,4 +1,4 @@
-import { Create, SimpleForm, TextInput, NumberInput, BooleanInput, required } from 'react-admin';
+import { Create, SimpleForm, TextInput, NumberInput, SelectInput, required } from 'react-admin';
 import { Card, CardContent, Typography, Box } from '@mui/material';
 import { ListBreadcrumbs } from '../../../../ListBreadcrumbs';
 
@@ -15,10 +15,14 @@ export const EmployeeLeaveTypeCreate = () => (
                 <Card sx={{ width: '100%', maxWidth: 800, boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.05), 0 4px 6px -4px rgb(0 0 0 / 0.05)', borderRadius: 3 }}>
                     <CardContent>
                     <SimpleForm>
-                        <TextInput source="name" validate={required()} fullWidth />
+                        <TextInput source="code" label="Code" validate={required()} fullWidth />
                         <TextInput source="description" multiline rows={3} fullWidth />
-                        <NumberInput source="default_days" validate={required()} fullWidth />
-                        <BooleanInput source="is_active" defaultValue={true} />
+                        <NumberInput source="days" label="Days" validate={required()} fullWidth />
+                        <SelectInput source="gender" label="Gender" choices={[
+                            { id: 'ALL', name: 'All' },
+                            { id: 'MALE', name: 'Male' },
+                            { id: 'FEMALE', name: 'Female' },
+                        ]} validate={required()} fullWidth />
                     </SimpleForm>
                 </CardContent>
             </Card>

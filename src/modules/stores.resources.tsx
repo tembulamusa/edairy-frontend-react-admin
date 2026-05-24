@@ -2,7 +2,6 @@ import { Resource } from 'react-admin';
 /* ============ STORES MODULE ============ */
 import { StoreSalesList } from '../pages/stores/store sales/store-sales-list';
 import { SuppliesList } from '../pages/stores/supplies/supplies-list';
-import { SupplyRejectsList } from '../pages/suppliers/supply rejects/supply-rejects-list';
 import { InterstoreTransferList } from '../pages/stores/interstore transfer/interstore-transfer-list';
 import { StoreStocksList } from '../pages/stores/store stocks/store-stocks-list';
 import { StoreItemsList } from '../pages/stores/store items/store-items-list';
@@ -16,7 +15,6 @@ import { StoreStockMovementTypesList } from '../pages/stores/store stock movemen
 export const storesResources = [
     <Resource key="store-sales" name="store-sales" list={StoreSalesList} />,
     <Resource key="supplies" name="supplies" list={SuppliesList} />,
-    <Resource key="supply-rejects" name="supply-rejects" list={SupplyRejectsList} />,
     <Resource key="inter-store-transfers" name="inter-store-transfers" list={InterstoreTransferList} />,
     <Resource key="store-stocks" name="store-stocks" list={StoreStocksList} />,
     <Resource key="store-items" name="store-items" list={StoreItemsList} />,

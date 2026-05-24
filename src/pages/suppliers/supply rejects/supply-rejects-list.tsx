@@ -5,18 +5,22 @@ import {
     TextField,
     NumberField,
     DateField,
+    EditButton,
+    DeleteButton,
+    TextInput,
     TopToolbar,
     FilterButton,
     CreateButton,
-    ExportButton,
-    EditButton,
-    DeleteButton,
-    TextInput
+    ExportButton
 } from 'react-admin';
 import { Box } from '@mui/material';
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import { ListBreadcrumbs } from '../../../../ListBreadcrumbs';
+
+const filters = [
+    <TextInput label="Search" source="q" alwaysOn />,
+];
 
 const ListActions = () => (
     <TopToolbar>
@@ -26,14 +30,10 @@ const ListActions = () => (
     </TopToolbar>
 );
 
-const filters = [
-    <TextInput label="Search" source="q" alwaysOn />,
-];
-
 export const SupplyRejectsList = () => (
     <Box sx={{ p: { xs: 2, md: 3 } }}>
         <ListBreadcrumbs />
-        <List actions={<ListActions />} filters={filters}>
+        <List filters={filters} actions={<ListActions />}>
             <Datagrid rowClick="show">
                 <DateField source="created_at" label="Date" showTime />
                 <NumberField source="supply_id" label="Supply ID" />

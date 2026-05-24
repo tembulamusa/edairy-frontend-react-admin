@@ -9,6 +9,7 @@ import { SupplierDocumentList } from '../pages/suppliers/supplier documents/supp
 import { SupplierQuoteList } from '../pages/suppliers/supplier quotes/supplier-quotes-list';
 import { PurchaseOrdersList } from '../pages/suppliers/purchase orders/purchase-orders-list';
 import { PurchaseRequisitionList } from '../pages/suppliers/purchase requisitions/purchase-requisitions-list';
+import { SupplyRejectsList } from '../pages/suppliers/supply rejects/supply-rejects-list';
 import { SupplierCategoryCreate } from '../pages/suppliers/supplier categories/SupplierCategoryCreate';
 import { SupplierCategoryEdit } from '../pages/suppliers/supplier categories/SupplierCategoryEdit';
 import { SupplierCategoryShow } from '../pages/suppliers/supplier categories/SupplierCategoryShow';
@@ -30,6 +31,9 @@ import { PurchaseOrderShow } from '../pages/suppliers/purchase orders/PurchaseOr
 import { PurchaseRequisitionCreate } from '../pages/suppliers/purchase requisitions/PurchaseRequisitionCreate';
 import { PurchaseRequisitionEdit } from '../pages/suppliers/purchase requisitions/PurchaseRequisitionEdit';
 import { PurchaseRequisitionShow } from '../pages/suppliers/purchase requisitions/PurchaseRequisitionShow';
+import { SupplyRejectCreate } from '../pages/suppliers/supply rejects/SupplyRejectCreate';
+import { SupplyRejectEdit } from '../pages/suppliers/supply rejects/SupplyRejectEdit';
+import { SupplyRejectShow } from '../pages/suppliers/supply rejects/SupplyRejectShow';
 
 
 export const suppliersResources = [
@@ -41,4 +45,5 @@ export const suppliersResources = [
     <Resource key="supplier-quotes" name="supplier-quotes" list={SupplierQuoteList} create={SupplierQuoteCreate} edit={SupplierQuoteEdit} show={SupplierQuoteShow} />,
     <Resource key="purchase-orders" name="purchase-orders" list={PurchaseOrdersList} create={PurchaseOrderCreate} edit={PurchaseOrderEdit} show={PurchaseOrderShow} />,
     <Resource key="purchase-requisitions" name="purchase-requisitions" list={PurchaseRequisitionList} create={PurchaseRequisitionCreate} edit={PurchaseRequisitionEdit} show={PurchaseRequisitionShow} />,
+    <Resource key="supply-rejects" name="supply-rejects" list={SupplyRejectsList} create={SupplyRejectCreate} edit={SupplyRejectEdit} show={SupplyRejectShow} />,
 ];

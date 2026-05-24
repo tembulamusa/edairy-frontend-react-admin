@@ -1,5 +1,5 @@
 import { Create, SimpleForm, ReferenceInput, SelectInput, TextInput, NumberInput, required } from 'react-admin';
-import { Card, CardContent, Typography, Box } from '@mui/material';
+import { Typography, Box, Grid } from '@mui/material';
 import { ListBreadcrumbs } from '../../../../ListBreadcrumbs';
 
 export const EmployeePayrollBenefitCreate = () => (
@@ -12,21 +12,67 @@ export const EmployeePayrollBenefitCreate = () => (
                 <ListBreadcrumbs />
             </Box>
             <Box display="flex" justifyContent="center">
-                <Card sx={{ width: '100%', maxWidth: 800, boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.05), 0 4px 6px -4px rgb(0 0 0 / 0.05)', borderRadius: 3 }}>
-                    <CardContent>
-                    <SimpleForm>
-                        <ReferenceInput source="employee_id" reference="employees">
-                            <SelectInput optionText="first_name" validate={required()} fullWidth />
-                        </ReferenceInput>
-                        <NumberInput source="payroll_id" label="Payroll ID" validate={required()} fullWidth />
-                        <NumberInput source="benefit_id" label="Benefit ID" validate={required()} fullWidth />
-                        <TextInput source="benefit_name" label="Benefit Name" fullWidth />
-                        <TextInput source="month" label="Month" validate={required()} fullWidth />
-                        <TextInput source="year" label="Year" validate={required()} fullWidth />
-                        <NumberInput source="amount" validate={required()} fullWidth />
+                <Box sx={{ width: '100%', maxWidth: 800 }}>
+                    <SimpleForm 
+                        sx={{ 
+                            borderRadius: 3, 
+                            boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.05), 0 4px 6px -4px rgb(0 0 0 / 0.05)',
+                            '& .MuiCardContent-root': { p: { xs: 3, md: 4 } }
+                        }}
+                    >
+                        <Box sx={{ width: '100%', mb: 4 }}>
+                            <Typography variant="h6" sx={{ fontWeight: 700, mb: 2, color: 'text.secondary' }}>
+                                Employee & Payroll
+                            </Typography>
+                            <Grid container spacing={2}>
+                                <Grid item xs={12} md={6}>
+                                    <ReferenceInput source="employee_id" reference="employees">
+                                        <SelectInput 
+                                            label="Select Employee"
+                                            optionText={(choice) => `${choice.first_name} ${choice.surname} (${choice.employee_no})`} 
+                                            validate={required()} 
+                                            fullWidth 
+                                        />
+                                    </ReferenceInput>
+                                </Grid>
+                                <Grid item xs={12} md={6}>
+                                    <NumberInput source="payroll_id" label="Payroll ID" validate={required()} fullWidth />
+                                </Grid>
+                            </Grid>
+                        </Box>
+
+                        <Box sx={{ width: '100%', mb: 4 }}>
+                            <Typography variant="h6" sx={{ fontWeight: 700, mb: 2, color: 'text.secondary' }}>
+                                Benefit Details
+                            </Typography>
+                            <Grid container spacing={2}>
+                                <Grid item xs={12} md={4}>
+                                    <NumberInput source="benefit_id" label="Benefit ID" validate={required()} fullWidth />
+                                </Grid>
+                                <Grid item xs={12} md={4}>
+                                    <TextInput source="benefit_name" label="Benefit Name" fullWidth />
+                                </Grid>
+                                <Grid item xs={12} md={4}>
+                                    <NumberInput source="amount" label="Amount" validate={required()} fullWidth />
+                                </Grid>
+                            </Grid>
+                        </Box>
+
+                        <Box sx={{ width: '100%' }}>
+                            <Typography variant="h6" sx={{ fontWeight: 700, mb: 2, color: 'text.secondary' }}>
+                                Period Information
+                            </Typography>
+                            <Grid container spacing={2}>
+                                <Grid item xs={12} md={6}>
+                                    <TextInput source="month" label="Month" validate={required()} fullWidth />
+                                </Grid>
+                                <Grid item xs={12} md={6}>
+                                    <TextInput source="year" label="Year" validate={required()} fullWidth />
+                                </Grid>
+                            </Grid>
+                        </Box>
                     </SimpleForm>
-                </CardContent>
-            </Card>
+                </Box>
         </Box>
         </Box>
     </Create>

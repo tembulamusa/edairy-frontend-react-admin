@@ -17,7 +17,11 @@ export const EmployeePayrollBenefitEdit = () => (
                     <SimpleForm>
                         <TextInput source="id" disabled fullWidth />
                         <ReferenceInput source="employee_id" reference="employees">
-                            <SelectInput optionText="first_name" validate={required()} fullWidth />
+                            <SelectInput 
+                                optionText={(choice) => `${choice.first_name} ${choice.surname} (${choice.employee_no})`} 
+                                validate={required()} 
+                                fullWidth 
+                            />
                         </ReferenceInput>
                         <NumberInput source="payroll_id" label="Payroll ID" validate={required()} fullWidth />
                         <NumberInput source="benefit_id" label="Benefit ID" validate={required()} fullWidth />

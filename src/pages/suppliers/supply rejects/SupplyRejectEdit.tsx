@@ -1,5 +1,5 @@
 import { Edit, SimpleForm, TextInput, NumberInput, SelectInput, required, DateTimeInput, useGetList } from 'react-admin';
-import { Card, CardContent, Typography, Box } from '@mui/material';
+import { Card, CardContent, Typography, Box, Stack } from '@mui/material';
 import { ListBreadcrumbs } from '../../../../ListBreadcrumbs';
 import { useWatch, useFormContext } from 'react-hook-form';
 import { useEffect } from 'react';
@@ -47,23 +47,36 @@ export const SupplyRejectEdit = () => {
                     <Typography variant="h4" sx={{ fontWeight: 800, mb: 0.5, color: 'text.primary', letterSpacing: '-0.5px' }}>
                         Edit Supply Reject
                     </Typography>
-                    <ListBreadcrumbs />
+                    <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
+                        Update the details below to modify the supply reject record.
+                    </Typography>
+                    <Box mt={1}>
+                        <ListBreadcrumbs />
+                    </Box>
                 </Box>
                 <Box display="flex" justifyContent="center">
-                    <Card sx={{ width: '100%', maxWidth: 800, boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.05), 0 4px 6px -4px rgb(0 0 0 / 0.05)', borderRadius: 3 }}>
-                        <CardContent>
+                    <Card sx={{ width: '100%', maxWidth: 850, boxShadow: '0 4px 24px 0 rgb(34 41 47 / 10%)', borderRadius: 3, border: '1px solid', borderColor: 'divider' }}>
+                        <CardContent sx={{ p: { xs: 2, md: 4 } }}>
                         <SimpleForm>
-                            <TextInput source="id" disabled fullWidth />
                             <ItemNameSync choices={itemChoices} />
-                            <SelectInput source="item_id" label="Item Name" choices={itemChoices} optionText="name" optionValue="id" isLoading={isItemsLoading} validate={required()} fullWidth />
                             <TextInput source="item_name" sx={{ display: 'none' }} />
-                            <SelectInput source="supply_id" label="Supply ID" choices={supplyChoices} optionText="name" optionValue="id" isLoading={isSuppliesLoading} validate={required()} fullWidth />
-                            <SelectInput source="vendor_name" label="Vendor Name" choices={vendorChoices} optionText="name" optionValue="id" isLoading={isSuppliersLoading} validate={required()} fullWidth />
-                            <TextInput source="quantity" type="number" label="Quantity" validate={required()} fullWidth />
-                            <TextInput source="reason" label="Reason" multiline rows={3} validate={required()} fullWidth />
-                            <NumberInput source="created_by" label="Created By" disabled fullWidth />
-                            <DateTimeInput source="created_at" label="Created At" disabled fullWidth />
-                            <DateTimeInput source="updated_at" label="Updated At" disabled fullWidth />
+                            <Stack direction={{ xs: 'column', md: 'row' }} spacing={3} width="100%">
+                                <TextInput source="id" disabled fullWidth variant="outlined" />
+                                <SelectInput source="supply_id" label="Supply ID" choices={supplyChoices} optionText="name" optionValue="id" isLoading={isSuppliesLoading} validate={required()} fullWidth variant="outlined" />
+                            </Stack>
+                            <Stack direction={{ xs: 'column', md: 'row' }} spacing={3} width="100%">
+                                <SelectInput source="vendor_name" label="Vendor Name" choices={vendorChoices} optionText="name" optionValue="id" isLoading={isSuppliersLoading} validate={required()} fullWidth variant="outlined" />
+                                <SelectInput source="item_id" label="Item Name" choices={itemChoices} optionText="name" optionValue="id" isLoading={isItemsLoading} validate={required()} fullWidth variant="outlined" />
+                            </Stack>
+                            <Stack direction={{ xs: 'column', md: 'row' }} spacing={3} width="100%">
+                                <TextInput source="quantity" type="number" label="Quantity" validate={required()} fullWidth variant="outlined" />
+                                <NumberInput source="created_by" label="Created By" disabled fullWidth variant="outlined" />
+                            </Stack>
+                            <TextInput source="reason" label="Reason" multiline rows={3} validate={required()} fullWidth variant="outlined" />
+                            <Stack direction={{ xs: 'column', md: 'row' }} spacing={3} width="100%">
+                                <DateTimeInput source="created_at" label="Created At" disabled fullWidth variant="outlined" />
+                                <DateTimeInput source="updated_at" label="Updated At" disabled fullWidth variant="outlined" />
+                            </Stack>
                         </SimpleForm>
                     </CardContent>
                 </Card>

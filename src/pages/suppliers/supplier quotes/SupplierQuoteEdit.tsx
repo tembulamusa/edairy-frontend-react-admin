@@ -1,8 +1,19 @@
-import { Edit, SimpleForm, TextInput, NumberInput, ReferenceInput, SelectInput, required } from 'react-admin';
+import { Edit, SimpleForm, TextInput, NumberInput, SelectInput, required } from 'react-admin';
 import { Typography, Box, Card, CardContent, Stack, Divider } from '@mui/material';
 import { ListBreadcrumbs } from '../../../../ListBreadcrumbs';
 
-export const SupplierQuoteEdit = () => (
+export const SupplierQuoteEdit = () => {
+    const statusChoices = [
+        { id: 'pending', name: 'Pending' },
+        { id: 'approved', name: 'Approved' },
+        { id: 'rejected', name: 'Rejected' },
+        { id: 'cancelled', name: 'Cancelled' },
+        { id: 'ordered', name: 'Ordered' },
+        { id: 'suspended', name: 'Suspended' },
+        { id: 'expired', name: 'Expired' },
+    ];
+
+    return (
     <Edit title="Edit Supplier Quote">
         <Box sx={{ p: { xs: 2, md: 3 } }}>
             <Box sx={{ mb: 3 }}>
@@ -36,9 +47,7 @@ export const SupplierQuoteEdit = () => (
                             <TextInput source="supplier_quote_ref" label="Quote Reference" fullWidth variant="outlined" />
                         </Stack>
                         <Box width={{ xs: '100%', md: 'calc(50% - 12px)' }}>
-                            <ReferenceInput source="status" reference="statuses">
-                                <SelectInput optionText="name" optionValue="name" label="Status" fullWidth variant="outlined" />
-                            </ReferenceInput>
+                            <SelectInput source="status" label="Status" choices={statusChoices} fullWidth variant="outlined" />
                         </Box>
                         <TextInput source="description" label="Description" multiline rows={3} fullWidth variant="outlined" />
                     </SimpleForm>
@@ -47,4 +56,5 @@ export const SupplierQuoteEdit = () => (
         </Box>
         </Box>
     </Edit>
-);
+    );
+};

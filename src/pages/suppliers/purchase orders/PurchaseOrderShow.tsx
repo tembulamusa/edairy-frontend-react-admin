@@ -9,11 +9,16 @@ export const PurchaseOrderShow = () => (
                 <Typography variant="h4" sx={{ fontWeight: 800, mb: 0.5, color: 'text.primary', letterSpacing: '-0.5px' }}>
                     Purchase Order Details
                 </Typography>
-                <ListBreadcrumbs />
+                <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
+                    View purchase order information.
+                </Typography>
+                <Box mt={1}>
+                    <ListBreadcrumbs />
+                </Box>
             </Box>
             <Box display="flex" justifyContent="center">
-                <Card sx={{ width: '100%', maxWidth: 800, boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.05), 0 4px 6px -4px rgb(0 0 0 / 0.05)', borderRadius: 3 }}>
-                    <CardContent>
+                <Card sx={{ width: '100%', maxWidth: 850, boxShadow: '0 4px 24px 0 rgb(34 41 47 / 10%)', borderRadius: 3, border: '1px solid', borderColor: 'divider' }}>
+                    <CardContent sx={{ p: { xs: 2, md: 4 } }}>
                     <SimpleShowLayout>
                         <TextField source="id" />
                         <DateField source="po_date" label="Date" />
@@ -22,9 +27,9 @@ export const PurchaseOrderShow = () => (
                         <TextField source="status" label="Status" />
                         <NumberField source="total_amount" label="Total Amount" />
                     </SimpleShowLayout>
-                </CardContent>
-            </Card>
-        </Box>
+                    </CardContent>
+                </Card>
+            </Box>
         </Box>
     </Show>
 );

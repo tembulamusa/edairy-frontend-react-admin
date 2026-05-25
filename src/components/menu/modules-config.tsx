@@ -254,16 +254,6 @@ export const modules: ModulesConfig = {
                 items: [r("Dashboard", <DashboardIcon />)],
             },
             {
-                label: "Supply",
-                items: [
-                    r("Supplier Quotes", <FactCheckIcon />),
-                    r("Supplies", <Inventory2Icon />),
-                    r("Supply Rejects", <FactCheckIcon />),
-                    r("Purchase Orders", <FactCheckIcon />),
-                    r("Purchase Requisitions", <FactCheckIcon />),
-                ],
-            },
-            {
                 label: "Data Entry",
                 items: [
                     r("POS", <StoreIcon />),
@@ -331,16 +321,17 @@ export const modules: ModulesConfig = {
                 label: "Supplies",
                 items: [
                     r("Supplier Quotes", <FactCheckIcon />),
-                    r("Supplies", <Inventory2Icon />),
                     r("Supply Rejects", <FactCheckIcon />),
                     r("Purchase Orders", <FactCheckIcon />),
-                    r("Purchase Requisitions", <FactCheckIcon />),],
+                    r("Purchase Requisitions", <FactCheckIcon />),
+                ],
             },
             {
                 label: "Setup",
                 items: [
                     r("Supplier Categories", <SettingsIcon />),
                     r("Suppliers", <PeopleIcon />),
+                    r("Supplies", <Inventory2Icon />),
                     r("Supplier Bank Accounts", <AccountBalanceIcon />),
                     r("Supplier Contacts", <PeopleIcon />),
                     r("Supplier Documents", <Inventory2Icon />),

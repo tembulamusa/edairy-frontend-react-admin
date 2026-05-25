@@ -19,8 +19,8 @@ import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import { ListBreadcrumbs } from '../../../../ListBreadcrumbs';
 
-const ListActions = () => (
-    <TopToolbar>
+const ListActions = (props: any) => (
+    <TopToolbar {...props}>
         <FilterButton />
         <CreateButton />
         <ExportButton />

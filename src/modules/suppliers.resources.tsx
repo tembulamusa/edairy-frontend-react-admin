@@ -1,6 +1,7 @@
 import { Resource } from 'react-admin';
 
 /* ============ SUPPLIERS MODULE ============ */
+import { SuppliesList } from '../pages/suppliers/supplies/supplies-list';
 import { SupplierCategoryList } from '../pages/suppliers/supplier categories/supplier-categories-list';
 import { SuppliersList } from '../pages/suppliers/suppliers/suppliers-list';
 import { SupplierBankAccountList } from '../pages/suppliers/supplier bank accounts/supplier-bank-accounts-list';
@@ -36,9 +37,13 @@ import { PurchaseRequisitionShow } from '../pages/suppliers/purchase requisition
 import { SupplyRejectCreate } from '../pages/suppliers/supply rejects/SupplyRejectCreate';
 import { SupplyRejectEdit } from '../pages/suppliers/supply rejects/SupplyRejectEdit';
 import { SupplyRejectShow } from '../pages/suppliers/supply rejects/SupplyRejectShow';
+import { SupplyCreate } from '../pages/suppliers/supplies/SupplyCreate';
+import { SupplyEdit } from '../pages/suppliers/supplies/SupplyEdit';
+import { SupplyShow } from '../pages/suppliers/supplies/SupplyShow';
 
 
 export const suppliersResources = [
+    <Resource key="supplies" name="supplies" list={SuppliesList} create={SupplyCreate} edit={SupplyEdit} show={SupplyShow} />,
     <Resource key="supplier-categories" name="supplier-categories" list={SupplierCategoryList} create={SupplierCategoryCreate} edit={SupplierCategoryEdit} show={SupplierCategoryShow} />,
     <Resource key="suppliers" name="suppliers" list={SuppliersList} create={SupplierCreate} edit={SupplierEdit} show={SupplierShow} />,
     <Resource key="supplier-bank-accounts" name="supplier-bank-accounts" list={SupplierBankAccountList} create={SupplierBankAccountCreate} edit={SupplierBankAccountEdit} />,

@@ -58,10 +58,21 @@ export const SupplierCreate = () => {
 
                                 <Divider sx={{ my: 3 }} />
                                 <Typography variant="h6" gutterBottom sx={{ mb: 3, fontWeight: 600 }}>Personal / Company Details</Typography>
-                                <Stack direction={{ xs: 'column', md: 'row' }} spacing={3} width="100%" mb={2}>
-                                    <TextInput source="company_name" label="Company Name" fullWidth variant="outlined" />
-                                    <TextInput source="full_name" label="Full Name" fullWidth variant="outlined" />
-                                </Stack>
+                                <FormDataConsumer>
+                                    {({ formData, ...rest }) => (
+                                        <Stack direction={{ xs: 'column', md: 'row' }} spacing={3} width="100%" mb={2}>
+                                            {formData.supplier_type === 'company' && (
+                                                <TextInput source="company_name" label="Company Name" fullWidth variant="outlined" {...rest} />
+                                            )}
+                                            {formData.supplier_type === 'individual' && (
+                                                <>
+                                                    <TextInput source="first_name" label="First Name" fullWidth variant="outlined" {...rest} />
+                                                    <TextInput source="last_name" label="Last Name" fullWidth variant="outlined" {...rest} />
+                                                </>
+                                            )}
+                                        </Stack>
+                                    )}
+                                </FormDataConsumer>
                                 <FormDataConsumer>
                                     {({ formData, ...rest }) => formData.supplier_type === 'individual' && (
                                         <Box width={{ xs: '100%', md: 'calc(50% - 12px)' }}>

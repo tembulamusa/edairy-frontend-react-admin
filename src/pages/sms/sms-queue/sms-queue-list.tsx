@@ -20,8 +20,8 @@ import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import { ListBreadcrumbs } from '../../../../ListBreadcrumbs';
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 
-const ListActions = () => (
-    <TopToolbar>
+const ListActions = (props: any) => (
+    <TopToolbar {...props}>
         <FilterButton />
         <CreateButton />
         <ExportButton />
@@ -29,7 +29,7 @@ const ListActions = () => (
 );
 
 const smsQueueFilters = [
-    <TextInput key="recipient" label="Search by Recipient" source="recipient" />,
+    <TextInput key="search" label="Search" source="q" alwaysOn />,
 ];
 
 export const SmsQueueList = () => (
@@ -40,23 +40,17 @@ export const SmsQueueList = () => (
                 <DataTable.Col source="id" label="ID">
                     <TextField source="id" />
                 </DataTable.Col>
-                <DataTable.Col source="recipient" label="Recipient">
-                    <TextField source="recipient" />
+                <DataTable.Col source="sms_message_id" label="Message ID">
+                    <TextField source="sms_message_id" />
                 </DataTable.Col>
-                <DataTable.Col source="message" label="Message">
-                    <TextField source="message" />
+                <DataTable.Col source="processed" label="Processed">
+                    <ChipField source="processed" />
                 </DataTable.Col>
-                <DataTable.Col source="status" label="Status">
-                    <ChipField source="status" />
+                <DataTable.Col source="processing_attempts" label="Attempts">
+                    <TextField source="processing_attempts" />
                 </DataTable.Col>
-                <DataTable.Col source="scheduled_for" label="Scheduled For">
-                    <DateField source="scheduled_for" showTime />
-                </DataTable.Col>
-                <DataTable.Col source="attempts" label="Attempts">
-                    <TextField source="attempts" />
-                </DataTable.Col>
-                <DataTable.Col source="created_at" label="Created At">
-                    <DateField source="created_at" showTime />
+                <DataTable.Col source="last_attempt_at" label="Last Attempt">
+                    <DateField source="last_attempt_at" showTime emptyText="-" />
                 </DataTable.Col>
                 <DataTable.Col label="Actions">
                     <ShowButton

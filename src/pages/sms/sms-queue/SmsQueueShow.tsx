@@ -9,13 +9,10 @@ export const SmsQueueShow = () => (
                     <Typography variant="h6" gutterBottom>SMS Queue Details</Typography>
                     <SimpleShowLayout>
                         <TextField source="id" />
-                        <TextField source="recipient" />
-                        <TextField source="message" />
-                        <ChipField source="status" />
-                        <DateField source="scheduled_for" showTime />
-                        <NumberField source="attempts" />
-                        <DateField source="created_at" showTime />
-                        <DateField source="updated_at" showTime />
+                        <TextField source="sms_message_id" label="Message ID" />
+                        <ChipField source="processed" label="Processed" />
+                        <NumberField source="processing_attempts" label="Attempts" />
+                        <DateField source="last_attempt_at" showTime emptyText="-" label="Last Attempt At" />
                     </SimpleShowLayout>
                 </CardContent>
             </Card>

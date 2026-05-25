@@ -1,15 +1,8 @@
-import { Create, SimpleForm, TextInput, SelectInput, required, useGetList } from 'react-admin';
+import { Create, SimpleForm, TextInput, SelectInput, ReferenceInput, required } from 'react-admin';
 import { Card, CardContent, Typography, Box, Stack } from '@mui/material';
 import { ListBreadcrumbs } from '../../../../ListBreadcrumbs';
 
 export const SupplierBankAccountCreate = () => {
-    const { data: suppliers, isLoading: isSuppliersLoading } = useGetList('suppliers', { pagination: { page: 1, perPage: 100 } });
-
-    const supplierChoices = suppliers?.map(supplier => ({
-        id: supplier.id,
-        name: supplier.company_name || supplier.full_name || `Supplier #${supplier.id}`
-    })) || [];
-
     return (
         <Create title="Create Supplier Bank Account">
             <Box sx={{ p: { xs: 2, md: 3 } }}>
@@ -28,7 +21,9 @@ export const SupplierBankAccountCreate = () => {
                     <Card sx={{ width: '100%', maxWidth: 850, boxShadow: '0 4px 24px 0 rgb(34 41 47 / 10%)', borderRadius: 3, border: '1px solid', borderColor: 'divider' }}>
                         <CardContent sx={{ p: { xs: 2, md: 4 } }}>
                         <SimpleForm>
-                            <SelectInput source="supplier_id" label="Supplier" choices={supplierChoices} isLoading={isSuppliersLoading} validate={required()} fullWidth variant="outlined" />
+                            <ReferenceInput source="supplier_id" reference="suppliers">
+                                <SelectInput label="Supplier" optionText={(choice) => choice?.company_name || choice?.full_name || `Supplier #${choice?.id}`} validate={required()} fullWidth variant="outlined" />
+                            </ReferenceInput>
                             <Stack direction={{ xs: 'column', md: 'row' }} spacing={3} width="100%">
                                 <SelectInput source="account_type" label="Account Type" choices={[
                                     { id: 'bank', name: 'Bank' },

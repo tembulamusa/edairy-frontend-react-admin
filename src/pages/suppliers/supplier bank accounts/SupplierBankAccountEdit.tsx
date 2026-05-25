@@ -1,15 +1,8 @@
-import { Edit, SimpleForm, TextInput, SelectInput, DateTimeInput, required, useGetList } from 'react-admin';
+import { Edit, SimpleForm, TextInput, SelectInput, DateTimeInput, ReferenceInput, required } from 'react-admin';
 import { Card, CardContent, Typography, Box, Stack } from '@mui/material';
 import { ListBreadcrumbs } from '../../../../ListBreadcrumbs';
 
 export const SupplierBankAccountEdit = () => {
-    const { data: suppliers, isLoading: isSuppliersLoading } = useGetList('suppliers', { pagination: { page: 1, perPage: 100 } });
-
-    const supplierChoices = suppliers?.map(supplier => ({
-        id: supplier.id,
-        name: supplier.company_name || supplier.full_name || `Supplier #${supplier.id}`
-    })) || [];
-
     return (
         <Edit title="Edit Supplier Bank Account">
             <Box sx={{ p: { xs: 2, md: 3 } }}>
@@ -30,7 +23,9 @@ export const SupplierBankAccountEdit = () => {
                         <SimpleForm>
                             <Stack direction={{ xs: 'column', md: 'row' }} spacing={3} width="100%">
                                 <TextInput source="id" disabled fullWidth variant="outlined" />
-                                <SelectInput source="supplier_id" label="Supplier" choices={supplierChoices} isLoading={isSuppliersLoading} validate={required()} fullWidth variant="outlined" />
+                                <ReferenceInput source="supplier_id" reference="suppliers">
+                                    <SelectInput label="Supplier" optionText={(choice) => choice?.company_name || choice?.full_name || `Supplier #${choice?.id}`} validate={required()} fullWidth variant="outlined" />
+                                </ReferenceInput>
                             </Stack>
                             <Stack direction={{ xs: 'column', md: 'row' }} spacing={3} width="100%">
                                 <SelectInput source="account_type" label="Account Type" choices={[

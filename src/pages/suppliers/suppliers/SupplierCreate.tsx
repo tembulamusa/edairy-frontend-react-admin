@@ -4,18 +4,28 @@ import { ListBreadcrumbs } from '../../../../ListBreadcrumbs';
 import { useWatch, useFormContext } from 'react-hook-form';
 import { useEffect } from 'react';
 
-const CategoryNameSync = ({ choices }: { choices: any[] }) => {
+const CategorySync = ({ choices }: { choices: any[] }) => {
+    const { getValues, setValue } = useFormContext();
     const categoryId = useWatch({ name: 'supplier_category_id' });
-    const { setValue } = useFormContext();
+    const categoryName = useWatch({ name: 'category_name' });
+
+    useEffect(() => {
+        if (categoryName && !categoryId) {
+            const selected = choices.find(c => c.name === categoryName);
+            if (selected) {
+                setValue('supplier_category_id', selected.id, { shouldDirty: false });
+            }
+        }
+    }, [categoryName, categoryId, choices, setValue]);
 
     useEffect(() => {
         if (categoryId) {
             const selected = choices.find(c => c.id === categoryId);
-            if (selected) {
-                setValue('category_name', selected.name, { shouldValidate: true, shouldDirty: true });
+            if (selected && selected.name !== getValues('category_name')) {
+                setValue('category_name', selected.name, { shouldDirty: true });
             }
         }
-    }, [categoryId, choices, setValue]);
+    }, [categoryId, choices, getValues, setValue]);
 
     return null;
 };
@@ -28,8 +38,15 @@ export const SupplierCreate = () => {
         name: cat.category_name || cat.name || `Category #${cat.id}`
     })) || [];
 
+    const transform = (data: any) => ({
+        ...data,
+        full_name: data.supplier_type === 'individual' 
+            ? `${data.first_name || ''} ${data.last_name || ''}`.trim() 
+            : data.full_name || '',
+    });
+
     return (
-        <Create title="Create Supplier">
+        <Create title="Create Supplier" transform={transform}>
             <Box sx={{ p: { xs: 2, md: 3 } }}>
                 <Box sx={{ mb: 3 }}>
                     <Typography variant="h4" sx={{ fontWeight: 800, mb: 0.5, color: 'text.primary', letterSpacing: '-0.5px' }}>
@@ -95,7 +112,7 @@ export const SupplierCreate = () => {
                             
                             <TabbedForm.Tab label="Account & Status" sx={{ p: { xs: 2, md: 4 } }}>
                                 <Typography variant="h6" gutterBottom sx={{ mb: 3, fontWeight: 600 }}>Classification & Financials</Typography>
-                                <CategoryNameSync choices={categoryChoices} />
+                                <CategorySync choices={categoryChoices} />
                                 <TextInput source="category_name" sx={{ display: 'none' }} />
                                 <Stack direction={{ xs: 'column', md: 'row' }} spacing={3} width="100%" mb={2}>
                                     <SelectInput source="supplier_category_id" label="Category" choices={categoryChoices} isLoading={isCategoriesLoading} validate={required()} fullWidth variant="outlined" />

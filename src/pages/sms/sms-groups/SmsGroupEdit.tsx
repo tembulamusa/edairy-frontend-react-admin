@@ -9,8 +9,8 @@ export const SmsGroupEdit = () => (
                     <Typography variant="h6" gutterBottom>Edit SMS Group</Typography>
                     <SimpleForm>
                         <TextInput source="id" disabled fullWidth />
-                        <TextInput source="name" validate={required()} fullWidth />
-                        <TextInput source="description" multiline rows={3} fullWidth />
+                        <TextInput source="Name" validate={required()} fullWidth label="Name" />
+                        <TextInput source="Description" multiline rows={3} fullWidth label="Description" />
                     </SimpleForm>
                 </CardContent>
             </Card>

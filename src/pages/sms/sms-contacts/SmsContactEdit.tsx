@@ -9,10 +9,10 @@ export const SmsContactEdit = () => (
                     <Typography variant="h6" gutterBottom>Edit SMS Contact</Typography>
                     <SimpleForm>
                         <TextInput source="id" disabled fullWidth />
-                        <TextInput source="full_name" validate={required()} fullWidth />
-                        <TextInput source="phone_number" validate={required()} fullWidth />
-                        <ReferenceInput source="sms_group_id" reference="sms-groups">
-                            <SelectInput optionText="name" fullWidth />
+                        <TextInput source="Name" validate={required()} fullWidth label="Name" />
+                        <TextInput source="PhoneNumber" validate={required()} fullWidth label="Phone Number" />
+                        <ReferenceInput source="SMSGroupID" reference="sms-groups">
+                            <SelectInput optionText="Name" fullWidth label="SMS Group" />
                         </ReferenceInput>
                     </SimpleForm>
                 </CardContent>

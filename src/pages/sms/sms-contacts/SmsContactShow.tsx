@@ -9,11 +9,13 @@ export const SmsContactShow = () => (
                     <Typography variant="h6" gutterBottom>SMS Contact Details</Typography>
                     <SimpleShowLayout>
                         <TextField source="id" />
-                        <TextField source="full_name" />
-                        <TextField source="phone_number" />
-                        <ReferenceField source="sms_group_id" reference="sms-groups" />
-                        <DateField source="created_at" showTime />
-                        <DateField source="updated_at" showTime />
+                        <TextField source="Name" label="Name" />
+                        <TextField source="PhoneNumber" label="Phone Number" />
+                        <ReferenceField source="SMSGroupID" reference="sms-groups" link="show" label="SMS Group">
+                            <TextField source="Name" />
+                        </ReferenceField>
+                        <DateField source="CreatedAt" showTime label="Created At" />
+                        <DateField source="UpdatedAt" showTime label="Updated At" />
                     </SimpleShowLayout>
                 </CardContent>
             </Card>

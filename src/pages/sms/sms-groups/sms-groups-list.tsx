@@ -18,8 +18,8 @@ import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import { ListBreadcrumbs } from '../../../../ListBreadcrumbs';
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 
-const ListActions = () => (
-    <TopToolbar>
+const ListActions = (props: any) => (
+    <TopToolbar {...props}>
         <FilterButton />
         <CreateButton />
         <ExportButton />
@@ -27,7 +27,7 @@ const ListActions = () => (
 );
 
 const smsGroupFilters = [
-    <TextInput key="name" label="Search by Name" source="name" />,
+    <TextInput key="Name" label="Search by Name" source="Name" />,
 ];
 
 export const SmsGroupsList = () => (
@@ -38,11 +38,11 @@ export const SmsGroupsList = () => (
                 <DataTable.Col source="id" label="ID">
                     <TextField source="id" />
                 </DataTable.Col>
-                <DataTable.Col source="name" label="Name">
-                    <TextField source="name" />
+                <DataTable.Col source="Name" label="Name">
+                    <TextField source="Name" />
                 </DataTable.Col>
-                <DataTable.Col source="description" label="Description">
-                    <TextField source="description" />
+                <DataTable.Col source="Description" label="Description">
+                    <TextField source="Description" />
                 </DataTable.Col>
                 <DataTable.Col label="Actions">
                     <ShowButton

@@ -19,8 +19,8 @@ import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import { ListBreadcrumbs } from '../../../../ListBreadcrumbs';
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 
-const ListActions = () => (
-    <TopToolbar>
+const ListActions = (props: any) => (
+    <TopToolbar {...props}>
         <FilterButton />
         <CreateButton />
         <ExportButton />
@@ -28,7 +28,7 @@ const ListActions = () => (
 );
 
 const smsContactFilters = [
-    <TextInput key="full_name" label="Search by Name" source="full_name" />,
+    <TextInput key="Name" label="Search by Name" source="Name" />,
 ];
 
 export const SmsContactsList = () => (
@@ -39,15 +39,15 @@ export const SmsContactsList = () => (
                 <DataTable.Col source="id" label="ID">
                     <TextField source="id" />
                 </DataTable.Col>
-                <DataTable.Col source="full_name" label="Name">
-                    <TextField source="full_name" />
+                <DataTable.Col source="Name" label="Name">
+                    <TextField source="Name" />
                 </DataTable.Col>
-                <DataTable.Col source="phone_number" label="Phone Number">
-                    <TextField source="phone_number" />
+                <DataTable.Col source="PhoneNumber" label="Phone Number">
+                    <TextField source="PhoneNumber" />
                 </DataTable.Col>
-                <DataTable.Col source="sms_group_id" label="SMS Group">
-                    <ReferenceField source="sms_group_id" reference="sms-groups" link="show">
-                        <TextField source="name" />
+                <DataTable.Col source="SMSGroupID" label="SMS Group">
+                    <ReferenceField source="SMSGroupID" reference="sms-groups" link="show">
+                        <TextField source="Name" />
                     </ReferenceField>
                 </DataTable.Col>
                 <DataTable.Col label="Actions">

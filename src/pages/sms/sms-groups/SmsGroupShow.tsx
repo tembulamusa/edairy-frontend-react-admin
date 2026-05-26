@@ -9,10 +9,10 @@ export const SmsGroupShow = () => (
                     <Typography variant="h6" gutterBottom>SMS Group Details</Typography>
                     <SimpleShowLayout>
                         <TextField source="id" />
-                        <TextField source="name" />
-                        <TextField source="description" />
-                        <DateField source="created_at" showTime />
-                        <DateField source="updated_at" showTime />
+                        <TextField source="Name" label="Name" />
+                        <TextField source="Description" label="Description" />
+                        <DateField source="CreatedAt" showTime label="Created At" />
+                        <DateField source="UpdatedAt" showTime label="Updated At" />
                     </SimpleShowLayout>
                 </CardContent>
             </Card>

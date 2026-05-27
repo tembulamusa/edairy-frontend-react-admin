@@ -484,6 +484,9 @@ export const TransporterDriverAssignmentFormFields = () => (
             />
         )}
         {gridField(<BooleanInput source="active" label="Active" fullWidth />)}
+        <Grid size={{ xs: 12 }}>
+            <TextInput source="notes" label="Notes" multiline rows={3} fullWidth variant="outlined" />
+        </Grid>
     </Grid>
 );
 

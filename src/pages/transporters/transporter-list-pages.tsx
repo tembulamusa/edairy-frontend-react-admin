@@ -5,6 +5,7 @@ import {
     EditButton,
     DeleteButton,
     useResourceContext,
+    TextField,
 } from 'react-admin';
 import { Stack, Tooltip } from '@mui/material';
 import { useCan } from '../../components/permissions/user-can';
@@ -224,17 +225,30 @@ export const TransporterDriverAssignmentList = () => (
         subtitle="Manage driver to vehicle assignments"
     >
         <DataTable rowClick="edit" sx={transporterDataTableSx}>
-            <DataTable.Col source="transporter_driver_id" label="Driver ID" />
-            <DataTable.Col source="driver_name" label="Driver" />
-            <DataTable.Col source="transporter_vehicle_id" label="Vehicle ID" />
-            <DataTable.Col source="vehicle_reg_no" label="Vehicle" />
+            <DataTable.Col source="transporter_driver_id" label="Driver ID">
+                <TextField source="transporter_driver_id" />
+            </DataTable.Col>
+            <DataTable.Col source="driver_name" label="Driver">
+                <TextField source="driver_name" />
+            </DataTable.Col>
+            <DataTable.Col source="driver_no" label="Driver No">
+                <TextField source="driver_no" />
+            </DataTable.Col>
+            <DataTable.Col source="transporter_vehicle_id" label="Vehicle ID">
+                <TextField source="transporter_vehicle_id" />
+            </DataTable.Col>
+            <DataTable.Col source="vehicle_reg_no" label="Vehicle">
+                <TextField source="vehicle_reg_no" />
+            </DataTable.Col>
             <DataTable.Col source="assigned_from" label="Assigned From">
                 <DateField source="assigned_from" />
             </DataTable.Col>
             <DataTable.Col source="assigned_to" label="Assigned To">
                 <DateField source="assigned_to" />
             </DataTable.Col>
-            <DataTable.Col source="assignment_type" label="Assignment Type" />
+            <DataTable.Col source="assignment_type" label="Assignment Type">
+                <TextField source="assignment_type" />
+            </DataTable.Col>
             <DataTable.Col label="Active">
                 <FunctionField render={(record: DriverAssignmentRecord) => (record?.active ? '✓' : '✗')} />
             </DataTable.Col>

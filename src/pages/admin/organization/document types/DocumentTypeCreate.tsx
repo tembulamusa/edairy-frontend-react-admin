@@ -8,6 +8,7 @@ import {
     Toolbar,
     SaveButton,
 } from 'react-admin';
+import { useRedirectToCreateWithReload } from '../../../../components/forms/redirect-to-create-with-reload';
 import { Card, CardContent, Typography, Divider, Box, Button } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import { ListBreadcrumbs } from '../../../../../ListBreadcrumbs';
@@ -21,6 +22,7 @@ import {
 const DocumentTypeCreateToolbar = () => {
     const notify = useNotify();
     const redirect = useRedirect();
+    const redirectToCreateWithReload = useRedirectToCreateWithReload();
 
     return (
         <Toolbar sx={{ display: 'flex', justifyContent: 'space-between', backgroundColor: 'transparent', px: 0 }}>
@@ -31,8 +33,7 @@ const DocumentTypeCreateToolbar = () => {
                     variant="contained"
                     mutationOptions={{
                         onSuccess: () => {
-                            notify('Document type created successfully', { type: 'success' });
-                            redirect('create', 'document-types');
+                            redirectToCreateWithReload('document-types', 'Document type created successfully');
                         },
                     }}
                 />

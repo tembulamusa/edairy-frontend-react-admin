@@ -2,6 +2,8 @@ import { useMemo, useState } from 'react';
 import { Create, useGetList, useNotify, useRedirect, useRefresh } from 'react-admin';
 import { Box, Card, CardContent, Divider, Grid, Stack, Typography } from '@mui/material';
 import { ListBreadcrumbs } from '../../../../../ListBreadcrumbs';
+import { CreateSuccessBanner } from '../../../../components/forms/CreateSuccessBanner';
+import { useRedirectToCreateWithReload } from '../../../../components/forms/redirect-to-create-with-reload';
 import { WizardCreateActions } from '../../../../components/forms/WizardCreateActions';
 import { transporterCreateMainSx } from '../../../transporters/shared/transporter-page-layout';
 import { PosProductGrid } from './PosProductGrid';
@@ -26,6 +28,7 @@ import {
 export const StoreSalePosCreate = () => {
     const notify = useNotify();
     const redirect = useRedirect();
+    const redirectToCreateWithReload = useRedirectToCreateWithReload();
     const refresh = useRefresh();
 
     const [values, setValues] = useState<StoreSalePosDraft>(initialStoreSalePosDraft);
@@ -144,12 +147,11 @@ export const StoreSalePosCreate = () => {
         setSaving(true);
         try {
             const result = await submitStoreSalePos(values);
-            notify(result.message, { type: 'success' });
             refresh();
             if (addAnother) {
-                handleReset();
-                redirect('create', 'store-sales');
+                redirectToCreateWithReload('store-sales', result.message);
             } else {
+                notify(result.message, { type: 'success' });
                 redirect('list', 'store-sales');
             }
         } catch (error) {
@@ -163,7 +165,7 @@ export const StoreSalePosCreate = () => {
     const loadingCatalog = itemsLoading || (Boolean(values.store_id) && stocksLoading);
 
     return (
-        <Create title={false} resource="store-sales" sx={transporterCreateMainSx}>
+        <Create title={false} resource="store-sales" sx={transporterCreateMainSx} redirect={false}>
             <Box sx={{ width: '100%', maxWidth: 1600, px: 2, pb: 2 }}>
                 <ListBreadcrumbs />
                 <Card elevation={0} sx={{ borderRadius: 3, overflow: 'hidden' }}>
@@ -175,6 +177,7 @@ export const StoreSalePosCreate = () => {
                             Select a store, add items from stock balances, and complete the sale.
                         </Typography>
                         <Divider sx={{ mb: 3 }} />
+                        <CreateSuccessBanner />
 
                         <Grid container spacing={3}>
                             <Grid size={{ xs: 12, lg: 4 }}>

@@ -23,6 +23,9 @@ import {
     Typography,
 } from '@mui/material';
 import { ListBreadcrumbs } from '../../../../ListBreadcrumbs';
+import { CreateSuccessBanner } from '../../../components/forms/CreateSuccessBanner';
+import { useRedirectToCreateWithReload } from '../../../components/forms/redirect-to-create-with-reload';
+import { WizardCreateActions } from '../../../components/forms/WizardCreateActions';
 import { transporterCreateMainSx, transporterCreateWrapperSx } from '../../transporters/shared/transporter-page-layout';
 import { useStoreChoices } from '../shared/use-store-choices';
 import type { StoreItemRecord, StoreStockRecord } from '../store sales/pos/store-sale-pos-utils';
@@ -77,6 +80,7 @@ const toDraftValues = (values: InterstoreTransferDraft): InterstoreTransferDraft
 const InterstoreTransferFormContent = ({ mode }: InterstoreTransferFormContentProps) => {
     const notify = useNotify();
     const redirect = useRedirect();
+    const redirectToCreateWithReload = useRedirectToCreateWithReload();
     const refresh = useRefresh();
     const isEdit = mode === 'edit';
     const record = useRecordContext<Record<string, unknown>>();
@@ -242,7 +246,7 @@ const InterstoreTransferFormContent = ({ mode }: InterstoreTransferFormContentPr
         setErrors((current) => ({ ...current, [`line_${itemId}_quantity`]: undefined, lines: undefined }));
     };
 
-    const handleSubmit = async () => {
+    const handleSubmit = async (addAnother = false) => {
         const draft = toDraftValues(form.getValues());
         const formErrors = validateInterstoreTransfer(draft, lines);
         setErrors(formErrors);
@@ -259,9 +263,16 @@ const InterstoreTransferFormContent = ({ mode }: InterstoreTransferFormContentPr
                 lines,
                 isEdit && recordId != null ? (recordId as string | number) : undefined
             );
-            notify(result.message, { type: 'success' });
             refresh();
-            redirect('list', 'inter-store-transfers');
+            if (isEdit) {
+                notify(result.message, { type: 'success' });
+                redirect('list', 'inter-store-transfers');
+            } else if (addAnother) {
+                redirectToCreateWithReload('inter-store-transfers', result.message);
+            } else {
+                notify(result.message, { type: 'success' });
+                redirect('list', 'inter-store-transfers');
+            }
         } catch (error) {
             notify(
                 error instanceof Error ? error.message : 'Failed to save inter store transfer',
@@ -289,6 +300,7 @@ const InterstoreTransferFormContent = ({ mode }: InterstoreTransferFormContentPr
                         {subtitle}
                     </Typography>
                     <Divider sx={{ mb: 3 }} />
+                    {!isEdit ? <CreateSuccessBanner /> : null}
 
                     <FormProvider {...form}>
                         <Stack spacing={3}>
@@ -363,18 +375,37 @@ const InterstoreTransferFormContent = ({ mode }: InterstoreTransferFormContentPr
                                 onQuantityChange={handleQuantityChange}
                             />
 
-                            <Stack direction="row" justifyContent="space-between" alignItems="center">
-                                <Button
-                                    variant="outlined"
-                                    onClick={() => redirect('list', 'inter-store-transfers')}
-                                    disabled={saving}
-                                >
-                                    Cancel
-                                </Button>
-                                <Button variant="contained" onClick={handleSubmit} disabled={saving}>
-                                    {saving ? 'Saving...' : isEdit ? 'Save Changes' : 'Save Transfer'}
-                                </Button>
-                            </Stack>
+                            {isEdit ? (
+                                <Stack direction="row" justifyContent="space-between" alignItems="center">
+                                    <Button
+                                        variant="outlined"
+                                        onClick={() => redirect('list', 'inter-store-transfers')}
+                                        disabled={saving}
+                                    >
+                                        Cancel
+                                    </Button>
+                                    <Button
+                                        variant="contained"
+                                        onClick={() => handleSubmit(false)}
+                                        disabled={saving}
+                                    >
+                                        {saving ? 'Saving...' : 'Save Changes'}
+                                    </Button>
+                                </Stack>
+                            ) : (
+                                <WizardCreateActions
+                                    saving={saving}
+                                    showBack={false}
+                                    showNext={false}
+                                    onCancel={() => redirect('list', 'inter-store-transfers')}
+                                    onBack={() => undefined}
+                                    onNext={() => undefined}
+                                    onSave={() => handleSubmit(false)}
+                                    onSaveAndAddNew={() => handleSubmit(true)}
+                                    saveLabel="Save"
+                                    saveAndAddLabel="Save and Add New"
+                                />
+                            )}
                         </Stack>
                     </FormProvider>
                 </CardContent>
@@ -384,7 +415,7 @@ const InterstoreTransferFormContent = ({ mode }: InterstoreTransferFormContentPr
 };
 
 export const InterstoreTransferCreate = () => (
-    <Create title={false} resource="inter-store-transfers" sx={transporterCreateMainSx}>
+    <Create title={false} resource="inter-store-transfers" sx={transporterCreateMainSx} redirect={false}>
         <InterstoreTransferFormContent mode="create" />
     </Create>
 );

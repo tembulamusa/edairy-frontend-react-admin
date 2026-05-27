@@ -18,6 +18,7 @@ import {
     type TransporterCreateErrors,
 } from './transporter-create-wizard.types';
 import { WizardCreateActions } from '../../../components/forms/WizardCreateActions';
+import { useRedirectToCreateWithReload } from '../../../components/forms/redirect-to-create-with-reload';
 import { submitTransporterWizard } from './transporter-wizard-submit';
 import {
     hasErrors,
@@ -29,6 +30,7 @@ import {
 export const TransporterCreateWizard = () => {
     const notify = useNotify();
     const redirect = useRedirect();
+    const redirectToCreateWithReload = useRedirectToCreateWithReload();
     const refresh = useRefresh();
 
     const [values, setValues] = useState<TransporterCreateDraft>(initialTransporterCreateDraft);
@@ -77,14 +79,11 @@ export const TransporterCreateWizard = () => {
         setSaving(true);
         try {
             const result = await submitTransporterWizard(values);
-            notify(result.message, { type: 'success' });
             refresh();
             if (addAnother) {
-                setValues(initialTransporterCreateDraft);
-                setErrors({});
-                setActiveStep(0);
-                redirect('create', 'transporters');
+                redirectToCreateWithReload('transporters', result.message);
             } else {
+                notify(result.message, { type: 'success' });
                 redirect('list', 'transporters');
             }
         } catch (error) {

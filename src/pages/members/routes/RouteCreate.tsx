@@ -6,6 +6,7 @@ import {
     useNotify,
     useRedirect,
 } from 'react-admin';
+import { useRedirectToCreateWithReload } from '../../../components/forms/redirect-to-create-with-reload';
 import { Card, CardContent, Typography, Divider, Box, Button } from '@mui/material';
 import { ListBreadcrumbs } from '../../../../ListBreadcrumbs';
 import { RouteFormFields } from './route-form-fields';
@@ -23,6 +24,7 @@ const memberSimpleFormSx = {
 const RouteCreateToolbar = () => {
     const notify = useNotify();
     const redirect = useRedirect();
+    const redirectToCreateWithReload = useRedirectToCreateWithReload();
 
     return (
         <Toolbar sx={{ display: 'flex', justifyContent: 'space-between', backgroundColor: 'transparent', px: 0 }}>
@@ -33,8 +35,7 @@ const RouteCreateToolbar = () => {
                     variant="contained"
                     mutationOptions={{
                         onSuccess: () => {
-                            notify('Route created successfully', { type: 'success' });
-                            redirect('create', 'routes');
+                            redirectToCreateWithReload('routes', 'Route created successfully');
                         },
                     }}
                 />

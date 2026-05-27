@@ -1,4 +1,5 @@
 import type { ReactElement } from 'react';
+import type { RaRecord } from 'react-admin';
 import { TransporterCreatePage } from '../transporters/shared/TransporterCreatePage';
 import { TransporterEditPage } from '../transporters/shared/TransporterEditPage';
 import {
@@ -16,9 +17,18 @@ const createPage = (
     title: string,
     subtitle: string,
     successMessage: string,
-    fields: ReactElement
+    fields: ReactElement,
+    transform?: (data: RaRecord) => RaRecord
 ) => () => (
-    <TransporterCreatePage resource={resource} title={title} subtitle={subtitle} successMessage={successMessage}>
+    <TransporterCreatePage
+        resource={resource}
+        title={title}
+        subtitle={subtitle}
+        successMessage={successMessage}
+        transform={transform}
+        saveLabel="Save"
+        saveAndAddLabel="Save and Add New"
+    >
         {fields}
     </TransporterCreatePage>
 );
@@ -35,34 +45,66 @@ const editPage = (
     </TransporterEditPage>
 );
 
-export const StoreCreate = createPage(
-    'stores',
-    'New Store',
-    'Register a store location used for inventory and sales.',
-    'Store created successfully',
-    <StoreSetupFormFields />
-);
-export const StoreEdit = editPage(
-    'stores',
-    'Edit Store',
-    'Update store details.',
-    'Store updated successfully',
-    <StoreSetupFormFields />
+const transformStoreRecord = (data: RaRecord): RaRecord => {
+    const { status: _status, store: _store, ...rest } = data;
+    return rest;
+};
+
+const transformItemCategoryRecord = (data: RaRecord): RaRecord => {
+    const { status: _status, ...rest } = data;
+    return rest;
+};
+
+export const StoreCreate = () => (
+    <TransporterCreatePage
+        resource="stores"
+        title="New Store"
+        subtitle="Register a store location used for inventory and sales."
+        successMessage="Store created successfully"
+        transform={transformStoreRecord}
+        saveLabel="Save"
+        saveAndAddLabel="Save and Add New"
+    >
+        <StoreSetupFormFields />
+    </TransporterCreatePage>
 );
 
-export const ItemCategoryCreate = createPage(
-    'item-categories',
-    'New Item Category',
-    'Define a category for grouping store inventories and items.',
-    'Item category created successfully',
-    <ItemCategoryFormFields />
+export const StoreEdit = () => (
+    <TransporterEditPage
+        resource="stores"
+        title="Edit Store"
+        subtitle="Update store details."
+        successMessage="Store updated successfully"
+        transform={transformStoreRecord}
+    >
+        <StoreSetupFormFields />
+    </TransporterEditPage>
 );
-export const ItemCategoryEdit = editPage(
-    'item-categories',
-    'Edit Item Category',
-    'Update item category details.',
-    'Item category updated successfully',
-    <ItemCategoryFormFields />
+
+export const ItemCategoryCreate = () => (
+    <TransporterCreatePage
+        resource="item-categories"
+        title="New Item Category"
+        subtitle="Define a category for grouping store inventories and items."
+        successMessage="Item category created successfully"
+        transform={transformItemCategoryRecord}
+        saveLabel="Save"
+        saveAndAddLabel="Save and Add New"
+    >
+        <ItemCategoryFormFields />
+    </TransporterCreatePage>
+);
+
+export const ItemCategoryEdit = () => (
+    <TransporterEditPage
+        resource="item-categories"
+        title="Edit Item Category"
+        subtitle="Update item category details."
+        successMessage="Item category updated successfully"
+        transform={transformItemCategoryRecord}
+    >
+        <ItemCategoryFormFields />
+    </TransporterEditPage>
 );
 
 export const StoreInventoryCreate = createPage(

@@ -24,10 +24,15 @@ export const useStoreChoices = () => {
 
     const choices: StoreChoice[] = useMemo(
         () =>
-            stores.map((store) => ({
-                id: String(store.id),
-                name: String(store.name ?? ''),
-            })),
+            stores.map((store) => {
+                const label =
+                    String(store.name ?? '').trim() ||
+                    String(store.description ?? '').trim();
+                return {
+                    id: String(store.id),
+                    name: label,
+                };
+            }),
         [stores]
     );
 

@@ -3,7 +3,7 @@ import type { StoreItemRecord, StoreStockRecord } from '../store sales/pos/store
 import type {
     StockTakingDraft,
     StockTakingErrors,
-    StockTakingLineQuantities,
+    StockTakingLineSelection,
     StockTakingLineState,
 } from './store-stock-taking.types';
 
@@ -21,12 +21,11 @@ export const initialStockTakingDraft = (): StockTakingDraft => ({
     remarks: '',
 });
 
-export const buildStockTakingLines = (
+const buildStockTakingLinesFromProducts = (
     stocks: StoreStockRecord[],
     storeId: string,
     storeName: string,
-    items: StoreItemRecord[],
-    quantities: StockTakingLineQuantities
+    items: StoreItemRecord[]
 ): StockTakingLineState[] => {
     const products = buildTransferProductsFromStocks(stocks, storeId, storeName, items);
 
@@ -36,22 +35,50 @@ export const buildStockTakingLines = (
         sku: product.sku,
         unit: product.unit,
         systemQuantity: product.balance,
-        physicalQuantity: quantities[product.itemId] ?? '',
+        selected: false,
+        physicalQuantity: '',
     }));
 };
 
-export const quantitiesFromLines = (lines: StockTakingLineState[]): StockTakingLineQuantities => {
-    const quantities: StockTakingLineQuantities = {};
+export const buildStockTakingLines = (
+    stocks: StoreStockRecord[],
+    storeId: string,
+    storeName: string,
+    items: StoreItemRecord[],
+    selections: StockTakingLineSelection
+): StockTakingLineState[] =>
+    buildStockTakingLinesFromProducts(stocks, storeId, storeName, items).map((line) => {
+        const selection = selections[line.itemId];
+        if (!selection) {
+            return line;
+        }
+        return {
+            ...line,
+            selected: selection.selected,
+            physicalQuantity: selection.selected ? selection.physicalQuantity : '',
+        };
+    });
+
+export const selectionsFromLines = (lines: StockTakingLineState[]): StockTakingLineSelection => {
+    const selections: StockTakingLineSelection = {};
     lines.forEach((line) => {
-        if (line.physicalQuantity) {
-            quantities[line.itemId] = line.physicalQuantity;
+        if (line.selected || line.physicalQuantity) {
+            selections[line.itemId] = {
+                selected: line.selected,
+                physicalQuantity: line.physicalQuantity,
+            };
         }
     });
-    return quantities;
+    return selections;
 };
 
 export const getCountedStockTakingLines = (lines: StockTakingLineState[]) =>
-    lines.filter((line) => line.physicalQuantity.trim() !== '' && parseNumber(line.physicalQuantity) >= 0);
+    lines.filter(
+        (line) =>
+            line.selected &&
+            line.physicalQuantity.trim() !== '' &&
+            parseNumber(line.physicalQuantity) >= 0
+    );
 
 export const validateStockTaking = (
     draft: StockTakingDraft,
@@ -70,12 +97,20 @@ export const validateStockTaking = (
     }
 
     const counted = getCountedStockTakingLines(lines);
-    if (draft.store_id && counted.length === 0) {
-        errors.lines = 'Enter physical count for at least one item';
+    const selectedLines = lines.filter((line) => line.selected);
+
+    if (draft.store_id && selectedLines.length === 0) {
+        errors.lines = 'Select at least one item to count';
+    } else if (draft.store_id && counted.length === 0 && selectedLines.length > 0) {
+        errors.lines = 'Enter physical count for each selected item';
     }
 
     lines.forEach((line) => {
+        if (!line.selected) {
+            return;
+        }
         if (!line.physicalQuantity.trim()) {
+            errors[`line_${line.itemId}_physical`] = 'Enter physical count';
             return;
         }
         const physical = parseNumber(line.physicalQuantity);

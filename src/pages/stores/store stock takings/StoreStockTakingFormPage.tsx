@@ -23,6 +23,9 @@ import {
     Typography,
 } from '@mui/material';
 import { ListBreadcrumbs } from '../../../../ListBreadcrumbs';
+import { CreateSuccessBanner } from '../../../components/forms/CreateSuccessBanner';
+import { useRedirectToCreateWithReload } from '../../../components/forms/redirect-to-create-with-reload';
+import { WizardCreateActions } from '../../../components/forms/WizardCreateActions';
 import { transporterCreateMainSx, transporterCreateWrapperSx } from '../../transporters/shared/transporter-page-layout';
 import { normalizeStoreId, useStoreChoices } from '../shared/use-store-choices';
 import type { StoreItemRecord, StoreStockRecord } from '../store sales/pos/store-sale-pos-utils';
@@ -31,13 +34,13 @@ import { submitStockTaking } from './store-stock-taking-submit';
 import type {
     StockTakingDraft,
     StockTakingErrors,
-    StockTakingLineQuantities,
+    StockTakingLineSelection,
 } from './store-stock-taking.types';
 import {
     buildStockTakingLines,
     hasStockTakingErrors,
     initialStockTakingDraft,
-    quantitiesFromLines,
+    selectionsFromLines,
     todayIsoDate,
     validateStockTaking,
 } from './store-stock-taking-utils';
@@ -89,6 +92,7 @@ const toDraftValues = (values: StockTakingDraft): StockTakingDraft => ({
 const StoreStockTakingFormContent = ({ mode }: StoreStockTakingFormContentProps) => {
     const notify = useNotify();
     const redirect = useRedirect();
+    const redirectToCreateWithReload = useRedirectToCreateWithReload();
     const refresh = useRefresh();
     const isEdit = mode === 'edit';
     const record = useRecordContext<Record<string, unknown>>();
@@ -114,7 +118,7 @@ const StoreStockTakingFormContent = ({ mode }: StoreStockTakingFormContentProps)
         [stockTakeNo, stockTakeDate, storeId, remarks]
     );
 
-    const [lineQuantities, setLineQuantities] = useState<StockTakingLineQuantities>({});
+    const [lineSelections, setLineSelections] = useState<StockTakingLineSelection>({});
     const [errors, setErrors] = useState<StockTakingErrors>({});
     const [saving, setSaving] = useState(false);
     const editHydratedRef = useRef(false);
@@ -146,15 +150,15 @@ const StoreStockTakingFormContent = ({ mode }: StoreStockTakingFormContentProps)
                 values.store_id,
                 storeName,
                 storeItems as StoreItemRecord[],
-                lineQuantities
+                lineSelections
             ),
-        [storeStocks, storeItems, values.store_id, storeName, lineQuantities]
+        [storeStocks, storeItems, values.store_id, storeName, lineSelections]
     );
 
     useEffect(() => {
         const current = values.store_id;
         if (previousStoreRef.current && previousStoreRef.current !== current) {
-            setLineQuantities({});
+            setLineSelections({});
         }
         previousStoreRef.current = current;
     }, [values.store_id]);
@@ -181,10 +185,15 @@ const StoreStockTakingFormContent = ({ mode }: StoreStockTakingFormContentProps)
             ])
         );
 
-        const hydratedLines = catalog.map((line) => ({
-            ...line,
-            physicalQuantity: quantityByItem.get(line.itemId) ?? line.physicalQuantity,
-        }));
+        const hydratedLines = catalog.map((line) => {
+            const physicalQuantity = quantityByItem.get(line.itemId) ?? '';
+            const selected = Boolean(physicalQuantity.trim());
+            return {
+                ...line,
+                selected,
+                physicalQuantity: selected ? physicalQuantity : '',
+            };
+        });
 
         form.reset({
             stock_take_no: String(record.stock_take_no ?? ''),
@@ -192,25 +201,47 @@ const StoreStockTakingFormContent = ({ mode }: StoreStockTakingFormContentProps)
             store_id: storeIdValue,
             remarks: String(record.remarks ?? ''),
         });
-        setLineQuantities(quantitiesFromLines(hydratedLines));
+        setLineSelections(selectionsFromLines(hydratedLines));
         editHydratedRef.current = true;
     }, [isEdit, record, storeItems, storeStocks, nameLookup, form]);
 
     const loadingCatalog = Boolean(values.store_id) && (itemsLoading || stocksLoading);
 
+    const handleToggle = (itemId: number, selected: boolean) => {
+        setLineSelections((current) => ({
+            ...current,
+            [itemId]: {
+                selected,
+                physicalQuantity: selected ? current[itemId]?.physicalQuantity || '' : '',
+            },
+        }));
+        setErrors((current) => ({
+            ...current,
+            lines: undefined,
+            [`line_${itemId}_physical`]: undefined,
+        }));
+    };
+
     const handlePhysicalQuantityChange = (itemId: number, quantity: string) => {
-        setLineQuantities((current) => {
+        setLineSelections((current) => {
+            const selected = current[itemId]?.selected ?? true;
+
             if (!quantity.trim()) {
-                const next = { ...current };
-                delete next[itemId];
-                return next;
+                return {
+                    ...current,
+                    [itemId]: { selected, physicalQuantity: '' },
+                };
             }
-            return { ...current, [itemId]: quantity };
+
+            return {
+                ...current,
+                [itemId]: { selected: true, physicalQuantity: quantity },
+            };
         });
         setErrors((current) => ({ ...current, [`line_${itemId}_physical`]: undefined, lines: undefined }));
     };
 
-    const handleSubmit = async () => {
+    const handleSubmit = async (addAnother = false) => {
         const draft = toDraftValues(form.getValues());
         const formErrors = validateStockTaking(draft, lines);
         setErrors(formErrors);
@@ -227,9 +258,16 @@ const StoreStockTakingFormContent = ({ mode }: StoreStockTakingFormContentProps)
                 lines,
                 isEdit && recordId != null ? (recordId as string | number) : undefined
             );
-            notify(result.message, { type: 'success' });
             refresh();
-            redirect('list', 'store-stock-takings');
+            if (isEdit) {
+                notify(result.message, { type: 'success' });
+                redirect('list', 'store-stock-takings');
+            } else if (addAnother) {
+                redirectToCreateWithReload('store-stock-takings', result.message);
+            } else {
+                notify(result.message, { type: 'success' });
+                redirect('list', 'store-stock-takings');
+            }
         } catch (error) {
             notify(error instanceof Error ? error.message : 'Failed to save stock taking', { type: 'error' });
         } finally {
@@ -254,6 +292,7 @@ const StoreStockTakingFormContent = ({ mode }: StoreStockTakingFormContentProps)
                         {subtitle}
                     </Typography>
                     <Divider sx={{ mb: 3 }} />
+                    {!isEdit ? <CreateSuccessBanner /> : null}
 
                     <FormProvider {...form}>
                         <Stack spacing={3}>
@@ -312,21 +351,41 @@ const StoreStockTakingFormContent = ({ mode }: StoreStockTakingFormContentProps)
                                 errors={errors}
                                 loading={loadingCatalog}
                                 storeSelected={Boolean(values.store_id)}
+                                onToggle={handleToggle}
                                 onPhysicalQuantityChange={handlePhysicalQuantityChange}
                             />
 
-                            <Stack direction="row" justifyContent="space-between" alignItems="center">
-                                <Button
-                                    variant="outlined"
-                                    onClick={() => redirect('list', 'store-stock-takings')}
-                                    disabled={saving}
-                                >
-                                    Cancel
-                                </Button>
-                                <Button variant="contained" onClick={handleSubmit} disabled={saving}>
-                                    {saving ? 'Saving...' : isEdit ? 'Save Changes' : 'Save Stock Taking'}
-                                </Button>
-                            </Stack>
+                            {isEdit ? (
+                                <Stack direction="row" justifyContent="space-between" alignItems="center">
+                                    <Button
+                                        variant="outlined"
+                                        onClick={() => redirect('list', 'store-stock-takings')}
+                                        disabled={saving}
+                                    >
+                                        Cancel
+                                    </Button>
+                                    <Button
+                                        variant="contained"
+                                        onClick={() => handleSubmit(false)}
+                                        disabled={saving}
+                                    >
+                                        {saving ? 'Saving...' : 'Save Changes'}
+                                    </Button>
+                                </Stack>
+                            ) : (
+                                <WizardCreateActions
+                                    saving={saving}
+                                    showBack={false}
+                                    showNext={false}
+                                    onCancel={() => redirect('list', 'store-stock-takings')}
+                                    onBack={() => undefined}
+                                    onNext={() => undefined}
+                                    onSave={() => handleSubmit(false)}
+                                    onSaveAndAddNew={() => handleSubmit(true)}
+                                    saveLabel="Save"
+                                    saveAndAddLabel="Save and Add New"
+                                />
+                            )}
                         </Stack>
                     </FormProvider>
                 </CardContent>
@@ -336,7 +395,7 @@ const StoreStockTakingFormContent = ({ mode }: StoreStockTakingFormContentProps)
 };
 
 export const StoreStockTakingCreate = () => (
-    <Create title={false} resource="store-stock-takings" sx={transporterCreateMainSx}>
+    <Create title={false} resource="store-stock-takings" sx={transporterCreateMainSx} redirect={false}>
         <StoreStockTakingFormContent mode="create" />
     </Create>
 );

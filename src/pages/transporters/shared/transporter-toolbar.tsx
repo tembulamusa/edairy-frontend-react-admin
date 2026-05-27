@@ -6,17 +6,32 @@ type TransporterCreateToolbarProps = {
     resource: string;
     successMessage: string;
     listRedirectResource?: string;
+    saveLabel?: string;
+    saveAndAddLabel?: string;
+    notifyThenReloadOnSaveAndAdd?: boolean;
+    greenSuccessNotification?: boolean;
+    notifyThenReloadDelayMs?: number;
 };
 
 export const TransporterCreateToolbar = ({
     resource,
     successMessage,
     listRedirectResource,
+    saveLabel,
+    saveAndAddLabel,
+    notifyThenReloadOnSaveAndAdd,
+    greenSuccessNotification,
+    notifyThenReloadDelayMs,
 }: TransporterCreateToolbarProps) => (
     <ResourceCreateToolbar
         resource={resource}
         successMessage={successMessage}
         listRedirectResource={listRedirectResource}
+        saveLabel={saveLabel}
+        saveAndAddLabel={saveAndAddLabel}
+        notifyThenReloadOnSaveAndAdd={notifyThenReloadOnSaveAndAdd}
+        greenSuccessNotification={greenSuccessNotification}
+        notifyThenReloadDelayMs={notifyThenReloadDelayMs}
     />
 );
 
@@ -30,6 +45,7 @@ export const TransporterEditToolbar = ({ resource, successMessage }: Transporter
                 <SaveButton
                     label="Save Changes"
                     variant="contained"
+                    redirect={false}
                     mutationOptions={{
                         onSuccess: () => {
                             notify(successMessage, { type: 'success' });

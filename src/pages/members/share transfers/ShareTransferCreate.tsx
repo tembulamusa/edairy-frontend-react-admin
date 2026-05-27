@@ -6,6 +6,7 @@ import {
     useNotify,
     useRedirect,
 } from 'react-admin';
+import { useRedirectToCreateWithReload } from '../../../components/forms/redirect-to-create-with-reload';
 import { Card, CardContent, Typography, Divider, Box, Button } from '@mui/material';
 import { ListBreadcrumbs } from '../../../../ListBreadcrumbs';
 import { ShareTransferFormFields, transformShareTransfer } from './ShareTransferFormFields';
@@ -13,6 +14,7 @@ import { ShareTransferFormFields, transformShareTransfer } from './ShareTransfer
 const ShareTransferCreateToolbar = () => {
     const notify = useNotify();
     const redirect = useRedirect();
+    const redirectToCreateWithReload = useRedirectToCreateWithReload();
 
     return (
         <Toolbar sx={{ display: 'flex', justifyContent: 'space-between', backgroundColor: 'transparent', px: 0 }}>
@@ -23,8 +25,7 @@ const ShareTransferCreateToolbar = () => {
                     variant="contained"
                     mutationOptions={{
                         onSuccess: () => {
-                            notify('Share transfer recorded successfully', { type: 'success' });
-                            redirect('create', 'share-transfers');
+                            redirectToCreateWithReload('share-transfers', 'Share transfer recorded successfully');
                         },
                     }}
                 />

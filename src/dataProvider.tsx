@@ -19,6 +19,7 @@ import type {
   UpdateParams,
   UpdateResult,
 } from "react-admin";
+import { normalizeCustomerMilkRateRecord } from "./pages/customers/shared/customer-milk-rate-transform";
 
 const apiUrl =
   import.meta.env.VITE_EDAIRY_API_URL ??
@@ -77,29 +78,49 @@ const toRecords = (value: unknown): ApiRecord[] => {
   return [];
 };
 
+const readStoreScalar = (value: unknown) =>
+  value != null && typeof value !== "object" ? String(value) : undefined;
+
 const normalizeStoreRecord = (item: ApiRecord): ApiRecord => {
-  const nested = item.store as ApiRecord | undefined;
+  const nested =
+    item.store != null && typeof item.store === "object" && !Array.isArray(item.store)
+      ? (item.store as ApiRecord)
+      : undefined;
+
   const name =
-    item.name ??
-    item.Name ??
-    item.store_name ??
-    item.StoreName ??
-    item.storeName ??
-    nested?.name ??
-    nested?.Name ??
-    nested?.store_name ??
-    item.description ??
-    item.Description;
+    readStoreScalar(item.name) ??
+    readStoreScalar(item.Name) ??
+    readStoreScalar(item.store) ??
+    readStoreScalar(item.Store) ??
+    readStoreScalar(item.store_name) ??
+    readStoreScalar(item.StoreName) ??
+    readStoreScalar(nested?.name) ??
+    readStoreScalar(nested?.Name) ??
+    readStoreScalar(nested?.store) ??
+    readStoreScalar(nested?.Store) ??
+    readStoreScalar(nested?.store_name) ??
+    "";
+
+  const description =
+    readStoreScalar(item.description) ??
+    readStoreScalar(item.Description) ??
+    readStoreScalar(nested?.description) ??
+    readStoreScalar(nested?.Description) ??
+    "";
 
   return {
     ...item,
-    name: name != null && String(name).trim() !== "" ? String(name) : item.name,
+    name,
+    description,
   };
 };
 
 const normalizeResourceData = (resource: string, items: ApiRecord[]) => {
   if (resource === "stores") {
     return items.map(normalizeStoreRecord);
+  }
+  if (resource === "customer-milk-rates") {
+    return items.map((item) => normalizeCustomerMilkRateRecord(item));
   }
   return items;
 };

@@ -13,6 +13,7 @@ import {
     useNotify,
     useRedirect,
 } from 'react-admin';
+import { useRedirectToCreateWithReload } from '../../../components/forms/redirect-to-create-with-reload';
 import { Card, CardContent, Typography, Divider, Box, Button } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import { ListBreadcrumbs } from '../../../../ListBreadcrumbs';
@@ -26,6 +27,7 @@ const CALCULATION_TYPE_CHOICES = [
 const DividendDeclarationCreateToolbar = () => {
     const notify = useNotify();
     const redirect = useRedirect();
+    const redirectToCreateWithReload = useRedirectToCreateWithReload();
 
     return (
         <Toolbar sx={{ display: 'flex', justifyContent: 'space-between', backgroundColor: 'transparent', px: 0 }}>
@@ -36,8 +38,7 @@ const DividendDeclarationCreateToolbar = () => {
                     variant="contained"
                     mutationOptions={{
                         onSuccess: () => {
-                            notify('Dividend declared successfully', { type: 'success' });
-                            redirect('create', 'dividend-declarations');
+                            redirectToCreateWithReload('dividend-declarations', 'Dividend declared successfully');
                         },
                     }}
                 />

@@ -16,7 +16,6 @@ export type StockMovementDraft = {
     transaction_date: string;
     store_id: string;
     movement_type_id: string;
-    movement_direction: MovementDirection;
     remarks: string;
 };
 

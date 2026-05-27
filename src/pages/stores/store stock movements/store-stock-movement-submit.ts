@@ -1,5 +1,5 @@
 import { normalizeStoreId } from '../shared/use-store-choices';
-import type { MovementDirection, MovementLineState, StockMovementDraft } from './store-stock-movement.types';
+import type { MovementLineState, StockMovementDraft } from './store-stock-movement.types';
 import { getSelectedMovementLines } from './store-stock-movement-utils';
 
 const apiUrl = import.meta.env.VITE_EDAIRY_API_URL ?? 'http://192.168.1.10:8080/api';
@@ -22,11 +22,7 @@ const parseId = (value: unknown) => {
     return Number.isFinite(numeric) && numeric > 0 ? numeric : undefined;
 };
 
-export const buildStockMovementPayload = (
-    draft: StockMovementDraft,
-    lines: MovementLineState[],
-    direction: MovementDirection
-) => {
+export const buildStockMovementPayload = (draft: StockMovementDraft, lines: MovementLineState[]) => {
     const selected = getSelectedMovementLines(lines);
 
     return {
@@ -34,21 +30,15 @@ export const buildStockMovementPayload = (
         store_id: parseId(draft.store_id),
         movement_type_id: parseId(draft.movement_type_id),
         remarks: draft.remarks.trim() || undefined,
-        items: selected.map((line) => {
-            const quantity = Number(line.quantity);
-            return {
-                item_id: line.itemId,
-                qty_in: direction === 'IN' ? quantity : 0,
-                qty_out: direction === 'OUT' ? quantity : 0,
-                unit_cost: line.unitCost || undefined,
-                selling_price: line.sellingPrice || undefined,
-            };
-        }),
+        items: selected.map((line) => ({
+            item_id: line.itemId,
+            quantity: Number(line.quantity),
+        })),
     };
 };
 
 export const submitStockMovement = async (draft: StockMovementDraft, lines: MovementLineState[]) => {
-    const payload = buildStockMovementPayload(draft, lines, draft.movement_direction);
+    const payload = buildStockMovementPayload(draft, lines);
     const token = getAuthToken();
 
     const response = await fetch(`${apiUrl}/store-stock-movements`, {

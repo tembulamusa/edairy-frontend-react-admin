@@ -12,6 +12,7 @@ export const StoreStockMovementsList = () => (
             <DateField source="transaction_date" />
         </DataTable.Col>
         <DataTable.Col source="store_name" label="Store" />
+        <DataTable.Col source="direction" label="Direction" />
         <DataTable.Col source="item_name" label="Item" />
         <DataTable.Col source="movement_type" label="Movement Type" />
         <DataTable.Col source="qty_in" label="Qty In" />

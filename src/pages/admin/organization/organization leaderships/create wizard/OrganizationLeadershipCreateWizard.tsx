@@ -11,6 +11,7 @@ import { RoleOrganizationStep } from './role-organization-step';
 import { LeadershipContactsStep } from './contacts-step';
 import { LeadershipConfirmStep } from './confirm-step';
 import { WizardCreateActions } from '../../../../../components/forms/WizardCreateActions';
+import { useRedirectToCreateWithReload } from '../../../../../components/forms/redirect-to-create-with-reload';
 import {
     initialOrganizationLeadershipCreateDraft,
     leadershipWizardStepTitles,
@@ -72,6 +73,7 @@ const buildPayload = (values: OrganizationLeadershipCreateDraft) => {
 export const OrganizationLeadershipCreateWizard = () => {
     const notify = useNotify();
     const redirect = useRedirect();
+    const redirectToCreateWithReload = useRedirectToCreateWithReload();
     const [create] = useCreate();
 
     const [values, setValues] = useState<OrganizationLeadershipCreateDraft>(
@@ -126,13 +128,13 @@ export const OrganizationLeadershipCreateWizard = () => {
             { data: buildPayload(values) },
             {
                 onSuccess: () => {
-                    notify('Organization leadership created successfully', { type: 'success' });
                     if (addAnother) {
-                        setValues(initialOrganizationLeadershipCreateDraft);
-                        setErrors({});
-                        setActiveStep(0);
-                        redirect('create', 'organization-leaderships');
+                        redirectToCreateWithReload(
+                            'organization-leaderships',
+                            'Organization leadership created successfully'
+                        );
                     } else {
+                        notify('Organization leadership created successfully', { type: 'success' });
                         redirect('list', 'organization-leaderships');
                     }
                 },

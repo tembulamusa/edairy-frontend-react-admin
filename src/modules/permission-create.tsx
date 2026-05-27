@@ -8,6 +8,7 @@ import {
     useNotify,
     useRedirect,
 } from 'react-admin';
+import { useRedirectToCreateWithReload } from '../components/forms/redirect-to-create-with-reload';
 import { useFormContext } from 'react-hook-form';
 
 import {
@@ -24,6 +25,7 @@ import Grid from '@mui/material/Grid';
 
 const PermissionCreateToolbar = () => {
     const redirect = useRedirect();
+    const redirectToCreateWithReload = useRedirectToCreateWithReload();
     const notify = useNotify();
 
     return (
@@ -35,8 +37,7 @@ const PermissionCreateToolbar = () => {
                     variant="contained"
                     mutationOptions={{
                         onSuccess: () => {
-                            notify('Permission created successfully', { type: 'success' });
-                            redirect('create', 'permissions');
+                            redirectToCreateWithReload('permissions', 'Permission created successfully');
                         },
                     }}
                 />

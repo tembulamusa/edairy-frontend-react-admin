@@ -21,6 +21,7 @@ import {
 import Grid from '@mui/material/Grid';
 
 import { FixedAssetForm } from './FixedAssetForm';
+import { useRedirectToCreateWithReload } from '../../../components/forms/redirect-to-create-with-reload';
 
 const steps = [
     "Asset Details",
@@ -34,6 +35,7 @@ export const FixedAssetCreate = () => {
     const [create] = useCreate();
     const notify = useNotify();
     const redirect = useRedirect();
+    const redirectToCreateWithReload = useRedirectToCreateWithReload();
 
     const isLast = step === steps.length - 1;
 
@@ -51,12 +53,11 @@ export const FixedAssetCreate = () => {
             { data: payload },
             {
                 onSuccess: () => {
-                    notify("Fixed asset created", { type: "success" });
                     if (addAnother) {
-                        setStep(0);
-                        redirect("create", "fixed-assets");
+                        redirectToCreateWithReload('fixed-assets', 'Fixed asset created');
                     } else {
-                        redirect("list", "fixed-assets");
+                        notify('Fixed asset created', { type: 'success' });
+                        redirect('list', 'fixed-assets');
                     }
                 },
             }

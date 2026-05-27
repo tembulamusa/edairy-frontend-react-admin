@@ -4,6 +4,7 @@ export type StockTakingLineState = {
     sku: string;
     unit: string;
     systemQuantity: number;
+    selected: boolean;
     physicalQuantity: string;
 };
 
@@ -14,7 +15,7 @@ export type StockTakingDraft = {
     remarks: string;
 };
 
-export type StockTakingLineQuantities = Record<number, string>;
+export type StockTakingLineSelection = Record<number, { selected: boolean; physicalQuantity: string }>;
 
 export type StockTakingErrors = Partial<
     Record<keyof StockTakingDraft | 'lines' | `line_${number}_physical`, string>

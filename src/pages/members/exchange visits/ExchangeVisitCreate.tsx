@@ -12,6 +12,7 @@ import {
     useNotify,
     useRedirect,
 } from 'react-admin';
+import { useRedirectToCreateWithReload } from '../../../components/forms/redirect-to-create-with-reload';
 import { Card, CardContent, Typography, Divider, Box, Button } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import { ListBreadcrumbs } from '../../../../ListBreadcrumbs';
@@ -19,6 +20,7 @@ import { ListBreadcrumbs } from '../../../../ListBreadcrumbs';
 const ExchangeVisitCreateToolbar = () => {
     const notify = useNotify();
     const redirect = useRedirect();
+    const redirectToCreateWithReload = useRedirectToCreateWithReload();
 
     return (
         <Toolbar sx={{ display: 'flex', justifyContent: 'space-between', backgroundColor: 'transparent', px: 0 }}>
@@ -29,8 +31,7 @@ const ExchangeVisitCreateToolbar = () => {
                     variant="contained"
                     mutationOptions={{
                         onSuccess: () => {
-                            notify('Exchange visit recorded successfully', { type: 'success' });
-                            redirect('create', 'exchange-visits');
+                            redirectToCreateWithReload('exchange-visits', 'Exchange visit recorded successfully');
                         },
                     }}
                 />

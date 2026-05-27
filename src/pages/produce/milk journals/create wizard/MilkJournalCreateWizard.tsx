@@ -9,6 +9,7 @@ import {
 } from '../../../transporters/shared/transporter-page-layout';
 import { WizardStepper } from '../../../transporters/create wizard/WizardStepper';
 import { WizardCreateActions } from '../../../../components/forms/WizardCreateActions';
+import { useRedirectToCreateWithReload } from '../../../../components/forms/redirect-to-create-with-reload';
 import { JournalHeaderStep } from './journal-header-step';
 import { BatchesEntriesStep } from './batches-entries-step';
 import {
@@ -31,6 +32,7 @@ import { submitMilkJournalWizard } from './milk-journal-wizard-submit';
 export const MilkJournalCreateWizard = () => {
     const notify = useNotify();
     const redirect = useRedirect();
+    const redirectToCreateWithReload = useRedirectToCreateWithReload();
     const refresh = useRefresh();
 
     const [values, setValues] = useState<MilkJournalCreateDraft>(initialMilkJournalCreateDraft);
@@ -103,12 +105,11 @@ export const MilkJournalCreateWizard = () => {
         setSaving(true);
         try {
             const result = await submitMilkJournalWizard(synced);
-            notify(result.message, { type: 'success' });
             refresh();
             if (addAnother) {
-                handleReset();
-                redirect('create', 'milk-journals');
+                redirectToCreateWithReload('milk-journals', result.message);
             } else {
+                notify(result.message, { type: 'success' });
                 redirect('list', 'milk-journals');
             }
         } catch (error) {

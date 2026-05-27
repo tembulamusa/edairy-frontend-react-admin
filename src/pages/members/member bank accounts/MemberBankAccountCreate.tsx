@@ -12,6 +12,7 @@ import {
     useNotify,
     useRedirect,
 } from 'react-admin';
+import { useRedirectToCreateWithReload } from '../../../components/forms/redirect-to-create-with-reload';
 
 import {
     Card,
@@ -28,6 +29,7 @@ import { ListBreadcrumbs } from '../../../../ListBreadcrumbs';
 const MemberBankAccountCreateToolbar = () => {
     const notify = useNotify();
     const redirect = useRedirect();
+    const redirectToCreateWithReload = useRedirectToCreateWithReload();
 
     return (
         <Toolbar sx={{ display: 'flex', justifyContent: 'space-between', backgroundColor: 'transparent', px: 0 }}>
@@ -38,8 +40,7 @@ const MemberBankAccountCreateToolbar = () => {
                     variant="contained"
                     mutationOptions={{
                         onSuccess: () => {
-                            notify('Bank account added successfully', { type: 'success' });
-                            redirect('create', 'member-bank-accounts');
+                            redirectToCreateWithReload('member-bank-accounts', 'Bank account added successfully');
                         },
                     }}
                 />

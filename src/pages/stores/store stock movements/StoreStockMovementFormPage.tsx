@@ -12,7 +12,6 @@ import {
 } from 'react-admin';
 import {
     Box,
-    Button,
     Card,
     CardContent,
     Divider,
@@ -21,6 +20,9 @@ import {
     Typography,
 } from '@mui/material';
 import { ListBreadcrumbs } from '../../../../ListBreadcrumbs';
+import { CreateSuccessBanner } from '../../../components/forms/CreateSuccessBanner';
+import { useRedirectToCreateWithReload } from '../../../components/forms/redirect-to-create-with-reload';
+import { WizardCreateActions } from '../../../components/forms/WizardCreateActions';
 import { transporterCreateMainSx, transporterCreateWrapperSx } from '../../transporters/shared/transporter-page-layout';
 import { normalizeStoreId, useStoreChoices } from '../shared/use-store-choices';
 import type { StoreItemRecord, StoreStockRecord } from '../store sales/pos/store-sale-pos-utils';
@@ -36,7 +38,7 @@ import {
     buildMovementLines,
     hasStockMovementErrors,
     initialStockMovementDraft,
-    movementDirectionChoices,
+    STOCK_MOVEMENT_DEFAULT_DIRECTION,
     validateStockMovement,
 } from './store-stock-movement-utils';
 
@@ -58,7 +60,6 @@ const toDraftValues = (values: StockMovementDraft): StockMovementDraft => ({
     transaction_date: formatTransactionDate(values.transaction_date),
     store_id: parseStoreField(values.store_id),
     movement_type_id: parseReferenceField(values.movement_type_id),
-    movement_direction: (values.movement_direction ?? 'OUT') as MovementDirection,
     remarks: String(values.remarks ?? ''),
 });
 
@@ -74,7 +75,6 @@ export const StoreStockMovementFormContent = () => {
     const storeId = form.watch('store_id');
     const transactionDate = form.watch('transaction_date');
     const movementTypeId = form.watch('movement_type_id');
-    const movementDirection = form.watch('movement_direction');
     const remarks = form.watch('remarks');
 
     const values = useMemo(
@@ -83,10 +83,9 @@ export const StoreStockMovementFormContent = () => {
                 transaction_date: transactionDate,
                 store_id: storeId,
                 movement_type_id: movementTypeId,
-                movement_direction: movementDirection,
                 remarks,
             }),
-        [transactionDate, storeId, movementTypeId, movementDirection, remarks]
+        [transactionDate, storeId, movementTypeId, remarks]
     );
 
     const [lineSelections, setLineSelections] = useState<MovementLineSelection>({});
@@ -130,7 +129,17 @@ export const StoreStockMovementFormContent = () => {
         return nameLookup.get(values.store_id) ?? '';
     }, [nameLookup, values.store_id]);
 
-    const direction = values.movement_direction;
+    const direction = useMemo((): MovementDirection => {
+        if (!values.movement_type_id) {
+            return STOCK_MOVEMENT_DEFAULT_DIRECTION;
+        }
+
+        const selected = movementTypes.find((type) => String(type.id) === values.movement_type_id);
+        const raw = String(selected?.direction ?? '').toUpperCase();
+        return raw === 'IN' || raw === 'OUT' ? raw : STOCK_MOVEMENT_DEFAULT_DIRECTION;
+    }, [movementTypes, values.movement_type_id]);
+
+    const previousMovementTypeRef = useRef('');
 
     const lines = useMemo(
         () =>
@@ -154,8 +163,12 @@ export const StoreStockMovementFormContent = () => {
     }, [values.store_id]);
 
     useEffect(() => {
-        setLineSelections({});
-    }, [direction]);
+        const current = values.movement_type_id;
+        if (previousMovementTypeRef.current && previousMovementTypeRef.current !== current) {
+            setLineSelections({});
+        }
+        previousMovementTypeRef.current = current;
+    }, [values.movement_type_id]);
 
     const loadingCatalog = Boolean(values.store_id) && (itemsLoading || stocksLoading);
 
@@ -206,9 +219,9 @@ export const StoreStockMovementFormContent = () => {
         setErrors((current) => ({ ...current, [`line_${itemId}_quantity`]: undefined, lines: undefined }));
     };
 
-    const handleSubmit = async () => {
+    const handleSubmit = async (addAnother = false) => {
         const draft = toDraftValues(form.getValues());
-        const formErrors = validateStockMovement(draft, lines, draft.movement_direction);
+        const formErrors = validateStockMovement(draft, lines, direction);
         setErrors(formErrors);
 
         if (hasStockMovementErrors(formErrors)) {
@@ -219,9 +232,13 @@ export const StoreStockMovementFormContent = () => {
         setSaving(true);
         try {
             const result = await submitStockMovement(draft, lines);
-            notify(result.message, { type: 'success' });
             refresh();
-            redirect('list', 'store-stock-movements');
+            if (addAnother) {
+                redirectToCreateWithReload('store-stock-movements', result.message);
+            } else {
+                notify(result.message, { type: 'success' });
+                redirect('list', 'store-stock-movements');
+            }
         } catch (error) {
             notify(error instanceof Error ? error.message : 'Failed to save stock movement', {
                 type: 'error',
@@ -243,6 +260,7 @@ export const StoreStockMovementFormContent = () => {
                         Record manual stock in or out entries in the ledger.
                     </Typography>
                     <Divider sx={{ mb: 3 }} />
+                    <CreateSuccessBanner />
 
                     <FormProvider {...form}>
                         <Stack spacing={3}>
@@ -291,17 +309,6 @@ export const StoreStockMovementFormContent = () => {
                                         error={Boolean(errors.movement_type_id)}
                                     />
                                 </Grid>
-                                <Grid size={{ xs: 12, md: 6 }}>
-                                    <SelectInput
-                                        source="movement_direction"
-                                        label="Direction"
-                                        choices={movementDirectionChoices}
-                                        optionText="name"
-                                        optionValue="id"
-                                        fullWidth
-                                        variant="outlined"
-                                    />
-                                </Grid>
                                 <Grid size={{ xs: 12 }}>
                                     <TextInput
                                         source="remarks"
@@ -319,23 +326,22 @@ export const StoreStockMovementFormContent = () => {
                                 errors={errors}
                                 loading={loadingCatalog}
                                 storeSelected={Boolean(values.store_id)}
-                                direction={direction}
                                 onToggle={handleToggle}
                                 onQuantityChange={handleQuantityChange}
                             />
 
-                            <Stack direction="row" justifyContent="space-between" alignItems="center">
-                                <Button
-                                    variant="outlined"
-                                    onClick={() => redirect('list', 'store-stock-movements')}
-                                    disabled={saving}
-                                >
-                                    Cancel
-                                </Button>
-                                <Button variant="contained" onClick={handleSubmit} disabled={saving}>
-                                    {saving ? 'Saving...' : 'Save Movement'}
-                                </Button>
-                            </Stack>
+                            <WizardCreateActions
+                                saving={saving}
+                                showBack={false}
+                                showNext={false}
+                                onCancel={() => redirect('list', 'store-stock-movements')}
+                                onBack={() => undefined}
+                                onNext={() => undefined}
+                                onSave={() => handleSubmit(false)}
+                                onSaveAndAddNew={() => handleSubmit(true)}
+                                saveLabel="Save"
+                                saveAndAddLabel="Save and Add New"
+                            />
                         </Stack>
                     </FormProvider>
                 </CardContent>
@@ -345,7 +351,7 @@ export const StoreStockMovementFormContent = () => {
 };
 
 export const StoreStockMovementCreate = () => (
-    <Create title={false} resource="store-stock-movements" sx={transporterCreateMainSx}>
+    <Create title={false} resource="store-stock-movements" sx={transporterCreateMainSx} redirect={false}>
         <StoreStockMovementFormContent />
     </Create>
 );

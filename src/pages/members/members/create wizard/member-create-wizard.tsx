@@ -29,6 +29,7 @@ import {
 import { OtherDetailsStep } from "./other-details-step";
 import { PersonalInfoStep } from "./personal-info-step";
 import { WizardCreateActions } from "../../../../components/forms/WizardCreateActions";
+import { useRedirectToCreateWithReload } from "../../../../components/forms/redirect-to-create-with-reload";
 
 const apiUrl =
     import.meta.env.VITE_EDAIRY_API_URL ?? "http://192.168.1.10:8080/api";
@@ -119,6 +120,7 @@ export const MemberCreateWizard = () => {
     const notify = useNotify();
     const refresh = useRefresh();
     const redirect = useRedirect();
+    const redirectToCreateWithReload = useRedirectToCreateWithReload();
 
     const suppressPersistRef = useRef(false);
 
@@ -281,17 +283,15 @@ export const MemberCreateWizard = () => {
                 throw new Error(message);
             }
 
-            notify(message, {
-                type: "success",
-            });
-
             clearMemberCreateDraft();
             refresh();
 
             if (addAnother) {
-                handleReset();
-                redirect("create", "members");
+                redirectToCreateWithReload("members", message);
             } else {
+                notify(message, {
+                    type: "success",
+                });
                 redirect("list", "members");
             }
         } catch (error) {

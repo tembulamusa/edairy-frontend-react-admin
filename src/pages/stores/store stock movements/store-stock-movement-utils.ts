@@ -15,11 +15,13 @@ const parseNumber = (value: unknown) => {
 
 export const todayIsoDate = () => new Date().toLocaleDateString('en-CA');
 
+/** Default ledger direction when no direction field is shown on create. */
+export const STOCK_MOVEMENT_DEFAULT_DIRECTION: MovementDirection = 'OUT';
+
 export const initialStockMovementDraft = (): StockMovementDraft => ({
     transaction_date: todayIsoDate(),
     store_id: '',
     movement_type_id: '',
-    movement_direction: 'OUT',
     remarks: '',
 });
 
@@ -150,8 +152,3 @@ export const validateStockMovement = (
 };
 
 export const hasStockMovementErrors = (errors: StockMovementErrors) => Object.keys(errors).length > 0;
-
-export const movementDirectionChoices = [
-    { id: 'IN', name: 'Qty In' },
-    { id: 'OUT', name: 'Qty Out' },
-];

@@ -9,6 +9,7 @@ import {
     Toolbar,
     SaveButton,
 } from 'react-admin';
+import { useRedirectToCreateWithReload } from '../../../../components/forms/redirect-to-create-with-reload';
 import { DocumentUploadInput } from './DocumentUploadInput';
 import { Card, CardContent, Typography, Divider, Box, Button } from '@mui/material';
 import Grid from '@mui/material/Grid';
@@ -76,6 +77,7 @@ const DocumentTypeSelect = () => {
 const OrganizationDocumentCreateToolbar = () => {
     const notify = useNotify();
     const redirect = useRedirect();
+    const redirectToCreateWithReload = useRedirectToCreateWithReload();
 
     return (
         <Toolbar sx={{ display: 'flex', justifyContent: 'space-between', backgroundColor: 'transparent', px: 0 }}>
@@ -86,8 +88,7 @@ const OrganizationDocumentCreateToolbar = () => {
                     variant="contained"
                     mutationOptions={{
                         onSuccess: () => {
-                            notify('Organization document created successfully', { type: 'success' });
-                            redirect('create', 'organization-documents');
+                            redirectToCreateWithReload('organization-documents', 'Organization document created successfully');
                         },
                     }}
                 />

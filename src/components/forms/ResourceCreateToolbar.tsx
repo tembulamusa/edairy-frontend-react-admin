@@ -1,5 +1,7 @@
-import { Toolbar, SaveButton, useNotify, useRedirect } from 'react-admin';
+import { Toolbar, SaveButton, useNotify, useRedirect, useRefresh } from 'react-admin';
 import { Box, Button } from '@mui/material';
+import { useRedirectToCreateAfterNotify, useRedirectToCreateWithReload } from './redirect-to-create-with-reload';
+import { notifySuccessGreen } from './notify-success-green';
 
 export type ResourceCreateToolbarProps = {
     resource: string;
@@ -8,10 +10,16 @@ export type ResourceCreateToolbarProps = {
     saveAndAddLabel?: string;
     /** After Save, redirect to this resource's list instead of the create resource. */
     listRedirectResource?: string;
+    /** Show toast first, then full-page reload to create (no session flash). */
+    notifyThenReloadOnSaveAndAdd?: boolean;
+    /** Use a green-background success toast for Save / Save and Add New. */
+    greenSuccessNotification?: boolean;
+    /** Delay before reload when notifyThenReloadOnSaveAndAdd is true (ms). */
+    notifyThenReloadDelayMs?: number;
 };
 
 /**
- * Standard create toolbar: Save → list, Save and Add New → fresh create page.
+ * Standard create toolbar: Save → list, Save and Add New → fresh create page, Cancel → list.
  */
 export const ResourceCreateToolbar = ({
     resource,
@@ -19,10 +27,24 @@ export const ResourceCreateToolbar = ({
     saveLabel = 'Save',
     saveAndAddLabel = 'Save and Add New',
     listRedirectResource,
+    notifyThenReloadOnSaveAndAdd = false,
+    greenSuccessNotification = false,
+    notifyThenReloadDelayMs,
 }: ResourceCreateToolbarProps) => {
     const notify = useNotify();
     const redirect = useRedirect();
+    const refresh = useRefresh();
+    const redirectToCreateWithReload = useRedirectToCreateWithReload();
+    const redirectToCreateAfterNotify = useRedirectToCreateAfterNotify();
     const saveListResource = listRedirectResource ?? resource;
+
+    const showSuccess = (message: string, autoHideDuration?: number) => {
+        if (greenSuccessNotification) {
+            notifySuccessGreen(notify, message, autoHideDuration);
+        } else {
+            notify(message, { type: 'success', autoHideDuration });
+        }
+    };
 
     return (
         <Toolbar
@@ -34,27 +56,33 @@ export const ResourceCreateToolbar = ({
             }}
         >
             <Box sx={{ display: 'flex', gap: 1 }}>
-                {listRedirectResource ? (
-                    <SaveButton
-                        label={saveLabel}
-                        variant="contained"
-                        mutationOptions={{
-                            onSuccess: () => {
-                                notify(successMessage, { type: 'success' });
-                                redirect('list', saveListResource);
-                            },
-                        }}
-                    />
-                ) : (
-                    <SaveButton label={saveLabel} variant="contained" redirect="list" />
-                )}
+                <SaveButton
+                    label={saveLabel}
+                    variant="contained"
+                    redirect={false}
+                    mutationOptions={{
+                        onSuccess: () => {
+                            showSuccess(successMessage);
+                            refresh();
+                            redirect('list', saveListResource);
+                        },
+                    }}
+                />
                 <SaveButton
                     label={saveAndAddLabel}
                     variant="contained"
+                    redirect={false}
                     mutationOptions={{
                         onSuccess: () => {
-                            notify(successMessage, { type: 'success' });
-                            redirect('create', resource);
+                            refresh();
+                            if (notifyThenReloadOnSaveAndAdd) {
+                                redirectToCreateAfterNotify(resource, successMessage, {
+                                    delayMs: notifyThenReloadDelayMs,
+                                    greenBackground: greenSuccessNotification,
+                                });
+                            } else {
+                                redirectToCreateWithReload(resource, successMessage);
+                            }
                         },
                     }}
                 />

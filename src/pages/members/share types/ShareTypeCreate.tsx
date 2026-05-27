@@ -10,6 +10,7 @@ import {
     useNotify,
     useRedirect,
 } from 'react-admin';
+import { useRedirectToCreateWithReload } from '../../../components/forms/redirect-to-create-with-reload';
 import { Card, CardContent, Typography, Divider, Box, Button } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import { ListBreadcrumbs } from '../../../../ListBreadcrumbs';
@@ -17,6 +18,7 @@ import { ListBreadcrumbs } from '../../../../ListBreadcrumbs';
 const ShareTypeCreateToolbar = () => {
     const notify = useNotify();
     const redirect = useRedirect();
+    const redirectToCreateWithReload = useRedirectToCreateWithReload();
 
     return (
         <Toolbar sx={{ display: 'flex', justifyContent: 'space-between', backgroundColor: 'transparent', px: 0 }}>
@@ -27,8 +29,7 @@ const ShareTypeCreateToolbar = () => {
                     variant="contained"
                     mutationOptions={{
                         onSuccess: () => {
-                            notify('Share type created successfully', { type: 'success' });
-                            redirect('create', 'share-types');
+                            redirectToCreateWithReload('share-types', 'Share type created successfully');
                         },
                     }}
                 />

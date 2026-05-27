@@ -11,6 +11,7 @@ import {
     useNotify,
     useRedirect,
 } from 'react-admin';
+import { useRedirectToCreateWithReload } from '../../../components/forms/redirect-to-create-with-reload';
 import { Card, CardContent, Typography, Divider, Box, Button } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import { ListBreadcrumbs } from '../../../../ListBreadcrumbs';
@@ -18,6 +19,7 @@ import { ListBreadcrumbs } from '../../../../ListBreadcrumbs';
 const AttendeeCreateToolbar = () => {
     const notify = useNotify();
     const redirect = useRedirect();
+    const redirectToCreateWithReload = useRedirectToCreateWithReload();
 
     return (
         <Toolbar sx={{ display: 'flex', justifyContent: 'space-between', backgroundColor: 'transparent', px: 0 }}>
@@ -28,8 +30,7 @@ const AttendeeCreateToolbar = () => {
                     variant="contained"
                     mutationOptions={{
                         onSuccess: () => {
-                            notify('Attendee added successfully', { type: 'success' });
-                            redirect('create', 'training-session-attendees');
+                            redirectToCreateWithReload('training-session-attendees', 'Attendee added successfully');
                         },
                     }}
                 />

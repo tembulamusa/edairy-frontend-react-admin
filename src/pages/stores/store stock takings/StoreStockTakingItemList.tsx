@@ -1,8 +1,8 @@
 import { useMemo, useState } from 'react';
 import {
     Box,
+    Checkbox,
     CircularProgress,
-    Stack,
     Table,
     TableBody,
     TableCell,
@@ -19,6 +19,7 @@ type StoreStockTakingItemListProps = {
     errors: StockTakingErrors;
     loading?: boolean;
     storeSelected?: boolean;
+    onToggle: (itemId: number, selected: boolean) => void;
     onPhysicalQuantityChange: (itemId: number, quantity: string) => void;
 };
 
@@ -27,6 +28,7 @@ export const StoreStockTakingItemList = ({
     errors,
     loading = false,
     storeSelected = false,
+    onToggle,
     onPhysicalQuantityChange,
 }: StoreStockTakingItemListProps) => {
     const [search, setSearch] = useState('');
@@ -43,7 +45,7 @@ export const StoreStockTakingItemList = ({
         );
     }, [lines, normalizedSearch]);
 
-    const countedCount = lines.filter((line) => line.physicalQuantity.trim() !== '').length;
+    const selectedCount = lines.filter((line) => line.selected).length;
 
     return (
         <Box>
@@ -51,7 +53,7 @@ export const StoreStockTakingItemList = ({
                 Stock items
             </Typography>
             <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-                Enter the physical count for each item against the system quantity.
+                Check items to count and enter the physical quantity for each selected item.
             </Typography>
 
             {!storeSelected ? (
@@ -117,6 +119,7 @@ export const StoreStockTakingItemList = ({
                             <Table size="small" stickyHeader>
                                 <TableHead>
                                     <TableRow>
+                                        <TableCell padding="checkbox" sx={{ width: 48 }} />
                                         <TableCell>Item</TableCell>
                                         <TableCell align="right" sx={{ width: 120 }}>
                                             System Qty
@@ -132,7 +135,7 @@ export const StoreStockTakingItemList = ({
                                 <TableBody>
                                     {filtered.length === 0 ? (
                                         <TableRow>
-                                            <TableCell colSpan={4} align="center" sx={{ py: 4 }}>
+                                            <TableCell colSpan={5} align="center" sx={{ py: 4 }}>
                                                 <Typography color="text.secondary">
                                                     No items match your search.
                                                 </Typography>
@@ -140,62 +143,80 @@ export const StoreStockTakingItemList = ({
                                         </TableRow>
                                     ) : (
                                         filtered.map((line) => {
-                                        const physicalError = errors[`line_${line.itemId}_physical`];
-                                        const physical = Number(line.physicalQuantity);
-                                        const hasPhysical = line.physicalQuantity.trim() !== '';
-                                        const variance = hasPhysical && Number.isFinite(physical)
-                                            ? physical - line.systemQuantity
-                                            : null;
+                                            const physicalError = errors[`line_${line.itemId}_physical`];
+                                            const physical = Number(line.physicalQuantity);
+                                            const hasPhysical =
+                                                line.selected && line.physicalQuantity.trim() !== '';
+                                            const variance =
+                                                hasPhysical && Number.isFinite(physical)
+                                                    ? physical - line.systemQuantity
+                                                    : null;
 
-                                        return (
-                                            <TableRow key={line.itemId} hover>
-                                                <TableCell>
-                                                    <Typography variant="body2" fontWeight={600}>
-                                                        {line.itemName}
-                                                    </Typography>
-                                                    <Typography variant="caption" color="text.secondary">
-                                                        SKU: {line.sku || '—'} · Unit: {line.unit || '—'}
-                                                    </Typography>
-                                                </TableCell>
-                                                <TableCell align="right">{line.systemQuantity}</TableCell>
-                                                <TableCell align="right">
-                                                    <TextField
-                                                        size="small"
-                                                        type="number"
-                                                        value={line.physicalQuantity}
-                                                        onChange={(event) =>
-                                                            onPhysicalQuantityChange(
-                                                                line.itemId,
-                                                                event.target.value
-                                                            )
-                                                        }
-                                                        error={Boolean(physicalError)}
-                                                        helperText={physicalError}
-                                                        inputProps={{ min: 0, step: '1' }}
-                                                        sx={{ width: 120 }}
-                                                    />
-                                                </TableCell>
-                                                <TableCell align="right">
-                                                    {variance == null ? (
-                                                        '—'
-                                                    ) : (
-                                                        <Typography
-                                                            variant="body2"
-                                                            color={
-                                                                variance === 0
-                                                                    ? 'text.secondary'
-                                                                    : variance > 0
-                                                                      ? 'success.main'
-                                                                      : 'error.main'
+                                            return (
+                                                <TableRow
+                                                    key={line.itemId}
+                                                    hover
+                                                    selected={line.selected}
+                                                >
+                                                    <TableCell padding="checkbox">
+                                                        <Checkbox
+                                                            checked={line.selected}
+                                                            onChange={(event) =>
+                                                                onToggle(line.itemId, event.target.checked)
                                                             }
-                                                        >
-                                                            {variance > 0 ? `+${variance}` : variance}
+                                                        />
+                                                    </TableCell>
+                                                    <TableCell>
+                                                        <Typography variant="body2" fontWeight={600}>
+                                                            {line.itemName}
                                                         </Typography>
-                                                    )}
-                                                </TableCell>
-                                            </TableRow>
-                                        );
-                                    })
+                                                        <Typography
+                                                            variant="caption"
+                                                            color="text.secondary"
+                                                        >
+                                                            SKU: {line.sku || '—'} · Unit: {line.unit || '—'}
+                                                        </Typography>
+                                                    </TableCell>
+                                                    <TableCell align="right">{line.systemQuantity}</TableCell>
+                                                    <TableCell align="right">
+                                                        <TextField
+                                                            size="small"
+                                                            type="number"
+                                                            value={line.physicalQuantity}
+                                                            disabled={!line.selected}
+                                                            onChange={(event) =>
+                                                                onPhysicalQuantityChange(
+                                                                    line.itemId,
+                                                                    event.target.value
+                                                                )
+                                                            }
+                                                            error={Boolean(physicalError)}
+                                                            helperText={physicalError}
+                                                            inputProps={{ min: 0, step: '1' }}
+                                                            sx={{ width: 120 }}
+                                                        />
+                                                    </TableCell>
+                                                    <TableCell align="right">
+                                                        {variance == null ? (
+                                                            '—'
+                                                        ) : (
+                                                            <Typography
+                                                                variant="body2"
+                                                                color={
+                                                                    variance === 0
+                                                                        ? 'text.secondary'
+                                                                        : variance > 0
+                                                                          ? 'success.main'
+                                                                          : 'error.main'
+                                                                }
+                                                            >
+                                                                {variance > 0 ? `+${variance}` : variance}
+                                                            </Typography>
+                                                        )}
+                                                    </TableCell>
+                                                </TableRow>
+                                            );
+                                        })
                                     )}
                                 </TableBody>
                             </Table>
@@ -203,8 +224,12 @@ export const StoreStockTakingItemList = ({
                     )}
 
                     {storeSelected && !loading && lines.length > 0 ? (
-                        <Typography variant="caption" color="text.secondary" sx={{ mt: 1, display: 'block' }}>
-                            {countedCount} of {lines.length} item{lines.length === 1 ? '' : 's'} counted
+                        <Typography
+                            variant="caption"
+                            color="text.secondary"
+                            sx={{ mt: 1, display: 'block' }}
+                        >
+                            {selectedCount} item{selectedCount === 1 ? '' : 's'} selected for counting
                         </Typography>
                     ) : null}
                 </>

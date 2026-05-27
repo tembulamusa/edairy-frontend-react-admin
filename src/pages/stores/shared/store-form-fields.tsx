@@ -22,6 +22,11 @@ const statusChoices = [
     { id: 'INACTIVE', name: 'Inactive' },
 ];
 
+const movementDirectionChoices = [
+    { id: 'IN', name: 'In' },
+    { id: 'OUT', name: 'Out' },
+];
+
 const storeSelect = (source: string, fieldLabel: string) =>
     gridField(<StoreSelectInput source={source} label={fieldLabel} />);
 
@@ -50,9 +55,25 @@ export const NameDescriptionStatusFormFields = () => (
     </Grid>
 );
 
-export const ItemCategoryFormFields = () => <NameDescriptionStatusFormFields />;
+export const ItemCategoryFormFields = () => (
+    <Grid container spacing={2} alignItems="flex-start">
+        {gridField(<TextInput source="name" label="Name" validate={required()} fullWidth variant="outlined" />)}
+        {fullWidthField(
+            <TextInput source="description" label="Description" multiline rows={3} fullWidth variant="outlined" />
+        )}
+    </Grid>
+);
 
-export const StoreSetupFormFields = () => <NameDescriptionStatusFormFields />;
+export const StoreSetupFormFields = () => (
+    <Grid container spacing={2} alignItems="flex-start">
+        {gridField(
+            <TextInput source="name" label="Name" validate={required()} fullWidth variant="outlined" />
+        )}
+        {fullWidthField(
+            <TextInput source="description" label="Description" multiline rows={3} fullWidth variant="outlined" />
+        )}
+    </Grid>
+);
 
 export const StoreInventoryFormFields = () => (
     <Grid container spacing={2} alignItems="flex-start">
@@ -164,7 +185,21 @@ export const StoreStockFormFields = () => (
 export const StoreStockMovementTypeFormFields = () => (
     <Grid container spacing={2} alignItems="flex-start">
         {gridField(
+            <TextInput source="movement_code" label="Movement Code" validate={required()} fullWidth variant="outlined" />
+        )}
+        {gridField(
             <TextInput source="movement_name" label="Movement Type" validate={required()} fullWidth variant="outlined" />
+        )}
+        {gridField(
+            <SelectInput
+                source="direction"
+                label="Direction"
+                choices={movementDirectionChoices}
+                validate={required()}
+                fullWidth
+                variant="outlined"
+                defaultValue="OUT"
+            />
         )}
         {fullWidthField(
             <TextInput source="description" label="Description" multiline rows={3} fullWidth variant="outlined" />

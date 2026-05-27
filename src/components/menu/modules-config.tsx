@@ -247,16 +247,6 @@ export const modules: ModulesConfig = {
                 items: [r("Dashboard", <DashboardIcon />)],
             },
             {
-                label: "Supply",
-                items: [
-                    r("Supplier Quotes", <FactCheckIcon />),
-                    r("Supplies", <Inventory2Icon />),
-                    r("Supply Rejects", <FactCheckIcon />),
-                    r("Purchase Orders", <FactCheckIcon />),
-                    r("Purchase Requisitions", <FactCheckIcon />),
-                ],
-            },
-            {
                 label: "Data Entry",
                 items: [
                     r("Store Sales", <AttachMoneyIcon />),
@@ -297,8 +287,8 @@ export const modules: ModulesConfig = {
                 label: "Collections",
                 items: [
                     r("Customer Billings", <AttachMoneyIcon />),
-                    r("Customer Payments", <AttachMoneyIcon />),
                     r("Customer Invoices", <ReceiptLongIcon />),
+                    r("Customer Payments", <AttachMoneyIcon />),
                 ],
             },
             {
@@ -307,6 +297,7 @@ export const modules: ModulesConfig = {
                     r("Customer Types", <SettingsIcon />),
                     r("Customers", <PeopleIcon />),
                     r("Customer Milk Rates", <AgricultureIcon />),
+                    r("Customer Pay Date Ranges", <AttachMoneyIcon />),
                 ],
             },
         ],

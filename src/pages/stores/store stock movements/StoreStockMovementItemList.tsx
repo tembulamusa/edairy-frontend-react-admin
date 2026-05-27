@@ -12,14 +12,14 @@ import {
     Typography,
 } from '@mui/material';
 import Inventory2OutlinedIcon from '@mui/icons-material/Inventory2Outlined';
-import type { MovementDirection, StockMovementErrors, MovementLineState } from './store-stock-movement.types';
+import type { StockMovementErrors, MovementLineState } from './store-stock-movement.types';
+import { STOCK_MOVEMENT_DEFAULT_DIRECTION } from './store-stock-movement-utils';
 
 type StoreStockMovementItemListProps = {
     lines: MovementLineState[];
     errors: StockMovementErrors;
     loading?: boolean;
     storeSelected?: boolean;
-    direction: MovementDirection;
     onToggle: (itemId: number, selected: boolean) => void;
     onQuantityChange: (itemId: number, quantity: string) => void;
 };
@@ -29,13 +29,12 @@ export const StoreStockMovementItemList = ({
     errors,
     loading = false,
     storeSelected = false,
-    direction,
     onToggle,
     onQuantityChange,
 }: StoreStockMovementItemListProps) => {
     const [search, setSearch] = useState('');
     const normalizedSearch = search.trim().toLowerCase();
-    const isOut = direction === 'OUT';
+    const isOut = STOCK_MOVEMENT_DEFAULT_DIRECTION === 'OUT';
 
     const filtered = useMemo(() => {
         if (!normalizedSearch) {
@@ -58,7 +57,7 @@ export const StoreStockMovementItemList = ({
                 Movement items
             </Typography>
             <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-                Select items and enter {isOut ? 'qty out' : 'qty in'} for each (minimum 1).
+                Select items and enter quantity for each (minimum 1).
             </Typography>
 
             {!storeSelected ? (
@@ -140,7 +139,7 @@ export const StoreStockMovementItemList = ({
                                             </TableCell>
                                         )}
                                         <TableCell align="right" sx={{ width: 140 }}>
-                                            {isOut ? 'Qty Out' : 'Qty In'}
+                                            Quantity
                                         </TableCell>
                                     </TableRow>
                                 </TableHead>

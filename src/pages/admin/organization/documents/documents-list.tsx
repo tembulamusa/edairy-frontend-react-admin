@@ -10,6 +10,9 @@ import {
     TopToolbar,
     FilterButton,
     useResourceContext,
+    BooleanField,
+    TextField,
+    FunctionField,
 } from "react-admin";
 import {
     Box,
@@ -26,11 +29,11 @@ import { useCan } from "../../../../components/permissions/user-can";
 
 const documentFilters = [
     <SearchInput source="q" alwaysOn placeholder="Search documents..." key="search" />,
-    <TextInput source="document_type" label="Type" key="type" />
+    <TextInput source="document_type_name" label="Type" key="type" />
 ];
 
-const ListActions = ({ canCreate }: { canCreate: boolean }) => (
-    <TopToolbar>
+const ListActions = ({ canCreate, ...props }: any) => (
+    <TopToolbar {...props}>
         <FilterButton />
         {canCreate && (
             <CreateButton
@@ -97,15 +100,26 @@ export const DocumentList = () => {
                                 },
                             }}
                         >
+                            <DataTable.Col source="astra_id" label="Astra ID">
+                                <TextField source="astra_id" />
+                            </DataTable.Col>
+                            <DataTable.Col source="document_type_name" label="Type">
+                                <TextField source="document_type_name" />
+                            </DataTable.Col>
+                            <DataTable.Col source="document_url" label="Document URL">
+                                <FunctionField 
+                                    source="document_url" 
+                                    render={(record: any) => record?.document_url ? (
+                                        <MuiLink href={`${import.meta.env.VITE_API_BASE_URL || ''}${record.document_url}`} target="_blank" rel="noopener">View Document</MuiLink>
+                                    ) : null} 
+                                />
+                            </DataTable.Col>
+                            <DataTable.Col source="submitted" label="Submitted">
+                                <BooleanField source="submitted" />
+                            </DataTable.Col>
                             <DataTable.Col source="created_at" label="Created At">
                                 <DateField source="created_at" />
                             </DataTable.Col>
-                            <DataTable.Col source="title" label="Title" />
-                            <DataTable.Col source="document_type" label="Type" />
-                            <DataTable.Col source="expiry_date" label="Expiry Date">
-                                <DateField source="expiry_date" />
-                            </DataTable.Col>
-                            <DataTable.Col source="file" label="File" />
                             <DataTable.Col label="Actions">
                                 <Stack direction="row" spacing={1} alignItems="center">
                                     {canEdit && (

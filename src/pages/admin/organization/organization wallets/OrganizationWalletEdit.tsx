@@ -2,6 +2,7 @@ import {
     Edit,
     SimpleForm,
     TextInput,
+    NumberInput,
     required,
 } from "react-admin";
 import { Box, Card, CardContent, Typography, Breadcrumbs, Link as MuiLink } from "@mui/material";
@@ -36,8 +37,10 @@ export const OrganizationWalletEdit = () => {
                 <CardContent>
                     <Edit title={false} mutationMode="pessimistic" redirect="list">
                         <SimpleForm sx={{ maxWidth: 600 }}>
+                            <TextInput source="id" disabled fullWidth />
                             <TextInput source="wallet_id" label="Wallet ID" validate={[required()]} fullWidth />
                             <TextInput source="wallet_name" label="Wallet Name" validate={[required()]} fullWidth />
+                            <NumberInput source="wallet_type_id" label="Wallet Type ID" validate={[required()]} fullWidth />
                             <TextInput source="wallet_type_name" label="Wallet Type Name" fullWidth />
                         </SimpleForm>
                     </Edit>

@@ -12,7 +12,7 @@ import {
     CustomerPaymentFormFields,
     CustomerInvoiceFormFields,
 } from './shared/customer-form-fields';
-import { transformCustomerMilkRateRecord } from './shared/customer-milk-rate-transform';
+import { parseReferenceId, transformCustomerMilkRateRecord } from './shared/customer-milk-rate-transform';
 
 const createPage = (
     resource: string,
@@ -59,9 +59,59 @@ const transformCustomerTypeRecord = (data: RaRecord): RaRecord => {
     return rest;
 };
 
+const parseIntegerField = (value: unknown): number | undefined => {
+    if (value === '' || value == null || value === undefined) {
+        return undefined;
+    }
+
+    const numeric = Number(value);
+    if (!Number.isFinite(numeric) || !Number.isInteger(numeric)) {
+        return undefined;
+    }
+
+    return numeric;
+};
+
 const transformCustomerRecord = (data: RaRecord): RaRecord => {
     const { status: _status, customer_milk_rate_id: _customerMilkRateId, ...rest } = data;
-    return rest;
+    const terms = parseIntegerField(data.terms);
+    const customerPayDateRangeId = parseReferenceId(data.customer_pay_date_range_id);
+
+    return {
+        ...rest,
+        terms,
+        customer_pay_date_range_id: customerPayDateRangeId,
+    };
+};
+
+const toDateOnly = (value: unknown): string | undefined => {
+    if (value == null || value === '') {
+        return undefined;
+    }
+    return String(value).slice(0, 10);
+};
+
+const parseNumberField = (value: unknown): number | undefined => {
+    if (value === '' || value == null || value === undefined) {
+        return undefined;
+    }
+
+    const numeric = Number(value);
+    return Number.isFinite(numeric) ? numeric : undefined;
+};
+
+const transformCustomerPayDateRangeRecord = (data: RaRecord): RaRecord => {
+    const { created_at: _createdAt, updated_at: _updatedAt, rate: rawRate, ...rest } = data;
+    const name = String(data.name ?? '').trim();
+    const rate = parseNumberField(rawRate);
+
+    return {
+        ...rest,
+        name,
+        start_date: toDateOnly(data.start_date),
+        end_date: toDateOnly(data.end_date),
+        ...(rate != null ? { rate } : {}),
+    };
 };
 
 export const CustomerTypeCreate = createPage(
@@ -111,6 +161,7 @@ export const CustomerPayDateRangeCreate = () => (
         title="New Customer Pay Date Range"
         subtitle="Define a billing period for customer deliveries and invoicing."
         successMessage="Customer pay date range created successfully"
+        transform={transformCustomerPayDateRangeRecord}
         saveLabel="Save"
         saveAndAddLabel="Save and Add New"
     >
@@ -123,7 +174,8 @@ export const CustomerPayDateRangeEdit = editPage(
     'Edit Customer Pay Date Range',
     'Update customer pay date range details.',
     'Customer pay date range updated successfully',
-    <CustomerPayDateRangeFormFields />
+    <CustomerPayDateRangeFormFields />,
+    transformCustomerPayDateRangeRecord
 );
 
 export const CustomerCreate = () => (

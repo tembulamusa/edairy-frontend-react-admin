@@ -1,4 +1,4 @@
-import { ListGuesser, Resource } from 'react-admin';
+import { ShowGuesser, Resource } from 'react-admin';
 
 /* ============ ADMIN MODULE ============ */
 import { LicenceList } from '../pages/admin/licence/licence-list';
@@ -56,42 +56,42 @@ import { RoleEdit } from '../pages/admin/roles/edit';
 import { ActivityLogList } from '../pages/admin/audit logs/activity-log-list';
 
 export const adminResources = [
-    <Resource key="licence" name="licence" list={LicenceList} />,
-    <Resource key="activity-logs" name="activity-logs" list={ActivityLogList} />,
-    <Resource key="permissions" name="permissions" list={PermissionList} create={PermissionCreate} edit={PermissionEdit} />,
-    <Resource key="roles" name="roles" list={RoleList} create={RoleCreate} edit={RoleEdit} />,
-    <Resource key="users" name="users" list={UserList} create={UserCreate} edit={UserEdit} />,
-    <Resource key="user-contact-details" name="user-contact-details" list={UserContactDetailList} />,
-    <Resource key="asset-registers" name="asset-registers" list={AssetRegisterList} />,
-    <Resource key="asset-softwares" name="asset-softwares" list={AssetSoftwareList} />,
-    <Resource key="fixed-assets" name="fixed-assets" list={FixedAssetList} create={FixedAssetCreate} edit={FixedAssetEdit} />,
-    <Resource key="asset-categories" name="asset-categories" list={AssetCategoryList} create={AssetCategoryCreate} edit={AssetCategoryEdit} />,
+    <Resource key="licence" name="licence" list={LicenceList} show={ShowGuesser} />,
+    <Resource key="activity-logs" name="activity-logs" list={ActivityLogList} show={ShowGuesser} />,
+    <Resource key="permissions" name="permissions" list={PermissionList} create={PermissionCreate} edit={PermissionEdit} show={ShowGuesser} />,
+    <Resource key="roles" name="roles" list={RoleList} create={RoleCreate} edit={RoleEdit} show={ShowGuesser} />,
+    <Resource key="users" name="users" list={UserList} create={UserCreate} edit={UserEdit} show={ShowGuesser} />,
+    <Resource key="user-contact-details" name="user-contact-details" list={UserContactDetailList} show={ShowGuesser} />,
+    <Resource key="asset-registers" name="asset-registers" list={AssetRegisterList} show={ShowGuesser} />,
+    <Resource key="asset-softwares" name="asset-softwares" list={AssetSoftwareList} show={ShowGuesser} />,
+    <Resource key="fixed-assets" name="fixed-assets" list={FixedAssetList} create={FixedAssetCreate} edit={FixedAssetEdit} show={ShowGuesser} />,
+    <Resource key="asset-categories" name="asset-categories" list={AssetCategoryList} create={AssetCategoryCreate} edit={AssetCategoryEdit} show={ShowGuesser} />,
     <Resource key="asset-assignments" name="asset-assignments" list={AssetAssignmentList} create={AssetAssignmentCreate} show={AssetAssignmentShow} />,
-    <Resource key="asset-depreciation-entries" name="asset-depreciation-entries" list={AssetDepreciationEntryList} create={AssetDepreciationEntryCreate} />,
-    <Resource key="share-transactions" name="share-transactions" list={ShareTransactionsList} show={ListGuesser} />,
+    <Resource key="asset-depreciation-entries" name="asset-depreciation-entries" list={AssetDepreciationEntryList} create={AssetDepreciationEntryCreate} show={ShowGuesser} />,
+    <Resource key="share-transactions" name="share-transactions" list={ShareTransactionsList} show={ShowGuesser} />,
 
-    <Resource key="share-dividends" name="share-dividends" list={AdminShareDividendList} create={ShareDividendCreate} />,
-    <Resource key="share-registrations" name="share-registrations" list={ShareRegistrationList} />,
+    <Resource key="share-dividends" name="share-dividends" list={AdminShareDividendList} create={ShareDividendCreate} show={ShowGuesser} />,
+    <Resource key="share-registrations" name="share-registrations" list={ShareRegistrationList} show={ShowGuesser} />,
 
-    <Resource key="sms" name="sms" list={SmsList} />,
-    <Resource key="sms-error-codes" name="sms-error-codes" list={SmsErrorCodeList} />,
+    <Resource key="sms" name="sms" list={SmsList} show={ShowGuesser} />,
+    <Resource key="sms-error-codes" name="sms-error-codes" list={SmsErrorCodeList} show={ShowGuesser} />,
 
-    <Resource key="document-types" name="document-types" list={DocumentTypeList} create={DocumentTypeCreate} edit={DocumentTypeEdit} />,
+    <Resource key="document-types" name="document-types" list={DocumentTypeList} create={DocumentTypeCreate} edit={DocumentTypeEdit} show={ShowGuesser} />,
 
-    <Resource key="organization-details" name="organization-details" list={OrganizationDetailsList} />,
-    <Resource key="organization-addresses" name="organization-addresses" list={OrganizationAddressesList} create={OrganizationAddressCreate} />,
-    <Resource key="organization-banks" name="organization-banks" list={OrganizationBanksList} create={OrganizationBankCreate} />,
-    <Resource key="organization-documents" name="organization-documents" list={OrganizationDocumentsList} create={OrganizationDocumentCreate} />,
-    <Resource key="organization-kyb-comments" name="organization-kyb-comments" list={OrganizationKybCommentsList} create={OrganizationKybCommentCreate} />,
-    <Resource key="organization-leaderships" name="organization-leaderships" list={OrganizationLeadershipsList} create={OrganizationLeadershipCreate} />,
-    <Resource key="organization-wallets" name="organization-wallets" list={OrganizationWalletsList} />,
+    <Resource key="organization-details" name="organization-details" list={OrganizationDetailsList} show={ShowGuesser} />,
+    <Resource key="organization-addresses" name="organization-addresses" list={OrganizationAddressesList} create={OrganizationAddressCreate} show={ShowGuesser} />,
+    <Resource key="organization-banks" name="organization-banks" list={OrganizationBanksList} create={OrganizationBankCreate} show={ShowGuesser} />,
+    <Resource key="organization-documents" name="organization-documents" list={OrganizationDocumentsList} create={OrganizationDocumentCreate} show={ShowGuesser} />,
+    <Resource key="organization-kyb-comments" name="organization-kyb-comments" list={OrganizationKybCommentsList} create={OrganizationKybCommentCreate} show={ShowGuesser} />,
+    <Resource key="organization-leaderships" name="organization-leaderships" list={OrganizationLeadershipsList} create={OrganizationLeadershipCreate} show={ShowGuesser} />,
+    <Resource key="organization-wallets" name="organization-wallets" list={OrganizationWalletsList} show={ShowGuesser} />,
 
-    <Resource key="directors-and-management" name="directors-and-management" list={DirectorManagementList} />,
-    <Resource key="documents" name="documents" list={DocumentList} />,
-    <Resource key="departments" name="departments" list={DepartmentList} />,
-    <Resource key="banks" name="banks" list={BankList} />,
-    <Resource key="sites" name="sites" list={SiteList} />,
+    <Resource key="directors-and-management" name="directors-and-management" list={DirectorManagementList} show={ShowGuesser} />,
+    <Resource key="documents" name="documents" list={DocumentList} show={ShowGuesser} />,
+    <Resource key="departments" name="departments" list={DepartmentList} show={ShowGuesser} />,
+    <Resource key="banks" name="banks" list={BankList} show={ShowGuesser} />,
+    <Resource key="sites" name="sites" list={SiteList} show={ShowGuesser} />,
 
-    <Resource key="payment-types" name="payment-types" list={PaymentTypeList} />,
-    <Resource key="relationships" name="relationships" list={RelationshipList} />,
+    <Resource key="payment-types" name="payment-types" list={PaymentTypeList} show={ShowGuesser} />,
+    <Resource key="relationships" name="relationships" list={RelationshipList} show={ShowGuesser} />,
 ];

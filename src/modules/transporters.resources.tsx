@@ -1,5 +1,5 @@
 import type { ComponentType } from 'react';
-import { Resource } from 'react-admin';
+import { Resource, ShowGuesser } from 'react-admin';
 
 /* ============ TRANSPORTERS MODULE ============ */
 import {
@@ -47,11 +47,13 @@ const transporterCrud = (list: ComponentType, create: ComponentType, edit: Compo
     list,
     create,
     edit,
+    show: ShowGuesser,
 });
 
 const transporterListEdit = (list: ComponentType, edit: ComponentType) => ({
     list,
     edit,
+    show: ShowGuesser,
 });
 
 export const transportersResources = [
@@ -104,18 +106,19 @@ export const transportersResources = [
         name="transporter-benefits"
         {...transporterCrud(TransporterBenefitList, TransporterBenefitCreate, TransporterBenefitEdit)}
     />,
-    <Resource key="monthly-pay-date-ranges" name="monthly-pay-date-ranges" list={MonthlyPayDateRangeList} />,
-    <Resource key="pay-rates" name="pay-rates" list={PayRateList} />,
-    <Resource key="transporter-payments" name="transporter-payments" list={TransporterPaymentList} />,
-    <Resource key="deductions-recovery" name="deductions-recovery" list={DeductionsRecoveryList} />,
-    <Resource key="transporter-payroll" name="transporter-payroll" list={TransporterPayrollList} />,
-    <Resource key="transporter-deductions" name="transporter-deductions" list={TransporterDeductionList} />,
-    <Resource key="transport-vehicles" name="transport-vehicles" list={TransportVehicleList} />,
-    <Resource key="transporter-payroll-summary" name="transporter-payroll-summary" list={TransporterPayrollSummaryList} />,
+    <Resource key="monthly-pay-date-ranges" name="monthly-pay-date-ranges" list={MonthlyPayDateRangeList} show={ShowGuesser} />,
+    <Resource key="pay-rates" name="pay-rates" list={PayRateList} show={ShowGuesser} />,
+    <Resource key="transporter-payments" name="transporter-payments" list={TransporterPaymentList} show={ShowGuesser} />,
+    <Resource key="deductions-recovery" name="deductions-recovery" list={DeductionsRecoveryList} show={ShowGuesser} />,
+    <Resource key="transporter-payroll" name="transporter-payroll" list={TransporterPayrollList} show={ShowGuesser} />,
+    <Resource key="transporter-deductions" name="transporter-deductions" list={TransporterDeductionList} show={ShowGuesser} />,
+    <Resource key="transport-vehicles" name="transport-vehicles" list={TransportVehicleList} show={ShowGuesser} />,
+    <Resource key="transporter-payroll-summary" name="transporter-payroll-summary" list={TransporterPayrollSummaryList} show={ShowGuesser} />,
     <Resource
         key="transporter-payroll-bank-summary"
         name="transporter-payroll-bank-summary"
         list={TransporterPayrollBankSummaryList}
+        show={ShowGuesser}
     />,
-    <Resource key="transporter-statement" name="transporter-statement" list={TransporterStatementList} />,
+    <Resource key="transporter-statement" name="transporter-statement" list={TransporterStatementList} show={ShowGuesser} />,
 ];

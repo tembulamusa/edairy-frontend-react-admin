@@ -1,4 +1,4 @@
-import { Resource } from 'react-admin';
+import { Resource, ShowGuesser } from 'react-admin';
 
 /* ============ STORES MODULE ============ */
 
@@ -74,9 +74,9 @@ import {
 
 export const storesResources = [
 
-    <Resource key="store-sales" name="store-sales" list={StoreSalesList} create={StoreSaleCreate} />,
+    <Resource key="store-sales" name="store-sales" list={StoreSalesList} create={StoreSaleCreate} show={ShowGuesser} />,
 
-    <Resource key="supplies" name="supplies" list={SuppliesList} create={SupplyCreate} edit={SupplyEdit} />,
+    <Resource key="supplies" name="supplies" list={SuppliesList} create={SupplyCreate} edit={SupplyEdit} show={ShowGuesser} />,
 
     <Resource
 
@@ -89,6 +89,8 @@ export const storesResources = [
         create={SupplyRejectCreate}
 
         edit={SupplyRejectEdit}
+
+        show={ShowGuesser}
 
     />,
 
@@ -104,11 +106,13 @@ export const storesResources = [
 
         edit={InterstoreTransferEdit}
 
+        show={ShowGuesser}
+
     />,
 
-    <Resource key="store-stocks" name="store-stocks" list={StoreStocksList} />,
+    <Resource key="store-stocks" name="store-stocks" list={StoreStocksList} show={ShowGuesser} />,
 
-    <Resource key="store-items" name="store-items" list={StoreItemsList} create={StoreItemCreate} edit={StoreItemEdit} />,
+    <Resource key="store-items" name="store-items" list={StoreItemsList} create={StoreItemCreate} edit={StoreItemEdit} show={ShowGuesser} />,
 
     <Resource
 
@@ -122,9 +126,11 @@ export const storesResources = [
 
         edit={ItemCategoryEdit}
 
+        show={ShowGuesser}
+
     />,
 
-    <Resource key="stores" name="stores" list={StoresList} create={StoreCreate} edit={StoreEdit} />,
+    <Resource key="stores" name="stores" list={StoresList} create={StoreCreate} edit={StoreEdit} show={ShowGuesser} />,
 
     <Resource
 
@@ -137,6 +143,8 @@ export const storesResources = [
         create={StoreInventoryCreate}
 
         edit={StoreInventoryEdit}
+
+        show={ShowGuesser}
 
     />,
 
@@ -152,6 +160,8 @@ export const storesResources = [
 
         edit={StoreStockTakingEdit}
 
+        show={ShowGuesser}
+
     />,
 
     <Resource
@@ -159,6 +169,7 @@ export const storesResources = [
         name="store-stock-movements"
         list={StoreStockMovementsList}
         create={StoreStockMovementCreate}
+        show={ShowGuesser}
     />,
 
     <Resource
@@ -172,6 +183,8 @@ export const storesResources = [
         create={StoreStockMovementTypeCreate}
 
         edit={StoreStockMovementTypeEdit}
+
+        show={ShowGuesser}
 
     />,
 

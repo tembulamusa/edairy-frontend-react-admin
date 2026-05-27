@@ -1,10 +1,12 @@
 import {
     DataTable,
+    ShowButton,
     EditButton,
     DeleteButton,
     useResourceContext,
 } from 'react-admin';
 import { Stack, Tooltip } from '@mui/material';
+import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import { useCan } from '../../../components/permissions/user-can';
 
 type ProduceListActionsColProps = {
@@ -14,12 +16,24 @@ type ProduceListActionsColProps = {
 export const ProduceListActionsCol = ({ showDelete = true }: ProduceListActionsColProps) => {
     const resource = useResourceContext() ?? '';
     const can = useCan();
-    const canEdit = can(resource, 'update');
+    const canView = can(resource, 'view');
+    const canEdit = can(resource, 'edit');
     const canDelete = showDelete && can(resource, 'delete');
 
     return (
         <DataTable.Col label="Actions">
             <Stack direction="row" spacing={1} alignItems="center">
+                {canView && (
+                    <Tooltip title="View Record">
+                        <span>
+                            <ShowButton
+                                label={false}
+                                icon={<VisibilityOutlinedIcon fontSize="small" />}
+                                sx={{ minWidth: 36 }}
+                            />
+                        </span>
+                    </Tooltip>
+                )}
                 {canEdit && (
                     <Tooltip title="Edit Record">
                         <span>
@@ -32,7 +46,6 @@ export const ProduceListActionsCol = ({ showDelete = true }: ProduceListActionsC
                         <span>
                             <DeleteButton
                                 label={false}
-                                confirmColor="error"
                                 mutationMode="pessimistic"
                                 confirmTitle="⚠️ Confirm deletion"
                                 confirmContent="This will permanently remove the record."

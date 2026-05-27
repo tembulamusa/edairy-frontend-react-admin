@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { Create, useGetList, useNotify, useRedirect, useRefresh } from 'react-admin';
+import { Create, useDataProvider, useGetList, useNotify, useRedirect, useRefresh } from 'react-admin';
 import {
     Box,
     Button,
@@ -28,6 +28,7 @@ export const CustomerBillingCreate = () => {
     const notify = useNotify();
     const redirect = useRedirect();
     const refresh = useRefresh();
+    const dataProvider = useDataProvider();
     const [selectedIds, setSelectedIds] = useState<number[]>([]);
     const [generating, setGenerating] = useState(false);
 
@@ -64,7 +65,7 @@ export const CustomerBillingCreate = () => {
 
         setGenerating(true);
         try {
-            await createCustomerBillingsForPayDateRanges(selectedIds);
+            await createCustomerBillingsForPayDateRanges(dataProvider, selectedIds);
             notify(
                 selectedIds.length === 1
                     ? 'Customer billing generated successfully'

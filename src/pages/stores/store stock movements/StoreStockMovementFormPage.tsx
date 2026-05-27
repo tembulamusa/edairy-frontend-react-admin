@@ -67,6 +67,7 @@ export const StoreStockMovementFormContent = () => {
     const notify = useNotify();
     const redirect = useRedirect();
     const refresh = useRefresh();
+    const redirectToCreateWithReload = useRedirectToCreateWithReload();
 
     const form = useForm<StockMovementDraft>({
         defaultValues: initialStockMovementDraft(),

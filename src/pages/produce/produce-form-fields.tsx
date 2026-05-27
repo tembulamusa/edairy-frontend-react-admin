@@ -180,41 +180,59 @@ const customerOptionText = (record: {
     id?: number;
 }) => record.full_name?.trim() || record.full_names?.trim() || String(record.id ?? '');
 
-export const MilkDeliveryFormFields = () => (
-    <Grid container spacing={2} alignItems="flex-start">
-        {gridField(
-            <DateInput
-                source="transaction_date"
-                label="Transaction Date"
-                validate={required()}
-                fullWidth
-                variant="outlined"
-            />
-        )}
-        {gridField(
-            <NumberInput source="quantity_accepted" label="Quantity Accepted" fullWidth variant="outlined" />
-        )}
-        {gridField(<NumberInput source="amount" label="Amount" fullWidth variant="outlined" />)}
-        {gridField(<NumberInput source="amount_paid" label="Amount Paid" fullWidth variant="outlined" />)}
-        {gridField(<TextInput source="delivery_note_number" label="Delivery Note Number" fullWidth variant="outlined" />)}
-        {gridField(
-            <ReferenceInput source="customer_id" reference="customers">
-                <SelectInput
-                    label="Customer"
-                    optionText={customerOptionText}
-                    optionValue="id"
+export const MilkDeliveryFormFields = () => {
+    const { setValue, getValues } = useFormContext();
+
+    useEffect(() => {
+        const current = getValues('transaction_date');
+        if (!current) {
+            setValue('transaction_date', today, { shouldDirty: false });
+        }
+    }, [getValues, setValue]);
+
+    return (
+        <Grid container spacing={2} alignItems="flex-start">
+            {gridField(
+                <DateInput
+                    source="transaction_date"
+                    label="Transaction Date"
+                    validate={[required(), validateTransactionDateNotFuture]}
+                    maxValue={today}
                     fullWidth
                     variant="outlined"
                 />
-            </ReferenceInput>
-        )}
-        {gridField(
-            <ReferenceInput source="transporter_id" reference="transporters">
-                <SelectInput label="Transporter" optionText={transporterOptionText} optionValue="id" fullWidth variant="outlined" />
-            </ReferenceInput>
-        )}
-    </Grid>
-);
+            )}
+            {gridField(
+                <NumberInput source="quantity_accepted" label="Quantity Accepted" fullWidth variant="outlined" />
+            )}
+            {gridField(<NumberInput source="amount" label="Amount" fullWidth variant="outlined" />)}
+            {gridField(<NumberInput source="amount_paid" label="Amount Paid" fullWidth variant="outlined" />)}
+            {gridField(<TextInput source="delivery_note_number" label="Delivery Note Number" fullWidth variant="outlined" />)}
+            {gridField(
+                <ReferenceInput source="customer_id" reference="customers">
+                    <SelectInput
+                        label="Customer"
+                        optionText={customerOptionText}
+                        optionValue="id"
+                        fullWidth
+                        variant="outlined"
+                    />
+                </ReferenceInput>
+            )}
+            {gridField(
+                <ReferenceInput source="transporter_id" reference="transporters">
+                    <SelectInput
+                        label="Transporter"
+                        optionText={transporterOptionText}
+                        optionValue="id"
+                        fullWidth
+                        variant="outlined"
+                    />
+                </ReferenceInput>
+            )}
+        </Grid>
+    );
+};
 
 export const MilkLocalSaleFormFields = () => (
     <Grid container spacing={2} alignItems="flex-start">

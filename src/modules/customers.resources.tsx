@@ -1,4 +1,4 @@
-import { Resource } from 'react-admin';
+import { Resource, ShowGuesser } from 'react-admin';
 
 /* ============ CUSTOMERS MODULE ============ */
 import { CustomerBillingList } from '../pages/customers/customer billings/customer-billings-list';
@@ -32,6 +32,7 @@ export const customersResources = [
         list={CustomerBillingList}
         create={CustomerBillingCreate}
         edit={CustomerBillingEdit}
+        show={ShowGuesser}
     />,
     <Resource
         key="customer-invoices"
@@ -39,6 +40,7 @@ export const customersResources = [
         list={CustomerInvoiceList}
         create={CustomerInvoiceCreate}
         edit={CustomerInvoiceEdit}
+        show={ShowGuesser}
     />,
     <Resource
         key="customer-payments"
@@ -46,6 +48,7 @@ export const customersResources = [
         list={CustomerPaymentList}
         create={CustomerPaymentCreate}
         edit={CustomerPaymentEdit}
+        show={ShowGuesser}
     />,
     <Resource
         key="customer-types"
@@ -53,6 +56,7 @@ export const customersResources = [
         list={CustomerTypeList}
         create={CustomerTypeCreate}
         edit={CustomerTypeEdit}
+        show={ShowGuesser}
     />,
     <Resource
         key="customers"
@@ -60,6 +64,7 @@ export const customersResources = [
         list={CustomerList}
         create={CustomerCreate}
         edit={CustomerEdit}
+        show={ShowGuesser}
     />,
     <Resource
         key="customer-milk-rates"
@@ -67,6 +72,7 @@ export const customersResources = [
         list={CustomerMilkRateList}
         create={CustomerMilkRateCreate}
         edit={CustomerMilkRateEdit}
+        show={ShowGuesser}
     />,
     <Resource
         key="customer-pay-date-ranges"
@@ -74,5 +80,6 @@ export const customersResources = [
         list={CustomerPayDateRangeList}
         create={CustomerPayDateRangeCreate}
         edit={CustomerPayDateRangeEdit}
+        show={ShowGuesser}
     />,
 ];

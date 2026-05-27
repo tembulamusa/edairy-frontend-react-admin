@@ -49,6 +49,7 @@ export const TransporterCreatePage = ({
         title={false}
         sx={transporterCreateMainSx}
         redirect={false}
+        transform={transform}
     >
         <Box sx={transporterCreateWrapperSx}>
             <ListBreadcrumbs />
@@ -63,7 +64,6 @@ export const TransporterCreatePage = ({
                     <Divider sx={{ mb: 4 }} />
                     <CreateSuccessBanner />
                     <SimpleForm
-                        transform={transform}
                         toolbar={
                             <TransporterCreateToolbar
                                 resource={resource}

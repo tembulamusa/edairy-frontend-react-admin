@@ -26,7 +26,7 @@ export const TransporterEditPage = ({
     children,
     transform,
 }: TransporterEditPageProps) => (
-    <Edit title={false} sx={transporterCreateMainSx}>
+    <Edit title={false} sx={transporterCreateMainSx} transform={transform}>
         <Box sx={transporterCreateWrapperSx}>
             <ListBreadcrumbs />
             <Card elevation={0} sx={{ borderRadius: 3, overflow: 'hidden', width: '100%' }}>
@@ -39,7 +39,6 @@ export const TransporterEditPage = ({
                     </Typography>
                     <Divider sx={{ mb: 4 }} />
                     <SimpleForm
-                        transform={transform}
                         toolbar={
                             <TransporterEditToolbar resource={resource} successMessage={successMessage} />
                         }

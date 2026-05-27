@@ -20,6 +20,27 @@ const gridField = (child: ReactNode) => (
     <Grid size={{ xs: 12, md: 6 }}>{child}</Grid>
 );
 
+const validateRequiredInteger = (value: unknown) => {
+    if (value === '' || value == null || value === undefined) {
+        return 'Required';
+    }
+
+    const numeric = Number(value);
+    if (!Number.isFinite(numeric) || !Number.isInteger(numeric)) {
+        return 'Must be a whole number';
+    }
+
+    return undefined;
+};
+
+const validateNonEmptyTrimmed = (value: unknown) => {
+    if (value == null || String(value).trim() === '') {
+        return 'Required';
+    }
+
+    return undefined;
+};
+
 const customerTypeOptionText = (record: { name?: string; type_code?: string; id?: number }) => {
     const name = record.name?.trim();
     const code = record.type_code?.trim();
@@ -151,7 +172,13 @@ export const CustomerMilkRateFormFields = () => (
 const CustomerPayDateRangeFields = ({ showRate }: { showRate: boolean }) => (
     <Grid container spacing={2} alignItems="flex-start">
         {gridField(
-            <TextInput source="name" label="Period Name" validate={required()} fullWidth variant="outlined" />
+            <TextInput
+                source="name"
+                label="Period Name"
+                validate={[required(), validateNonEmptyTrimmed]}
+                fullWidth
+                variant="outlined"
+            />
         )}
         {gridField(
             <DateInput source="start_date" label="Start Date" validate={required()} fullWidth variant="outlined" />
@@ -159,7 +186,10 @@ const CustomerPayDateRangeFields = ({ showRate }: { showRate: boolean }) => (
         {gridField(
             <DateInput source="end_date" label="End Date" validate={required()} fullWidth variant="outlined" />
         )}
-        {showRate && gridField(<NumberInput source="rate" label="Rate" fullWidth variant="outlined" />)}
+        {showRate &&
+            gridField(
+                <NumberInput source="rate" label="Rate" validate={required()} fullWidth variant="outlined" />
+            )}
         <Grid size={{ xs: 12 }}>
             <TextInput source="description" label="Description" multiline rows={3} fullWidth variant="outlined" />
         </Grid>
@@ -200,6 +230,7 @@ export const CustomerFormFields = () => (
                 <SelectInput
                     label="Pay Date Range"
                     optionText={customerPayDateRangeOptionText}
+                    validate={required()}
                     fullWidth
                     variant="outlined"
                 />
@@ -207,7 +238,13 @@ export const CustomerFormFields = () => (
         )}
         {gridField(<NumberInput source="credit_limit" label="Credit Limit" fullWidth variant="outlined" />)}
         {gridField(
-            <NumberInput source="terms" label="Payment Period (days)" fullWidth variant="outlined" />
+            <NumberInput
+                source="terms"
+                label="Payment Period (days)"
+                validate={[required(), validateRequiredInteger]}
+                fullWidth
+                variant="outlined"
+            />
         )}
         {gridField(<TextInput source="postal_town" label="Town" fullWidth variant="outlined" />)}
     </Grid>

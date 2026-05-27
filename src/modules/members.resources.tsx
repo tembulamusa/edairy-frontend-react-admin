@@ -1,4 +1,4 @@
-import { Resource } from 'react-admin';
+import { Resource, ShowGuesser } from 'react-admin';
 
 /* ============ MEMBERS MODULE ============ */
 import { MemberList } from '../pages/members/members/member-list';
@@ -46,24 +46,24 @@ import { DividendDeclarationCreate } from '../pages/members/dividend declaration
 import { ShareDividendCreate as MemberShareDividendCreate } from '../pages/members/dividends/ShareDividendCreate';
 
 export const membersResources = [
-    <Resource key="members" name="members" list={MemberList} create={MemberCreate} />,
-    <Resource key="member-bank-accounts" name="member-bank-accounts" list={MemberBankAccountList} create={MemberBankAccountCreate} />,
-    <Resource key="transport-rates" name="transport-rates" list={TransportRateList} create={TransportRateCreate} edit={TransportRateEdit} />,
-    <Resource key="member-types" name="member-types" list={MemberTypeList} create={MemberTypeCreate} />,
-    <Resource key="locations" name="locations" list={LocationList} create={LocationCreate} edit={LocationEdit} />,
-    <Resource key="routes" name="routes" list={RouteList} create={RouteCreate} edit={RouteEdit} />,
-    <Resource key="route-centers" name="route-centers" list={RouteCenterList} create={RouteCenterCreate} />,
-    <Resource key="payment-modes" name="payment-modes" list={PaymentModeList} create={PaymentModeCreate} />,
-    <Resource key="trainings" name="trainings" list={TrainingList} create={TrainingCreate} />,
-    <Resource key="training-sessions" name="training-sessions" list={TrainingSessionList} create={TrainingSessionCreate} />,
-    <Resource key="training-session-attendees" name="training-session-attendees" list={TrainingSessionAttendeesList} create={TrainingSessionAttendeeCreate} />,
-    <Resource key="exchange-visits" name="exchange-visits" list={ExchangeVisitList} create={ExchangeVisitCreate} />,
-    <Resource key="exchange-visit-attendees" name="exchange-visit-attendees" list={ExchangeVisitAttendeesList} create={ExchangeVisitAttendeeCreate} />,
-    <Resource key="share-types" name="share-types" list={ShareTypeList} create={ShareTypeCreate} />,
-    <Resource key="share-accounts" name="share-accounts" list={MemberShareList} create={MemberShareCreate} />,
-    <Resource key="share-payments" name="share-payments" list={SharePaymentList} create={SharePaymentCreate} />,
-    <Resource key="share-transfers" name="share-transfers" list={ShareTransferList} create={ShareTransferCreate} />,
-    <Resource key="dividend-declarations" name="dividend-declarations" list={DividendDeclarationList} create={DividendDeclarationCreate} />,
-    <Resource key="dividends" name="dividends" list={MemberShareDividendList} create={MemberShareDividendCreate} />,
-    <Resource key="member-with-missing-details" name="member-with-missing-details" list={MemberWithMissingDetailsList} />,
+    <Resource key="members" name="members" list={MemberList} create={MemberCreate} show={ShowGuesser} />,
+    <Resource key="member-bank-accounts" name="member-bank-accounts" list={MemberBankAccountList} create={MemberBankAccountCreate} show={ShowGuesser} />,
+    <Resource key="transport-rates" name="transport-rates" list={TransportRateList} create={TransportRateCreate} edit={TransportRateEdit} show={ShowGuesser} />,
+    <Resource key="member-types" name="member-types" list={MemberTypeList} create={MemberTypeCreate} show={ShowGuesser} />,
+    <Resource key="locations" name="locations" list={LocationList} create={LocationCreate} edit={LocationEdit} show={ShowGuesser} />,
+    <Resource key="routes" name="routes" list={RouteList} create={RouteCreate} edit={RouteEdit} show={ShowGuesser} />,
+    <Resource key="route-centers" name="route-centers" list={RouteCenterList} create={RouteCenterCreate} show={ShowGuesser} />,
+    <Resource key="payment-modes" name="payment-modes" list={PaymentModeList} create={PaymentModeCreate} show={ShowGuesser} />,
+    <Resource key="trainings" name="trainings" list={TrainingList} create={TrainingCreate} show={ShowGuesser} />,
+    <Resource key="training-sessions" name="training-sessions" list={TrainingSessionList} create={TrainingSessionCreate} show={ShowGuesser} />,
+    <Resource key="training-session-attendees" name="training-session-attendees" list={TrainingSessionAttendeesList} create={TrainingSessionAttendeeCreate} show={ShowGuesser} />,
+    <Resource key="exchange-visits" name="exchange-visits" list={ExchangeVisitList} create={ExchangeVisitCreate} show={ShowGuesser} />,
+    <Resource key="exchange-visit-attendees" name="exchange-visit-attendees" list={ExchangeVisitAttendeesList} create={ExchangeVisitAttendeeCreate} show={ShowGuesser} />,
+    <Resource key="share-types" name="share-types" list={ShareTypeList} create={ShareTypeCreate} show={ShowGuesser} />,
+    <Resource key="share-accounts" name="share-accounts" list={MemberShareList} create={MemberShareCreate} show={ShowGuesser} />,
+    <Resource key="share-payments" name="share-payments" list={SharePaymentList} create={SharePaymentCreate} show={ShowGuesser} />,
+    <Resource key="share-transfers" name="share-transfers" list={ShareTransferList} create={ShareTransferCreate} show={ShowGuesser} />,
+    <Resource key="dividend-declarations" name="dividend-declarations" list={DividendDeclarationList} create={DividendDeclarationCreate} show={ShowGuesser} />,
+    <Resource key="dividends" name="dividends" list={MemberShareDividendList} create={MemberShareDividendCreate} show={ShowGuesser} />,
+    <Resource key="member-with-missing-details" name="member-with-missing-details" list={MemberWithMissingDetailsList} show={ShowGuesser} />,
 ];

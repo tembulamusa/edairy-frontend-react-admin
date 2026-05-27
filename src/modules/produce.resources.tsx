@@ -1,5 +1,5 @@
 import type { ComponentType } from 'react';
-import { Resource } from 'react-admin';
+import { Resource, ShowGuesser } from 'react-admin';
 
 /* ============ PRODUCE MODULE ============ */
 import { MilkJournalsList } from '../pages/produce/milk journals/milk-journals-list';
@@ -63,6 +63,7 @@ const produceCrud = (list: ComponentType, create: ComponentType, edit: Component
     list,
     create,
     edit,
+    show: ShowGuesser,
 });
 
 export const produceResources = [
@@ -80,12 +81,14 @@ export const produceResources = [
         key="daily-milk-variances"
         name="daily-milk-variances"
         list={DailyMilkVariancesList}
+        show={ShowGuesser}
     />,
     <Resource
         key="stray-milk-collections"
         name="stray-milk-collections"
         list={StrayMilkCollectionsList}
         edit={StrayMilkCollectionEdit}
+        show={ShowGuesser}
     />,
     <Resource
         key="monthly-collections"

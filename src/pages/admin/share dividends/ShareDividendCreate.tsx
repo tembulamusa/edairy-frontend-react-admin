@@ -13,6 +13,7 @@ import {
     Toolbar,
     SaveButton,
 } from 'react-admin';
+import { useRedirectToCreateWithReload } from '../../../components/forms/redirect-to-create-with-reload';
 
 import {
     Card,
@@ -29,6 +30,7 @@ import { ListBreadcrumbs } from '../../../../ListBreadcrumbs';
 const ShareDividendCreateToolbar = () => {
     const notify = useNotify();
     const redirect = useRedirect();
+    const redirectToCreateWithReload = useRedirectToCreateWithReload();
 
     return (
         <Toolbar sx={{ display: 'flex', justifyContent: 'space-between', backgroundColor: 'transparent', px: 0 }}>
@@ -39,8 +41,7 @@ const ShareDividendCreateToolbar = () => {
                     variant="contained"
                     mutationOptions={{
                         onSuccess: () => {
-                            notify('Share Dividend recorded successfully', { type: 'success' });
-                            redirect('create', 'share-dividends');
+                            redirectToCreateWithReload('share-dividends', 'Share Dividend recorded successfully');
                         },
                     }}
                 />

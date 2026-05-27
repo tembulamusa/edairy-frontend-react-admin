@@ -1,61 +1,25 @@
 import {
     DataTable,
     List,
-    TopToolbar,
-    useResourceContext,
-    EditButton,
-    DeleteButton,
-    CreateButton,
-    TextField,
-    NumberField,
-    ReferenceField,
     DateField,
-    FilterButton,
-    ExportButton,
     TextInput,
-    Pagination,
 } from 'react-admin';
 
-import {
-    Stack,
-    Tooltip,
-    Card,
-    CardContent,
-    Typography,
-    Chip,
-    Box,
-} from '@mui/material';
-import Grid from '@mui/material/Grid';
-
-import { useCan } from '../../../components/permissions/user-can';
+import { Box } from '@mui/material';
 import { ListBreadcrumbs } from '../../../../ListBreadcrumbs';
 
 const activityLogFilters = [
     <TextInput label="Search" source="q" alwaysOn />,
 ];
 
-const ActivityLogActions = () => (
-    <TopToolbar>
-        <FilterButton />
-        <CreateButton
-            variant="contained"
-            sx={{ backgroundColor: 'primary.main', color: 'white', ml: 1, '&:hover': { backgroundColor: 'primary.dark' } }}
-        />
-        <ExportButton />
-    </TopToolbar>
-);
-
 export const ActivityLogList = () => {
-    const can = useCan();
-    const resource = useResourceContext() ?? "activity-logs";
-
     return (
         <Box sx={{ p: 2 }}>
             <ListBreadcrumbs />
             <List
                 title="Activity Logs"
                 filters={activityLogFilters}
-                actions={<ActivityLogActions />}
+                actions={false}
             >
                 <DataTable
                     rowClick="show"

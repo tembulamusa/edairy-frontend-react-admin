@@ -70,6 +70,13 @@ export const modules: ModulesConfig = {
                 ],
             },
             {
+                label: "Setup",
+                items: [
+                    s("Document Types", "document-types", <SettingsIcon />),
+
+                ],
+            },
+            {
                 label: "Shares",
                 items: [
                     r("Share Dividends", <AdminPanelSettingsIcon />),
@@ -77,6 +84,7 @@ export const modules: ModulesConfig = {
                     r("Share Transactions", <AdminPanelSettingsIcon />),
                 ],
             },
+
             {
                 label: "Organization",
                 items: [
@@ -84,10 +92,9 @@ export const modules: ModulesConfig = {
                     r("Organization Addresses", <LocationOnIcon />),
                     r("Organization Banks", <AccountBalanceIcon />),
                     r("Organization Documents", <Inventory2Icon />),
-                    r("Organization Kyb Comments", <ReceiptLongIcon />),
+                    // r("Organization Kyb Comments", <ReceiptLongIcon />),
                     r("Organization Leaderships", <PeopleIcon />),
                     r("Organization Wallets", <AttachMoneyIcon />),
-                    r("Document Types", <SettingsIcon />),
                     r("Departments", <WorkIcon />),
                 ],
             },
@@ -106,7 +113,7 @@ export const modules: ModulesConfig = {
                 items: [
                     r("Members", <PeopleIcon />),
                     r("Member Bank Accounts", <AccountBalanceIcon />),
-                    r("Transport Rates", <LocalShippingIcon />),
+                    s("Transport Rates", "transport-rates", <LocalShippingIcon />),
                 ],
             },
             {
@@ -145,6 +152,7 @@ export const modules: ModulesConfig = {
             {
                 label: "Setup",
                 items: [
+                    s("Locations", "locations", <LocationOnIcon />),
                     r("Member Types", <SettingsIcon />),
                     r("Routes", <LocalShippingIcon />),
                     r("Route Centers", <StoreIcon />),
@@ -161,16 +169,18 @@ export const modules: ModulesConfig = {
                 items: [r("Dashboard", <DashboardIcon />)],
             },
             {
+                label: "Setup",
+                items: [s("Transporter Types", "transporter-types", <SettingsIcon />)],
+            },
+            {
                 label: "Transporters",
                 items: [
                     r("Transporters", <LocalShippingIcon />),
-                    r("Individual Transporters", <LocalShippingIcon />),
-                    r("Company Transporters", <LocalShippingIcon />),
                     r("Transporter Vehicles", <LocalShippingIcon />),
                     r("Transporter Route Assignments", <LocalShippingIcon />),
                     r("Transporter Drivers", <LocalShippingIcon />),
                     r("Transporter Driver Assignments", <LocalShippingIcon />),
-                    r("Transport Rates", <LocalShippingIcon />),
+                    s("Transport Rates", "transport-rates", <LocalShippingIcon />),
                     r("Transporter Benefits", <AttachMoneyIcon />),
                 ],
             },
@@ -194,43 +204,37 @@ export const modules: ModulesConfig = {
             {
                 label: "Setup",
                 items: [
-                    r("Milk Cans", <Inventory2Icon />),
-                    r("Product Grades", <FactCheckIcon />),
-                    r("Milk Delivery Shifts", <WorkIcon />),
+                    s("Milk Cans", "milk-cans", <Inventory2Icon />),
+                    s("Product Grades", "product-grades", <FactCheckIcon />),
+                    s("Milk Delivery Shifts", "milk-delivery-shifts", <WorkIcon />),
                 ],
             },
             {
                 label: "Milk Collection",
                 items: [
-                    r("Milk Journals", <AgricultureIcon />),
-                    r("Milk Journal Entries", <AgricultureIcon />),
-                    r("Milk Rejects", <FactCheckIcon />),
-                    r("Stray Milk Collections", <AgricultureIcon />),
+                    s("Milk Journals", "milk-journals", <AgricultureIcon />),
+                    s("Milk Journal Entries", "milk-journal-entries", <AgricultureIcon />),
+                    s("Milk Rejects", "milk-rejects", <FactCheckIcon />),
+                    s("Stray Milk Collections", "stray-milk-collections", <AgricultureIcon />),
                 ],
             },
             {
                 label: "Transporters",
                 items: [
-                    {
-                        label: "Cooler Milk Collection",
-                        resource: "cooler-milk-collections",
-                        icon: <AgricultureIcon />,
-                    },
-                    r("Milk Deliveries", <AgricultureIcon />),
-                    r("Milk Local Sales", <StoreIcon />),
-                    r("Daily Milk Variances", <FactCheckIcon />),
-                    r("Can Movements", <Inventory2Icon />),
+                    s("Cooler Milk Collection", "cooler-milk-collections", <AgricultureIcon />),
+                    s("Milk Deliveries", "milk-deliveries", <AgricultureIcon />),
+                    s("Milk Local Sales", "milk-local-sales", <StoreIcon />),
+                    s("Daily Milk Variances", "daily-milk-variances", <FactCheckIcon />),
+                    s("Can Movements", "can-movements", <Inventory2Icon />),
                 ],
             },
-
-
             {
                 label: "Reports",
                 items: [
-                    r("Milk Delivery Reports", <ReceiptLongIcon />),
-                    r("Member Payroll Summary", <ReceiptLongIcon />),
-                    r("Member Statement", <ReceiptLongIcon />),
-                    r("Monthly Collections", <AgricultureIcon />),
+                    s("Milk Delivery Reports", "milk-delivery-reports", <ReceiptLongIcon />),
+                    s("Member Payroll Summary", "member-payroll-summary", <ReceiptLongIcon />),
+                    s("Member Statement", "member-statement", <ReceiptLongIcon />),
+                    s("Monthly Collections", "monthly-collections", <AgricultureIcon />),
                 ],
             },
         ],
@@ -243,19 +247,8 @@ export const modules: ModulesConfig = {
                 items: [r("Dashboard", <DashboardIcon />)],
             },
             {
-                label: "Supply",
-                items: [
-                    r("Supplier Quotes", <FactCheckIcon />),
-                    r("Supplies", <Inventory2Icon />),
-                    r("Supply Rejects", <FactCheckIcon />),
-                    r("Purchase Orders", <FactCheckIcon />),
-                    r("Purchase Requisitions", <FactCheckIcon />),
-                ],
-            },
-            {
                 label: "Data Entry",
                 items: [
-                    r("POS", <StoreIcon />),
                     r("Store Sales", <AttachMoneyIcon />),
                     r("Inter Store Transfers", <Inventory2Icon />),
                     r("Store Stocks", <Inventory2Icon />),
@@ -294,8 +287,8 @@ export const modules: ModulesConfig = {
                 label: "Collections",
                 items: [
                     r("Customer Billings", <AttachMoneyIcon />),
-                    r("Customer Payments", <AttachMoneyIcon />),
                     r("Customer Invoices", <ReceiptLongIcon />),
+                    r("Customer Payments", <AttachMoneyIcon />),
                 ],
             },
             {
@@ -304,6 +297,7 @@ export const modules: ModulesConfig = {
                     r("Customer Types", <SettingsIcon />),
                     r("Customers", <PeopleIcon />),
                     r("Customer Milk Rates", <AgricultureIcon />),
+                    r("Customer Pay Date Ranges", <AttachMoneyIcon />),
                 ],
             },
         ],

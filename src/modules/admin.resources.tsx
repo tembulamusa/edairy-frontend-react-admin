@@ -22,6 +22,7 @@ import { AssetAssignmentShow } from '../pages/admin/asset assignments/AssetAssig
 import { AssetAssignmentCreate } from '../pages/admin/asset assignments/AssetAssignmentCreate';
 import { AssetDepreciationEntryList } from '../pages/admin/asset depreciation entries/asset-depreciation-entries-list';
 import { AssetDepreciationEntryCreate } from '../pages/admin/asset depreciation entries/AssetDepreciationEntryCreate';
+import { ShareTransactionsList } from '../pages/admin/share transactions/share-transactions-list';
 import { ShareDividendList as AdminShareDividendList } from '../pages/admin/share dividends/share-dividends-list';
 import { ShareDividendCreate } from '../pages/admin/share dividends/ShareDividendCreate';
 import { ShareRegistrationList } from '../pages/admin/share registrations/share-registrations-list';
@@ -29,20 +30,26 @@ import { SmsList } from '../pages/admin/sms/sms-list';
 import { SmsErrorCodeList } from '../pages/admin/sms error codes/sms-error-codes-list';
 import { OrganizationDetailsList } from '../pages/admin/organization/organization details/organization-details-list';
 import { DocumentTypeList } from '../pages/admin/organization/document types/document-types-list';
+import { DocumentTypeCreate } from '../pages/admin/organization/document types/DocumentTypeCreate';
+import { DocumentTypeEdit } from '../pages/admin/organization/document types/DocumentTypeEdit';
 import { DirectorManagementList } from '../pages/admin/organization/directors and management/directors-management-list';
 import { DocumentList } from '../pages/admin/organization/documents/documents-list';
 import { DepartmentList } from '../pages/admin/organization/departments/departments-list';
 import { BankList } from '../pages/admin/organization/banks/banks-list';
 import { SiteList } from '../pages/admin/organization/sites/sites-list';
 import { OrganizationAddressesList } from '../pages/admin/organization/organization addresses/organization-addresses-list';
+import { OrganizationAddressCreate } from '../pages/admin/organization/organization addresses/OrganizationAddressCreate';
 import { OrganizationBanksList } from '../pages/admin/organization/organization banks/organization-banks-list';
+import { OrganizationBankCreate } from '../pages/admin/organization/organization banks/OrganizationBankCreate';
 import { OrganizationDocumentsList } from '../pages/admin/organization/organization documents/organization-documents-list';
+import { OrganizationDocumentCreate } from '../pages/admin/organization/organization documents/OrganizationDocumentCreate';
 import { OrganizationKybCommentsList } from '../pages/admin/organization/organization-kyb-comments-list';
+import { OrganizationKybCommentCreate } from '../pages/admin/organization/OrganizationKybCommentCreate';
 import { OrganizationLeadershipsList } from '../pages/admin/organization/organization leaderships/organization-leaderships-list';
+import { OrganizationLeadershipCreate } from '../pages/admin/organization/organization leaderships/OrganizationLeadershipCreate';
 import { OrganizationWalletsList } from '../pages/admin/organization/organization wallets/organization-wallets-list';
 import { PaymentTypeList } from '../pages/admin/payment types/payment-types-list';
 import { RelationshipList } from '../pages/admin/relationships/relationships-list';
-import { LocationList } from '../pages/admin/locations/locations-list';
 import { FixedAssetCreate } from '../pages/admin/fixed assets/FixedAssetCreate';
 import { FixedAssetEdit } from '../pages/admin/fixed assets/FixedAssetEdit';
 import { RoleEdit } from '../pages/admin/roles/edit';
@@ -61,6 +68,7 @@ export const adminResources = [
     <Resource key="asset-categories" name="asset-categories" list={AssetCategoryList} create={AssetCategoryCreate} edit={AssetCategoryEdit} />,
     <Resource key="asset-assignments" name="asset-assignments" list={AssetAssignmentList} create={AssetAssignmentCreate} show={AssetAssignmentShow} />,
     <Resource key="asset-depreciation-entries" name="asset-depreciation-entries" list={AssetDepreciationEntryList} create={AssetDepreciationEntryCreate} />,
+    <Resource key="share-transactions" name="share-transactions" list={ShareTransactionsList} show={ListGuesser} />,
 
     <Resource key="share-dividends" name="share-dividends" list={AdminShareDividendList} create={ShareDividendCreate} />,
     <Resource key="share-registrations" name="share-registrations" list={ShareRegistrationList} />,
@@ -68,15 +76,16 @@ export const adminResources = [
     <Resource key="sms" name="sms" list={SmsList} />,
     <Resource key="sms-error-codes" name="sms-error-codes" list={SmsErrorCodeList} />,
 
+    <Resource key="document-types" name="document-types" list={DocumentTypeList} create={DocumentTypeCreate} edit={DocumentTypeEdit} />,
+
     <Resource key="organization-details" name="organization-details" list={OrganizationDetailsList} />,
-    <Resource key="organization-addresses" name="organization-addresses" list={OrganizationAddressesList} />,
-    <Resource key="organization-banks" name="organization-banks" list={OrganizationBanksList} />,
-    <Resource key="organization-documents" name="organization-documents" list={OrganizationDocumentsList} />,
-    <Resource key="organization-kyb-comments" name="organization-kyb-comments" list={OrganizationKybCommentsList} />,
-    <Resource key="organization-leaderships" name="organization-leaderships" list={OrganizationLeadershipsList} />,
+    <Resource key="organization-addresses" name="organization-addresses" list={OrganizationAddressesList} create={OrganizationAddressCreate} />,
+    <Resource key="organization-banks" name="organization-banks" list={OrganizationBanksList} create={OrganizationBankCreate} />,
+    <Resource key="organization-documents" name="organization-documents" list={OrganizationDocumentsList} create={OrganizationDocumentCreate} />,
+    <Resource key="organization-kyb-comments" name="organization-kyb-comments" list={OrganizationKybCommentsList} create={OrganizationKybCommentCreate} />,
+    <Resource key="organization-leaderships" name="organization-leaderships" list={OrganizationLeadershipsList} create={OrganizationLeadershipCreate} />,
     <Resource key="organization-wallets" name="organization-wallets" list={OrganizationWalletsList} />,
 
-    <Resource key="document-types" name="document-types" list={DocumentTypeList} />,
     <Resource key="directors-and-management" name="directors-and-management" list={DirectorManagementList} />,
     <Resource key="documents" name="documents" list={DocumentList} />,
     <Resource key="departments" name="departments" list={DepartmentList} />,
@@ -85,5 +94,4 @@ export const adminResources = [
 
     <Resource key="payment-types" name="payment-types" list={PaymentTypeList} />,
     <Resource key="relationships" name="relationships" list={RelationshipList} />,
-    <Resource key="locations" name="locations" list={LocationList} />,
 ];

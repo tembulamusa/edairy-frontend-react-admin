@@ -3,11 +3,8 @@ import {
     DataTable,
     EditButton,
     DeleteButton,
-    TextInput,
-    required,
     useResourceContext,
 } from "react-admin";
-import { CreateButton } from "../../../../components/forms/FormUtils";
 import {
     Box,
     Card,
@@ -18,6 +15,7 @@ import {
 } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import { useCan } from "../../../../components/permissions/user-can";
+import { ListCreateButton } from "../../../../components/forms/ListCreateButton";
 
 export const OrganizationLeadershipsList = () => {
     const can = useCan();
@@ -55,9 +53,8 @@ export const OrganizationLeadershipsList = () => {
 
                         <Grid size={{ xs: 12, md: "auto" }}>
                             {canCreate && (
-                                <CreateButton
-                                    resource="organization-leaderships"
-                                    title="Organization Leadership"
+                                <ListCreateButton
+                                    resource={resource}
                                     sx={{
                                         backgroundColor: "primary.main",
                                         color: "white",
@@ -65,25 +62,7 @@ export const OrganizationLeadershipsList = () => {
                                             backgroundColor: "primary.dark",
                                         },
                                     }}
-                                >
-                                    <TextInput
-                                        source="first_name"
-                                        validate={required()}
-                                        fullWidth
-                                    />
-                                    <TextInput
-                                        source="last_name"
-                                        validate={required()}
-                                        fullWidth
-                                    />
-                                    <TextInput
-                                        source="position"
-                                        validate={required()}
-                                        fullWidth
-                                    />
-                                    <TextInput source="status" fullWidth />
-                                    <TextInput source="phone" fullWidth />
-                                </CreateButton>
+                                />
                             )}
                         </Grid>
                     </Grid>

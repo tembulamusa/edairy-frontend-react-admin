@@ -52,25 +52,7 @@ export const OrganizationWalletsList = () => {
                             </Typography>
                         </Grid>
 
-                        <Grid size={{ xs: 12, md: "auto" }}>
-                            {canCreate && (
-                                <CreateButton 
-                                    resource="organization-wallets" 
-                                    title="Organization Wallet"
-                                    sx={{
-                                        backgroundColor: 'primary.main',
-                                        color: 'white',
-                                        '&:hover': {
-                                            backgroundColor: 'primary.dark',
-                                        },
-                                    }}
-                                >
-                                    <TextInput source="wallet_id" validate={required()} fullWidth />
-                                    <TextInput source="wallet_name" validate={required()} fullWidth />
-                                    <TextInput source="wallet_type_name" fullWidth />
-                                </CreateButton>
-                            )}
-                        </Grid>
+
                     </Grid>
 
                     <List

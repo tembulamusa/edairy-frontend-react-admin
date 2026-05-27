@@ -3,7 +3,7 @@ export type MemberCreateDraft = {
     first_name: string;
     last_name: string;
     other_names: string;
-    idnumber: string;
+    id_no: string;
     gender: string;
     date_of_birth: string;
     tax_number: string;
@@ -40,7 +40,7 @@ export const initialMemberCreateDraft: MemberCreateDraft = {
     first_name: "",
     last_name: "",
     other_names: "",
-    idnumber: "",
+    id_no: "",
     gender: "",
     date_of_birth: "",
     tax_number: "",

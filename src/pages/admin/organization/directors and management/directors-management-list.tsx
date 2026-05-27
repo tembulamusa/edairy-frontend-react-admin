@@ -77,7 +77,7 @@ export const DirectorManagementList = () => {
                                         validate={required()}
                                         fullWidth
                                     />
-                                    <TextInput source="idnumber" fullWidth />
+                                    <TextInput source="id_no" fullWidth />
                                     <TextInput source="phone" fullWidth />
                                     <TextInput source="email" fullWidth />
                                 </CreateButton>
@@ -100,7 +100,7 @@ export const DirectorManagementList = () => {
                             </DataTable.Col>
                             <DataTable.Col source="full_name" label="Full Name" />
                             <DataTable.Col source="position" label="Position" />
-                            <DataTable.Col source="idnumber" label="ID Number" />
+                            <DataTable.Col source="id_no" label="ID Number" />
                             <DataTable.Col source="phone" label="Phone" />
                             <DataTable.Col source="email" label="Email" />
                             <DataTable.Col label="Actions">

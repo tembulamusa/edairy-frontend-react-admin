@@ -14,7 +14,7 @@ const summaryFields = [
             ["First Name", "first_name"],
             ["Last Name", "last_name"],
             ["Other Names", "other_names"],
-            ["ID Number", "idnumber"],
+            ["ID Number", "id_no"],
             ["Gender", "gender"],
             ["Date of Birth", "date_of_birth"],
             ["Tax Number", "tax_number"],

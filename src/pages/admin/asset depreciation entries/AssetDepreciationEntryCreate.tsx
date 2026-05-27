@@ -13,6 +13,7 @@ import {
     Toolbar,
     SaveButton,
 } from 'react-admin';
+import { useRedirectToCreateWithReload } from '../../../components/forms/redirect-to-create-with-reload';
 
 import {
     Card,
@@ -30,6 +31,7 @@ import { ListBreadcrumbs } from '../../../../ListBreadcrumbs';
 const AssetDepreciationEntryCreateToolbar = () => {
     const notify = useNotify();
     const redirect = useRedirect();
+    const redirectToCreateWithReload = useRedirectToCreateWithReload();
 
     return (
         <Toolbar sx={{ display: 'flex', justifyContent: 'space-between', backgroundColor: 'transparent', px: 0 }}>
@@ -40,8 +42,7 @@ const AssetDepreciationEntryCreateToolbar = () => {
                     variant="contained"
                     mutationOptions={{
                         onSuccess: () => {
-                            notify('Depreciation entry recorded successfully', { type: 'success' });
-                            redirect('create', 'asset-depreciation-entries');
+                            redirectToCreateWithReload('asset-depreciation-entries', 'Depreciation entry recorded successfully');
                         },
                     }}
                 />

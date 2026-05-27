@@ -46,10 +46,11 @@ export const PersonalInfoStep = ({ values, errors, onChange }: Props) => (
                     fullWidth
                     required
                     label="ID Number"
-                    value={values.idnumber}
-                    onChange={(event) => onChange("idnumber", event.target.value)}
-                    error={Boolean(errors.idnumber)}
-                    helperText={errors.idnumber}
+                    name="id_no"
+                    value={values.id_no}
+                    onChange={(event) => onChange("id_no", event.target.value)}
+                    error={Boolean(errors.id_no)}
+                    helperText={errors.id_no}
                 />
             </Grid>
             <Grid item xs={12} sm={4}>
@@ -64,9 +65,9 @@ export const PersonalInfoStep = ({ values, errors, onChange }: Props) => (
                     helperText={errors.gender}
                 >
                     <MenuItem value="">Select gender</MenuItem>
-                    <MenuItem value="male">Male</MenuItem>
-                    <MenuItem value="female">Female</MenuItem>
-                    <MenuItem value="other">Other</MenuItem>
+                    <MenuItem value="MALE">Male</MenuItem>
+                    <MenuItem value="FEMALE">Female</MenuItem>
+                    <MenuItem value="OTHER">Other</MenuItem>
                 </TextField>
             </Grid>
             <Grid item xs={12} sm={4}>
@@ -74,6 +75,7 @@ export const PersonalInfoStep = ({ values, errors, onChange }: Props) => (
                     fullWidth
                     type="date"
                     label="Date of Birth"
+                    name="date_of_birth"
                     value={values.date_of_birth}
                     onChange={(event) => onChange("date_of_birth", event.target.value)}
                     InputLabelProps={{ shrink: true }}

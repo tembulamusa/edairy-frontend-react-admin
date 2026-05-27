@@ -21,6 +21,7 @@ import {
 import Grid from '@mui/material/Grid';
 
 import { FixedAssetForm } from './FixedAssetForm';
+import { useRedirectToCreateWithReload } from '../../../components/forms/redirect-to-create-with-reload';
 
 const steps = [
     "Asset Details",
@@ -34,6 +35,7 @@ export const FixedAssetCreate = () => {
     const [create] = useCreate();
     const notify = useNotify();
     const redirect = useRedirect();
+    const redirectToCreateWithReload = useRedirectToCreateWithReload();
 
     const isLast = step === steps.length - 1;
 
@@ -44,16 +46,19 @@ export const FixedAssetCreate = () => {
         3: ["current_location", "status", "loanable", "comments"], // warranty_end_date moved to step 2
     };
 
-    const handleSubmit = (data: any) => {
-        // Explicitly remove AcquisitionDate (PascalCase) to ensure only acquisition_date is sent
+    const handleSubmit = (data: any, addAnother: boolean) => {
         const { AcquisitionDate, ...payload } = data;
         create(
             "fixed-assets",
             { data: payload },
             {
                 onSuccess: () => {
-                    notify("Fixed asset created", { type: "success" });
-                    redirect("list", "fixed-assets");
+                    if (addAnother) {
+                        redirectToCreateWithReload('fixed-assets', 'Fixed asset created');
+                    } else {
+                        notify('Fixed asset created', { type: 'success' });
+                        redirect('list', 'fixed-assets');
+                    }
                 },
             }
         );
@@ -61,6 +66,7 @@ export const FixedAssetCreate = () => {
 
     return (
         <Create
+            resource="fixed-assets"
             title={false}
             sx={{
                 "& .RaCreate-main": {
@@ -138,7 +144,8 @@ export const FixedAssetCreate = () => {
                             setStep={setStep}
                             isLast={isLast}
                             stepFields={stepFields}
-                            onFinalSubmit={handleSubmit} // Pass the final submission handler
+                            onFinalSubmit={(data) => handleSubmit(data, false)}
+                            onFinalSubmitAndAddNew={(data) => handleSubmit(data, true)}
                         />
                     </SimpleForm>
                 </CardContent>

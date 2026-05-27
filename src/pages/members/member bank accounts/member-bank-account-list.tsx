@@ -1,7 +1,22 @@
-import { List, DataTable, EditButton, DeleteButton, useResourceContext, CreateButton, ShowButton, TextInput, ReferenceInput, SelectInput } from 'react-admin';
+import {
+    List,
+    DataTable,
+    EditButton,
+    DeleteButton,
+    useResourceContext,
+    CreateButton,
+    ShowButton,
+    TextInput,
+    ReferenceInput,
+    SelectInput,
+    TopToolbar,
+    ExportButton,
+    FilterButton
+} from 'react-admin';
 import { Box, Card, CardContent, Typography, Stack, Tooltip } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import { useCan } from '../../../components/permissions/user-can';
+import { ListBreadcrumbs } from '../../../../ListBreadcrumbs';
 
 const MemberBankAccountFilters = [
     <TextInput
@@ -33,6 +48,17 @@ const MemberBankAccountFilters = [
     />,
 ];
 
+const MemberBankAccountActions = () => (
+    <TopToolbar>
+        <FilterButton />
+        <CreateButton
+            variant="contained"
+            sx={{ backgroundColor: 'primary.main', color: 'white', ml: 1, '&:hover': { backgroundColor: 'primary.dark' } }}
+        />
+        <ExportButton />
+    </TopToolbar>
+);
+
 export const MemberBankAccountList = () => {
     const can = useCan();
     const resource = useResourceContext() ?? "member-bank-accounts";
@@ -42,10 +68,11 @@ export const MemberBankAccountList = () => {
 
     return (
         <Box sx={{ p: 2 }}>
+            <ListBreadcrumbs />
             <Card
+                elevation={0}
                 sx={{
                     borderRadius: 3,
-                    boxShadow: 3,
                     overflow: "hidden",
                 }}
             >
@@ -72,26 +99,11 @@ export const MemberBankAccountList = () => {
                                 Manage all member bank account records
                             </Typography>
                         </Grid>
-
-                        <Grid size={{ xs: 12, md: "auto" }}>
-                            {canCreate && (
-                                <CreateButton
-                                    variant="contained"
-                                    sx={{
-                                        backgroundColor: 'primary.main',
-                                        color: 'white',
-                                        '&:hover': {
-                                            backgroundColor: 'primary.dark',
-                                        },
-                                    }}
-                                />
-                            )}
-                        </Grid>
                     </Grid>
-                    <List 
+                    <List
                         title={false}
                         filters={MemberBankAccountFilters}
-                        actions={false}
+                        actions={<MemberBankAccountActions />}
                     >
                         <DataTable
                             rowClick="show"
@@ -103,7 +115,7 @@ export const MemberBankAccountList = () => {
                             }}
                         >
                             <DataTable.Col source="member_no" label="Member Number" />
-                             <DataTable.Col source="first_name" label="First Name" />
+                            <DataTable.Col source="first_name" label="First Name" />
                             <DataTable.Col source="last_name" label="Last Name" />
                             <DataTable.Col source="bank_name" label="Bank" />
                             <DataTable.Col source="account_number" label="Account Number" />
@@ -130,9 +142,17 @@ export const MemberBankAccountList = () => {
                                             <span>
                                                 <DeleteButton
                                                     label={false}
+                                                    confirmColor="error"
                                                     mutationMode="pessimistic"
                                                     confirmTitle="⚠️ Confirm deletion"
                                                     confirmContent="This will permanently remove the record."
+                                                    confirmProps={{
+                                                        sx: {
+                                                            '& .RaConfirm-confirm-button': { color: 'error.main !important' },
+                                                            '& .RaConfirm-title': { color: 'error.main !important' },
+                                                            '& .RaConfirm-content': { color: 'error.main !important' },
+                                                        },
+                                                    }}
                                                 />
                                             </span>
                                         </Tooltip>

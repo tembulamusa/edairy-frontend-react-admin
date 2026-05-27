@@ -13,6 +13,7 @@ import {
     useInput,
     Loading,
 } from 'react-admin';
+import { useRedirectToCreateWithReload } from '../../../components/forms/redirect-to-create-with-reload';
 
 import {
     Card,
@@ -36,6 +37,7 @@ import SearchIcon from '@mui/icons-material/Search';
 const RoleCreateToolbar = () => {
     const notify = useNotify();
     const redirect = useRedirect();
+    const redirectToCreateWithReload = useRedirectToCreateWithReload();
 
     return (
         <Toolbar sx={{ display: 'flex', justifyContent: 'space-between', backgroundColor: 'transparent', px: 0 }}>
@@ -46,8 +48,7 @@ const RoleCreateToolbar = () => {
                     variant="contained"
                     mutationOptions={{
                         onSuccess: () => {
-                            notify('Role created successfully', { type: 'success' });
-                            redirect('create', 'roles');
+                            redirectToCreateWithReload('roles', 'Role created successfully');
                         },
                     }}
                 />

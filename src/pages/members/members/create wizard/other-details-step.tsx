@@ -20,30 +20,6 @@ export const OtherDetailsStep = ({ values, errors, onChange }: Props) => (
         <Typography variant="h6">Other Details</Typography>
         <Grid container spacing={2}>
             <Grid item xs={12} sm={4}>
-                <TextField
-                    fullWidth
-                    select
-                    required
-                    label="Status"
-                    value={values.status}
-                    onChange={(event) => onChange("status", event.target.value)}
-                    error={Boolean(errors.status)}
-                    helperText={errors.status}
-                >
-                    <MenuItem value="">Select status</MenuItem>
-                    <MenuItem value="1">Active</MenuItem>
-                    <MenuItem value="0">Inactive</MenuItem>
-                </TextField>
-            </Grid>
-            <Grid item xs={12} sm={4}>
-                <TextField
-                    fullWidth
-                    label="Downloaded"
-                    value={values.downloaded}
-                    onChange={(event) => onChange("downloaded", event.target.value)}
-                />
-            </Grid>
-            <Grid item xs={12} sm={4}>
                 <FormControlLabel
                     control={
                         <Checkbox

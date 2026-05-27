@@ -15,7 +15,7 @@ const TrainingSessionAttendeeFilters = [
         alwaysOn
     />,
     <TextInput
-        source="idnumber"
+        source="id_no"
         label="ID Number"
         alwaysOn
     />,
@@ -81,7 +81,7 @@ export const TrainingSessionAttendeesList = () => {
                             )}
                         </Grid>
                     </Grid>
-                    <List 
+                    <List
                         title={false}
                         filters={TrainingSessionAttendeeFilters}
                         actions={false}
@@ -100,7 +100,7 @@ export const TrainingSessionAttendeesList = () => {
                             </DataTable.Col>
                             <DataTable.Col source="topic" label="Topic" />
                             <DataTable.Col source="names" label="Names" />
-                            <DataTable.Col source="idnumber" label="ID Number" />
+                            <DataTable.Col source="id_no" label="ID Number" />
                             <DataTable.Col source="membership_number" label="Membership Number" />
                             <DataTable.Col source="comments" label="Comments" />
 

@@ -11,7 +11,7 @@ export const SmsGroupCreate = () => (
                         <TextInput source="Name" validate={required()} fullWidth label="Name" />
                         <TextInput source="Description" multiline rows={3} fullWidth label="Description" />
                     </SimpleForm>
-                </CardContent>
+            </CardContent>
             </Card>
         </Box>
     </Create>

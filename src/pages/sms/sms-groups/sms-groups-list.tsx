@@ -10,7 +10,8 @@ import {
     TextInput,
     EditButton,
     DeleteButton,
-    ShowButton
+    ShowButton,
+    DateField
 } from 'react-admin';
 import { Box } from '@mui/material';
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
@@ -43,6 +44,12 @@ export const SmsGroupsList = () => (
                 </DataTable.Col>
                 <DataTable.Col source="Description" label="Description">
                     <TextField source="Description" />
+                </DataTable.Col>
+                <DataTable.Col source="CreatedAt" label="Created At">
+                    <DateField source="CreatedAt" showTime emptyText="-" />
+                </DataTable.Col>
+                <DataTable.Col source="UpdatedAt" label="Updated At">
+                    <DateField source="UpdatedAt" showTime emptyText="-" />
                 </DataTable.Col>
                 <DataTable.Col label="Actions">
                     <ShowButton

@@ -1,4 +1,4 @@
-import { Show, SimpleShowLayout, TextField, NumberField, DateField } from 'react-admin';
+import { Show, SimpleShowLayout, TextField, NumberField, DateField, ArrayField, Datagrid } from 'react-admin';
 import { Card, CardContent, Typography, Box } from '@mui/material';
 import { ListBreadcrumbs } from '../../../../ListBreadcrumbs';
 
@@ -18,14 +18,17 @@ export const StoreStockMovementShow = () => (
                             <TextField source="id" />
                             <DateField source="transaction_date" label="Date" />
                             <TextField source="store_name" label="Store" />
-                            <TextField source="item_name" label="Item" />
                             <TextField source="movement_type" label="Movement Type" />
-                            <NumberField source="qty_in" label="Qty In" />
-                            <NumberField source="qty_out" label="Qty Out" />
-                            <NumberField source="balance_after" label="Balance After" />
-                            <NumberField source="unit_cost" label="Unit Cost" />
-                            <NumberField source="selling_price" label="Selling Price" />
                             <TextField source="remarks" label="Remarks" />
+                            <ArrayField source="items" label="Items">
+                                <Datagrid bulkActionButtons={false}>
+                                    <TextField source="item_name" label="Item" />
+                                    <NumberField source="quantity" label="Quantity" />
+                                    <NumberField source="unit_cost" label="Unit Cost" />
+                                    <NumberField source="selling_price" label="Selling Price" />
+                                    <NumberField source="balance_after" label="Balance After" />
+                                </Datagrid>
+                            </ArrayField>
                         </SimpleShowLayout>
                     </CardContent>
                 </Card>

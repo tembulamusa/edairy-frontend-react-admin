@@ -1,4 +1,4 @@
-import { Edit, SimpleForm, TextInput, NumberInput, DateInput, required } from 'react-admin';
+import { Edit, SimpleForm, TextInput, NumberInput, DateInput, ArrayInput, SimpleFormIterator, required } from 'react-admin';
 import { Card, CardContent, Typography, Box } from '@mui/material';
 import { ListBreadcrumbs } from '../../../../ListBreadcrumbs';
 
@@ -18,14 +18,16 @@ export const StoreStockMovementEdit = () => (
                             <TextInput source="id" disabled fullWidth />
                             <DateInput source="transaction_date" label="Date" validate={required()} fullWidth />
                             <TextInput source="store_name" label="Store" validate={required()} fullWidth />
-                            <TextInput source="item_name" label="Item" validate={required()} fullWidth />
                             <TextInput source="movement_type" label="Movement Type" validate={required()} fullWidth />
-                            <NumberInput source="qty_in" label="Qty In" fullWidth />
-                            <NumberInput source="qty_out" label="Qty Out" fullWidth />
-                            <NumberInput source="balance_after" label="Balance After" fullWidth />
-                            <NumberInput source="unit_cost" label="Unit Cost" fullWidth />
-                            <NumberInput source="selling_price" label="Selling Price" fullWidth />
                             <TextInput source="remarks" label="Remarks" multiline rows={3} fullWidth />
+                            <ArrayInput source="items" label="Items">
+                                <SimpleFormIterator>
+                                    <TextInput source="item_name" label="Item" fullWidth />
+                                    <NumberInput source="quantity" label="Quantity" fullWidth />
+                                    <NumberInput source="unit_cost" label="Unit Cost" fullWidth />
+                                    <NumberInput source="selling_price" label="Selling Price" fullWidth />
+                                </SimpleFormIterator>
+                            </ArrayInput>
                         </SimpleForm>
                     </CardContent>
                 </Card>

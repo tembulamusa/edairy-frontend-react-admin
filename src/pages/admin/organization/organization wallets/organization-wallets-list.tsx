@@ -6,6 +6,8 @@ import {
     TextInput,
     required,
     useResourceContext,
+    TextField,
+    DateField,
 } from "react-admin";
 import { CreateButton } from "../../../../components/forms/FormUtils";
 import { Box, Card, CardContent, Typography, Stack, Tooltip } from '@mui/material';
@@ -68,9 +70,21 @@ export const OrganizationWalletsList = () => {
                                 },
                             }}
                         >
-                            <DataTable.Col source="wallet_type_name" label="Wallet Type" />
-                            <DataTable.Col source="wallet_id" label="Wallet ID" />
-                            <DataTable.Col source="wallet_name" label="Wallet Name" />
+                            <DataTable.Col source="wallet_type_id" label="Wallet Type ID">
+                                <TextField source="wallet_type_id" />
+                            </DataTable.Col>
+                            <DataTable.Col source="wallet_type_name" label="Wallet Type Name">
+                                <TextField source="wallet_type_name" />
+                            </DataTable.Col>
+                            <DataTable.Col source="wallet_id" label="Wallet ID">
+                                <TextField source="wallet_id" />
+                            </DataTable.Col>
+                            <DataTable.Col source="wallet_name" label="Wallet Name">
+                                <TextField source="wallet_name" />
+                            </DataTable.Col>
+                            <DataTable.Col source="created_at" label="Created At">
+                                <DateField source="created_at" />
+                            </DataTable.Col>
 
                             <DataTable.Col label="Actions">
                                 <Stack direction="row" spacing={1} alignItems="center">

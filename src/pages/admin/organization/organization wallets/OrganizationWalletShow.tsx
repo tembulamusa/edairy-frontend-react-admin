@@ -2,6 +2,7 @@ import {
     Show,
     SimpleShowLayout,
     TextField,
+    DateField,
 } from "react-admin";
 import { Box, Card, CardContent, Typography, Breadcrumbs, Link as MuiLink } from "@mui/material";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
@@ -36,9 +37,12 @@ export const OrganizationWalletShow = () => {
                     <Show title={false}>
                         <SimpleShowLayout>
                             <TextField source="id" />
+                            <TextField source="wallet_type_id" label="Wallet Type ID" />
                             <TextField source="wallet_type_name" label="Wallet Type Name" />
                             <TextField source="wallet_id" label="Wallet ID" />
                             <TextField source="wallet_name" label="Wallet Name" />
+                            <DateField source="created_at" label="Created At" showTime />
+                            <DateField source="updated_at" label="Updated At" showTime />
                         </SimpleShowLayout>
                     </Show>
                 </CardContent>

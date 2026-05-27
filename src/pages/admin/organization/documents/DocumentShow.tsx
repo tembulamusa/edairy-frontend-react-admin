@@ -3,6 +3,8 @@ import {
     SimpleShowLayout,
     TextField,
     DateField,
+    BooleanField,
+    FunctionField,
 } from "react-admin";
 import { Box, Card, CardContent, Typography, Breadcrumbs, Link as MuiLink } from "@mui/material";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
@@ -37,11 +39,19 @@ export const DocumentShow = () => {
                     <Show title={false}>
                         <SimpleShowLayout>
                             <TextField source="id" />
+                            <TextField source="astra_id" label="Astra ID" />
+                            <TextField source="document_type_id" label="Document Type ID" />
+                            <TextField source="document_type_name" label="Document Type Name" />
+                            <FunctionField 
+                                source="document_url" 
+                                label="Document URL" 
+                                render={(record: any) => record?.document_url ? (
+                                    <MuiLink href={`${import.meta.env.VITE_API_BASE_URL || ''}${record.document_url}`} target="_blank" rel="noopener">View Document</MuiLink>
+                                ) : null} 
+                            />
+                            <BooleanField source="submitted" label="Submitted" />
                             <DateField source="created_at" label="Created At" showTime />
-                            <TextField source="title" />
-                            <TextField source="document_type" label="Type" />
-                            <DateField source="expiry_date" label="Expiry Date" />
-                            <TextField source="file" label="File" />
+                            <DateField source="updated_at" label="Updated At" showTime />
                         </SimpleShowLayout>
                     </Show>
                 </CardContent>

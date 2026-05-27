@@ -26,7 +26,7 @@ export const ListBreadcrumbs = () => {
                     <HomeIcon sx={{ mr: 0.5 }} fontSize="inherit" />
                     Dashboard
                 </Link>
-                <Typography color="text.primary" sx={{ fontSize: '0.85rem', fontWeight: 600 }}>
+                <Typography color="text.primary" sx={{ fontSize: '0.85rem', fontWeight: 'bold' }}>
                     {resourceName}
                 </Typography>
             </Breadcrumbs>

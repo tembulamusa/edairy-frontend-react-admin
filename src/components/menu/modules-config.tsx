@@ -141,14 +141,21 @@ export const modules: ModulesConfig = {
             {
                 label: "Livestock",
                 items: [
-                    r("Share Types", <AttachMoneyIcon />),
-                    r("Share Accounts", <AttachMoneyIcon />),
+                    r("Livestock Categories", <AttachMoneyIcon />),
+                    r("Livestock Breeds", <AttachMoneyIcon />),
+                    s("Livestock", "livestocks", <AttachMoneyIcon />),
+                     r("Livestock Photos", <AttachMoneyIcon />),
+                    r("Livestock Movements", <AttachMoneyIcon />),
+                    r("Livestock Feedings", <AttachMoneyIcon />),
+                    r("Livestock Breeding Records", <AttachMoneyIcon />),
+                    r("Livestock Production Records", <AttachMoneyIcon />),
+                    r("Livestock Weight Records", <AttachMoneyIcon />),
+                    r("Livestock Health Records", <AttachMoneyIcon />),
+                    r("Livestock Sales", <AttachMoneyIcon />),
+                    r("Livestock Deaths", <AttachMoneyIcon />),
                 ],
             },
-            {
-                label: "Reports",
-                items: [r("Member with Missing Details", <FactCheckIcon />)],
-            },
+            
             {
                 label: "Setup",
                 items: [
@@ -158,6 +165,10 @@ export const modules: ModulesConfig = {
                     r("Route Centers", <StoreIcon />),
                     r("Payment Modes", <AccountBalanceIcon />),
                 ],
+            },
+            {
+                label: "Reports",
+                items: [r("Member with Missing Details", <FactCheckIcon />)],
             },
         ],
     },
@@ -314,16 +325,17 @@ export const modules: ModulesConfig = {
                 label: "Supplies",
                 items: [
                     r("Supplier Quotes", <FactCheckIcon />),
-                    r("Supplies", <Inventory2Icon />),
                     r("Supply Rejects", <FactCheckIcon />),
                     r("Purchase Orders", <FactCheckIcon />),
-                    r("Purchase Requisitions", <FactCheckIcon />),],
+                    r("Purchase Requisitions", <FactCheckIcon />),
+                ],
             },
             {
                 label: "Setup",
                 items: [
                     r("Supplier Categories", <SettingsIcon />),
                     r("Suppliers", <PeopleIcon />),
+                    r("Supplies", <Inventory2Icon />),
                     r("Supplier Bank Accounts", <AccountBalanceIcon />),
                     r("Supplier Contacts", <PeopleIcon />),
                     r("Supplier Documents", <Inventory2Icon />),

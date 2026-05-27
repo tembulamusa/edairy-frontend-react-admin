@@ -1,52 +1,47 @@
+import * as React from 'react';
 import {
     List,
-    DataTable,
+    Datagrid,
+    TextField,
+    DateField,
+    TopToolbar,
+    FilterButton,
+    CreateButton,
+    ExportButton,
     EditButton,
     DeleteButton,
-    FunctionField,
-    DateField,
-} from "react-admin";
+    TextInput
+} from 'react-admin';
+import { Box } from '@mui/material';
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import { ListBreadcrumbs } from '../../../../ListBreadcrumbs';
 
-type PurchaseRequisitionRecord = {
-    RequisitionNo?: string;
-    RequisitionDate?: string;
-    Description?: string;
-    Status?: string;
-};
+const ListActions = () => (
+    <TopToolbar>
+        <FilterButton />
+        <CreateButton />
+        <ExportButton />
+    </TopToolbar>
+);
 
-const formatRequisitionDate = (value?: string) => {
-    if (!value || value.startsWith("0001-01-01")) return "";
-
-    return new Intl.DateTimeFormat("en-GB", {
-        day: "2-digit",
-        month: "short",
-        year: "numeric",
-    }).format(new Date(value));
-};
+const filters = [
+    <TextInput label="Search" source="q" alwaysOn />,
+    <TextInput label="Requisition No" source="requisition_no" />,
+];
 
 export const PurchaseRequisitionList = () => (
-    <List title="Purchase Requisitions">
-        <DataTable>
-            <DataTable.Col source="requisition_no" label="Requisition No" />
-            <DataTable.Col source="requisition_date" label="Requisition Date">
-                <DateField source="requisition_date" />
-            </DataTable.Col>
-            <DataTable.Col source="description" label="Description" />
-            <DataTable.Col source="status" label="Status" />
-            <DataTable.Col label="Actions">
-                <EditButton
-                    label=""
-                    icon={<EditOutlinedIcon fontSize="small" />}
-                    sx={{ minWidth: 0, p: 0.5 }}
-                />
-                <DeleteButton
-                    label=""
-                    icon={<DeleteOutlineIcon fontSize="small" />}
-                    sx={{ minWidth: 0, p: 0.5 }}
-                />
-            </DataTable.Col>
-        </DataTable>
-    </List>
+    <Box sx={{ p: { xs: 2, md: 3 } }}>
+        <ListBreadcrumbs />
+        <List actions={<ListActions />} filters={filters}>
+            <Datagrid rowClick="show">
+                <TextField source="requisition_no" label="Requisition No" />
+                <DateField source="requisition_date" label="Requisition Date" />
+                <TextField source="description" label="Description" />
+                <TextField source="status" label="Status" />
+                <EditButton label="" icon={<EditOutlinedIcon fontSize="small" />} sx={{ minWidth: 0, p: 0.5 }} />
+                <DeleteButton label="" icon={<DeleteOutlineIcon fontSize="small" />} sx={{ minWidth: 0, p: 0.5 }} />
+            </Datagrid>
+        </List>
+    </Box>
 );

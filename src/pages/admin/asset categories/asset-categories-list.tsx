@@ -3,23 +3,45 @@ import {
     DataTable,
     EditButton,
     DeleteButton,
-    useResourceContext,
+    TextInput,
+    SearchInput,
     CreateButton,
-    ExportButton,
-    Pagination,
     TopToolbar,
+    FilterButton,
+    ExportButton,
+    useResourceContext,
 } from 'react-admin';
-import { Box, Card, CardContent, Typography, Stack, Tooltip } from '@mui/material';
-import Grid from '@mui/material/Grid';
+import {
+    Box,
+    Card,
+    CardContent,
+    Typography,
+    Stack,
+    Tooltip,
+    Breadcrumbs,
+    Link as MuiLink,
+} from '@mui/material';
+import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import { useCan } from '../../../components/permissions/user-can';
-import { ListBreadcrumbs } from '../../../../ListBreadcrumbs';
 
-const AssetCategoryActions = () => (
+const categoryFilters = [
+    <SearchInput source="q" alwaysOn placeholder="Search asset categories..." key="search" />,
+    <TextInput source="name" label="Name" key="name" />
+];
+
+const ListActions = ({ canCreate }: { canCreate: boolean }) => (
     <TopToolbar>
-        <CreateButton
-            variant="contained"
-            sx={{ backgroundColor: 'primary.main', color: 'white', ml: 1, '&:hover': { backgroundColor: 'primary.dark' } }}
-        />
+        <FilterButton />
+        {canCreate && (
+            <CreateButton
+                variant="contained"
+                sx={{
+                    backgroundColor: 'primary.main',
+                    color: 'white',
+                    '&:hover': { backgroundColor: 'primary.dark' },
+                }}
+            />
+        )}
         <ExportButton />
     </TopToolbar>
 );
@@ -33,53 +55,77 @@ export const AssetCategoryList = () => {
 
     return (
         <Box sx={{ p: 2 }}>
-            <ListBreadcrumbs />
-            <List title="Asset Categories" actions={<AssetCategoryActions />}>
-                <DataTable
-                    rowClick="show"
-                    sx={{
-                        '& .RaDataTable-headerCell': {
-                            fontWeight: "bold",
-                            backgroundColor: "#f5f5f5",
-                        },
-                    }}
-                >
-                    <DataTable.Col source="name" label="Name" />
-                    <DataTable.Col source="description" label="Description" />
-                    <DataTable.Col source="asset_count" label="Asset Count" />
-                    <DataTable.Col label="Actions">
-                        <Stack direction="row" spacing={1} alignItems="center">
-                            {canEdit && (
-                                <Tooltip title="Edit Record">
-                                    <span><EditButton label={false} sx={{ minWidth: 36 }} /></span>
-                                </Tooltip>
-                            )}
+            <Typography variant="h5" fontWeight="bold" gutterBottom>
+                Asset Categories
+            </Typography>
+            <Breadcrumbs
+                separator={<NavigateNextIcon fontSize="small" />}
+                aria-label="breadcrumb"
+                sx={{ mb: 3 }}
+            >
+                <MuiLink underline="hover" color="inherit" href="/">
+                    Home
+                </MuiLink>
+                <MuiLink underline="hover" color="inherit" href="/admin">
+                    Admin
+                </MuiLink>
+                <Typography color="text.primary" fontWeight="bold">
+                    Asset Categories
+                </Typography>
+            </Breadcrumbs>
 
-                            {canDelete && (
-                                <Tooltip title="Delete Record">
-                                    <span>
-                                        <DeleteButton
-                                            label={false}
-                                            confirmColor="error"
-                                            mutationMode="pessimistic"
-                                            confirmTitle="⚠️ Confirm deletion"
-                                            confirmContent="This will permanently remove the record."
-                                            confirmProps={{
-                                                sx: {
-                                                    '& .RaConfirm-confirm-button': { color: 'error.main !important' },
-                                                    '& .RaConfirm-title': { color: 'error.main !important' },
-                                                    '& .RaConfirm-content': { color: 'error.main !important' },
-                                                },
-                                            }}
-                                            sx={{ minWidth: 36 }}
-                                        />
-                                    </span>
-                                </Tooltip>
-                            )}
-                        </Stack>
-                    </DataTable.Col>
-                </DataTable>
-            </List>
+            <Card
+                sx={{
+                    borderRadius: 3,
+                    boxShadow: 3,
+                    overflow: "hidden",
+                }}
+            >
+                <CardContent>
+                    <List 
+                        title={false} 
+                        filters={categoryFilters}
+                        actions={<ListActions canCreate={canCreate} />}
+                    >
+                        <DataTable
+                            rowClick="show"
+                            sx={{
+                                "& .RaDataTable-headerCell": {
+                                    fontWeight: "bold",
+                                    backgroundColor: "#f5f5f5",
+                                },
+                            }}
+                        >
+                            <DataTable.Col source="name" label="Name" />
+                            <DataTable.Col source="description" label="Description" />
+                            <DataTable.Col source="asset_count" label="Asset Count" />
+                            <DataTable.Col label="Actions">
+                                <Stack direction="row" spacing={1} alignItems="center">
+                                    {canEdit && (
+                                        <Tooltip title="Edit Record">
+                                            <span><EditButton label={false} sx={{ minWidth: 36 }} /></span>
+                                        </Tooltip>
+                                    )}
+
+                                    {canDelete && (
+                                        <Tooltip title="Delete Record">
+                                            <span>
+                                                <DeleteButton
+                                                    label={false}
+                                                    mutationMode="pessimistic"
+                                                    confirmTitle="⚠️ Confirm deletion"
+                                                    confirmContent="This will permanently remove the record."
+                                                    sx={{ minWidth: 36 }}
+                                                />
+                                            </span>
+                                        </Tooltip>
+                                    )}
+                                </Stack>
+                            </DataTable.Col>
+                        </DataTable>
+                    </List>
+                </CardContent>
+            </Card>
         </Box>
     );
 };

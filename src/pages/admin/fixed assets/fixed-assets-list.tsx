@@ -7,6 +7,8 @@ import {
     CreateButton,
     TextField,
     NumberField,
+    DateField,
+    ChipField,
     TopToolbar,
     ExportButton,
 } from 'react-admin';
@@ -17,7 +19,6 @@ import {
     Card,
     CardContent,
     Typography,
-    Chip,
     Box,
 } from '@mui/material';
 
@@ -68,11 +69,16 @@ export const FixedAssetList = () => {
                         <TextField source="asset_name" />
                     </DataTable.Col>
 
-                    <DataTable.Col
-                        source="asset_category_id"
-                        label="Category"
-                    >
-                        <TextField source="asset_category_id" />
+                    <DataTable.Col source="category_name" label="Category">
+                        <TextField source="category_name" />
+                    </DataTable.Col>
+
+                    <DataTable.NumberCol source="purchase_cost" label="Purchase Cost">
+                        <NumberField source="purchase_cost" />
+                    </DataTable.NumberCol>
+
+                    <DataTable.Col source="acquisition_date" label="Acquisition Date">
+                        <DateField source="acquisition_date" />
                     </DataTable.Col>
 
                     <DataTable.NumberCol
@@ -89,12 +95,8 @@ export const FixedAssetList = () => {
                         <TextField source="current_location" />
                     </DataTable.Col>
 
-                    <DataTable.Col source="status">
-                        <Chip
-                            label="Active"
-                            size="small"
-                            color="success"
-                        />
+                    <DataTable.Col source="status" label="Status">
+                        <ChipField source="status" size="small" color="success" />
                     </DataTable.Col>
 
                     <DataTable.Col label="Actions">
